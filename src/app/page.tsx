@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroCanvasScrub } from "@/components/hero/HeroCanvasScrub";
+import { SocialMarqueeStrip } from "@/components/sections/SocialMarqueeStrip";
 import { LatestContent } from "@/components/sections/LatestContent";
 import { UniverseSection } from "@/components/sections/UniverseSection";
 import { CommunityBuque } from "@/components/sections/CommunityBuque";
@@ -14,6 +15,9 @@ export default function Home() {
 
       {/* Hero with 60 FPS 2D Canvas Scrubbing (Awwwards Grade) */}
       <HeroCanvasScrub />
+
+      {/* Transición Elegante: Marquee Infinito de Redes y Canales Oficiales */}
+      <SocialMarqueeStrip />
 
       {/* Narrative Section 2: Últimos Contenidos */}
       <LatestContent />
