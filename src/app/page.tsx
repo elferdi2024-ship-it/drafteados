@@ -1,68 +1,10 @@
-import dynamic from "next/dynamic";
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroVideoScrub } from "@/components/hero/HeroVideoScrub";
-
-// Lazy loaded below-the-fold sections for optimized LCP and lightweight initial payload
-const LatestContent = dynamic(
-  () =>
-    import("@/components/sections/LatestContent").then(
-      (mod) => mod.LatestContent
-    ),
-  {
-    loading: () => (
-      <div className="h-96 w-full bg-[#0A0A0A] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[#FF5A1F] border-t-transparent animate-spin" />
-      </div>
-    ),
-  }
-);
-
-const UniverseSection = dynamic(
-  () =>
-    import("@/components/sections/UniverseSection").then(
-      (mod) => mod.UniverseSection
-    ),
-  {
-    loading: () => (
-      <div className="h-96 w-full bg-[#0A0A0A] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[#FF5A1F] border-t-transparent animate-spin" />
-      </div>
-    ),
-  }
-);
-
-const CommunityBuque = dynamic(
-  () =>
-    import("@/components/sections/CommunityBuque").then(
-      (mod) => mod.CommunityBuque
-    ),
-  {
-    loading: () => (
-      <div className="h-96 w-full bg-[#0B0B0C]" />
-    ),
-  }
-);
-
-const BrandPartners = dynamic(
-  () =>
-    import("@/components/sections/BrandPartners").then(
-      (mod) => mod.BrandPartners
-    ),
-  {
-    loading: () => (
-      <div className="h-96 w-full bg-[#0A0A0A]" />
-    ),
-  }
-);
-
-const Footer = dynamic(
-  () => import("@/components/layout/Footer").then((mod) => mod.Footer),
-  {
-    loading: () => (
-      <div className="h-64 w-full bg-[#070708]" />
-    ),
-  }
-);
+import { LatestContent } from "@/components/sections/LatestContent";
+import { UniverseSection } from "@/components/sections/UniverseSection";
+import { CommunityBuque } from "@/components/sections/CommunityBuque";
+import { BrandPartners } from "@/components/sections/BrandPartners";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
   return (

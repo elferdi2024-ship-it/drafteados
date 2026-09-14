@@ -66,6 +66,8 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
                 className="px-3.5 py-1.5 text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200 rounded-full hover:bg-white/5 relative group"
               >
                 {link.name}
@@ -79,7 +81,7 @@ export function Navbar() {
             <MagneticButton
               variant="primary"
               size="sm"
-              href="https://www.youtube.com/@Drafteados"
+              href="https://www.youtube.com/@DrafteadosNBA"
               target="_blank"
               rel="noopener noreferrer"
               className="gap-2"
@@ -116,6 +118,8 @@ export function Navbar() {
                 <motion.a
                   key={link.name}
                   href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
                   onClick={() => setMobileMenuOpen(false)}
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -130,7 +134,7 @@ export function Navbar() {
 
             <div className="pt-6 flex flex-col gap-3">
               <a
-                href="https://www.youtube.com/@Drafteados"
+                href="https://www.youtube.com/@DrafteadosNBA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 py-3.5 rounded-full bg-[#FF5A1F] text-white font-semibold text-center shadow-lg"

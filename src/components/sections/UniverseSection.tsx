@@ -54,10 +54,17 @@ export function UniverseSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {UNIVERSE_ITEMS.map((item) => {
             const Icon = iconMap[item.iconName];
+            const anchorId =
+              item.id === "buques-club"
+                ? "tienda"
+                : item.id === "viajes-usa"
+                ? "viajes"
+                : item.id;
             return (
               <div
                 key={item.id}
-                className="group relative rounded-3xl p-8 sm:p-10 bg-[#121212]/90 border border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-500 overflow-hidden flex flex-col justify-between hover:shadow-[0_20px_50px_rgba(255,90,31,0.12)] hover:-translate-y-1"
+                id={anchorId}
+                className="group relative rounded-3xl p-8 sm:p-10 bg-[#121212]/90 border border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-500 overflow-hidden flex flex-col justify-between hover:shadow-[0_20px_50px_rgba(255,90,31,0.12)] hover:-translate-y-1 scroll-mt-28"
               >
                 {/* Background Card Gradient */}
                 <div
@@ -83,6 +90,8 @@ export function UniverseSection() {
 
                     <a
                       href={item.ctaLink}
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noopener noreferrer" : undefined}
                       className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:border-white/30 group-hover:bg-white/10 transition-all"
                       aria-label={`Ir a ${item.title}`}
                     >
@@ -113,6 +122,8 @@ export function UniverseSection() {
                     variant="primary"
                     size="sm"
                     href={item.ctaLink}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener noreferrer" : undefined}
                     className="w-full sm:w-auto"
                   >
                     <span>{item.ctaText}</span>

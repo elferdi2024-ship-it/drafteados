@@ -79,6 +79,16 @@ export function BrandPartners() {
                   </div>
                 </div>
               </div>
+
+              <div className="mt-8">
+                <a
+                  href="mailto:info@drafteados.com"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-full bg-white/5 border border-white/10 hover:border-[#FF5A1F]/50 hover:bg-white/10 text-zinc-200 hover:text-white transition-all text-xs sm:text-sm font-medium"
+                >
+                  <Mail className="w-4 h-4 text-[#FF5A1F]" />
+                  <span>Contacto directo: <strong className="text-white">info@drafteados.com</strong></span>
+                </a>
+              </div>
             </div>
 
             {/* Right Contact Form Column */}

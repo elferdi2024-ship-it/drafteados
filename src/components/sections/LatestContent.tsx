@@ -38,7 +38,7 @@ export function LatestContent() {
             <MagneticButton
               variant="outline"
               size="md"
-              href="https://www.youtube.com/@Drafteados/videos"
+              href="https://www.youtube.com/@DrafteadosNBA/videos"
               target="_blank"
               rel="noopener noreferrer"
               className="gap-2"
