@@ -1,11 +1,9 @@
 import type { NextConfig } from "next";
 
-const isExport = process.env.OUTPUT_EXPORT === "true" || process.env.CF_PAGES === "1";
-
 const nextConfig: NextConfig = {
-  output: isExport ? "export" : undefined,
+  output: "export",
   images: {
-    unoptimized: isExport,
+    unoptimized: true,
     qualities: [75, 90],
     remotePatterns: [
       {
