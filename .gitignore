@@ -21,6 +21,7 @@
 /build
 
 # misc
+hero video/
 .DS_Store
 *.pem
 
