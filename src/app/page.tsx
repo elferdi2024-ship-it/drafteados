@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
-import { HeroVideoScrub } from "@/components/hero/HeroVideoScrub";
+import { HeroCanvasScrub } from "@/components/hero/HeroCanvasScrub";
 import { LatestContent } from "@/components/sections/LatestContent";
 import { UniverseSection } from "@/components/sections/UniverseSection";
 import { CommunityBuque } from "@/components/sections/CommunityBuque";
@@ -12,8 +12,8 @@ export default function Home() {
       {/* Fixed Glassmorphism Navigation */}
       <Navbar />
 
-      {/* Hero with GSAP ScrollTrigger Video Scrubbing (Critical LCP Zone) */}
-      <HeroVideoScrub />
+      {/* Hero with 60 FPS 2D Canvas Scrubbing (Awwwards Grade) */}
+      <HeroCanvasScrub />
 
       {/* Narrative Section 2: Últimos Contenidos */}
       <LatestContent />
