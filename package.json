@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "pages:build": "next build",
+    "pages:deploy": "wrangler pages deploy out --project-name=drafteados",
     "start": "next start",
     "lint": "eslint"
   },
