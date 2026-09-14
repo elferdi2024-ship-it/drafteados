@@ -5,9 +5,11 @@ import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Register ScrollTrigger once on client
+// Register ScrollTrigger once on client and expose globally
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+  (window as unknown as Record<string, unknown>).gsap = gsap;
+  (window as unknown as Record<string, unknown>).ScrollTrigger = ScrollTrigger;
 }
 
 const LenisContext = createContext<Lenis | null>(null);

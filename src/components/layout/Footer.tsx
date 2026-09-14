@@ -93,7 +93,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.youtube.com/@Drafteados/playlists"
+                  href="https://www.youtube.com/@DrafteadosNBA/videos"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors"
@@ -103,17 +103,17 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://www.youtube.com/@Drafteados"
+                  href="https://www.youtube.com/@DrafteadosNBA"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors"
                 >
-                  Especiales Draft
+                  Canal Principal
                 </a>
               </li>
               <li>
                 <a
-                  href="https://open.spotify.com"
+                  href="https://open.spotify.com/show/0xkHMHfTleDMkGi0DymhMX"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors"
@@ -131,23 +131,43 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="#universo" className="hover:text-white transition-colors">
+                <a
+                  href="https://www.buquesclub.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
                   Buques Club
                 </a>
               </li>
               <li>
-                <a href="#universo" className="hover:text-white transition-colors">
+                <a
+                  href="https://tripdouble.com/es/drafteados/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
                   Viajes a EE.UU.
                 </a>
               </li>
               <li>
-                <a href="#universo" className="hover:text-white transition-colors">
+                <a
+                  href="https://tripdouble.com/es/drafteados/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
                   Campus &amp; Eventos
                 </a>
               </li>
               <li>
                 <a href="#comunidad" className="hover:text-white transition-colors">
                   Comunidad Buques
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@drafteados.com" className="hover:text-white transition-colors text-xs text-[#FF5A1F]">
+                  Contacto Directo
                 </a>
               </li>
             </ul>
