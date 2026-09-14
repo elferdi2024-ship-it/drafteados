@@ -22,10 +22,10 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative z-20 bg-[#070708] border-t border-white/10 pt-20 pb-12 overflow-hidden text-zinc-400">
+    <footer className="relative z-20 bg-[#F0F0F2] dark:bg-[#070708] border-t border-black/10 dark:border-white/10 pt-20 pb-12 overflow-hidden text-zinc-600 dark:text-zinc-400 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-black/10 dark:border-white/10">
           {/* Col 1: Brand & Claim */}
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3 group">
@@ -40,18 +40,18 @@ export function Footer() {
               </div>
               <div className="flex flex-col">
                 <span
-                  className="text-2xl font-black tracking-wider text-white uppercase group-hover:text-[#FF5A1F] transition-colors"
+                  className="text-2xl font-black tracking-wider text-zinc-900 dark:text-white uppercase group-hover:text-[#FF5A1F] transition-colors"
                   style={{ fontFamily: "var(--font-title)" }}
                 >
                   Drafteados
                 </span>
-                <span className="text-[10px] tracking-[0.25em] text-zinc-400 uppercase font-medium">
+                <span className="text-[10px] tracking-[0.25em] text-zinc-500 dark:text-zinc-400 uppercase font-medium">
                   Tu Casa NBA &bull; Desde 2017
                 </span>
               </div>
             </Link>
 
-            <p className="mt-4 text-sm text-zinc-400 leading-relaxed max-w-sm">
+            <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm">
               La plataforma de referencia en español para los verdaderos
               enamorados del baloncesto. Análisis táctico, podcast y comunidad
               viva.
@@ -71,7 +71,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.name}
-                    className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-[#FF5A1F] hover:border-[#FF5A1F]/50 hover:bg-[#FF5A1F]/10 transition-all"
+                    className="w-9 h-9 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-[#FF5A1F] hover:border-[#FF5A1F]/50 hover:bg-[#FF5A1F]/10 transition-all"
                   >
                     {icon}
                   </a>
@@ -82,12 +82,12 @@ export function Footer() {
 
           {/* Col 2: Contenidos */}
           <div className="lg:col-span-2">
-            <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-4">
+            <h4 className="text-zinc-900 dark:text-white text-xs font-bold uppercase tracking-widest mb-4">
               Contenidos
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="#contenidos" className="hover:text-white transition-colors">
+                <a href="#contenidos" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
                   Últimos vídeos
                 </a>
               </li>
@@ -96,7 +96,7 @@ export function Footer() {
                   href="https://www.youtube.com/@DrafteadosNBA/videos"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   Debates NBA
                 </a>
@@ -106,7 +106,7 @@ export function Footer() {
                   href="https://www.youtube.com/@DrafteadosNBA"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   Canal Principal
                 </a>
@@ -116,7 +116,7 @@ export function Footer() {
                   href="https://open.spotify.com/show/0xkHMHfTleDMkGi0DymhMX"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   3+1 Podcast
                 </a>
@@ -126,7 +126,7 @@ export function Footer() {
 
           {/* Col 3: Universo */}
           <div className="lg:col-span-2">
-            <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-4">
+            <h4 className="text-zinc-900 dark:text-white text-xs font-bold uppercase tracking-widest mb-4">
               Universo
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -135,7 +135,7 @@ export function Footer() {
                   href="https://www.buquesclub.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   Buques Club
                 </a>
@@ -145,7 +145,7 @@ export function Footer() {
                   href="https://tripdouble.com/es/drafteados/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   Viajes a EE.UU.
                 </a>
@@ -155,18 +155,18 @@ export function Footer() {
                   href="https://tripdouble.com/es/drafteados/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors"
                 >
                   Campus &amp; Eventos
                 </a>
               </li>
               <li>
-                <a href="#comunidad" className="hover:text-white transition-colors">
+                <a href="#comunidad" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
                   Comunidad Buques
                 </a>
               </li>
               <li>
-                <a href="mailto:info@drafteados.com" className="hover:text-white transition-colors text-xs text-[#FF5A1F]">
+                <a href="mailto:info@drafteados.com" className="hover:text-[#FF5A1F] transition-colors text-xs font-medium">
                   Contacto Directo
                 </a>
               </li>
@@ -175,16 +175,16 @@ export function Footer() {
 
           {/* Col 4: Newsletter */}
           <div className="lg:col-span-4">
-            <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-3">
+            <h4 className="text-zinc-900 dark:text-white text-xs font-bold uppercase tracking-widest mb-3">
               Newsletter de la Madrugada
             </h4>
-            <p className="text-xs text-zinc-400 mb-4 leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed">
               Recibe cada viernes el resumen con los mejores análisis, avisos de drops
               exclusivos y plazas para los viajes a la NBA.
             </p>
 
             {subscribed ? (
-              <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
+              <div className="flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-medium">
                 <Check className="w-4 h-4" />
                 <span>¡Te has unido a la Newsletter de la Casa!</span>
               </div>
@@ -196,7 +196,7 @@ export function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-[#121212] border border-white/10 text-white placeholder-zinc-600 text-xs focus:outline-none focus:border-[#FF5A1F]"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-white dark:bg-[#121212] border border-black/10 dark:border-white/10 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-600 text-xs focus:outline-none focus:border-[#FF5A1F]"
                 />
                 <button
                   type="submit"
@@ -214,10 +214,10 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-6">
             <span>&copy; {new Date().getFullYear()} Drafteados S.L. Todos los derechos reservados.</span>
-            <a href="#" className="hover:text-white transition-colors">
+            <a href="#" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
               Aviso Legal
             </a>
-            <a href="#" className="hover:text-white transition-colors">
+            <a href="#" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
               Privacidad &amp; Cookies
             </a>
           </div>
@@ -225,7 +225,7 @@ export function Footer() {
           <button
             type="button"
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-[#FF5A1F] dark:hover:text-white transition-colors cursor-pointer"
           >
             <span>Volver arriba</span>
             <ArrowUp className="w-4 h-4 text-[#FF5A1F]" />

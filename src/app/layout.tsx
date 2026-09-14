@@ -70,8 +70,16 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${bebasNeue.variable} ${plusJakartaSans.variable} dark scroll-smooth`}
+      suppressHydrationWarning
     >
-      <body className="bg-[#0A0A0A] text-[#F5F5F7] min-h-screen selection:bg-[#FF5A1F] selection:text-white font-sans antialiased overflow-x-hidden">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem("theme");var d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="light"){document.documentElement.classList.remove("dark");}else if(s==="dark"){document.documentElement.classList.add("dark");}else if(!d){document.documentElement.classList.remove("dark");}else{document.documentElement.classList.add("dark");}}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body className="bg-background text-foreground min-h-screen selection:bg-[#FF5A1F] selection:text-white font-sans antialiased overflow-x-hidden">
         <SmoothScrollProvider>
           <CustomCursor />
           {children}

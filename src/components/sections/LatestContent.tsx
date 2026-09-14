@@ -1,126 +1,309 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { Play, Eye, Clock, ArrowUpRight } from "lucide-react";
+import { Play, Clock, ArrowUpRight, ChevronLeft, ChevronRight, Flame } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
-import { LATEST_VIDEOS } from "@/data/drafteados";
+import { LATEST_VIDEOS, VideoItem } from "@/data/drafteados";
 import { formatViews } from "@/lib/utils";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function LatestContent() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  // GSAP Entrance Transition from Hero: y: 80 -> 0, opacity: 0 -> 1, power3.out
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(containerRef.current, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 85%",
+          end: "top 45%",
+          toggleActions: "play none none reverse",
+        },
+        y: 80,
+        opacity: 0,
+        duration: 1.1,
+        ease: "power3.out",
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Update scroll boundaries & active dot index
+  const handleScroll = useCallback(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    setCanScrollLeft(slider.scrollLeft > 20);
+    setCanScrollRight(slider.scrollLeft < slider.scrollWidth - slider.clientWidth - 20);
+
+    const cardWidth = 360;
+    const currentIdx = Math.round(slider.scrollLeft / cardWidth);
+    setActiveIndex(Math.min(LATEST_VIDEOS.length - 1, Math.max(0, currentIdx)));
+  }, []);
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    slider.addEventListener("scroll", handleScroll, { passive: true });
+    return () => slider.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  // Smooth Navigation Buttons
+  const scrollByAmount = (direction: "left" | "right") => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    const distance = direction === "left" ? -400 : 400;
+    slider.scrollBy({ left: distance, behavior: "smooth" });
+  };
+
+  // Mouse Drag to Scroll
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    setIsDragging(true);
+    setStartX(e.pageX - slider.offsetLeft);
+    setScrollLeftState(slider.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const slider = sliderRef.current;
+    if (!slider) return;
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.6;
+    slider.scrollLeft = scrollLeftState - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Subtle Autoplay when not hovered/dragged
+  useEffect(() => {
+    if (isHovered || isDragging) return;
+    const interval = setInterval(() => {
+      const slider = sliderRef.current;
+      if (!slider) return;
+      if (slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 10) {
+        slider.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        slider.scrollBy({ left: 340, behavior: "smooth" });
+      }
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [isHovered, isDragging]);
+
   return (
     <section
       id="contenidos"
-      className="relative z-20 py-24 sm:py-32 bg-[#0A0A0A] border-t border-white/5"
+      ref={sectionRef}
+      className="relative z-20 py-20 sm:py-28 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Decorative Brand Text Backdrop (Watermark) */}
+      <div
+        aria-hidden="true"
+        className="absolute -top-10 left-0 right-0 overflow-hidden select-none pointer-events-none opacity-10"
+      >
+        <span
+          className="text-[140px] sm:text-[220px] font-black uppercase tracking-tight text-black whitespace-nowrap block"
+          style={{ fontFamily: "var(--font-title)" }}
+        >
+          DRAFTEADOS &bull; TU CASA NBA &bull; BUQUES
+        </span>
+      </div>
+
+      <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-14 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F]" />
-              ESTO ES LO QUE SE ESTÁ HABLANDO AHORA
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-sm">
+              <Flame className="w-3.5 h-3.5 text-white animate-pulse" />
+              <span>LO ÚLTIMO EN LA CASA &bull; YOUTUBE OFICIAL</span>
             </div>
+
             <h2
-              className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase text-white tracking-tight"
+              className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-white tracking-tight leading-[0.95]"
               style={{ fontFamily: "var(--font-title)" }}
             >
-              Lo Último en la Casa
+              ÚLTIMOS VÍDEOS
             </h2>
-            <p className="mt-2 text-zinc-400 text-base sm:text-lg max-w-xl">
-              Análisis post-partido, polémicas del día, debates calientes y scouting
-              minucioso de las estrellas de la NBA.
+            <p className="mt-3 text-white/90 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
+              Las portadas de lo que se cuece en la liga. Análisis táctico, debates al rojo vivo y
+              episodios completos directos desde nuestro canal oficial.
             </p>
           </div>
 
-          <div className="self-start md:self-end">
-            <MagneticButton
-              variant="outline"
-              size="md"
+          {/* Carousel Action Controls */}
+          <div className="flex items-center gap-3 self-start md:self-end">
+            <a
               href="https://www.youtube.com/@DrafteadosNBA/videos"
               target="_blank"
               rel="noopener noreferrer"
-              className="gap-2"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black text-white hover:bg-zinc-900 transition-all text-sm font-semibold shadow-lg hover:scale-105"
             >
-              <span>Ver todos los vídeos</span>
-              <ArrowUpRight className="w-4 h-4 text-[#FF5A1F]" />
-            </MagneticButton>
+              <YoutubeIcon className="w-4 h-4 text-[#FF5A1F]" />
+              <span>Ir al canal</span>
+              <ArrowUpRight className="w-4 h-4 text-zinc-400" />
+            </a>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => scrollByAmount("left")}
+                disabled={!canScrollLeft}
+                aria-label="Vídeo anterior"
+                className="w-11 h-11 rounded-full bg-black/40 hover:bg-black/80 disabled:opacity-30 disabled:hover:bg-black/40 transition-all flex items-center justify-center border border-white/20 backdrop-blur-md shadow-md focus:outline-none"
+              >
+                <ChevronLeft className="w-6 h-6 text-white" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollByAmount("right")}
+                disabled={!canScrollRight}
+                aria-label="Vídeo siguiente"
+                className="w-11 h-11 rounded-full bg-black/40 hover:bg-black/80 disabled:opacity-30 disabled:hover:bg-black/40 transition-all flex items-center justify-center border border-white/20 backdrop-blur-md shadow-md focus:outline-none"
+              >
+                <ChevronRight className="w-6 h-6 text-white" />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Videos Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {LATEST_VIDEOS.map((video, idx) => (
-            <a
+        {/* Horizontal Marquee / Carrusel Slider */}
+        <div
+          ref={sliderRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={() => {
+            handleMouseUp();
+            setIsHovered(false);
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          className={`flex gap-5 sm:gap-6 overflow-x-auto scrollbar-none pb-6 pt-2 select-none -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 cursor-grab ${
+            isDragging ? "cursor-grabbing scroll-auto" : "scroll-smooth"
+          }`}
+          style={{ scrollSnapType: isDragging ? "none" : "x mandatory" }}
+        >
+          {LATEST_VIDEOS.map((video: VideoItem, idx: number) => (
+            <div
               key={video.id}
-              href={video.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex flex-col rounded-2xl overflow-hidden bg-[#121212] border border-white/10 hover:border-[#FF5A1F]/40 transition-all duration-300 hover:shadow-[0_10px_30px_rgba(255,90,31,0.15)] hover:-translate-y-1"
+              className="flex-shrink-0 w-[300px] sm:w-[360px] md:w-[380px]"
+              style={{ scrollSnapAlign: "start" }}
             >
-              {/* Thumbnail Container */}
-              <div className="relative aspect-video w-full overflow-hidden bg-zinc-900">
-                <Image
-                  src={video.thumbnail}
-                  alt={video.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                />
+              <a
+                href={video.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                draggable={false}
+                className="group relative flex flex-col rounded-2xl overflow-hidden bg-black/90 border border-white/15 hover:border-white/40 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:-translate-y-1.5 focus:outline-none"
+              >
+                {/* 16:9 Thumbnail Container */}
+                <div className="relative aspect-video w-full overflow-hidden bg-zinc-950">
+                  <Image
+                    src={video.thumbnail}
+                    alt={video.title}
+                    fill
+                    sizes="(max-width: 768px) 300px, 380px"
+                    loading={idx < 3 ? "eager" : "lazy"}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
 
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  {/* Dark subtle gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                {/* Category Badge */}
-                <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[11px] font-semibold uppercase tracking-wider text-zinc-200">
-                  {video.category}
-                </div>
+                  {/* Category Pill */}
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-bold uppercase tracking-wider text-white">
+                    {video.category}
+                  </div>
 
-                {/* Duration Badge */}
-                <div className="absolute bottom-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded bg-black/80 text-[11px] font-mono font-medium text-zinc-200">
-                  <Clock className="w-3 h-3 text-[#FF5A1F]" />
-                  <span>{video.duration}</span>
-                </div>
+                  {/* Duration Pill */}
+                  <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/85 text-[11px] font-mono font-semibold text-white border border-white/10">
+                    <Clock className="w-3 h-3 text-[#FF5A1F]" />
+                    <span>{video.duration}</span>
+                  </div>
 
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-12 h-12 rounded-full bg-[#FF5A1F] text-white flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                    <Play className="w-5 h-5 fill-white ml-0.5" />
+                  {/* Play Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30 backdrop-blur-[2px]">
+                    <div className="w-14 h-14 rounded-full bg-[#FF5A1F] text-white flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-transform duration-300 border border-white/20">
+                      <Play className="w-6 h-6 fill-white ml-0.5" />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Card Body */}
-              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
-                <div>
-                  <div className="flex items-center gap-3 text-xs text-zinc-400 mb-2.5">
-                    <span className="flex items-center gap-1">
-                      <Eye className="w-3.5 h-3.5 text-zinc-500" />
-                      {formatViews(video.views)} views
+                {/* Card Body */}
+                <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 bg-[#111111]">
+                  <div>
+                    <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2 font-medium">
+                      <span>{formatViews(video.views)} reproducciones</span>
+                      <span>&bull;</span>
+                      <span>{video.date}</span>
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#FF7A45] transition-colors leading-snug line-clamp-2">
+                      {video.title}
+                    </h3>
+
+                    <p className="mt-1.5 text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                      {video.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-zinc-300 group-hover:text-white transition-colors">
+                    <span className="flex items-center gap-1.5">
+                      <YoutubeIcon className="w-4 h-4 text-[#FF5A1F]" />
+                      Ver vídeo completo
                     </span>
-                    <span>&bull;</span>
-                    <span>{video.date}</span>
+                    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-[#FF5A1F] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </div>
-
-                  <h3 className="text-lg font-bold text-white group-hover:text-[#FF5A1F] transition-colors leading-snug line-clamp-2">
-                    {video.title}
-                  </h3>
-
-                  <p className="mt-2 text-xs sm:text-sm text-zinc-400 line-clamp-2 leading-relaxed">
-                    {video.description}
-                  </p>
                 </div>
+              </a>
+            </div>
+          ))}
+        </div>
 
-                <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-semibold text-zinc-400 group-hover:text-white transition-colors">
-                  <span className="flex items-center gap-1.5">
-                    <YoutubeIcon className="w-4 h-4 text-[#FF5A1F]" />
-                    Ver en YouTube
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-zinc-500 group-hover:text-[#FF5A1F] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                </div>
-              </div>
-            </a>
+        {/* Carousel Pagination Dots */}
+        <div className="flex items-center justify-center gap-2 mt-4">
+          {LATEST_VIDEOS.map((_, dotIdx) => (
+            <button
+              key={dotIdx}
+              type="button"
+              onClick={() => {
+                const slider = sliderRef.current;
+                if (!slider) return;
+                slider.scrollTo({ left: dotIdx * 360, behavior: "smooth" });
+              }}
+              aria-label={`Ir al vídeo ${dotIdx + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                dotIdx === activeIndex ? "w-8 bg-black" : "w-2 bg-black/30 hover:bg-black/50"
+              }`}
+            />
           ))}
         </div>
       </div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ExternalLink } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import { NAV_LINKS } from "@/data/drafteados";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -12,8 +12,14 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
     };
@@ -21,12 +27,24 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl"
+            ? "bg-white/90 dark:bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-black/10 dark:border-white/10 py-3 shadow-xl"
             : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-5"
         }`}
       >
@@ -49,12 +67,18 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span
-                className="text-xl sm:text-2xl font-black tracking-wider text-white uppercase group-hover:text-[#FF5A1F] transition-colors"
+                className={`text-xl sm:text-2xl font-black tracking-wider uppercase group-hover:text-[#FF5A1F] transition-colors ${
+                  isScrolled ? "text-zinc-900 dark:text-white" : "text-white"
+                }`}
                 style={{ fontFamily: "var(--font-title)" }}
               >
                 Drafteados
               </span>
-              <span className="text-[9px] tracking-[0.25em] text-zinc-400 uppercase -mt-1 font-medium hidden sm:block">
+              <span
+                className={`text-[9px] tracking-[0.25em] uppercase -mt-1 font-medium hidden sm:block ${
+                  isScrolled ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-400"
+                }`}
+              >
                 Tu Casa NBA
               </span>
             </div>
@@ -68,7 +92,11 @@ export function Navbar() {
                 href={link.href}
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
-                className="px-3.5 py-1.5 text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200 rounded-full hover:bg-white/5 relative group"
+                className={`px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group ${
+                  isScrolled
+                    ? "text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                    : "text-zinc-300 hover:text-white hover:bg-white/5"
+                }`}
               >
                 {link.name}
                 <span className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-[#FF5A1F] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
@@ -76,8 +104,26 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Right Action */}
+          {/* Right Actions: Theme Toggle + YouTube CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={`p-2.5 rounded-full border transition-all duration-300 focus:outline-none flex items-center justify-center cursor-pointer ${
+                isScrolled
+                  ? "border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 hover:border-[#FF5A1F]/50 hover:text-[#FF5A1F]"
+                  : "border-white/15 bg-white/10 text-white hover:border-[#FF5A1F] hover:text-[#FF5A1F]"
+              }`}
+              aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+              title={theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"}
+            >
+              {mounted && theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
+              ) : (
+                <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300 transition-transform hover:-rotate-12" />
+              )}
+            </button>
+
             <MagneticButton
               variant="primary"
               size="sm"
@@ -91,15 +137,38 @@ export function Navbar() {
             </MagneticButton>
           </div>
 
-          {/* Mobile Menu Trigger */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-zinc-300 hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
-            aria-label="Abrir menú"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Actions: Theme Toggle + Mobile Menu Trigger */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg border transition-all focus:outline-none ${
+                isScrolled
+                  ? "border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200"
+                  : "border-white/10 bg-white/10 text-white"
+              }`}
+              aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
+            >
+              {mounted && theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`p-2 rounded-lg transition-colors focus:outline-none ${
+                isScrolled
+                  ? "text-zinc-800 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/10"
+                  : "text-zinc-300 hover:text-white hover:bg-white/10"
+              }`}
+              aria-label="Abrir menú"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -111,9 +180,9 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 top-[60px] z-40 bg-[#0A0A0A]/95 backdrop-blur-2xl px-6 py-8 flex flex-col justify-between md:hidden border-t border-white/10"
+            className="fixed inset-0 top-[60px] z-40 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl px-6 py-8 flex flex-col justify-between md:hidden border-t border-black/10 dark:border-white/10"
           >
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {NAV_LINKS.map((link, idx) => (
                 <motion.a
                   key={link.name}
@@ -124,12 +193,32 @@ export function Navbar() {
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className="text-2xl font-bold uppercase tracking-wider text-zinc-200 hover:text-[#FF5A1F] transition-colors py-2 border-b border-white/5"
+                  className="text-2xl font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200 hover:text-[#FF5A1F] transition-colors py-2 border-b border-black/5 dark:border-white/5"
                   style={{ fontFamily: "var(--font-title)" }}
                 >
                   {link.name}
                 </motion.a>
               ))}
+
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-900 dark:text-zinc-100 font-medium text-sm transition-colors cursor-pointer"
+                >
+                  <span className="flex items-center gap-2.5">
+                    {theme === "dark" ? (
+                      <Sun className="w-4 h-4 text-amber-400" />
+                    ) : (
+                      <Moon className="w-4 h-4 text-zinc-700" />
+                    )}
+                    <span>Modo {theme === "dark" ? "Oscuro" : "Claro"}</span>
+                  </span>
+                  <span className="text-xs uppercase tracking-wider text-[#FF5A1F] font-bold">
+                    Cambiar a {theme === "dark" ? "Claro" : "Oscuro"}
+                  </span>
+                </button>
+              </div>
             </div>
 
             <div className="pt-6 flex flex-col gap-3">
@@ -142,7 +231,7 @@ export function Navbar() {
                 <YoutubeIcon className="w-5 h-5" />
                 <span>Suscríbete en YouTube</span>
               </a>
-              <p className="text-center text-xs text-zinc-500 pt-2">
+              <p className="text-center text-xs text-zinc-500 dark:text-zinc-400 pt-2">
                 &copy; {new Date().getFullYear()} Drafteados &bull; Tu Casa NBA
               </p>
             </div>
