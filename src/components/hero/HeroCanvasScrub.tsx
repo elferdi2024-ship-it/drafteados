@@ -6,6 +6,9 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Users, ChevronDown, Flame } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 const TOTAL_FRAMES = 240;
 const FRAME_DIR = "/frames/";
 const FRAME_PAD = 4;
@@ -28,12 +31,32 @@ export function HeroCanvasScrub() {
   const [firstFrameLoaded, setFirstFrameLoaded] = useState(false);
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_FRAMES).fill(null));
+  const loadingSetRef = useRef<Set<number>>(new Set());
   const currentDrawnIndexRef = useRef(-1);
   const targetProgressRef = useRef(0);
   const currentProgressRef = useRef(0);
   const isRunningRef = useRef(false);
 
-  // High-DPI draw frame with mathematical object-fit: cover and nearest-neighbor fallback
+  // Find nearest loaded frame
+  const findNearestFrame = useCallback((idx: number): HTMLImageElement | null => {
+    const images = imagesRef.current;
+    if (images[idx]?.complete && images[idx]?.naturalWidth) {
+      return images[idx];
+    }
+    for (let d = 1; d < TOTAL_FRAMES; d++) {
+      const prev = idx - d;
+      if (prev >= 0 && images[prev]?.complete && images[prev]?.naturalWidth) {
+        return images[prev];
+      }
+      const next = idx + d;
+      if (next < TOTAL_FRAMES && images[next]?.complete && images[next]?.naturalWidth) {
+        return images[next];
+      }
+    }
+    return null;
+  }, []);
+
+  // High-DPI draw frame with mathematical object-fit: cover
   const drawFrame = useCallback((idx: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -41,24 +64,7 @@ export function HeroCanvasScrub() {
     if (!ctx) return;
 
     const clampedIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
-    const images = imagesRef.current;
-    let img = images[clampedIdx];
-
-    // Nearest-neighbor search if frame is still in transit
-    if (!img || !img.complete || img.naturalWidth === 0) {
-      for (let d = 1; d < TOTAL_FRAMES; d++) {
-        const prev = clampedIdx - d;
-        if (prev >= 0 && images[prev]?.complete && images[prev]?.naturalWidth) {
-          img = images[prev];
-          break;
-        }
-        const next = clampedIdx + d;
-        if (next < TOTAL_FRAMES && images[next]?.complete && images[next]?.naturalWidth) {
-          img = images[next];
-          break;
-        }
-      }
-    }
+    const img = findNearestFrame(clampedIdx);
 
     if (!img || !img.complete || img.naturalWidth === 0) return;
 
@@ -75,7 +81,7 @@ export function HeroCanvasScrub() {
 
     ctx.drawImage(img, dx, dy, dw, dh);
     currentDrawnIndexRef.current = clampedIdx;
-  }, []);
+  }, [findNearestFrame]);
 
   // Responsive High-DPI canvas resizing
   const resizeCanvas = useCallback(() => {
@@ -102,12 +108,15 @@ export function HeroCanvasScrub() {
 
   // Frame preloader helper
   const loadFrame = useCallback((index: number, onDone?: () => void) => {
-    if (imagesRef.current[index]) {
+    if (imagesRef.current[index] || loadingSetRef.current.has(index)) {
       onDone?.();
       return;
     }
+    loadingSetRef.current.add(index);
+
     const img = new window.Image();
     img.onload = () => {
+      loadingSetRef.current.delete(index);
       imagesRef.current[index] = img;
       if (index === 0) {
         setFirstFrameLoaded(true);
@@ -118,54 +127,92 @@ export function HeroCanvasScrub() {
       onDone?.();
     };
     img.onerror = () => {
+      loadingSetRef.current.delete(index);
       onDone?.();
     };
     img.src = getFrameUrl(index);
   }, [drawFrame]);
 
-  // Lookahead predictive window around active frame (±25 frames)
+  // Priority window preloading around active frame (±15 frames)
   const preloadAhead = useCallback((currentIdx: number) => {
-    const start = Math.max(0, currentIdx - 10);
-    const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 25);
+    const start = Math.max(0, currentIdx - 8);
+    const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 15);
     for (let i = start; i <= end; i++) {
-      if (!imagesRef.current[i]) {
+      if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
         loadFrame(i);
       }
     }
   }, [loadFrame]);
 
-  // Background download queue (8 concurrent connections)
-  const startBackgroundPool = useCallback(() => {
-    const queue: number[] = [];
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
-      if (!imagesRef.current[i]) {
-        queue.push(i);
+  // Tiered Preloader Engine
+  // 1. Keyframe Skeleton: every 5th frame across 0..239 (48 frames total)
+  // 2. Progressive background pool for remainder
+  const startTieredPreload = useCallback(() => {
+    // Step 1: Immediately load frame 0
+    loadFrame(0, () => {
+      // Step 2: Skeleton keyframes distributed across the entire 240 frames
+      const skeleton: number[] = [];
+      for (let i = 5; i < TOTAL_FRAMES; i += 5) {
+        skeleton.push(i);
       }
-    }
-
-    const concurrency = 8;
-    let active = 0;
-
-    const next = () => {
-      if (queue.length === 0) return;
-      while (active < concurrency && queue.length > 0) {
-        const idx = queue.shift();
-        if (idx === undefined || imagesRef.current[idx]) continue;
-        active++;
-        loadFrame(idx, () => {
-          active--;
-          next();
-        });
+      if (!skeleton.includes(TOTAL_FRAMES - 1)) {
+        skeleton.push(TOTAL_FRAMES - 1);
       }
-    };
 
-    next();
+      // Concurrently load skeleton keyframes in batches of 6
+      let skeletonIndex = 0;
+      const concurrency = 6;
+      let activeWorkers = 0;
+
+      const runWorker = () => {
+        while (activeWorkers < concurrency && skeletonIndex < skeleton.length) {
+          const idx = skeleton[skeletonIndex++];
+          if (imagesRef.current[idx]) continue;
+          activeWorkers++;
+          loadFrame(idx, () => {
+            activeWorkers--;
+            runWorker();
+          });
+        }
+
+        // Once skeleton finishes or winds down, fill remaining intermediate frames
+        if (skeletonIndex >= skeleton.length && activeWorkers === 0) {
+          fillRemainingFrames();
+        }
+      };
+
+      const fillRemainingFrames = () => {
+        const remaining: number[] = [];
+        for (let i = 0; i < TOTAL_FRAMES; i++) {
+          if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
+            remaining.push(i);
+          }
+        }
+
+        let remIdx = 0;
+        const bgConcurrency = 4;
+        let bgActive = 0;
+
+        const runBgWorker = () => {
+          while (bgActive < bgConcurrency && remIdx < remaining.length) {
+            const idx = remaining[remIdx++];
+            if (imagesRef.current[idx]) continue;
+            bgActive++;
+            loadFrame(idx, () => {
+              bgActive--;
+              runBgWorker();
+            });
+          }
+        };
+
+        runBgWorker();
+      };
+
+      runWorker();
+    });
   }, [loadFrame]);
 
   // Direct DOM manipulation for cinematic 60 FPS text choreography
-  // 0% - 18%: Fully visible
-  // 18% - 42%: Fade out + subtle scale up + translateY
-  // 45%+: Fully disappeared for canvas focus
   const updateNarrativeBeats = useCallback((p: number) => {
     // Scroll helper indicator (disappears early)
     if (scrollIndicatorRef.current) {
@@ -220,37 +267,49 @@ export function HeroCanvasScrub() {
   useEffect(() => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas, { passive: true });
-
-    // Load initial 15 frames immediately
-    for (let i = 0; i < 15; i++) {
-      loadFrame(i);
-    }
-    startBackgroundPool();
+    startTieredPreload();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, [loadFrame, resizeCanvas, startBackgroundPool]);
+  }, [resizeCanvas, startTieredPreload]);
 
-  // Main 60 FPS LERP & scroll tracking
+  // ScrollTrigger + Native Touch Scroll Tracking (100% Mobile & Desktop Synced)
   useEffect(() => {
     if (isReducedMotion) {
       loadFrame(0, () => drawFrame(0));
       return;
     }
 
-    const onScroll = () => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Connect GSAP ScrollTrigger (synced with Lenis & mobile momentum)
+    const st = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.12,
+      onUpdate: (self) => {
+        targetProgressRef.current = self.progress;
+      },
+    });
+
+    // 2. Native scroll listener fallback for zero-latency mobile touch
+    const onScrollFallback = () => {
       const container = containerRef.current;
       if (!container) return;
       const rect = container.getBoundingClientRect();
       const maxScroll = rect.height - window.innerHeight;
       if (maxScroll <= 0) return;
       const currentScroll = -rect.top;
-      targetProgressRef.current = Math.min(1, Math.max(0, currentScroll / maxScroll));
+      const progress = Math.min(1, Math.max(0, currentScroll / maxScroll));
+      // Feed target progress smoothly
+      targetProgressRef.current = progress;
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    window.addEventListener("scroll", onScrollFallback, { passive: true });
+    onScrollFallback();
 
     isRunningRef.current = true;
     let rafId: number;
@@ -280,7 +339,8 @@ export function HeroCanvasScrub() {
 
     return () => {
       isRunningRef.current = false;
-      window.removeEventListener("scroll", onScroll);
+      st.kill();
+      window.removeEventListener("scroll", onScrollFallback);
       cancelAnimationFrame(rafId);
     };
   }, [drawFrame, isReducedMotion, loadFrame, preloadAhead, updateNarrativeBeats]);
@@ -290,11 +350,11 @@ export function HeroCanvasScrub() {
       id="hero-canvas-section"
       ref={containerRef}
       className={`relative w-full bg-[#0A0A0A] ${
-        isReducedMotion ? "h-screen h-[100dvh]" : "h-[270vh]"
+        isReducedMotion ? "h-screen h-[100svh]" : "h-[320vh] sm:h-[280vh]"
       }`}
     >
       {/* Sticky Fullscreen Viewport holding the Canvas */}
-      <div className="sticky top-0 h-screen h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center bg-[#0A0A0A]">
+      <div className="sticky top-0 h-screen h-[100svh] w-full overflow-hidden flex flex-col items-center justify-center bg-[#0A0A0A] touch-pan-y">
         {/* Instant LCP Poster Layer */}
         <div
           className={`absolute inset-0 z-0 select-none transition-opacity duration-700 pointer-events-none ${
