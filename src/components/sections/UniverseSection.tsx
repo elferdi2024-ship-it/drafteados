@@ -23,6 +23,7 @@ const iconMap = {
 
 export function UniverseSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,21 +34,41 @@ export function UniverseSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
+      // Header reveal
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Cards staggered reveal
       const cards = cardsRef.current?.children;
       if (cards && cards.length > 0) {
         gsap.fromTo(
           cards,
           {
             opacity: 0,
-            y: 50,
-            scale: 0.96,
+            y: 45,
+            scale: 0.97,
           },
           {
             opacity: 1,
             y: 0,
             scale: 1,
             duration: 0.85,
-            stagger: 0.12,
+            stagger: 0.1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: cardsRef.current,
@@ -76,7 +97,7 @@ export function UniverseSection() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/25 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             MÁS ALLÁ DEL VÍDEO

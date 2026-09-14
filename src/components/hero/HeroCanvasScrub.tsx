@@ -1,9 +1,10 @@
+// filepath: src/components/hero/HeroCanvasScrub.tsx
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { Users, ChevronDown, Flame } from "lucide-react";
+import { Users } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 
 import gsap from "gsap";
@@ -12,7 +13,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 const TOTAL_FRAMES = 240;
 const FRAME_DIR = "/frames/";
 const FRAME_PAD = 4;
-const LERP_FACTOR = 0.16;
 
 function getFrameUrl(index: number): string {
   const frameNumber = String(index + 1).padStart(FRAME_PAD, "0");
@@ -21,6 +21,7 @@ function getFrameUrl(index: number): string {
 
 export function HeroCanvasScrub() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Beat 1: Intro / CTAs
@@ -29,6 +30,7 @@ export function HeroCanvasScrub() {
 
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [firstFrameLoaded, setFirstFrameLoaded] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_FRAMES).fill(null));
   const loadingSetRef = useRef<Set<number>>(new Set());
@@ -36,6 +38,33 @@ export function HeroCanvasScrub() {
   const targetProgressRef = useRef(0);
   const currentProgressRef = useRef(0);
   const isRunningRef = useRef(false);
+  const isVisibleRef = useRef(true);
+
+  // Device & Motion Detection
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setIsReducedMotion(motionQuery.matches);
+    const motionHandler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
+    motionQuery.addEventListener("change", motionHandler);
+
+    const checkDevice = () => {
+      const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isNarrow = window.innerWidth <= 768;
+      const isMobileUA =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+          navigator.userAgent
+        );
+      setIsMobileDevice(hasTouch || isNarrow || isMobileUA);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice, { passive: true });
+
+    return () => {
+      motionQuery.removeEventListener("change", motionHandler);
+      window.removeEventListener("resize", checkDevice);
+    };
+  }, []);
 
   // Find nearest loaded frame
   const findNearestFrame = useCallback((idx: number): HTMLImageElement | null => {
@@ -57,31 +86,34 @@ export function HeroCanvasScrub() {
   }, []);
 
   // High-DPI draw frame with mathematical object-fit: cover
-  const drawFrame = useCallback((idx: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) return;
+  const drawFrame = useCallback(
+    (idx: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d", { alpha: false });
+      if (!ctx) return;
 
-    const clampedIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
-    const img = findNearestFrame(clampedIdx);
+      const clampedIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
+      const img = findNearestFrame(clampedIdx);
 
-    if (!img || !img.complete || img.naturalWidth === 0) return;
+      if (!img || !img.complete || img.naturalWidth === 0) return;
 
-    const cw = canvas.width;
-    const ch = canvas.height;
-    const imgW = img.naturalWidth;
-    const imgH = img.naturalHeight;
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const imgW = img.naturalWidth;
+      const imgH = img.naturalHeight;
 
-    const scale = Math.max(cw / imgW, ch / imgH);
-    const dw = imgW * scale;
-    const dh = imgH * scale;
-    const dx = (cw - dw) / 2;
-    const dy = (ch - dh) / 2;
+      const scale = Math.max(cw / imgW, ch / imgH);
+      const dw = imgW * scale;
+      const dh = imgH * scale;
+      const dx = (cw - dw) / 2;
+      const dy = (ch - dh) / 2;
 
-    ctx.drawImage(img, dx, dy, dw, dh);
-    currentDrawnIndexRef.current = clampedIdx;
-  }, [findNearestFrame]);
+      ctx.drawImage(img, dx, dy, dw, dh);
+      currentDrawnIndexRef.current = clampedIdx;
+    },
+    [findNearestFrame]
+  );
 
   // Responsive High-DPI canvas resizing
   const resizeCanvas = useCallback(() => {
@@ -107,50 +139,54 @@ export function HeroCanvasScrub() {
   }, [drawFrame]);
 
   // Frame preloader helper
-  const loadFrame = useCallback((index: number, onDone?: () => void) => {
-    if (imagesRef.current[index] || loadingSetRef.current.has(index)) {
-      onDone?.();
-      return;
-    }
-    loadingSetRef.current.add(index);
+  const loadFrame = useCallback(
+    (index: number, onDone?: () => void) => {
+      if (imagesRef.current[index] || loadingSetRef.current.has(index)) {
+        onDone?.();
+        return;
+      }
+      loadingSetRef.current.add(index);
 
-    const img = new window.Image();
-    img.onload = () => {
-      loadingSetRef.current.delete(index);
-      imagesRef.current[index] = img;
-      if (index === 0) {
-        setFirstFrameLoaded(true);
-        if (currentDrawnIndexRef.current < 0) {
-          drawFrame(0);
+      const img = new window.Image();
+      img.onload = () => {
+        loadingSetRef.current.delete(index);
+        imagesRef.current[index] = img;
+        if (index === 0) {
+          setFirstFrameLoaded(true);
+          if (currentDrawnIndexRef.current < 0) {
+            drawFrame(0);
+          }
+        }
+        onDone?.();
+      };
+      img.onerror = () => {
+        loadingSetRef.current.delete(index);
+        onDone?.();
+      };
+      img.src = getFrameUrl(index);
+    },
+    [drawFrame]
+  );
+
+  // Priority window preloading around active frame (+16 / -8 frames)
+  const preloadAhead = useCallback(
+    (currentIdx: number) => {
+      const start = Math.max(0, currentIdx - 8);
+      const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 16);
+      for (let i = start; i <= end; i++) {
+        if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
+          loadFrame(i);
         }
       }
-      onDone?.();
-    };
-    img.onerror = () => {
-      loadingSetRef.current.delete(index);
-      onDone?.();
-    };
-    img.src = getFrameUrl(index);
-  }, [drawFrame]);
-
-  // Priority window preloading around active frame (±15 frames)
-  const preloadAhead = useCallback((currentIdx: number) => {
-    const start = Math.max(0, currentIdx - 8);
-    const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 15);
-    for (let i = start; i <= end; i++) {
-      if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
-        loadFrame(i);
-      }
-    }
-  }, [loadFrame]);
+    },
+    [loadFrame]
+  );
 
   // Tiered Preloader Engine
   // 1. Keyframe Skeleton: every 5th frame across 0..239 (48 frames total)
   // 2. Progressive background pool for remainder
   const startTieredPreload = useCallback(() => {
-    // Step 1: Immediately load frame 0
     loadFrame(0, () => {
-      // Step 2: Skeleton keyframes distributed across the entire 240 frames
       const skeleton: number[] = [];
       for (let i = 5; i < TOTAL_FRAMES; i += 5) {
         skeleton.push(i);
@@ -159,7 +195,6 @@ export function HeroCanvasScrub() {
         skeleton.push(TOTAL_FRAMES - 1);
       }
 
-      // Concurrently load skeleton keyframes in batches of 6
       let skeletonIndex = 0;
       const concurrency = 6;
       let activeWorkers = 0;
@@ -175,7 +210,6 @@ export function HeroCanvasScrub() {
           });
         }
 
-        // Once skeleton finishes or winds down, fill remaining intermediate frames
         if (skeletonIndex >= skeleton.length && activeWorkers === 0) {
           fillRemainingFrames();
         }
@@ -212,58 +246,52 @@ export function HeroCanvasScrub() {
     });
   }, [loadFrame]);
 
-  // Direct DOM manipulation for cinematic 60 FPS text choreography
+  // Direct DOM choreography for narrative text & canvas exit
   const updateNarrativeBeats = useCallback((p: number) => {
-    // Scroll helper indicator (disappears early)
+    // Scroll indicator fades out rapidly
     if (scrollIndicatorRef.current) {
-      const indOp = Math.max(0, 1 - p * 12);
+      const indOp = Math.max(0, 1 - p * 10);
       scrollIndicatorRef.current.style.opacity = indOp.toFixed(3);
-      scrollIndicatorRef.current.style.transform = `translateY(${p * 25}px)`;
+      scrollIndicatorRef.current.style.transform = `translateY(${p * 20}px)`;
     }
 
-    // Main Hero text panel
+    // Hero intro text panel
     if (beat1Ref.current) {
-      if (p <= 0.18) {
+      if (p <= 0.16) {
         beat1Ref.current.style.opacity = "1";
         beat1Ref.current.style.transform = "scale(1) translateY(0px)";
         beat1Ref.current.style.pointerEvents = "auto";
-      } else if (p <= 0.42) {
-        const norm = (p - 0.18) / 0.24; // 0 to 1
+      } else if (p <= 0.40) {
+        const norm = (p - 0.16) / 0.24;
         const op = Math.max(0, 1 - norm);
-        const scale = 1 + norm * 0.05;
-        const ty = -norm * 30;
+        const scale = 1 + norm * 0.04;
+        const ty = -norm * 28;
         beat1Ref.current.style.opacity = op.toFixed(3);
         beat1Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
         beat1Ref.current.style.pointerEvents = op > 0.1 ? "auto" : "none";
       } else {
         beat1Ref.current.style.opacity = "0";
         beat1Ref.current.style.pointerEvents = "none";
-        beat1Ref.current.style.transform = "scale(1.05) translateY(-30px)";
+        beat1Ref.current.style.transform = "scale(1.04) translateY(-28px)";
       }
     }
 
-    // Canvas exit subtle scale & blend for transition into Section 1 (82% - 100%)
+    // Canvas exit cinematic scale & blend for transition into SocialMarqueeStrip (80% - 100%)
     if (canvasRef.current) {
-      if (p > 0.82) {
-        const norm = (p - 0.82) / 0.18;
-        const scale = 1 - norm * 0.04;
+      if (p > 0.80) {
+        const norm = (p - 0.80) / 0.20;
+        const scale = 1 - norm * 0.05;
+        const brightness = 1 - norm * 0.2;
         canvasRef.current.style.transform = `scale(${scale.toFixed(3)})`;
+        canvasRef.current.style.filter = `brightness(${brightness.toFixed(2)})`;
       } else {
         canvasRef.current.style.transform = "scale(1)";
+        canvasRef.current.style.filter = "none";
       }
     }
   }, []);
 
-  // Motion preference detection
-  useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setIsReducedMotion(motionQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
-    motionQuery.addEventListener("change", handler);
-    return () => motionQuery.removeEventListener("change", handler);
-  }, []);
-
-  // Preload initialization
+  // Preload initialization & resize
   useEffect(() => {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas, { passive: true });
@@ -274,7 +302,19 @@ export function HeroCanvasScrub() {
     };
   }, [resizeCanvas, startTieredPreload]);
 
-  // ScrollTrigger + Native Touch Scroll Tracking (100% Mobile & Desktop Synced)
+  // Page Load Entrance Animation (Hero Headline & Canvas)
+  useEffect(() => {
+    if (isReducedMotion) return;
+    if (beat1Ref.current) {
+      gsap.fromTo(
+        beat1Ref.current,
+        { opacity: 0, y: 30, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "power3.out", delay: 0.15 }
+      );
+    }
+  }, [isReducedMotion]);
+
+  // Scrollytelling Engine: Dual Architecture (Desktop Sticky vs Mobile Fixed Driver)
   useEffect(() => {
     if (isReducedMotion) {
       loadFrame(0, () => drawFrame(0));
@@ -282,55 +322,132 @@ export function HeroCanvasScrub() {
     }
 
     if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
 
-    // 1. Connect GSAP ScrollTrigger (synced with Lenis & mobile momentum)
-    const st = ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: 0.12,
-      onUpdate: (self) => {
-        targetProgressRef.current = self.progress;
-      },
-    });
+    let st: ScrollTrigger | null = null;
+    let rafId: number;
+    isRunningRef.current = true;
 
-    // 2. Native scroll listener fallback for zero-latency mobile touch
-    const onScrollFallback = () => {
+    // Mobile Scrollytelling Scroll Handler (zero interference, native 120Hz compositor)
+    const handleMobileScroll = () => {
       const container = containerRef.current;
-      if (!container) return;
-      const rect = container.getBoundingClientRect();
-      const maxScroll = rect.height - window.innerHeight;
+      const stage = stageRef.current;
+      if (!container || !stage) return;
+
+      const driverHeight = container.offsetHeight;
+      const vpHeight = window.innerHeight;
+      const maxScroll = driverHeight - vpHeight;
+      const currentScroll = window.scrollY;
+
       if (maxScroll <= 0) return;
-      const currentScroll = -rect.top;
+
+      // 1. Calculate strictly bound progress
       const progress = Math.min(1, Math.max(0, currentScroll / maxScroll));
-      // Feed target progress smoothly
       targetProgressRef.current = progress;
+
+      // 2. Classical Scrollytelling Stage Pinning (eliminates CSS sticky bugs on mobile)
+      if (currentScroll >= maxScroll) {
+        // Dock to absolute bottom of driver section
+        stage.style.position = "absolute";
+        stage.style.top = "auto";
+        stage.style.bottom = "0px";
+      } else {
+        // Pin to viewport
+        stage.style.position = "fixed";
+        stage.style.top = "0px";
+        stage.style.bottom = "auto";
+      }
+
+      // 3. GPU Power Saver: Hide and stop rendering when completely scrolled past
+      if (currentScroll > driverHeight + 150) {
+        if (isVisibleRef.current) {
+          isVisibleRef.current = false;
+          stage.style.visibility = "hidden";
+          stage.style.pointerEvents = "none";
+        }
+      } else {
+        if (!isVisibleRef.current) {
+          isVisibleRef.current = true;
+          stage.style.visibility = "visible";
+          stage.style.pointerEvents = "auto";
+        }
+      }
     };
 
-    window.addEventListener("scroll", onScrollFallback, { passive: true });
-    onScrollFallback();
+    // Desktop Scroll Handler (GSAP ScrollTrigger + Lenis)
+    const setupDesktopScrub = () => {
+      gsap.registerPlugin(ScrollTrigger);
 
-    isRunningRef.current = true;
-    let rafId: number;
+      st = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.1,
+        onUpdate: (self) => {
+          targetProgressRef.current = self.progress;
+        },
+      });
 
+      // Also attach native listener as backup
+      const onDesktopNativeScroll = () => {
+        const container = containerRef.current;
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+        const maxScroll = rect.height - window.innerHeight;
+        if (maxScroll <= 0) return;
+        const currentScroll = -rect.top;
+        if (currentScroll < 0) {
+          targetProgressRef.current = 0;
+        } else if (currentScroll > maxScroll) {
+          targetProgressRef.current = 1;
+        }
+      };
+
+      window.addEventListener("scroll", onDesktopNativeScroll, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", onDesktopNativeScroll);
+      };
+    };
+
+    let cleanupDesktop: (() => void) | undefined;
+
+    if (isMobileDevice) {
+      window.addEventListener("scroll", handleMobileScroll, { passive: true });
+      handleMobileScroll();
+    } else {
+      cleanupDesktop = setupDesktopScrub();
+    }
+
+    // High Performance Smooth Render Loop (Non-Linear Cubic Dampening)
     const tick = () => {
       if (!isRunningRef.current) return;
 
-      const diff = targetProgressRef.current - currentProgressRef.current;
-      if (Math.abs(diff) < 0.0001) {
-        currentProgressRef.current = targetProgressRef.current;
-      } else {
-        currentProgressRef.current += diff * LERP_FACTOR;
+      if (isVisibleRef.current) {
+        const diff = targetProgressRef.current - currentProgressRef.current;
+        const absDiff = Math.abs(diff);
+
+        if (absDiff < 0.0001) {
+          currentProgressRef.current = targetProgressRef.current;
+        } else {
+          // Dynamic non-linear cubic dampening: responsive on quick swipes, silky deceleration
+          const factor = isMobileDevice
+            ? absDiff > 0.08
+              ? 0.26
+              : 0.18
+            : absDiff > 0.08
+            ? 0.20
+            : 0.14;
+
+          currentProgressRef.current += diff * factor;
+        }
+
+        const progress = currentProgressRef.current;
+        const frameF = progress * (TOTAL_FRAMES - 1);
+        const frameI = Math.round(frameF);
+
+        drawFrame(frameI);
+        updateNarrativeBeats(progress);
+        preloadAhead(frameI);
       }
-
-      const progress = currentProgressRef.current;
-      const frameF = progress * (TOTAL_FRAMES - 1);
-      const frameI = Math.round(frameF);
-
-      drawFrame(frameI);
-      updateNarrativeBeats(progress);
-      preloadAhead(frameI);
 
       rafId = requestAnimationFrame(tick);
     };
@@ -339,22 +456,39 @@ export function HeroCanvasScrub() {
 
     return () => {
       isRunningRef.current = false;
-      st.kill();
-      window.removeEventListener("scroll", onScrollFallback);
+      if (st) st.kill();
+      if (cleanupDesktop) cleanupDesktop();
+      window.removeEventListener("scroll", handleMobileScroll);
       cancelAnimationFrame(rafId);
     };
-  }, [drawFrame, isReducedMotion, loadFrame, preloadAhead, updateNarrativeBeats]);
+  }, [
+    drawFrame,
+    isMobileDevice,
+    isReducedMotion,
+    loadFrame,
+    preloadAhead,
+    updateNarrativeBeats,
+  ]);
 
   return (
     <section
       id="hero-canvas-section"
       ref={containerRef}
       className={`relative w-full bg-[#0A0A0A] ${
-        isReducedMotion ? "h-screen h-[100svh]" : "h-[320vh] sm:h-[280vh]"
+        isReducedMotion
+          ? "h-screen h-[100dvh]"
+          : isMobileDevice
+          ? "h-[250vh]"
+          : "h-[280vh]"
       }`}
     >
-      {/* Sticky Fullscreen Viewport holding the Canvas */}
-      <div className="sticky top-0 h-screen h-[100svh] w-full overflow-hidden flex flex-col items-center justify-center bg-[#0A0A0A] touch-pan-y">
+      {/* Viewport Stage: Fixed Scrollytelling on Mobile / Sticky on Desktop */}
+      <div
+        ref={stageRef}
+        className={`w-full h-screen h-[100dvh] overflow-hidden flex flex-col items-center justify-center bg-[#0A0A0A] touch-pan-y ${
+          isMobileDevice ? "fixed top-0 left-0 z-10" : "sticky top-0 z-10"
+        }`}
+      >
         {/* Instant LCP Poster Layer */}
         <div
           className={`absolute inset-0 z-0 select-none transition-opacity duration-700 pointer-events-none ${
@@ -378,7 +512,7 @@ export function HeroCanvasScrub() {
           className="absolute inset-0 w-full h-full block z-0 pointer-events-none will-change-transform"
         />
 
-        {/* Cinematic Multi-layer Gradient Overlays for Guaranteed AA Contrast */}
+        {/* Cinematic Multi-layer Gradient Overlays */}
         <div
           aria-hidden="true"
           className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#0A0A0A] via-black/40 to-black/60"
@@ -388,7 +522,7 @@ export function HeroCanvasScrub() {
           className="absolute inset-0 z-10 pointer-events-none bg-radial-[circle_at_center,_transparent_40%,_rgba(10,10,10,0.85)_100%]"
         />
 
-        {/* Orange Brand Atmosphere Aura */}
+        {/* Orange Brand Atmosphere Glow */}
         <div
           aria-hidden="true"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-[#FF5A1F]/15 blur-[140px] pointer-events-none z-10"
@@ -450,16 +584,16 @@ export function HeroCanvasScrub() {
           </div>
         </div>
 
-        {/* Helper Scroll Indicator (Intro) */}
+        {/* Premium Scroll Indicator */}
         <div
           ref={scrollIndicatorRef}
-          className="absolute bottom-6 sm:bottom-8 z-20 flex flex-col items-center gap-2 pointer-events-none will-change-transform"
+          className="absolute bottom-6 sm:bottom-8 z-20 flex flex-col items-center gap-2.5 pointer-events-none will-change-transform"
         >
-          <span className="text-[10px] tracking-[0.3em] uppercase text-zinc-400 font-medium">
+          <span className="text-[10px] tracking-[0.32em] uppercase text-zinc-300 font-semibold drop-shadow-md">
             Haz Scroll para Entrar
           </span>
-          <div className="w-5 h-8 rounded-full border border-white/30 flex items-start justify-center p-1 bg-black/30 backdrop-blur-sm">
-            <div className="w-1.5 h-2 rounded-full bg-[#FF5A1F] animate-bounce" />
+          <div className="w-5 h-9 rounded-full border border-white/30 flex items-start justify-center p-1 bg-black/40 backdrop-blur-md shadow-[0_0_15px_rgba(255,90,31,0.2)]">
+            <div className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-[#FF5A1F] to-[#FF7A45] animate-bounce" />
           </div>
         </div>
 

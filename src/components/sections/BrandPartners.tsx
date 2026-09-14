@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Send, CheckCircle2, Handshake, Building2, Video, Mail } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function BrandPartners() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -10,6 +12,58 @@ export function BrandPartners() {
   const [email, setEmail] = useState("");
   const [partnerType, setPartnerType] = useState("marca");
   const [message, setMessage] = useState("");
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const leftColRef = useRef<HTMLDivElement>(null);
+  const formCardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      if (leftColRef.current) {
+        gsap.fromTo(
+          leftColRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: leftColRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      if (formCardRef.current) {
+        gsap.fromTo(
+          formCardRef.current,
+          { opacity: 0, y: 45, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.85,
+            delay: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: formCardRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +73,7 @@ export function BrandPartners() {
 
   return (
     <section
+      ref={sectionRef}
       id="contacto"
       className="relative z-20 py-24 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden"
     >
@@ -32,7 +87,7 @@ export function BrandPartners() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Narrative Column */}
-            <div className="lg:col-span-6">
+            <div ref={leftColRef} className="lg:col-span-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-4">
                 <Handshake className="w-4 h-4" />
                 PARTNERS &amp; ALIANZAS
@@ -92,7 +147,7 @@ export function BrandPartners() {
             </div>
 
             {/* Right Contact Form Column */}
-            <div className="lg:col-span-6">
+            <div ref={formCardRef} className="lg:col-span-6">
               <div className="p-6 sm:p-8 rounded-2xl bg-zinc-50 dark:bg-[#121212] border border-black/10 dark:border-white/10 shadow-xl">
                 {formSubmitted ? (
                   <div className="py-12 flex flex-col items-center text-center">

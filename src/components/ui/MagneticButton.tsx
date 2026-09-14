@@ -47,16 +47,17 @@ export function MagneticButton({
   };
 
   const baseStyles =
-    "relative inline-flex items-center justify-center font-medium rounded-full transition-all duration-300 select-none overflow-hidden group cursor-pointer";
+    "relative inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 select-none overflow-hidden group cursor-pointer focus-visible:ring-2 focus-visible:ring-[#FF5A1F] focus-visible:ring-offset-2 focus-visible:outline-none";
 
   const variants = {
     primary:
-      "bg-[#FF5A1F] text-white font-semibold hover:bg-[#FF6D38] shadow-[0_4px_25px_rgba(255,90,31,0.35)] hover:shadow-[0_6px_35px_rgba(255,90,31,0.5)] active:scale-[0.98]",
+      "bg-[#FF5A1F] text-white font-semibold hover:bg-[#FF6D38] shadow-[0_4px_25px_rgba(255,90,31,0.35)] hover:shadow-[0_6px_35px_rgba(255,90,31,0.5)] active:scale-[0.97] active:translate-y-[1px]",
     secondary:
-      "bg-white/10 text-white backdrop-blur-md border border-white/15 hover:bg-white/20 hover:border-white/30",
+      "bg-white/10 text-white backdrop-blur-md border border-white/15 hover:bg-white/20 hover:border-white/30 active:scale-[0.97] active:translate-y-[1px]",
     outline:
-      "bg-transparent text-white border border-white/20 hover:border-[#FF5A1F] hover:text-[#FF5A1F]",
-    ghost: "bg-transparent text-zinc-300 hover:text-white hover:bg-white/5",
+      "bg-transparent text-white border border-white/20 hover:border-[#FF5A1F] hover:text-[#FF5A1F] active:scale-[0.97] active:translate-y-[1px]",
+    ghost:
+      "bg-transparent text-zinc-300 hover:text-white hover:bg-white/5 active:scale-[0.97]",
   };
 
   const sizes = {

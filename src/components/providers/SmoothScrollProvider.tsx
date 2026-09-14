@@ -24,18 +24,36 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     // Check user preference for reduced motion
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
     if (prefersReducedMotion) {
-      // Avoid smooth hijack if reduced motion is requested
+      return;
+    }
+
+    // Explicit mobile & touch detection (Android, Xiaomi HyperOS, iOS, touch screens)
+    const isTouchOrMobile = () => {
+      const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
+      const isMobileUA =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+          navigator.userAgent
+        );
+      return hasTouch || isSmallScreen || isMobileUA;
+    };
+
+    // NEVER initialize Lenis on mobile/touch devices - preserve native 120Hz compositor scroll
+    if (isTouchOrMobile()) {
+      lenisRef.current = null;
       return;
     }
 
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",

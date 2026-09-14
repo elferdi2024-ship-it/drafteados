@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
   return (
-    <main className="relative bg-background text-foreground transition-colors duration-300 min-h-screen">
+    <main className="relative bg-background text-foreground transition-colors duration-300 min-h-screen overflow-x-clip">
       {/* Fixed Glassmorphism Navigation */}
       <Navbar />
 

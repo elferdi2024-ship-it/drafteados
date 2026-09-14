@@ -69,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bebasNeue.variable} ${plusJakartaSans.variable} dark scroll-smooth`}
+      className={`${bebasNeue.variable} ${plusJakartaSans.variable} dark`}
       suppressHydrationWarning
     >
       <head>
@@ -79,7 +79,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-background text-foreground min-h-screen selection:bg-[#FF5A1F] selection:text-white font-sans antialiased overflow-x-hidden">
+      <body className="bg-background text-foreground min-h-screen selection:bg-[#FF5A1F] selection:text-white font-sans antialiased">
         <SmoothScrollProvider>
           <CustomCursor />
           {children}

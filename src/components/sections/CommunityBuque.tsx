@@ -50,9 +50,129 @@ function AnimatedCounter({
   );
 }
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 export function CommunityBuque() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const metricsRef = useRef<HTMLDivElement>(null);
+  const foundersHeaderRef = useRef<HTMLDivElement>(null);
+  const foundersGridRef = useRef<HTMLDivElement>(null);
+  const manifestoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      // Top header
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      // Metrics cards
+      const metrics = metricsRef.current?.children;
+      if (metrics && metrics.length > 0) {
+        gsap.fromTo(
+          metrics,
+          { opacity: 0, y: 40, scale: 0.97 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: metricsRef.current,
+              start: "top 82%",
+            },
+          }
+        );
+      }
+
+      // Founders header
+      if (foundersHeaderRef.current) {
+        gsap.fromTo(
+          foundersHeaderRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: foundersHeaderRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
+      // Founders cards
+      const founders = foundersGridRef.current?.children;
+      if (founders && founders.length > 0) {
+        gsap.fromTo(
+          founders,
+          { opacity: 0, y: 40, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.85,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: foundersGridRef.current,
+              start: "top 82%",
+            },
+          }
+        );
+      }
+
+      // Manifesto block
+      if (manifestoRef.current) {
+        gsap.fromTo(
+          manifestoRef.current,
+          { opacity: 0, y: 45, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: manifestoRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="comunidad"
       className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0C] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300"
     >
@@ -67,7 +187,7 @@ export function CommunityBuque() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-4">
             <Flame className="w-3.5 h-3.5 text-[#FF5A1F]" />
             SENTIMIENTO Y PERTENENCIA
@@ -84,7 +204,7 @@ export function CommunityBuque() {
         </div>
 
         {/* Animated Metrics Strip */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-20 sm:mb-24">
+        <div ref={metricsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-20 sm:mb-24">
           {COMMUNITY_METRICS.map((metric) => (
             <div
               key={metric.id}
@@ -110,7 +230,7 @@ export function CommunityBuque() {
 
         {/* Founders Spotlight (José & Sergio) */}
         <div className="mb-20 sm:mb-28">
-          <div className="text-center max-w-2xl mx-auto mb-10">
+          <div ref={foundersHeaderRef} className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#FF5A1F]">
               La Voz y la Pasión
             </span>
@@ -125,7 +245,7 @@ export function CommunityBuque() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div ref={foundersGridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
@@ -174,7 +294,7 @@ export function CommunityBuque() {
         </div>
 
         {/* Manifesto Block */}
-        <div className="relative rounded-3xl p-8 sm:p-14 lg:p-16 bg-white dark:bg-gradient-to-br dark:from-[#18181B] dark:to-[#121212] border border-black/10 dark:border-white/15 overflow-hidden shadow-xl dark:shadow-2xl">
+        <div ref={manifestoRef} className="relative rounded-3xl p-8 sm:p-14 lg:p-16 bg-white dark:bg-gradient-to-br dark:from-[#18181B] dark:to-[#121212] border border-black/10 dark:border-white/15 overflow-hidden shadow-xl dark:shadow-2xl">
           <div
             aria-hidden="true"
             className="absolute -right-10 -bottom-10 w-96 h-96 bg-[#FF5A1F]/10 rounded-full blur-[100px] pointer-events-none"
