@@ -177,60 +177,52 @@ export function HeroCanvasScrub() {
       scrollIndicatorRef.current.style.transform = `translateY(${p * 30}px)`;
     }
 
-    // 2. Beat 1: Intro / CTAs (0.00 -> 0.28)
+    // 2. Beat 1: Intro / CTAs (0.00 -> 0.30)
     if (beat1Ref.current) {
-      if (p <= 0.14) {
+      if (p <= 0.18) {
         beat1Ref.current.style.opacity = "1";
         beat1Ref.current.style.transform = "scale(1) translateY(0px)";
         beat1Ref.current.style.pointerEvents = "auto";
-        beat1Ref.current.style.filter = "none";
-      } else if (p <= 0.28) {
-        const norm = (p - 0.14) / 0.14;
-        const op = Math.max(0, 1 - norm);
-        const scale = 1 + norm * 0.07;
-        const ty = -norm * 35;
-        beat1Ref.current.style.opacity = op.toFixed(3);
-        beat1Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
-        beat1Ref.current.style.pointerEvents = op > 0.1 ? "auto" : "none";
-        beat1Ref.current.style.filter = `blur(${(norm * 4).toFixed(1)}px)`;
-      } else {
-        beat1Ref.current.style.opacity = "0";
-        beat1Ref.current.style.pointerEvents = "none";
-        beat1Ref.current.style.transform = "scale(1.08) translateY(-40px)";
-      }
-    }
-
-    // 3. Beat 2: Community Statement (0.32 -> 0.66) - Focus during center court swoop
-    if (beat2Ref.current) {
-      if (p < 0.30) {
-        beat2Ref.current.style.opacity = "0";
-        beat2Ref.current.style.pointerEvents = "none";
-        beat2Ref.current.style.transform = "scale(0.92) translateY(30px)";
-        beat2Ref.current.style.filter = "blur(6px)";
-      } else if (p <= 0.42) {
-        const norm = (p - 0.30) / 0.12;
-        const op = Math.min(1, norm);
-        const scale = 0.92 + norm * 0.08;
-        const ty = 30 - norm * 30;
-        const blur = (6 - norm * 6).toFixed(1);
-        beat2Ref.current.style.opacity = op.toFixed(3);
-        beat2Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
-        beat2Ref.current.style.filter = `blur(${blur}px)`;
-        beat2Ref.current.style.pointerEvents = "auto";
-      } else if (p <= 0.54) {
-        beat2Ref.current.style.opacity = "1";
-        beat2Ref.current.style.transform = "scale(1) translateY(0px)";
-        beat2Ref.current.style.filter = "none";
-        beat2Ref.current.style.pointerEvents = "auto";
-      } else if (p <= 0.66) {
-        const norm = (p - 0.54) / 0.12;
+      } else if (p <= 0.30) {
+        const norm = (p - 0.18) / 0.12;
         const op = Math.max(0, 1 - norm);
         const scale = 1 + norm * 0.06;
         const ty = -norm * 30;
-        const blur = (norm * 5).toFixed(1);
+        beat1Ref.current.style.opacity = op.toFixed(3);
+        beat1Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
+        beat1Ref.current.style.pointerEvents = op > 0.1 ? "auto" : "none";
+      } else {
+        beat1Ref.current.style.opacity = "0";
+        beat1Ref.current.style.pointerEvents = "none";
+        beat1Ref.current.style.transform = "scale(1.06) translateY(-30px)";
+      }
+    }
+
+    // 3. Beat 2: Community Statement (0.34 -> 0.72) - Crisp & focused
+    if (beat2Ref.current) {
+      if (p < 0.34) {
+        beat2Ref.current.style.opacity = "0";
+        beat2Ref.current.style.pointerEvents = "none";
+        beat2Ref.current.style.transform = "scale(0.95) translateY(24px)";
+      } else if (p <= 0.44) {
+        const norm = (p - 0.34) / 0.10;
+        const op = Math.min(1, norm);
+        const scale = 0.95 + norm * 0.05;
+        const ty = 24 - norm * 24;
         beat2Ref.current.style.opacity = op.toFixed(3);
         beat2Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
-        beat2Ref.current.style.filter = `blur(${blur}px)`;
+        beat2Ref.current.style.pointerEvents = "auto";
+      } else if (p <= 0.62) {
+        beat2Ref.current.style.opacity = "1";
+        beat2Ref.current.style.transform = "scale(1) translateY(0px)";
+        beat2Ref.current.style.pointerEvents = "auto";
+      } else if (p <= 0.72) {
+        const norm = (p - 0.62) / 0.10;
+        const op = Math.max(0, 1 - norm);
+        const scale = 1 + norm * 0.05;
+        const ty = -norm * 24;
+        beat2Ref.current.style.opacity = op.toFixed(3);
+        beat2Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
         beat2Ref.current.style.pointerEvents = "none";
       } else {
         beat2Ref.current.style.opacity = "0";
@@ -238,16 +230,16 @@ export function HeroCanvasScrub() {
       }
     }
 
-    // 4. Beat 3: Tip-off Cue (0.72 -> 0.96)
+    // 4. Beat 3: Tip-off Cue (0.76 -> 0.96)
     if (beat3Ref.current) {
-      if (p < 0.70) {
+      if (p < 0.76) {
         beat3Ref.current.style.opacity = "0";
         beat3Ref.current.style.pointerEvents = "none";
-        beat3Ref.current.style.transform = "translateY(20px)";
-      } else if (p <= 0.82) {
-        const norm = (p - 0.70) / 0.12;
+        beat3Ref.current.style.transform = "translateY(16px)";
+      } else if (p <= 0.84) {
+        const norm = (p - 0.76) / 0.08;
         beat3Ref.current.style.opacity = norm.toFixed(3);
-        beat3Ref.current.style.transform = `translateY(${(20 - norm * 20).toFixed(1)}px)`;
+        beat3Ref.current.style.transform = `translateY(${(16 - norm * 16).toFixed(1)}px)`;
         beat3Ref.current.style.pointerEvents = "auto";
       } else if (p <= 0.92) {
         beat3Ref.current.style.opacity = "1";
@@ -256,7 +248,7 @@ export function HeroCanvasScrub() {
       } else {
         const norm = (p - 0.92) / 0.08;
         beat3Ref.current.style.opacity = Math.max(0, 1 - norm).toFixed(3);
-        beat3Ref.current.style.transform = `translateY(${(-norm * 15).toFixed(1)}px)`;
+        beat3Ref.current.style.transform = `translateY(${(-norm * 16).toFixed(1)}px)`;
         beat3Ref.current.style.pointerEvents = "none";
       }
     }
