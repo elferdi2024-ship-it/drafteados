@@ -168,11 +168,11 @@ export function HeroCanvasScrub() {
     [drawFrame]
   );
 
-  // Priority window preloading around active frame (+16 / -8 frames)
+  // Priority window preloading around active frame (+18 / -8 frames)
   const preloadAhead = useCallback(
     (currentIdx: number) => {
       const start = Math.max(0, currentIdx - 8);
-      const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 16);
+      const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 18);
       for (let i = start; i <= end; i++) {
         if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
           loadFrame(i);
@@ -183,8 +183,6 @@ export function HeroCanvasScrub() {
   );
 
   // Tiered Preloader Engine
-  // 1. Keyframe Skeleton: every 5th frame across 0..239 (48 frames total)
-  // 2. Progressive background pool for remainder
   const startTieredPreload = useCallback(() => {
     loadFrame(0, () => {
       const skeleton: number[] = [];
@@ -248,11 +246,11 @@ export function HeroCanvasScrub() {
 
   // Direct DOM choreography for narrative text & canvas exit
   const updateNarrativeBeats = useCallback((p: number) => {
-    // Scroll indicator fades out rapidly
+    // Scroll indicator fades out rapidly in first 10%
     if (scrollIndicatorRef.current) {
       const indOp = Math.max(0, 1 - p * 10);
       scrollIndicatorRef.current.style.opacity = indOp.toFixed(3);
-      scrollIndicatorRef.current.style.transform = `translateY(${p * 20}px)`;
+      scrollIndicatorRef.current.style.transform = `translateY(${p * 25}px)`;
     }
 
     // Hero intro text panel
@@ -261,27 +259,27 @@ export function HeroCanvasScrub() {
         beat1Ref.current.style.opacity = "1";
         beat1Ref.current.style.transform = "scale(1) translateY(0px)";
         beat1Ref.current.style.pointerEvents = "auto";
-      } else if (p <= 0.40) {
-        const norm = (p - 0.16) / 0.24;
+      } else if (p <= 0.42) {
+        const norm = (p - 0.16) / 0.26;
         const op = Math.max(0, 1 - norm);
         const scale = 1 + norm * 0.04;
-        const ty = -norm * 28;
+        const ty = -norm * 32;
         beat1Ref.current.style.opacity = op.toFixed(3);
         beat1Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
         beat1Ref.current.style.pointerEvents = op > 0.1 ? "auto" : "none";
       } else {
         beat1Ref.current.style.opacity = "0";
         beat1Ref.current.style.pointerEvents = "none";
-        beat1Ref.current.style.transform = "scale(1.04) translateY(-28px)";
+        beat1Ref.current.style.transform = "scale(1.04) translateY(-32px)";
       }
     }
 
-    // Canvas exit cinematic scale & blend for transition into SocialMarqueeStrip (80% - 100%)
+    // Canvas exit cinematic scale & blend for transition into SocialMarqueeStrip (82% - 100%)
     if (canvasRef.current) {
-      if (p > 0.80) {
-        const norm = (p - 0.80) / 0.20;
+      if (p > 0.82) {
+        const norm = (p - 0.82) / 0.18;
         const scale = 1 - norm * 0.05;
-        const brightness = 1 - norm * 0.2;
+        const brightness = 1 - norm * 0.22;
         canvasRef.current.style.transform = `scale(${scale.toFixed(3)})`;
         canvasRef.current.style.filter = `brightness(${brightness.toFixed(2)})`;
       } else {
@@ -346,12 +344,10 @@ export function HeroCanvasScrub() {
 
       // 2. Classical Scrollytelling Stage Pinning (eliminates CSS sticky bugs on mobile)
       if (currentScroll >= maxScroll) {
-        // Dock to absolute bottom of driver section
         stage.style.position = "absolute";
         stage.style.top = "auto";
         stage.style.bottom = "0px";
       } else {
-        // Pin to viewport
         stage.style.position = "fixed";
         stage.style.top = "0px";
         stage.style.bottom = "auto";
@@ -387,7 +383,6 @@ export function HeroCanvasScrub() {
         },
       });
 
-      // Also attach native listener as backup
       const onDesktopNativeScroll = () => {
         const container = containerRef.current;
         if (!container) return;
@@ -417,7 +412,7 @@ export function HeroCanvasScrub() {
       cleanupDesktop = setupDesktopScrub();
     }
 
-    // High Performance Smooth Render Loop (Non-Linear Cubic Dampening)
+    // High Performance Smooth Render Loop with Viscous Fluid Dynamic Dampening
     const tick = () => {
       if (!isRunningRef.current) return;
 
@@ -425,17 +420,13 @@ export function HeroCanvasScrub() {
         const diff = targetProgressRef.current - currentProgressRef.current;
         const absDiff = Math.abs(diff);
 
-        if (absDiff < 0.0001) {
+        if (absDiff < 0.00008) {
           currentProgressRef.current = targetProgressRef.current;
         } else {
-          // Dynamic non-linear cubic dampening: responsive on quick swipes, silky deceleration
-          const factor = isMobileDevice
-            ? absDiff > 0.08
-              ? 0.26
-              : 0.18
-            : absDiff > 0.08
-            ? 0.20
-            : 0.14;
+          // Viscous fluid curve: high responsiveness on rapid flick, velvety deceleration on settle
+          const baseFactor = isMobileDevice ? 0.16 : 0.12;
+          const velocityBoost = Math.min(0.18, absDiff * 0.55);
+          const factor = baseFactor + velocityBoost;
 
           currentProgressRef.current += diff * factor;
         }
@@ -478,7 +469,7 @@ export function HeroCanvasScrub() {
         isReducedMotion
           ? "h-screen h-[100dvh]"
           : isMobileDevice
-          ? "h-[250vh]"
+          ? "h-[300vh]"
           : "h-[280vh]"
       }`}
     >
@@ -534,28 +525,27 @@ export function HeroCanvasScrub() {
           className="absolute z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-5xl mx-auto w-full pt-16 sm:pt-12 select-none will-change-transform"
         >
           {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/15 bg-black/50 backdrop-blur-md mb-4 sm:mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/20 bg-black/60 backdrop-blur-md mb-4 sm:mb-6 shadow-[0_0_20px_rgba(255,90,31,0.2)]">
             <span className="flex h-2 w-2 rounded-full bg-[#FF5A1F] animate-pulse" />
-            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] uppercase text-zinc-200">
-              DESDE 2017 &bull; TU CASA NBA
+            <span className="text-[11px] sm:text-xs font-bold tracking-[0.28em] uppercase text-zinc-200">
+              DESDE 2017 &bull; TU CASA NBA &bull; +880K BUQUES
             </span>
           </div>
 
           {/* Main Headline */}
           <h1
-            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight text-white leading-[0.92] drop-shadow-[0_12px_40px_rgba(0,0,0,0.95)]"
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight text-white leading-[0.92] drop-shadow-[0_16px_50px_rgba(0,0,0,0.95)]"
             style={{ fontFamily: "var(--font-title)" }}
           >
             Bienvenidos a{" "}
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FF7A45] to-[#FF5A1F] drop-shadow-[0_10px_45px_rgba(255,90,31,0.5)]">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FF7A45] to-[#FF5A1F] drop-shadow-[0_12px_50px_rgba(255,90,31,0.55)]">
               Tu Casa NBA
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-5 sm:mt-7 text-base sm:text-xl md:text-2xl text-zinc-200 max-w-2xl font-normal leading-relaxed drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
-            Esto es Tu Casa NBA. Análisis sin filtro, debates de verdad y la mejor
-            comunidad de baloncesto en español.
+          <p className="mt-5 sm:mt-7 text-base sm:text-xl md:text-2xl text-zinc-200 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
+            El canal de baloncesto en español más visto del mundo. Análisis táctico de madrugada, debates que duelen en el alma y una comunidad que respira NBA los 365 días del año.
           </p>
 
           {/* Action CTAs */}
@@ -566,10 +556,10 @@ export function HeroCanvasScrub() {
               href="https://www.youtube.com/@DrafteadosNBA"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto shadow-[0_4px_30px_rgba(255,90,31,0.4)]"
             >
               <YoutubeIcon className="w-5 h-5 text-white" />
-              <span>Ver el canal</span>
+              <span>Subir al Buque en YouTube</span>
             </MagneticButton>
 
             <MagneticButton
@@ -589,11 +579,11 @@ export function HeroCanvasScrub() {
           ref={scrollIndicatorRef}
           className="absolute bottom-6 sm:bottom-8 z-20 flex flex-col items-center gap-2.5 pointer-events-none will-change-transform"
         >
-          <span className="text-[10px] tracking-[0.32em] uppercase text-zinc-300 font-semibold drop-shadow-md">
-            Haz Scroll para Entrar
+          <span className="text-[10px] tracking-[0.35em] uppercase text-zinc-300 font-bold drop-shadow-md">
+            Desliza para entrar a la pista
           </span>
-          <div className="w-5 h-9 rounded-full border border-white/30 flex items-start justify-center p-1 bg-black/40 backdrop-blur-md shadow-[0_0_15px_rgba(255,90,31,0.2)]">
-            <div className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-[#FF5A1F] to-[#FF7A45] animate-bounce" />
+          <div className="w-5 h-9 rounded-full border border-white/35 flex items-start justify-center p-1 bg-black/50 backdrop-blur-md shadow-[0_0_20px_rgba(255,90,31,0.25)]">
+            <div className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-[#FF5A1F] to-[#FF8A50] animate-bounce shadow-[0_0_8px_#FF5A1F]" />
           </div>
         </div>
 

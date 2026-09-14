@@ -88,21 +88,20 @@ export function BrandPartners() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Narrative Column */}
             <div ref={leftColRef} className="lg:col-span-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-4">
                 <Handshake className="w-4 h-4" />
-                PARTNERS &amp; ALIANZAS
+                ALIANZAS &amp; PATROCINIOS DE IMPACTO
               </div>
 
               <h2
                 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-none"
                 style={{ fontFamily: "var(--font-title)" }}
               >
-                ¿Hacemos algo juntos?
+                ¿Construimos algo juntos?
               </h2>
 
               <p className="mt-5 text-base sm:text-xl text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
-                Marcas, clubs, creadores… Si tienes una idea potente que sume y
-                respete a esta comunidad, queremos escucharla.
+                Marcas, creadores, clubes y proyectos deportivos. No hacemos publicidad invasiva: co-creamos narrativas de alto valor que respetan y suman a la mayor comunidad de baloncesto en español.
               </p>
 
               <div className="mt-8 space-y-4">

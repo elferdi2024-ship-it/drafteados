@@ -1,8 +1,9 @@
+// filepath: src/components/sections/LatestContent.tsx
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
-import { Play, Clock, ArrowUpRight, ChevronLeft, ChevronRight, Flame } from "lucide-react";
+import { Play, Clock, ArrowUpRight, ChevronLeft, ChevronRight, Flame, Sparkles } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import { LATEST_VIDEOS, VideoItem } from "@/data/drafteados";
 import { formatViews } from "@/lib/utils";
@@ -13,11 +14,14 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const CATEGORIES = ["Todos", "Análisis NBA", "3+1 Podcast", "Debates", "Scouting"];
+
 export function LatestContent() {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeftState, setScrollLeftState] = useState(0);
@@ -26,7 +30,12 @@ export function LatestContent() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // GSAP Entrance Transition from Hero: y: 80 -> 0, opacity: 0 -> 1, power3.out
+  const filteredVideos = useMemo(() => {
+    if (selectedCategory === "Todos") return LATEST_VIDEOS;
+    return LATEST_VIDEOS.filter((v) => v.category === selectedCategory);
+  }, [selectedCategory]);
+
+  // GSAP Entrance Transition from Hero: y: 70 -> 0, opacity: 0 -> 1, power3.out
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -42,9 +51,9 @@ export function LatestContent() {
           end: "top 45%",
           toggleActions: "play none none reverse",
         },
-        y: 80,
+        y: 60,
         opacity: 0,
-        duration: 1.1,
+        duration: 1.0,
         ease: "power3.out",
       });
     }, section);
@@ -62,8 +71,8 @@ export function LatestContent() {
 
     const cardWidth = 360;
     const currentIdx = Math.round(slider.scrollLeft / cardWidth);
-    setActiveIndex(Math.min(LATEST_VIDEOS.length - 1, Math.max(0, currentIdx)));
-  }, []);
+    setActiveIndex(Math.min(filteredVideos.length - 1, Math.max(0, currentIdx)));
+  }, [filteredVideos.length]);
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -71,6 +80,15 @@ export function LatestContent() {
     slider.addEventListener("scroll", handleScroll, { passive: true });
     return () => slider.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
+
+  // Reset scroll on category change
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (slider) {
+      slider.scrollTo({ left: 0, behavior: "smooth" });
+    }
+    setActiveIndex(0);
+  }, [selectedCategory]);
 
   // Smooth Navigation Buttons
   const scrollByAmount = (direction: "left" | "right") => {
@@ -103,7 +121,7 @@ export function LatestContent() {
     setIsDragging(false);
   };
 
-  // Subtle Autoplay when not hovered/dragged
+  // Autoplay slider when not hovered
   useEffect(() => {
     if (isHovered || isDragging) return;
     const interval = setInterval(() => {
@@ -112,9 +130,9 @@ export function LatestContent() {
       if (slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 10) {
         slider.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        slider.scrollBy({ left: 340, behavior: "smooth" });
+        slider.scrollBy({ left: 360, behavior: "smooth" });
       }
-    }, 4500);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [isHovered, isDragging]);
@@ -125,7 +143,7 @@ export function LatestContent() {
       ref={sectionRef}
       className="relative z-20 py-20 sm:py-28 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white"
     >
-      {/* Decorative Brand Text Backdrop (Watermark) */}
+      {/* Decorative Brand Text Backdrop */}
       <div
         aria-hidden="true"
         className="absolute -top-10 left-0 right-0 overflow-hidden select-none pointer-events-none opacity-10"
@@ -140,9 +158,9 @@ export function LatestContent() {
 
       <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-14 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/25 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-sm">
               <Flame className="w-3.5 h-3.5 text-white animate-pulse" />
               <span>LO ÚLTIMO EN LA CASA &bull; YOUTUBE OFICIAL</span>
             </div>
@@ -151,11 +169,11 @@ export function LatestContent() {
               className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-white tracking-tight leading-[0.95]"
               style={{ fontFamily: "var(--font-title)" }}
             >
-              ÚLTIMOS VÍDEOS
+              ÚLTIMOS VÍDEOS &amp; PIZARRA
             </h2>
-            <p className="mt-3 text-white/90 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
-              Las portadas de lo que se cuece en la liga. Análisis táctico, debates al rojo vivo y
-              episodios completos directos desde nuestro canal oficial.
+            <p className="mt-3 text-white/95 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
+              La actualidad de la NBA explicada con análisis táctico, scouting de futuro y el calor
+              del chat de madrugada. Todo el contenido oficial de la Casa.
             </p>
           </div>
 
@@ -165,10 +183,10 @@ export function LatestContent() {
               href="https://www.youtube.com/@DrafteadosNBA/videos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black text-white hover:bg-zinc-900 transition-all text-sm font-semibold shadow-lg hover:scale-105"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black text-white hover:bg-zinc-900 transition-all text-sm font-semibold shadow-lg hover:scale-105 active:scale-[0.98]"
             >
               <YoutubeIcon className="w-4 h-4 text-[#FF5A1F]" />
-              <span>Ir al canal</span>
+              <span>Canal en YouTube</span>
               <ArrowUpRight className="w-4 h-4 text-zinc-400" />
             </a>
 
@@ -178,7 +196,7 @@ export function LatestContent() {
                 onClick={() => scrollByAmount("left")}
                 disabled={!canScrollLeft}
                 aria-label="Vídeo anterior"
-                className="w-11 h-11 rounded-full bg-black/40 hover:bg-black/80 disabled:opacity-30 disabled:hover:bg-black/40 transition-all flex items-center justify-center border border-white/20 backdrop-blur-md shadow-md focus:outline-none"
+                className="w-11 h-11 rounded-full bg-black/40 hover:bg-black/80 disabled:opacity-30 disabled:hover:bg-black/40 transition-all flex items-center justify-center border border-white/20 backdrop-blur-md shadow-md focus:outline-none cursor-pointer"
               >
                 <ChevronLeft className="w-6 h-6 text-white" />
               </button>
@@ -187,12 +205,30 @@ export function LatestContent() {
                 onClick={() => scrollByAmount("right")}
                 disabled={!canScrollRight}
                 aria-label="Vídeo siguiente"
-                className="w-11 h-11 rounded-full bg-black/40 hover:bg-black/80 disabled:opacity-30 disabled:hover:bg-black/40 transition-all flex items-center justify-center border border-white/20 backdrop-blur-md shadow-md focus:outline-none"
+                className="w-11 h-11 rounded-full bg-black/40 hover:bg-black/80 disabled:opacity-30 disabled:hover:bg-black/40 transition-all flex items-center justify-center border border-white/20 backdrop-blur-md shadow-md focus:outline-none cursor-pointer"
               >
                 <ChevronRight className="w-6 h-6 text-white" />
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Category Filters Pill Bar */}
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-4 mb-3">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer shrink-0 border ${
+                selectedCategory === cat
+                  ? "bg-black text-white border-black shadow-md scale-105"
+                  : "bg-black/15 text-white/90 border-white/15 hover:bg-black/25 hover:text-white"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         {/* Horizontal Marquee / Carrusel Slider */}
@@ -211,7 +247,7 @@ export function LatestContent() {
           }`}
           style={{ scrollSnapType: isDragging ? "none" : "x mandatory" }}
         >
-          {LATEST_VIDEOS.map((video: VideoItem, idx: number) => (
+          {filteredVideos.map((video: VideoItem, idx: number) => (
             <div
               key={video.id}
               className="flex-shrink-0 w-[300px] sm:w-[360px] md:w-[380px]"
@@ -222,7 +258,11 @@ export function LatestContent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 draggable={false}
-                className="group relative flex flex-col rounded-2xl overflow-hidden bg-black/90 border border-white/15 hover:border-white/40 transition-all duration-300 hover:shadow-[0_16px_36px_rgba(0,0,0,0.5)] hover:-translate-y-1.5 focus:outline-none"
+                className={`group relative flex flex-col rounded-2xl overflow-hidden bg-black/95 border transition-all duration-300 hover:shadow-[0_20px_45px_rgba(0,0,0,0.6)] hover:-translate-y-2 focus:outline-none ${
+                  video.featured
+                    ? "border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.2)] ring-1 ring-amber-400/30"
+                    : "border-white/15 hover:border-white/40"
+                }`}
               >
                 {/* 16:9 Thumbnail Container */}
                 <div className="relative aspect-video w-full overflow-hidden bg-zinc-950">
@@ -236,11 +276,19 @@ export function LatestContent() {
                   />
 
                   {/* Dark subtle gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
 
-                  {/* Category Pill */}
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-bold uppercase tracking-wider text-white">
-                    {video.category}
+                  {/* Badges Container */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                    {video.featured && (
+                      <span className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-400 text-black text-[10px] font-black uppercase tracking-wider shadow-md">
+                        <Sparkles className="w-3 h-3 fill-black" />
+                        DESTACADO
+                      </span>
+                    )}
+                    <span className="px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-bold uppercase tracking-wider text-white">
+                      {video.category}
+                    </span>
                   </div>
 
                   {/* Duration Pill */}
@@ -250,7 +298,7 @@ export function LatestContent() {
                   </div>
 
                   {/* Play Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30 backdrop-blur-[2px]">
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/35 backdrop-blur-[2px]">
                     <div className="w-14 h-14 rounded-full bg-[#FF5A1F] text-white flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-transform duration-300 border border-white/20">
                       <Play className="w-6 h-6 fill-white ml-0.5" />
                     </div>
@@ -258,19 +306,19 @@ export function LatestContent() {
                 </div>
 
                 {/* Card Body */}
-                <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 bg-[#111111]">
+                <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 bg-[#111113]">
                   <div>
                     <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2 font-medium">
                       <span>{formatViews(video.views)} reproducciones</span>
                       <span>&bull;</span>
-                      <span>{video.date}</span>
+                      <span className="text-zinc-300 font-semibold">{video.date}</span>
                     </div>
 
                     <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#FF7A45] transition-colors leading-snug line-clamp-2">
                       {video.title}
                     </h3>
 
-                    <p className="mt-1.5 text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                    <p className="mt-1.5 text-xs text-zinc-400 line-clamp-2 leading-relaxed font-normal">
                       {video.description}
                     </p>
                   </div>
@@ -290,7 +338,7 @@ export function LatestContent() {
 
         {/* Carousel Pagination Dots */}
         <div className="flex items-center justify-center gap-2 mt-4">
-          {LATEST_VIDEOS.map((_, dotIdx) => (
+          {filteredVideos.map((_, dotIdx) => (
             <button
               key={dotIdx}
               type="button"

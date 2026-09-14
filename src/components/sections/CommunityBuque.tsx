@@ -1,10 +1,15 @@
+// filepath: src/components/sections/CommunityBuque.tsx
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
-import { COMMUNITY_METRICS, FOUNDERS } from "@/data/drafteados";
-import { Flame, Globe2, HeartHandshake, ShieldCheck, Quote } from "lucide-react";
+import { useInView } from "framer-motion";
+import { COMMUNITY_METRICS, FOUNDERS, COMMUNITY_TESTIMONIALS } from "@/data/drafteados";
+import { Flame, Globe2, HeartHandshake, ShieldCheck, Quote, MessageSquare, Star, ArrowUpRight } from "lucide-react";
+import { MagneticButton } from "@/components/ui/MagneticButton";
+import { YoutubeIcon } from "@/components/ui/Icons";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 function AnimatedCounter({
   target,
@@ -50,15 +55,13 @@ function AnimatedCounter({
   );
 }
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 export function CommunityBuque() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const metricsRef = useRef<HTMLDivElement>(null);
   const foundersHeaderRef = useRef<HTMLDivElement>(null);
   const foundersGridRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
   const manifestoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -147,6 +150,27 @@ export function CommunityBuque() {
         );
       }
 
+      // Testimonials cards
+      const testimonials = testimonialsRef.current?.children;
+      if (testimonials && testimonials.length > 0) {
+        gsap.fromTo(
+          testimonials,
+          { opacity: 0, y: 40, scale: 0.98 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: testimonialsRef.current,
+              start: "top 85%",
+            },
+          }
+        );
+      }
+
       // Manifesto block
       if (manifestoRef.current) {
         gsap.fromTo(
@@ -174,7 +198,7 @@ export function CommunityBuque() {
     <section
       ref={sectionRef}
       id="comunidad"
-      className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0C] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300"
+      className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0D] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300"
     >
       {/* Subtle Basketball Court Key Lines Background */}
       <div
@@ -188,9 +212,9 @@ export function CommunityBuque() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header */}
         <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-4">
             <Flame className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            SENTIMIENTO Y PERTENENCIA
+            SENTIMIENTO Y PERTENENCIA &bull; DESDE LA MADRUGADA
           </div>
           <h2
             className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
@@ -198,17 +222,17 @@ export function CommunityBuque() {
           >
             Somos Buques
           </h2>
-          <p className="mt-4 text-xl sm:text-2xl text-zinc-600 dark:text-zinc-300 font-medium">
-            Más que una audiencia. Una forma de entender el baloncesto.
+          <p className="mt-4 text-xl sm:text-2xl text-zinc-600 dark:text-zinc-300 font-medium leading-relaxed">
+            No somos espectadores pasivos de highlights de 30 segundos. Somos una familia que se reconoce en cualquier cancha del mundo.
           </p>
         </div>
 
         {/* Animated Metrics Strip */}
-        <div ref={metricsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-20 sm:mb-24">
+        <div ref={metricsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-20 sm:mb-28">
           {COMMUNITY_METRICS.map((metric) => (
             <div
               key={metric.id}
-              className="relative p-8 rounded-3xl bg-white dark:bg-[#121212] border border-black/8 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col items-center text-center group hover:border-[#FF5A1F]/40 transition-all hover:-translate-y-1"
+              className="relative p-8 sm:p-10 rounded-3xl bg-white dark:bg-[#121214] border border-black/8 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col items-center text-center group hover:border-[#FF5A1F]/40 transition-all duration-300 hover:-translate-y-1"
             >
               <div
                 className="text-5xl sm:text-6xl lg:text-7xl font-black text-zinc-900 dark:text-white group-hover:text-[#FF5A1F] transition-colors"
@@ -221,7 +245,7 @@ export function CommunityBuque() {
                 {metric.label}
               </div>
 
-              <p className="mt-2 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 max-w-xs leading-relaxed">
+              <p className="mt-2 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 max-w-xs leading-relaxed font-normal">
                 {metric.description}
               </p>
             </div>
@@ -231,7 +255,7 @@ export function CommunityBuque() {
         {/* Founders Spotlight (José & Sergio) */}
         <div className="mb-20 sm:mb-28">
           <div ref={foundersHeaderRef} className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#FF5A1F]">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF5A1F]">
               La Voz y la Pasión
             </span>
             <h3
@@ -241,7 +265,7 @@ export function CommunityBuque() {
               Los Capitanes del Buque
             </h3>
             <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
-              Dos amigos que unieron su amor por la NBA para construir la comunidad de baloncesto en español más activa del planeta.
+              Dos amigos que unieron su amor por la NBA para construir la mayor comunidad de baloncesto en español del planeta.
             </p>
           </div>
 
@@ -293,8 +317,70 @@ export function CommunityBuque() {
           </div>
         </div>
 
+        {/* Community Testimonials / Voces de la Comunidad */}
+        <div className="mb-20 sm:mb-28">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/10 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-2">
+              <MessageSquare className="w-3.5 h-3.5" />
+              VOCES DE LA TRIPULACIÓN
+            </div>
+            <h3
+              className="text-3xl sm:text-4xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
+              style={{ fontFamily: "var(--font-title)" }}
+            >
+              Lo que se vive en el Buque
+            </h3>
+            <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
+              Historias reales de miembros de la comunidad que comparten esta locura alrededor del globo.
+            </p>
+          </div>
+
+          <div ref={testimonialsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {COMMUNITY_TESTIMONIALS.map((test) => (
+              <div
+                key={test.id}
+                className="relative p-7 rounded-3xl bg-white dark:bg-[#121215] border border-black/8 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between hover:border-[#FF5A1F]/30 transition-all duration-300 hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1 text-[#FF5A1F]">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-[#FF5A1F]" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-zinc-600 dark:text-zinc-300">
+                      {test.roleBadge}
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-zinc-700 dark:text-zinc-300 italic leading-relaxed">
+                    &ldquo;{test.quote}&rdquo;
+                  </p>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
+                  <div>
+                    <h5 className="text-sm font-bold text-zinc-900 dark:text-white">
+                      {test.author}
+                    </h5>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      {test.location}
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-medium text-[#FF5A1F]">
+                    {test.timeWithUs}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Manifesto Block */}
-        <div ref={manifestoRef} className="relative rounded-3xl p-8 sm:p-14 lg:p-16 bg-white dark:bg-gradient-to-br dark:from-[#18181B] dark:to-[#121212] border border-black/10 dark:border-white/15 overflow-hidden shadow-xl dark:shadow-2xl">
+        <div
+          ref={manifestoRef}
+          className="relative rounded-3xl p-8 sm:p-14 lg:p-16 bg-white dark:bg-gradient-to-br dark:from-[#18181B] dark:to-[#121212] border border-black/10 dark:border-white/15 overflow-hidden shadow-xl dark:shadow-2xl"
+        >
           <div
             aria-hidden="true"
             className="absolute -right-10 -bottom-10 w-96 h-96 bg-[#FF5A1F]/10 rounded-full blur-[100px] pointer-events-none"
@@ -320,19 +406,32 @@ export function CommunityBuque() {
               una casa compartida.&rdquo;
             </blockquote>
 
-            <div className="mt-8 flex items-center gap-3">
-              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/20">
-                <Image
-                  src="/images/logo.png"
-                  alt="Drafteados"
-                  fill
-                  sizes="32px"
-                  className="object-cover"
-                />
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-6">
+              <div className="flex items-center gap-3">
+                <div className="relative w-9 h-9 rounded-full overflow-hidden border border-black/10 dark:border-white/20">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Drafteados"
+                    fill
+                    sizes="36px"
+                    className="object-cover"
+                  />
+                </div>
+                <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-zinc-700 dark:text-zinc-300">
+                  Familia Drafteados &bull; Desde 2017
+                </span>
               </div>
-              <span className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-zinc-700 dark:text-zinc-300">
-                Familia Drafteados &bull; Desde 2017
-              </span>
+
+              <MagneticButton
+                variant="primary"
+                size="sm"
+                href="https://www.youtube.com/@DrafteadosNBA"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <YoutubeIcon className="w-4 h-4 text-white" />
+                <span>Unirme al Buque</span>
+              </MagneticButton>
             </div>
           </div>
         </div>

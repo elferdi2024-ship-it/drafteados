@@ -1,3 +1,4 @@
+// filepath: src/components/sections/UniverseSection.tsx
 "use client";
 
 import React, { useEffect, useRef } from "react";
@@ -98,9 +99,9 @@ export function UniverseSection() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/25 text-[#FF5A1F] text-xs font-semibold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            MÁS ALLÁ DEL VÍDEO
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/25 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
+            MÁS ALLÁ DE LA PANTALLA &bull; EL ECOSISTEMA
           </div>
           <h2
             className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-tight"
@@ -109,8 +110,7 @@ export function UniverseSection() {
             El Universo Drafteados
           </h2>
           <p className="mt-4 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal">
-            Drafteados ya no es solo un canal. Es un ecosistema completo para
-            quienes respiran la cultura del baloncesto los 365 días del año.
+            De un canal de YouTube a un movimiento cultural de baloncesto. Cuatro proyectos creados desde la pasión para vivir la NBA en todas sus dimensiones.
           </p>
         </div>
 
@@ -128,25 +128,33 @@ export function UniverseSection() {
               <div
                 key={item.id}
                 id={anchorId}
-                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#121212]/90 border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-md dark:shadow-none hover:shadow-[0_20px_50px_rgba(255,90,31,0.15)] hover:-translate-y-1 scroll-mt-28"
+                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#121214] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-md dark:shadow-none hover:shadow-[0_20px_50px_rgba(255,90,31,0.18)] hover:-translate-y-1.5 scroll-mt-28"
               >
                 {/* Background Card Gradient */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-20 dark:opacity-40 group-hover:opacity-60 dark:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
+                  className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-20 dark:opacity-40 group-hover:opacity-70 dark:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
                 />
 
                 {/* Card Top Section */}
                 <div className="relative z-10">
                   <div className="flex items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-[#FF5A1F]/10 dark:bg-white/5 border border-[#FF5A1F]/20 dark:border-white/10 flex items-center justify-center text-[#FF5A1F] group-hover:scale-110 group-hover:bg-[#FF5A1F] group-hover:text-white transition-all duration-300">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-13 h-13 rounded-2xl bg-[#FF5A1F]/10 dark:bg-white/5 border border-[#FF5A1F]/20 dark:border-white/10 flex items-center justify-center text-[#FF5A1F] group-hover:scale-110 group-hover:bg-[#FF5A1F] group-hover:text-white transition-all duration-300 shadow-sm">
                         <Icon className="w-6 h-6" />
                       </div>
                       <div>
-                        <span className="text-xs uppercase tracking-widest font-semibold text-[#FF5A1F]">
-                          {item.badge}
-                        </span>
-                        <div className="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs uppercase tracking-widest font-bold text-[#FF5A1F]">
+                            {item.badge}
+                          </span>
+                          {item.statusBadge && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 text-[10px] font-bold text-zinc-700 dark:text-zinc-300 tracking-wider uppercase">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-ping" />
+                              {item.statusBadge}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-zinc-500 dark:text-zinc-400 font-semibold mt-0.5">
                           {item.tag}
                         </div>
                       </div>
@@ -156,7 +164,7 @@ export function UniverseSection() {
                       href={item.ctaLink}
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
-                      className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:text-[#FF5A1F] dark:group-hover:text-white group-hover:border-[#FF5A1F]/40 dark:group-hover:border-white/30 group-hover:bg-black/5 dark:group-hover:bg-white/10 transition-all"
+                      className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:text-[#FF5A1F] dark:group-hover:text-white group-hover:border-[#FF5A1F]/40 dark:group-hover:border-white/30 group-hover:bg-black/5 dark:group-hover:bg-white/10 transition-all cursor-pointer"
                       aria-label={`Ir a ${item.title}`}
                     >
                       <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -170,15 +178,15 @@ export function UniverseSection() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                  <p className="mt-3.5 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Card Bottom Section */}
-                <div className="relative z-10 mt-8 pt-6 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="relative z-10 mt-8 pt-6 border-t border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   {item.stats && (
-                    <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                    <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 font-medium">
                       &bull; {item.stats}
                     </span>
                   )}
