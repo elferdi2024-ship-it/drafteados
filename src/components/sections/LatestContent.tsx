@@ -160,9 +160,9 @@ export function LatestContent() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/25 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-sm">
-              <Flame className="w-3.5 h-3.5 text-white animate-pulse" />
-              <span>LO ÚLTIMO EN LA CASA &bull; YOUTUBE OFICIAL</span>
+            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-white/95 uppercase mb-3">
+              <span className="w-2 h-0.5 bg-white" />
+              <span>01 &bull; CONTENIDO RECIENTE &bull; YOUTUBE</span>
             </div>
 
             <h2

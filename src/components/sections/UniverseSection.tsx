@@ -9,9 +9,7 @@ import {
   Mic,
   Trophy,
   ArrowUpRight,
-  Sparkles,
 } from "lucide-react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -90,31 +88,33 @@ export function UniverseSection() {
       id="universo"
       className="relative z-20 py-24 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden"
     >
-      {/* Background Radial Glow */}
+      {/* Subtle ambient lighting */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#FF5A1F]/10 blur-[150px] pointer-events-none rounded-full"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#FF5A1F]/8 blur-[160px] pointer-events-none rounded-full"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/25 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-4">
-            <Sparkles className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            MÁS ALLÁ DE LA PANTALLA &bull; EL ECOSISTEMA
+        {/* Section Header - Editorial, Anti-Slop */}
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4">
+            <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+            <span>02 &bull; EL ECOSISTEMA DRAFTEADOS</span>
+            <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
+
           <h2
             className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-tight"
             style={{ fontFamily: "var(--font-title)" }}
           >
             El Universo Drafteados
           </h2>
-          <p className="mt-4 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal">
+          <p className="mt-4 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
             De un canal de YouTube a un movimiento cultural de baloncesto. Cuatro proyectos creados desde la pasión para vivir la NBA en todas sus dimensiones.
           </p>
         </div>
 
-        {/* 2x2 Interactive Universe Cards */}
+        {/* 2x2 Interactive Universe Cards - Spacious, Clean Typography */}
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {UNIVERSE_ITEMS.map((item) => {
             const Icon = iconMap[item.iconName];
@@ -128,79 +128,66 @@ export function UniverseSection() {
               <div
                 key={item.id}
                 id={anchorId}
-                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#121214] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-500 overflow-hidden flex flex-col justify-between shadow-md dark:shadow-none hover:shadow-[0_20px_50px_rgba(255,90,31,0.18)] hover:-translate-y-1.5 scroll-mt-28"
+                className="group relative rounded-3xl p-7 sm:p-10 bg-white dark:bg-[#121214] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-sm dark:shadow-none hover:shadow-[0_16px_40px_rgba(255,90,31,0.14)] hover:-translate-y-1 scroll-mt-28"
               >
                 {/* Background Card Gradient */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-20 dark:opacity-40 group-hover:opacity-70 dark:group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
+                  className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-15 dark:opacity-30 group-hover:opacity-50 dark:group-hover:opacity-80 transition-opacity duration-500 pointer-events-none`}
                 />
 
                 {/* Card Top Section */}
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-3.5">
-                      <div className="w-13 h-13 rounded-2xl bg-[#FF5A1F]/10 dark:bg-white/5 border border-[#FF5A1F]/20 dark:border-white/10 flex items-center justify-center text-[#FF5A1F] group-hover:scale-110 group-hover:bg-[#FF5A1F] group-hover:text-white transition-all duration-300 shadow-sm">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs uppercase tracking-widest font-bold text-[#FF5A1F]">
-                            {item.badge}
-                          </span>
-                          {item.statusBadge && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 text-[10px] font-bold text-zinc-700 dark:text-zinc-300 tracking-wider uppercase">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-ping" />
-                              {item.statusBadge}
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-[11px] text-zinc-500 dark:text-zinc-400 font-semibold mt-0.5">
-                          {item.tag}
-                        </div>
-                      </div>
+                  {/* Clean Meta Bar: Kicker on left, Arrow action on right */}
+                  <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-black/5 dark:border-white/8">
+                    <div className="flex items-center gap-2.5 text-xs font-mono font-bold tracking-wider text-[#FF5A1F] uppercase">
+                      <Icon className="w-4 h-4 text-[#FF5A1F] shrink-0" />
+                      <span>{item.badge}</span>
+                      <span className="text-zinc-300 dark:text-zinc-700">&bull;</span>
+                      <span className="text-zinc-500 dark:text-zinc-400 font-sans font-medium lowercase text-xs">
+                        {item.tag}
+                      </span>
                     </div>
 
                     <a
                       href={item.ctaLink}
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
-                      className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:text-[#FF5A1F] dark:group-hover:text-white group-hover:border-[#FF5A1F]/40 dark:group-hover:border-white/30 group-hover:bg-black/5 dark:group-hover:bg-white/10 transition-all cursor-pointer"
+                      className="w-8 h-8 rounded-full border border-black/10 dark:border-white/15 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:text-white group-hover:bg-[#FF5A1F] group-hover:border-[#FF5A1F] transition-all cursor-pointer shrink-0"
                       aria-label={`Ir a ${item.title}`}
                     >
-                      <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
 
+                  {/* Title */}
                   <h3
-                    className="text-3xl sm:text-4xl font-bold uppercase text-zinc-900 dark:text-white tracking-wide group-hover:text-[#FF5A1F] transition-colors"
+                    className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-none group-hover:text-[#FF5A1F] transition-colors"
                     style={{ fontFamily: "var(--font-title)" }}
                   >
                     {item.title}
                   </h3>
 
-                  <p className="mt-3.5 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
+                  {/* Description */}
+                  <p className="mt-4 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Card Bottom Section */}
-                <div className="relative z-10 mt-8 pt-6 border-t border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  {item.stats && (
-                    <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 font-medium">
-                      &bull; {item.stats}
-                    </span>
-                  )}
-                  <MagneticButton
-                    variant="primary"
-                    size="sm"
+                <div className="relative z-10 mt-8 pt-5 border-t border-black/5 dark:border-white/8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                    {item.stats}
+                  </span>
+
+                  <a
                     href={item.ctaLink}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="w-full sm:w-auto"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-white hover:text-[#FF5A1F] transition-colors py-1 cursor-pointer"
                   >
                     <span>{item.ctaText}</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </MagneticButton>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#FF5A1F]" />
+                  </a>
                 </div>
               </div>
             );

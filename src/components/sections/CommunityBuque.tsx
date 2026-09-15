@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 import { COMMUNITY_METRICS, FOUNDERS, COMMUNITY_TESTIMONIALS } from "@/data/drafteados";
-import { Flame, Globe2, HeartHandshake, ShieldCheck, Quote, MessageSquare, Star, ArrowUpRight } from "lucide-react";
+import { Quote, ArrowUpRight } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import gsap from "gsap";
@@ -200,7 +200,7 @@ export function CommunityBuque() {
       id="comunidad"
       className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0D] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300"
     >
-      {/* Subtle Basketball Court Key Lines Background */}
+      {/* Subtle Court Lines Background */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none opacity-5 dark:opacity-5 flex items-center justify-center"
@@ -210,12 +210,14 @@ export function CommunityBuque() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Header */}
+        {/* Top Header - Editorial, Anti-Slop */}
         <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5A1F]/10 border border-[#FF5A1F]/20 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-4">
-            <Flame className="w-3.5 h-3.5 text-[#FF5A1F]" />
-            SENTIMIENTO Y PERTENENCIA &bull; DESDE LA MADRUGADA
+          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4">
+            <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+            <span>03 &bull; SENTIMIENTO Y PERTENENCIA</span>
+            <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
+
           <h2
             className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
             style={{ fontFamily: "var(--font-title)" }}
@@ -255,11 +257,11 @@ export function CommunityBuque() {
         {/* Founders Spotlight (José & Sergio) */}
         <div className="mb-20 sm:mb-28">
           <div ref={foundersHeaderRef} className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF5A1F]">
-              La Voz y la Pasión
+            <span className="text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#FF5A1F] block mb-2">
+              LA VOZ Y LA PASIÓN
             </span>
             <h3
-              className="text-3xl sm:text-5xl font-black uppercase text-zinc-900 dark:text-white tracking-tight mt-1"
+              className="text-3xl sm:text-5xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
               style={{ fontFamily: "var(--font-title)" }}
             >
               Los Capitanes del Buque
@@ -273,10 +275,10 @@ export function CommunityBuque() {
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
-                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#131315] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/40 transition-all duration-300 shadow-md dark:shadow-2xl flex flex-col justify-between"
+                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#131315] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/40 transition-all duration-300 shadow-sm dark:shadow-xl flex flex-col justify-between"
               >
                 <div className="flex items-start gap-5">
-                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border-2 border-[#FF5A1F]/30 shadow-lg bg-zinc-900">
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-black/10 dark:border-white/10 shadow-md bg-zinc-900">
                     <Image
                       src={founder.avatar}
                       alt={founder.name}
@@ -287,7 +289,7 @@ export function CommunityBuque() {
                   </div>
 
                   <div>
-                    <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-[#FF5A1F] bg-[#FF5A1F]/10 px-2.5 py-1 rounded-full mb-1">
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#FF5A1F] block mb-0.5">
                       {founder.role}
                     </span>
                     <h4
@@ -307,7 +309,7 @@ export function CommunityBuque() {
                 </p>
 
                 <div className="mt-6 pt-5 border-t border-black/5 dark:border-white/5 flex items-start gap-3">
-                  <Quote className="w-5 h-5 text-[#FF5A1F] shrink-0 mt-0.5 opacity-80" />
+                  <Quote className="w-4 h-4 text-[#FF5A1F] shrink-0 mt-0.5 opacity-80" />
                   <p className="text-xs sm:text-sm italic text-zinc-500 dark:text-zinc-400">
                     &ldquo;{founder.quote}&rdquo;
                   </p>
@@ -317,13 +319,12 @@ export function CommunityBuque() {
           </div>
         </div>
 
-        {/* Community Testimonials / Voces de la Comunidad */}
+        {/* Community Voices / Testimonials */}
         <div className="mb-20 sm:mb-28">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5A1F]/10 text-[#FF5A1F] text-xs font-bold uppercase tracking-widest mb-2">
-              <MessageSquare className="w-3.5 h-3.5" />
-              VOCES DE LA TRIPULACIÓN
-            </div>
+            <span className="text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#FF5A1F] block mb-2">
+              HISTORIAS REALES
+            </span>
             <h3
               className="text-3xl sm:text-4xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
               style={{ fontFamily: "var(--font-title)" }}
@@ -331,7 +332,7 @@ export function CommunityBuque() {
               Lo que se vive en el Buque
             </h3>
             <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
-              Historias reales de miembros de la comunidad que comparten esta locura alrededor del globo.
+              Testimonios de miembros que comparten esta pasión alrededor del mundo.
             </p>
           </div>
 
@@ -343,13 +344,11 @@ export function CommunityBuque() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-1 text-[#FF5A1F]">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-[#FF5A1F]" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-zinc-600 dark:text-zinc-300">
+                    <span className="text-xs font-mono font-bold uppercase text-[#FF5A1F]">
                       {test.roleBadge}
+                    </span>
+                    <span className="text-[11px] font-mono text-zinc-400 dark:text-zinc-500">
+                      {test.timeWithUs}
                     </span>
                   </div>
 
@@ -359,16 +358,11 @@ export function CommunityBuque() {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
-                  <div>
-                    <h5 className="text-sm font-bold text-zinc-900 dark:text-white">
-                      {test.author}
-                    </h5>
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                      {test.location}
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-medium text-[#FF5A1F]">
-                    {test.timeWithUs}
+                  <h5 className="text-sm font-bold text-zinc-900 dark:text-white">
+                    {test.author}
+                  </h5>
+                  <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                    {test.location}
                   </span>
                 </div>
               </div>
@@ -387,9 +381,7 @@ export function CommunityBuque() {
           />
 
           <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-[#FF5A1F]/15 border border-[#FF5A1F]/30 flex items-center justify-center text-[#FF5A1F] mb-6">
-              <Quote className="w-6 h-6" />
-            </div>
+            <Quote className="w-8 h-8 text-[#FF5A1F] mb-6 opacity-70" />
 
             <h3
               className="text-2xl sm:text-4xl lg:text-5xl font-black uppercase text-zinc-900 dark:text-white leading-tight mb-6"
@@ -408,12 +400,12 @@ export function CommunityBuque() {
 
             <div className="mt-8 flex flex-col sm:flex-row items-center gap-6">
               <div className="flex items-center gap-3">
-                <div className="relative w-9 h-9 rounded-full overflow-hidden border border-black/10 dark:border-white/20">
+                <div className="relative w-8 h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/20">
                   <Image
                     src="/images/logo.png"
                     alt="Drafteados"
                     fill
-                    sizes="36px"
+                    sizes="32px"
                     className="object-cover"
                   />
                 </div>

@@ -524,12 +524,11 @@ export function HeroCanvasScrub() {
           ref={beat1Ref}
           className="absolute z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-5xl mx-auto w-full pt-16 sm:pt-12 select-none will-change-transform"
         >
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/20 bg-black/60 backdrop-blur-md mb-4 sm:mb-6 shadow-[0_0_20px_rgba(255,90,31,0.2)]">
-            <span className="flex h-2 w-2 rounded-full bg-[#FF5A1F] animate-pulse" />
-            <span className="text-[11px] sm:text-xs font-bold tracking-[0.28em] uppercase text-zinc-200">
-              DESDE 2017 &bull; TU CASA NBA &bull; +880K BUQUES
-            </span>
+          {/* Eyebrow - Pure Editorial Typography */}
+          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4 sm:mb-6 drop-shadow-md">
+            <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+            <span>DESDE 2017 &bull; TU CASA NBA &bull; +880K BUQUES</span>
+            <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
 
           {/* Main Headline */}
