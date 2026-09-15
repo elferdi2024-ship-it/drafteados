@@ -240,7 +240,7 @@ export function CommunityBuque() {
           {COMMUNITY_METRICS.map((metric) => (
             <div
               key={metric.id}
-              className="relative p-8 sm:p-10 rounded-3xl bg-white dark:bg-[#121214] border border-black/8 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col items-center text-center group hover:border-[#FF5A1F]/40 transition-all duration-300 hover:-translate-y-1"
+              className="relative p-8 sm:p-10 rounded-3xl bg-white dark:bg-[#121214] border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group hover:border-[#FF5A1F]/50 transition-all duration-300 hover:-translate-y-1"
             >
               <div
                 className="text-5xl sm:text-6xl lg:text-7xl font-black text-zinc-900 dark:text-white group-hover:text-[#FF5A1F] transition-colors"
@@ -281,7 +281,7 @@ export function CommunityBuque() {
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
-                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#131315] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/40 transition-all duration-300 shadow-sm dark:shadow-xl flex flex-col justify-between"
+                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#131315] border border-black/10 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.05)] dark:shadow-xl flex flex-col justify-between"
               >
                 <div className="flex items-start gap-5">
                   <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-black/10 dark:border-white/10 shadow-md bg-zinc-900">
@@ -346,7 +346,7 @@ export function CommunityBuque() {
             {COMMUNITY_TESTIMONIALS.map((test) => (
               <div
                 key={test.id}
-                className="relative p-7 rounded-3xl bg-white dark:bg-[#121215] border border-black/8 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between hover:border-[#FF5A1F]/30 transition-all duration-300 hover:-translate-y-1"
+                className="relative p-7 rounded-3xl bg-white dark:bg-[#121215] border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col justify-between hover:border-[#FF5A1F]/40 transition-all duration-300 hover:-translate-y-1"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">

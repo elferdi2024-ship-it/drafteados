@@ -128,7 +128,7 @@ export function UniverseSection() {
               <div
                 key={item.id}
                 id={anchorId}
-                className="group relative rounded-3xl p-7 sm:p-10 bg-white dark:bg-[#121214] border border-black/8 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-sm dark:shadow-none hover:shadow-[0_16px_40px_rgba(255,90,31,0.14)] hover:-translate-y-1 scroll-mt-28"
+                className="group relative rounded-3xl p-7 sm:p-10 bg-white dark:bg-[#121214] border border-black/10 dark:border-white/10 hover:border-[#FF5A1F]/60 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.04)] dark:shadow-none hover:shadow-[0_20px_45px_rgba(255,90,31,0.16)] hover:-translate-y-1 scroll-mt-28"
               >
                 {/* Background Card Gradient */}
                 <div

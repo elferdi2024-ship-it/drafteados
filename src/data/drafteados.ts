@@ -59,19 +59,19 @@ export interface CommunityTestimonial {
 export const FOUNDERS: FounderItem[] = [
   {
     name: "José Sáenz de Tejada",
-    role: "Cofundador & Análisis Táctico",
+    role: "Cofundador & La Pizarra de la Madrugada",
     handle: "@josesaenz",
-    bio: "Puro baloncesto de madrugada. Pizarra táctica, scouting exhaustivo y el rigor de quien lleva analizando cada posesión de la NBA desde niño.",
+    bio: "El rigor táctico que no duerme. Lleva desde 2017 desgranando sistemas, bloqueos ciegos y defensas zonales en el salón de casa con una taza de café a las cuatro de la madrugada. Si un rookie hace un corte inteligente en la puerta de atrás, Jose ya tiene el análisis listo.",
     avatar: "/images/jose.jpg",
-    quote: "Esto no es solo un canal. Es el refugio de los que nos quedamos despiertos a las cuatro de la madrugada para ver botar un balón.",
+    quote: "Drafteados es el refugio de los que nos quedamos despiertos a deshoras para ver botar un balón. Aquí no hay postureo: se viene a amar el baloncesto con respeto y criterio.",
   },
   {
     name: "Sergio Andrés Chacón",
-    role: "Cofundador & Debate NBA",
+    role: "Cofundador & El Alma del Buque",
     handle: "@sergioandres",
-    bio: "Narrativa, historia de la liga, el debate más visceral y la conexión inquebrantable con el chat y la familia de los Buques en cada directo.",
+    bio: "La emoción pura, el debate sin filtros y la complicidad directa con el chat. Sergio conecta con cada Buque como si estuviera viendo el partido en el sofá de al lado. Defiende a su gente, sufre con las derrotas y celebra cada canasta agónica con el corazón en la mano.",
     avatar: "/images/sergio.jpg",
-    quote: "Somos Buques navegando juntos. No importa si tu equipo va 10-40 o juega las Finales: aquí siempre tienes sitio en la mesa.",
+    quote: "Subirse al Buque no es suscribirse a un canal: es saber que nunca más vas a ver un partido de la NBA en soledad. En este barco remamos todos juntos, ganen o pierdan.",
   },
 ];
 

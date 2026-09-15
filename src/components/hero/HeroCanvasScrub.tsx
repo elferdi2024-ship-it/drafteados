@@ -141,7 +141,7 @@ export function HeroCanvasScrub() {
     }
   }, [drawFrame]);
 
-  // Frame preloader helper
+  // Frame preloader helper with off-thread asynchronous decoding
   const loadFrame = useCallback(
     (index: number, onDone?: () => void) => {
       if (imagesRef.current[index] || loadingSetRef.current.has(index)) {
@@ -152,15 +152,37 @@ export function HeroCanvasScrub() {
 
       const img = new window.Image();
       img.onload = () => {
-        loadingSetRef.current.delete(index);
-        imagesRef.current[index] = img;
-        if (index === 0) {
-          setFirstFrameLoaded(true);
-          if (currentDrawnIndexRef.current < 0) {
-            drawFrame(0);
+        // Decode off main-thread to eliminate scrolling hitch
+        if ("decode" in img) {
+          img
+            .decode()
+            .then(() => {
+              loadingSetRef.current.delete(index);
+              imagesRef.current[index] = img;
+              if (index === 0) {
+                setFirstFrameLoaded(true);
+                if (currentDrawnIndexRef.current < 0) {
+                  drawFrame(0);
+                }
+              }
+              onDone?.();
+            })
+            .catch(() => {
+              loadingSetRef.current.delete(index);
+              imagesRef.current[index] = img;
+              onDone?.();
+            });
+        } else {
+          loadingSetRef.current.delete(index);
+          imagesRef.current[index] = img;
+          if (index === 0) {
+            setFirstFrameLoaded(true);
+            if (currentDrawnIndexRef.current < 0) {
+              drawFrame(0);
+            }
           }
+          onDone?.();
         }
-        onDone?.();
       };
       img.onerror = () => {
         loadingSetRef.current.delete(index);
@@ -171,12 +193,12 @@ export function HeroCanvasScrub() {
     [drawFrame]
   );
 
-  // Priority window preloading around active frame (+18 / -8 frames)
+  // Priority window preloading around active frame (+20 / -6 frames)
   const preloadAhead = useCallback(
     (currentIdx: number) => {
       if (hasExitedHeroRef.current) return;
-      const start = Math.max(0, currentIdx - 8);
-      const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 18);
+      const start = Math.max(0, currentIdx - 6);
+      const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 20);
       for (let i = start; i <= end; i++) {
         if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
           loadFrame(i);
@@ -186,25 +208,24 @@ export function HeroCanvasScrub() {
     [loadFrame]
   );
 
-  // Tiered Preloader Engine (Skeleton -> Background Fill)
+  // Continuous Sequential Preloader (Eliminates frame gap stutter)
   const startTieredPreload = useCallback(() => {
+    // 1. First frame immediate
     loadFrame(0, () => {
-      const skeleton: number[] = [];
-      for (let i = 5; i < TOTAL_FRAMES; i += 5) {
-        skeleton.push(i);
-      }
-      if (!skeleton.includes(TOTAL_FRAMES - 1)) {
-        skeleton.push(TOTAL_FRAMES - 1);
+      // 2. Load continuous sequence 0..239 in high-concurrency stream
+      const queue: number[] = [];
+      for (let i = 1; i < TOTAL_FRAMES; i++) {
+        queue.push(i);
       }
 
-      let skeletonIndex = 0;
-      const concurrency = 6;
+      let qIdx = 0;
+      const concurrency = 8;
       let activeWorkers = 0;
 
       const runWorker = () => {
         if (hasExitedHeroRef.current) return;
-        while (activeWorkers < concurrency && skeletonIndex < skeleton.length) {
-          const idx = skeleton[skeletonIndex++];
+        while (activeWorkers < concurrency && qIdx < queue.length) {
+          const idx = queue[qIdx++];
           if (imagesRef.current[idx]) continue;
           activeWorkers++;
           loadFrame(idx, () => {
@@ -212,39 +233,6 @@ export function HeroCanvasScrub() {
             runWorker();
           });
         }
-
-        if (skeletonIndex >= skeleton.length && activeWorkers === 0) {
-          fillRemainingFrames();
-        }
-      };
-
-      const fillRemainingFrames = () => {
-        if (hasExitedHeroRef.current) return;
-        const remaining: number[] = [];
-        for (let i = 0; i < TOTAL_FRAMES; i++) {
-          if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
-            remaining.push(i);
-          }
-        }
-
-        let remIdx = 0;
-        const bgConcurrency = 4;
-        let bgActive = 0;
-
-        const runBgWorker = () => {
-          if (hasExitedHeroRef.current) return;
-          while (bgActive < bgConcurrency && remIdx < remaining.length) {
-            const idx = remaining[remIdx++];
-            if (imagesRef.current[idx]) continue;
-            bgActive++;
-            loadFrame(idx, () => {
-              bgActive--;
-              runBgWorker();
-            });
-          }
-        };
-
-        runBgWorker();
       };
 
       runWorker();
@@ -345,9 +333,9 @@ export function HeroCanvasScrub() {
           if (absDiff < 0.00008) {
             currentProgressRef.current = targetProgressRef.current;
           } else {
-            // LERP_FACTOR: 0.16 on desktop (in optimal 0.14 - 0.18 range) / 0.24 on mobile
-            const baseFactor = isMobileDevice ? 0.24 : 0.16;
-            const velocityBoost = Math.min(0.22, absDiff * 0.55);
+            // LERP_FACTOR: 0.15 on desktop (sweet spot in 0.14 - 0.18) / 0.22 on mobile
+            const baseFactor = isMobileDevice ? 0.22 : 0.15;
+            const velocityBoost = Math.min(0.2, absDiff * 0.5);
             const factor = baseFactor + velocityBoost;
 
             currentProgressRef.current += diff * factor;
