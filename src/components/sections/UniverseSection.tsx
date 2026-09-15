@@ -89,11 +89,31 @@ export function UniverseSection() {
       id="universo"
       className="relative z-20 py-24 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
     >
-      {/* Subtle ambient lighting */}
+      {/* Dynamic Background System */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#FF5A1F]/8 blur-[160px] pointer-events-none rounded-full"
-      />
+        className="absolute inset-0 pointer-events-none overflow-hidden select-none"
+      >
+        {/* Coordinate blueprint grid */}
+        <div className="absolute inset-0 opacity-40 dark:opacity-20 [background-image:linear-gradient(to_right,rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.05)_1px,transparent_1px)] dark:[background-image:linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black_40%,transparent_100%)]" />
+
+        {/* Tactical Dot Matrix */}
+        <div className="absolute inset-0 opacity-35 dark:opacity-25 [background-image:radial-gradient(rgba(0,0,0,0.12)_1px,transparent_1px)] dark:[background-image:radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,black_30%,transparent_100%)]" />
+
+        {/* Ambient Stadium Glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-[#FF5A1F]/10 blur-[180px] rounded-full" />
+        <div className="absolute -bottom-20 left-10 w-[450px] h-[450px] bg-[#38BDF8]/5 blur-[160px] rounded-full" />
+
+        {/* Giant Watermark Typography */}
+        <div className="absolute top-1/3 left-0 right-0 overflow-hidden opacity-[0.03] dark:opacity-[0.04] text-center">
+          <span
+            className="text-[140px] sm:text-[220px] font-black uppercase text-black dark:text-white whitespace-nowrap block"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
+            ECOSISTEMA &bull; TRIPULACIÓN
+          </span>
+        </div>
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header - Editorial, Anti-Slop */}

@@ -40,12 +40,15 @@ export interface CommunityMetric {
 }
 
 export interface FounderItem {
+  number: string;
   name: string;
   role: string;
+  tagline: string;
   handle: string;
   bio: string;
   avatar: string;
   quote: string;
+  specialties: string[];
 }
 
 export interface CommunityTestimonial {
@@ -59,20 +62,26 @@ export interface CommunityTestimonial {
 
 export const FOUNDERS: FounderItem[] = [
   {
+    number: "01",
     name: "José Sáenz de Tejada",
     role: "Cofundador & La Pizarra de la Madrugada",
+    tagline: "Pizarra & Rigor Táctico",
     handle: "@josesaenz",
     bio: "El rigor táctico que no duerme. Lleva desde 2017 desgranando sistemas, bloqueos ciegos y defensas zonales en el salón de casa con una taza de café a las cuatro de la madrugada. Si un rookie hace un corte inteligente en la puerta de atrás, Jose ya tiene el análisis listo.",
     avatar: "/images/jose.jpg",
     quote: "Drafteados es el refugio de los que nos quedamos despiertos a deshoras para ver botar un balón. Aquí no hay postureo: se viene a amar el baloncesto con respeto y criterio.",
+    specialties: ["Sistemas & Playbooks", "Scouting NBA Draft", "Pizarra Táctica", "Análisis Avanzado"],
   },
   {
+    number: "02",
     name: "Sergio Andrés Chacón",
     role: "Cofundador & El Alma del Buque",
+    tagline: "Voz & Conexión Directa",
     handle: "@sergioandres",
     bio: "La emoción pura, el debate sin filtros y la complicidad directa con el chat. Sergio conecta con cada Buque como si estuviera viendo el partido en el sofá de al lado. Defiende a su gente, sufre con las derrotas y celebra cada canasta agónica con el corazón en la mano.",
     avatar: "/images/sergio.jpg",
     quote: "Subirse al Buque no es suscribirse a un canal: es saber que nunca más vas a ver un partido de la NBA en soledad. En este barco remamos todos juntos, ganen o pierdan.",
+    specialties: ["Directos en Pista", "Debates Calientes", "Voz de la Comunidad", "Cultura Urbana"],
   },
 ];
 

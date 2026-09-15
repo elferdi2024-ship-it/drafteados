@@ -125,8 +125,8 @@ export function CommunityBuque() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: foundersHeaderRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
+              start: "top 90%",
+              once: true,
             },
           }
         );
@@ -137,18 +137,18 @@ export function CommunityBuque() {
       if (founders && founders.length > 0) {
         gsap.fromTo(
           founders,
-          { opacity: 0, y: 40, scale: 0.98 },
+          { opacity: 0, y: 35, scale: 0.98 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1.05,
-            stagger: 0.12,
+            duration: 0.9,
+            stagger: 0.15,
             ease: "power3.out",
             scrollTrigger: {
               trigger: foundersGridRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
+              start: "top 90%",
+              once: true,
             },
           }
         );
@@ -206,13 +206,99 @@ export function CommunityBuque() {
       id="comunidad"
       className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0D] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300 content-auto"
     >
-      {/* Subtle Court Lines Background */}
+      {/* Dynamic Tactical Basketball Chalkboard Background */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-5 dark:opacity-5 flex items-center justify-center"
+        className="absolute inset-0 pointer-events-none overflow-hidden select-none"
       >
-        <div className="w-[600px] h-[600px] rounded-full border-[12px] border-black dark:border-white" />
-        <div className="absolute w-[850px] h-[2px] bg-black dark:bg-white" />
+        {/* Coordinate blueprint grid */}
+        <div className="absolute inset-0 opacity-40 dark:opacity-20 [background-image:linear-gradient(to_right,rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.05)_1px,transparent_1px)] dark:[background-image:linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,black_40%,transparent_100%)]" />
+
+        {/* Tactical Dot Matrix */}
+        <div className="absolute inset-0 opacity-35 dark:opacity-25 [background-image:radial-gradient(rgba(0,0,0,0.12)_1px,transparent_1px)] dark:[background-image:radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,black_30%,transparent_100%)]" />
+
+        {/* Ambient Stadium Glows */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[600px] bg-[#FF5A1F]/10 blur-[180px] rounded-full" />
+        <div className="absolute bottom-1/4 right-10 w-[450px] h-[450px] bg-amber-500/5 blur-[160px] rounded-full" />
+
+        {/* Giant Watermark Typography */}
+        <div className="absolute top-[28%] left-0 right-0 overflow-hidden opacity-[0.03] dark:opacity-[0.04] text-center">
+          <span
+            className="text-[140px] sm:text-[220px] font-black uppercase text-black dark:text-white whitespace-nowrap block"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
+            LA PIZARRA &bull; SOMOS BUQUES
+          </span>
+        </div>
+
+        {/* Authentic SVG Basketball Court Tactical Blackboard */}
+        <svg
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[900px] opacity-10 dark:opacity-15 text-zinc-900 dark:text-white pointer-events-none"
+          viewBox="0 0 1200 900"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Half court boundary */}
+          <rect x="100" y="50" width="1000" height="800" rx="16" stroke="currentColor" strokeWidth="2.5" />
+          
+          {/* Center jump circle & half-court division line */}
+          <line x1="100" y1="450" x2="1100" y2="450" stroke="currentColor" strokeWidth="2" strokeDasharray="6 6" />
+          <circle cx="600" cy="450" r="120" stroke="currentColor" strokeWidth="2" />
+          <circle cx="600" cy="450" r="40" stroke="currentColor" strokeWidth="1.5" />
+
+          {/* Three-Point Arc */}
+          <path
+            d="M 280 50 L 280 200 A 350 350 0 0 0 920 200 L 920 50"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          />
+
+          {/* Key / Paint Lane */}
+          <rect x="440" y="50" width="320" height="380" stroke="currentColor" strokeWidth="2" />
+          {/* Free Throw Circle */}
+          <circle cx="600" cy="430" r="110" stroke="currentColor" strokeWidth="2" />
+          <circle cx="600" cy="430" r="110" stroke="currentColor" strokeWidth="2" strokeDasharray="8 8" />
+          {/* Backboard & Hoop */}
+          <line x1="530" y1="110" x2="670" y2="110" stroke="currentColor" strokeWidth="4" />
+          <circle cx="600" cy="135" r="28" stroke="currentColor" strokeWidth="2.5" />
+
+          {/* Key / Lane hash marks */}
+          <line x1="420" y1="200" x2="440" y2="200" stroke="currentColor" strokeWidth="2" />
+          <line x1="420" y1="260" x2="440" y2="260" stroke="currentColor" strokeWidth="2" />
+          <line x1="420" y1="320" x2="440" y2="320" stroke="currentColor" strokeWidth="2" />
+          <line x1="760" y1="200" x2="780" y2="200" stroke="currentColor" strokeWidth="2" />
+          <line x1="760" y1="260" x2="780" y2="260" stroke="currentColor" strokeWidth="2" />
+          <line x1="760" y1="320" x2="780" y2="320" stroke="currentColor" strokeWidth="2" />
+
+          {/* Tactical Play Diagram (Pick & Roll + Backdoor Cut chalkboard markings) */}
+          <defs>
+            <marker id="chalk-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 8 5 L 0 9 z" fill="currentColor" />
+            </marker>
+          </defs>
+          <path
+            d="M 360 280 Q 420 180 540 180"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeDasharray="6 5"
+            markerEnd="url(#chalk-arrow)"
+          />
+          <line x1="510" y1="240" x2="550" y2="240" stroke="currentColor" strokeWidth="3" />
+          <line x1="530" y1="240" x2="530" y2="270" stroke="currentColor" strokeWidth="2" />
+          <path
+            d="M 680 320 Q 640 220 620 170"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeDasharray="6 5"
+            markerEnd="url(#chalk-arrow)"
+          />
+          <circle cx="350" cy="290" r="16" stroke="currentColor" strokeWidth="2" />
+          <text x="350" y="295" textAnchor="middle" fill="currentColor" fontSize="13" fontFamily="monospace" fontWeight="bold">1</text>
+          <circle cx="690" cy="330" r="16" stroke="currentColor" strokeWidth="2" />
+          <text x="690" y="335" textAnchor="middle" fill="currentColor" fontSize="13" fontFamily="monospace" fontWeight="bold">2</text>
+          <circle cx="530" cy="285" r="16" stroke="currentColor" strokeWidth="2" />
+          <text x="530" y="290" textAnchor="middle" fill="currentColor" fontSize="13" fontFamily="monospace" fontWeight="bold">5</text>
+        </svg>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,7 +326,7 @@ export function CommunityBuque() {
           {COMMUNITY_METRICS.map((metric) => (
             <div
               key={metric.id}
-              className="relative p-8 sm:p-10 rounded-3xl bg-white dark:bg-[#121214] border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group hover:border-[#FF5A1F]/50 transition-all duration-300 hover:-translate-y-1"
+              className="relative p-8 sm:p-10 rounded-3xl bg-white/90 dark:bg-[#121214]/90 backdrop-blur-sm border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.04)] dark:shadow-none flex flex-col items-center text-center group hover:border-[#FF5A1F]/50 transition-all duration-300 hover:-translate-y-1"
             >
               <div
                 className="text-5xl sm:text-6xl lg:text-7xl font-black text-zinc-900 dark:text-white group-hover:text-[#FF5A1F] transition-colors"
@@ -261,64 +347,107 @@ export function CommunityBuque() {
         </div>
 
         {/* Founders Spotlight (José & Sergio) */}
-        <div className="mb-20 sm:mb-28">
-          <div ref={foundersHeaderRef} className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#FF5A1F] block mb-2">
-              LA VOZ Y LA PASIÓN
-            </span>
+        <div className="mb-24 sm:mb-36">
+          <div ref={foundersHeaderRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-16">
+            <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-3">
+              <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+              <span>LOS CAPITANES DEL BUQUE</span>
+              <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+            </div>
             <h3
-              className="text-3xl sm:text-5xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
+              className="text-4xl sm:text-6xl font-black uppercase text-zinc-900 dark:text-white tracking-tight"
               style={{ fontFamily: "var(--font-title)" }}
             >
-              Los Capitanes del Buque
+              La Voz y La Pizarra
             </h3>
-            <p className="mt-2 text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
-              Dos amigos que unieron su amor por la NBA para construir la mayor comunidad de baloncesto en español del planeta.
+            <p className="mt-3 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
+              Dos amigos que unieron el rigor analítico de la madrugada y la emoción compartida para construir la mayor casa de baloncesto en español.
             </p>
           </div>
 
-          <div ref={foundersGridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div ref={foundersGridRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
             {FOUNDERS.map((founder) => (
               <div
                 key={founder.name}
-                className="group relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[#131315] border border-black/10 dark:border-white/10 hover:border-[#FF5A1F]/50 transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.05)] dark:shadow-xl flex flex-col justify-between"
+                className="group relative rounded-3xl p-6 sm:p-8 lg:p-9 bg-white/90 dark:bg-[#121215]/90 backdrop-blur-md border border-black/10 dark:border-white/10 hover:border-[#FF5A1F]/60 transition-all duration-500 shadow-[0_10px_35px_rgba(0,0,0,0.05)] dark:shadow-2xl hover:shadow-[0_25px_60px_rgba(255,90,31,0.18)] hover:-translate-y-1.5 flex flex-col justify-between"
               >
-                <div className="flex items-start gap-5">
-                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-black/10 dark:border-white/10 shadow-md bg-zinc-900">
+                {/* Ambient Card Background Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#FF5A1F]/5 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl" />
+
+                <div className="relative z-10">
+                  {/* High-Impact Portrait Showcase */}
+                  <div className="relative w-full h-80 sm:h-[420px] rounded-2xl overflow-hidden mb-7 bg-zinc-950 border border-black/5 dark:border-white/10 shadow-lg">
                     <Image
                       src={founder.avatar}
                       alt={founder.name}
                       fill
-                      sizes="96px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover object-top sm:object-center transition-transform duration-700 ease-out group-hover:scale-105"
                     />
+
+                    {/* Dark gradient vignette for seamless integration */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none" />
+
+                    {/* Top Broadcast Graphic Overlays */}
+                    <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 pointer-events-none">
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/15 text-[11px] font-mono font-bold tracking-wider text-white uppercase shadow-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] animate-pulse" />
+                        <span>{founder.tagline}</span>
+                      </div>
+                      <div className="px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-[11px] font-mono font-medium text-zinc-300">
+                        <span>{founder.handle}</span>
+                      </div>
+                    </div>
+
+                    {/* Bottom Cinematic Title Overlay */}
+                    <div className="absolute bottom-5 left-5 right-5 pointer-events-none">
+                      <div className="flex items-end justify-between gap-4">
+                        <div>
+                          <span className="text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-[#FF5A1F] block mb-1">
+                            {founder.role}
+                          </span>
+                          <h4
+                            className="text-3xl sm:text-4xl lg:text-5xl font-black text-white uppercase tracking-tight leading-none"
+                            style={{ fontFamily: "var(--font-title)" }}
+                          >
+                            {founder.name}
+                          </h4>
+                        </div>
+                        <span
+                          className="text-5xl sm:text-6xl font-black text-white/15 select-none leading-none shrink-0"
+                          style={{ fontFamily: "var(--font-title)" }}
+                        >
+                          {founder.number}
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#FF5A1F] block mb-0.5">
-                      {founder.role}
-                    </span>
-                    <h4
-                      className="text-2xl sm:text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-tight"
-                      style={{ fontFamily: "var(--font-title)" }}
-                    >
-                      {founder.name}
-                    </h4>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 font-mono mt-0.5">
-                      {founder.handle}
-                    </p>
+                  {/* Tactical Specialty Badges */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {founder.specialties.map((spec) => (
+                      <span
+                        key={spec}
+                        className="px-2.5 py-1 rounded-md bg-black/[0.04] dark:bg-white/[0.05] border border-black/8 dark:border-white/10 text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider"
+                      >
+                        {spec}
+                      </span>
+                    ))}
                   </div>
+
+                  {/* Biography Story */}
+                  <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
+                    {founder.bio}
+                  </p>
                 </div>
 
-                <p className="mt-6 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
-                  {founder.bio}
-                </p>
-
-                <div className="mt-6 pt-5 border-t border-black/5 dark:border-white/5 flex items-start gap-3">
-                  <Quote className="w-4 h-4 text-[#FF5A1F] shrink-0 mt-0.5 opacity-80" />
-                  <p className="text-xs sm:text-sm italic text-zinc-500 dark:text-zinc-400">
-                    &ldquo;{founder.quote}&rdquo;
-                  </p>
+                {/* Highlight Signature Quote Card */}
+                <div className="relative z-10 mt-6 pt-4 border-t border-black/5 dark:border-white/8">
+                  <div className="border-l-2 border-[#FF5A1F] pl-4 py-1.5 bg-[#FF5A1F]/5 dark:bg-[#FF5A1F]/10 rounded-r-xl">
+                    <p className="text-xs sm:text-sm italic font-medium text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                      &ldquo;{founder.quote}&rdquo;
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
