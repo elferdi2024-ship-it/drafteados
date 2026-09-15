@@ -27,6 +27,7 @@ export interface UniverseItem {
   stats?: string;
   accentColor: string;
   external?: boolean;
+  image: string;
 }
 
 export interface CommunityMetric {
@@ -183,21 +184,7 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
     stats: "100% Algodón orgánico premium • Envíos globales",
     accentColor: "#FF5A1F",
     external: true,
-  },
-  {
-    id: "viajes-usa",
-    title: "Viajes NBA a EE.UU.",
-    badge: "Experiencia a Pie de Pista",
-    statusBadge: "PLAZAS 2026",
-    description: "El viaje de tu vida en Nueva York, Los Ángeles y Boston con José, Sergio y el equipo de Drafteados. Asientos VIP, accesos exclusivos y backstage.",
-    ctaText: "Ver Próxima Expedición",
-    ctaLink: "https://tripdouble.com/es/drafteados/",
-    tag: "TripDouble x Drafteados",
-    gradient: "from-blue-600/20 via-cyan-600/5 to-transparent",
-    iconName: "Plane",
-    stats: "+500 Buques han vivido la NBA con nosotros",
-    accentColor: "#38BDF8",
-    external: true,
+    image: "/images/BUQUES CLUB.png",
   },
   {
     id: "podcast-3mas1",
@@ -213,21 +200,23 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
     stats: "Top 5 Podcast Deportivo en España",
     accentColor: "#10B981",
     external: true,
+    image: "/images/TRES+UNO.png",
   },
   {
-    id: "campus-eventos",
-    title: "Eventos & Directos",
-    badge: "Cancha & Comunidad",
-    statusBadge: "PRÓXIMO EN VIVO",
-    description: "Quedadas masivas en canchas urbanas, directos especiales durante el Draft y la noche del Trade Deadline con la comunidad más encendida.",
-    ctaText: "Unirme a la Tripulación",
-    ctaLink: "https://www.youtube.com/@DrafteadosNBA",
-    tag: "Noches de Draft & Finales",
-    gradient: "from-purple-600/20 via-indigo-600/5 to-transparent",
-    iconName: "Trophy",
-    stats: "+1.500 Buques reunidos en eventos presenciales",
-    accentColor: "#A855F7",
+    id: "viajes-usa",
+    title: "Viajes NBA a EE.UU.",
+    badge: "Experiencia a Pie de Pista",
+    statusBadge: "PLAZAS 2026",
+    description: "El viaje de tu vida en Nueva York, Los Ángeles y Boston con José, Sergio y el equipo de Drafteados. Asientos VIP, accesos exclusivos y backstage.",
+    ctaText: "Ver Próxima Expedición",
+    ctaLink: "https://tripdouble.com/es/drafteados/",
+    tag: "TripDouble x Drafteados",
+    gradient: "from-blue-600/20 via-cyan-600/5 to-transparent",
+    iconName: "Plane",
+    stats: "+500 Buques han vivido la NBA con nosotros",
+    accentColor: "#38BDF8",
     external: true,
+    image: "/images/VIAJES.png",
   },
 ];
 

@@ -2,7 +2,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { UNIVERSE_ITEMS, UniverseItem } from "@/data/drafteados";
+import Image from "next/image";
+import { UNIVERSE_ITEMS } from "@/data/drafteados";
 import {
   ShoppingBag,
   Plane,
@@ -67,7 +68,7 @@ export function UniverseSection() {
             y: 0,
             scale: 1,
             duration: 1.05,
-            stagger: 0.1,
+            stagger: 0.12,
             ease: "power3.out",
             scrollTrigger: {
               trigger: cardsRef.current,
@@ -110,12 +111,12 @@ export function UniverseSection() {
             El Universo Drafteados
           </h2>
           <p className="mt-4 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
-            De un canal de YouTube a un movimiento cultural de baloncesto. Cuatro proyectos creados desde la pasión para vivir la NBA en todas sus dimensiones.
+            De un canal de YouTube a un movimiento cultural de baloncesto. Tres grandes proyectos creados desde la pasión para vivir la NBA en todas sus dimensiones.
           </p>
         </div>
 
-        {/* 2x2 Interactive Universe Cards - Spacious, Clean Typography */}
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {/* 3-Pillar Universe Cards Grid */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {UNIVERSE_ITEMS.map((item) => {
             const Icon = iconMap[item.iconName];
             const anchorId =
@@ -125,21 +126,64 @@ export function UniverseSection() {
                 ? "viajes"
                 : item.id;
             return (
-              <div
+              <a
                 key={item.id}
                 id={anchorId}
-                className="group relative rounded-3xl p-7 sm:p-10 bg-white dark:bg-[#121214] border border-black/10 dark:border-white/10 hover:border-[#FF5A1F]/60 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.04)] dark:shadow-none hover:shadow-[0_20px_45px_rgba(255,90,31,0.16)] hover:-translate-y-1 scroll-mt-28"
+                href={item.ctaLink}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+                className="group relative rounded-3xl p-6 sm:p-7 bg-white dark:bg-[#121214] border border-black/10 dark:border-white/10 hover:border-[#FF5A1F]/60 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-[0_4px_25px_rgba(0,0,0,0.04)] dark:shadow-none hover:shadow-[0_20px_45px_rgba(255,90,31,0.16)] hover:-translate-y-1.5 scroll-mt-28 focus:outline-none"
               >
                 {/* Background Card Gradient */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-15 dark:opacity-30 group-hover:opacity-50 dark:group-hover:opacity-80 transition-opacity duration-500 pointer-events-none`}
                 />
 
-                {/* Card Top Section */}
+                {/* Card Top & Visual */}
                 <div className="relative z-10">
-                  {/* Clean Meta Bar: Kicker on left, Arrow action on right */}
-                  <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-black/5 dark:border-white/8">
-                    <div className="flex items-center gap-2.5 text-xs font-mono font-bold tracking-wider text-[#FF5A1F] uppercase">
+                  {/* Clean Visual Media Showcase Frame */}
+                  <div className="relative w-full h-52 sm:h-56 rounded-2xl overflow-hidden mb-6 bg-zinc-100/80 dark:bg-zinc-900/80 border border-black/5 dark:border-white/10 flex items-center justify-center group-hover:border-[#FF5A1F]/30 transition-colors">
+                    {item.id === "viajes-usa" ? (
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none" />
+                      </div>
+                    ) : item.id === "buques-club" ? (
+                      <div className="relative w-full h-full flex items-center justify-center p-6 bg-gradient-to-b from-[#FF5A1F]/10 via-[#FF5A1F]/5 to-transparent dark:from-[#FF5A1F]/15 dark:to-transparent">
+                        <div className="relative w-36 h-36 sm:w-40 sm:h-40 transition-transform duration-500 group-hover:scale-110">
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            sizes="200px"
+                            className="object-contain drop-shadow-[0_12px_24px_rgba(255,90,31,0.25)]"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative w-full h-full flex items-center justify-center p-6 bg-gradient-to-b from-zinc-200/50 via-zinc-100/50 to-transparent dark:from-zinc-800/40 dark:via-zinc-900/60 dark:to-zinc-950">
+                        <div className="relative w-40 h-40 sm:w-44 sm:h-44 transition-transform duration-500 group-hover:scale-110">
+                          <Image
+                            src={item.image}
+                            alt={item.title}
+                            fill
+                            sizes="220px"
+                            className="object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)]"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Clean Meta Bar: Kicker on left, Arrow indicator on right */}
+                  <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-black/5 dark:border-white/8">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-wider text-[#FF5A1F] uppercase">
                       <Icon className="w-4 h-4 text-[#FF5A1F] shrink-0" />
                       <span>{item.badge}</span>
                       <span className="text-zinc-300 dark:text-zinc-700">&bull;</span>
@@ -148,48 +192,40 @@ export function UniverseSection() {
                       </span>
                     </div>
 
-                    <a
-                      href={item.ctaLink}
-                      target={item.external ? "_blank" : undefined}
-                      rel={item.external ? "noopener noreferrer" : undefined}
-                      className="w-8 h-8 rounded-full border border-black/10 dark:border-white/15 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:text-white group-hover:bg-[#FF5A1F] group-hover:border-[#FF5A1F] transition-all cursor-pointer shrink-0"
-                      aria-label={`Ir a ${item.title}`}
+                    <span
+                      className="w-8 h-8 rounded-full border border-black/10 dark:border-white/15 flex items-center justify-center text-zinc-600 dark:text-zinc-400 group-hover:text-white group-hover:bg-[#FF5A1F] group-hover:border-[#FF5A1F] transition-all shrink-0"
+                      aria-hidden="true"
                     >
                       <ArrowUpRight className="w-4 h-4" />
-                    </a>
+                    </span>
                   </div>
 
                   {/* Title */}
                   <h3
-                    className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-none group-hover:text-[#FF5A1F] transition-colors"
+                    className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-none group-hover:text-[#FF5A1F] transition-colors"
                     style={{ fontFamily: "var(--font-title)" }}
                   >
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="mt-4 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
+                  <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
                     {item.description}
                   </p>
                 </div>
 
                 {/* Card Bottom Section */}
-                <div className="relative z-10 mt-8 pt-5 border-t border-black/5 dark:border-white/8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="relative z-10 mt-6 pt-5 border-t border-black/5 dark:border-white/8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
                     {item.stats}
                   </span>
 
-                  <a
-                    href={item.ctaLink}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noopener noreferrer" : undefined}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-white hover:text-[#FF5A1F] transition-colors py-1 cursor-pointer"
-                  >
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-white group-hover:text-[#FF5A1F] transition-colors">
                     <span>{item.ctaText}</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-[#FF5A1F]" />
-                  </a>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-[#FF5A1F] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
