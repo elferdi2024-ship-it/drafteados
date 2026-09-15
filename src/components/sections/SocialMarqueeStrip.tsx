@@ -4,7 +4,7 @@
 import React from "react";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { YoutubeIcon, SpotifyIcon, InstagramIcon, TwitterXIcon } from "@/components/ui/Icons";
-import { ShoppingBag, Plane, ExternalLink, Flame } from "lucide-react";
+import { ShoppingBag, Plane, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SocialChannel {
@@ -99,8 +99,8 @@ export function SocialMarqueeStrip({ className }: { className?: string }) {
                   <span className="text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-white group-hover:text-[#FF5A1F] transition-colors">
                     {channel.name}
                   </span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#FF5A1F]/10 text-[#FF5A1F]">
-                    {channel.badge}
+                  <span className="text-[10px] font-mono font-bold tracking-wider text-[#FF5A1F] uppercase">
+                    &bull; {channel.badge}
                   </span>
                 </div>
                 <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">
