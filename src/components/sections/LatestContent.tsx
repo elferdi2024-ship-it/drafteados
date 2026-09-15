@@ -3,9 +3,10 @@
 
 import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
-import { Play, Clock, ArrowUpRight, ChevronLeft, ChevronRight, Flame, Sparkles } from "lucide-react";
+import { Play, Clock, ArrowUpRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import { LATEST_VIDEOS, VideoItem } from "@/data/drafteados";
+import { getLatestVideos } from "@/lib/youtube";
 import { formatViews } from "@/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -21,6 +22,7 @@ export function LatestContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
+  const [videos, setVideos] = useState<VideoItem[]>(LATEST_VIDEOS);
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -30,32 +32,48 @@ export function LatestContent() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const filteredVideos = useMemo(() => {
-    if (selectedCategory === "Todos") return LATEST_VIDEOS;
-    return LATEST_VIDEOS.filter((v) => v.category === selectedCategory);
-  }, [selectedCategory]);
+  // Fetch from YouTube service on mount (uses API if configured, fallback otherwise)
+  useEffect(() => {
+    let isMounted = true;
+    getLatestVideos(12).then((res) => {
+      if (isMounted && res.videos.length > 0) {
+        setVideos(res.videos);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
-  // GSAP Entrance Transition from Hero: y: 70 -> 0, opacity: 0 -> 1, power3.out
+  const filteredVideos = useMemo(() => {
+    if (selectedCategory === "Todos") return videos;
+    return videos.filter((v) => v.category === selectedCategory);
+  }, [selectedCategory, videos]);
+
+  // Consistent GSAP Entrance Transition from Hero
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
+    if (!section || !containerRef.current) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      gsap.from(containerRef.current, {
-        scrollTrigger: {
-          trigger: section,
-          start: "top 85%",
-          end: "top 45%",
-          toggleActions: "play none none reverse",
-        },
-        y: 60,
-        opacity: 0,
-        duration: 1.0,
-        ease: "power3.out",
-      });
+      gsap.fromTo(
+        containerRef.current,
+        { y: 50, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+          y: 0,
+          opacity: 1,
+          duration: 1.05,
+          ease: "power3.out",
+        }
+      );
     }, section);
 
     return () => ctx.revert();
@@ -141,7 +159,7 @@ export function LatestContent() {
     <section
       id="contenidos"
       ref={sectionRef}
-      className="relative z-20 py-20 sm:py-28 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white"
+      className="relative z-20 py-20 sm:py-28 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white content-auto"
     >
       {/* Decorative Brand Text Backdrop */}
       <div
@@ -213,7 +231,7 @@ export function LatestContent() {
           </div>
         </div>
 
-        {/* Category Filters Pill Bar */}
+        {/* Category Filters Bar */}
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-4 mb-3">
           {CATEGORIES.map((cat) => (
             <button

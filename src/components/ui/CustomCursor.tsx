@@ -18,9 +18,10 @@ export function CustomCursor() {
   useEffect(() => {
     // Enable only for desktop fine-pointer devices
     const mediaQuery = window.matchMedia("(pointer: fine)");
-    setIsPointerDevice(mediaQuery.matches);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setIsPointerDevice(mediaQuery.matches && !reducedMotion);
 
-    if (!mediaQuery.matches) return;
+    if (!mediaQuery.matches || reducedMotion) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);

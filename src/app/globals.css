@@ -149,6 +149,12 @@ html.lenis body {
   box-shadow: 0 0 50px -10px rgba(255, 90, 31, 0.5);
 }
 
+/* Layout Performance */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 850px;
+}
+
 /* Accessibility: respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,

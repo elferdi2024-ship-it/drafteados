@@ -11,12 +11,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const TOTAL_FRAMES = 240;
-const FRAME_DIR = "/frames/";
 const FRAME_PAD = 4;
+const FRAME_VERSION = process.env.NEXT_PUBLIC_FRAME_VERSION || "";
 
-function getFrameUrl(index: number): string {
+function getFrameUrl(index: number, version = FRAME_VERSION): string {
   const frameNumber = String(index + 1).padStart(FRAME_PAD, "0");
-  return `${FRAME_DIR}frame_${frameNumber}.jpg`;
+  const basePath = version ? `/frames/${version}/` : "/frames/";
+  return `${basePath}frame_${frameNumber}.jpg`;
 }
 
 export function HeroCanvasScrub() {
@@ -39,6 +40,8 @@ export function HeroCanvasScrub() {
   const currentProgressRef = useRef(0);
   const isRunningRef = useRef(false);
   const isVisibleRef = useRef(true);
+  const rafIdRef = useRef<number | null>(null);
+  const hasExitedHeroRef = useRef(false);
 
   // Device & Motion Detection
   useEffect(() => {
@@ -171,6 +174,7 @@ export function HeroCanvasScrub() {
   // Priority window preloading around active frame (+18 / -8 frames)
   const preloadAhead = useCallback(
     (currentIdx: number) => {
+      if (hasExitedHeroRef.current) return;
       const start = Math.max(0, currentIdx - 8);
       const end = Math.min(TOTAL_FRAMES - 1, currentIdx + 18);
       for (let i = start; i <= end; i++) {
@@ -182,7 +186,7 @@ export function HeroCanvasScrub() {
     [loadFrame]
   );
 
-  // Tiered Preloader Engine
+  // Tiered Preloader Engine (Skeleton -> Background Fill)
   const startTieredPreload = useCallback(() => {
     loadFrame(0, () => {
       const skeleton: number[] = [];
@@ -198,6 +202,7 @@ export function HeroCanvasScrub() {
       let activeWorkers = 0;
 
       const runWorker = () => {
+        if (hasExitedHeroRef.current) return;
         while (activeWorkers < concurrency && skeletonIndex < skeleton.length) {
           const idx = skeleton[skeletonIndex++];
           if (imagesRef.current[idx]) continue;
@@ -214,6 +219,7 @@ export function HeroCanvasScrub() {
       };
 
       const fillRemainingFrames = () => {
+        if (hasExitedHeroRef.current) return;
         const remaining: number[] = [];
         for (let i = 0; i < TOTAL_FRAMES; i++) {
           if (!imagesRef.current[i] && !loadingSetRef.current.has(i)) {
@@ -226,6 +232,7 @@ export function HeroCanvasScrub() {
         let bgActive = 0;
 
         const runBgWorker = () => {
+          if (hasExitedHeroRef.current) return;
           while (bgActive < bgConcurrency && remIdx < remaining.length) {
             const idx = remaining[remIdx++];
             if (imagesRef.current[idx]) continue;
@@ -253,14 +260,14 @@ export function HeroCanvasScrub() {
       scrollIndicatorRef.current.style.transform = `translateY(${p * 20}px)`;
     }
 
-    // Hero intro text panel
+    // Hero intro text panel: subtle scale + translateY + velvety opacity
     if (beat1Ref.current) {
       if (p <= 0.12) {
         beat1Ref.current.style.opacity = "1";
         beat1Ref.current.style.transform = "scale(1) translateY(0px)";
         beat1Ref.current.style.pointerEvents = "auto";
-      } else if (p <= 0.40) {
-        const norm = (p - 0.12) / 0.28;
+      } else if (p <= 0.38) {
+        const norm = (p - 0.12) / 0.26;
         const op = Math.max(0, 1 - norm);
         const scale = 1 + norm * 0.03;
         const ty = -norm * 24;
@@ -274,14 +281,17 @@ export function HeroCanvasScrub() {
       }
     }
 
-    // Canvas exit subtle scale (85% - 100%) - retains full crystal brightness
+    // Canvas exit subtle scale and blend (85% - 100%)
     if (canvasRef.current) {
       if (p > 0.85) {
         const norm = (p - 0.85) / 0.15;
-        const scale = 1 - norm * 0.03;
+        const scale = 1 - norm * 0.04;
+        const op = 1 - norm * 0.35;
         canvasRef.current.style.transform = `scale(${scale.toFixed(3)})`;
+        canvasRef.current.style.opacity = op.toFixed(3);
       } else {
         canvasRef.current.style.transform = "scale(1)";
+        canvasRef.current.style.opacity = "1";
       }
     }
   }, []);
@@ -319,8 +329,51 @@ export function HeroCanvasScrub() {
     if (typeof window === "undefined") return;
 
     let st: ScrollTrigger | null = null;
-    let rafId: number;
     isRunningRef.current = true;
+
+    // Start / Stop RAF dynamically to eliminate GPU usage when off-screen
+    const startRenderLoop = () => {
+      if (rafIdRef.current !== null) return;
+
+      const tick = () => {
+        if (!isRunningRef.current) return;
+
+        if (isVisibleRef.current) {
+          const diff = targetProgressRef.current - currentProgressRef.current;
+          const absDiff = Math.abs(diff);
+
+          if (absDiff < 0.00008) {
+            currentProgressRef.current = targetProgressRef.current;
+          } else {
+            // LERP_FACTOR: 0.16 on desktop (in optimal 0.14 - 0.18 range) / 0.24 on mobile
+            const baseFactor = isMobileDevice ? 0.24 : 0.16;
+            const velocityBoost = Math.min(0.22, absDiff * 0.55);
+            const factor = baseFactor + velocityBoost;
+
+            currentProgressRef.current += diff * factor;
+          }
+
+          const progress = currentProgressRef.current;
+          const frameF = progress * (TOTAL_FRAMES - 1);
+          const frameI = Math.round(frameF);
+
+          drawFrame(frameI);
+          updateNarrativeBeats(progress);
+          preloadAhead(frameI);
+        }
+
+        rafIdRef.current = requestAnimationFrame(tick);
+      };
+
+      rafIdRef.current = requestAnimationFrame(tick);
+    };
+
+    const stopRenderLoop = () => {
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+    };
 
     // Mobile Scrollytelling Scroll Handler (zero interference, native 120Hz compositor)
     const handleMobileScroll = () => {
@@ -350,18 +403,22 @@ export function HeroCanvasScrub() {
         stage.style.bottom = "auto";
       }
 
-      // 3. GPU Power Saver: Hide and stop rendering when completely scrolled past
-      if (currentScroll > driverHeight + 100) {
+      // 3. GPU Power Saver: Completely pause RAF and hide rendering when scrolled past
+      if (currentScroll > driverHeight + 80) {
+        hasExitedHeroRef.current = true;
         if (isVisibleRef.current) {
           isVisibleRef.current = false;
           stage.style.visibility = "hidden";
           stage.style.pointerEvents = "none";
+          stopRenderLoop();
         }
       } else {
+        hasExitedHeroRef.current = false;
         if (!isVisibleRef.current) {
           isVisibleRef.current = true;
           stage.style.visibility = "visible";
           stage.style.pointerEvents = "auto";
+          startRenderLoop();
         }
       }
     };
@@ -377,6 +434,16 @@ export function HeroCanvasScrub() {
         scrub: 0.1,
         onUpdate: (self) => {
           targetProgressRef.current = self.progress;
+        },
+        onLeave: () => {
+          hasExitedHeroRef.current = true;
+          isVisibleRef.current = false;
+          stopRenderLoop();
+        },
+        onEnterBack: () => {
+          hasExitedHeroRef.current = false;
+          isVisibleRef.current = true;
+          startRenderLoop();
         },
       });
 
@@ -410,45 +477,15 @@ export function HeroCanvasScrub() {
       cleanupDesktop = setupDesktopScrub();
     }
 
-    // High Performance Smooth Render Loop with Fluid Dynamic Dampening
-    const tick = () => {
-      if (!isRunningRef.current) return;
-
-      if (isVisibleRef.current) {
-        const diff = targetProgressRef.current - currentProgressRef.current;
-        const absDiff = Math.abs(diff);
-
-        if (absDiff < 0.00008) {
-          currentProgressRef.current = targetProgressRef.current;
-        } else {
-          // Snappy, instant tracking on mobile; velvety deceleration on settle
-          const baseFactor = isMobileDevice ? 0.3 : 0.14;
-          const velocityBoost = Math.min(0.25, absDiff * 0.6);
-          const factor = baseFactor + velocityBoost;
-
-          currentProgressRef.current += diff * factor;
-        }
-
-        const progress = currentProgressRef.current;
-        const frameF = progress * (TOTAL_FRAMES - 1);
-        const frameI = Math.round(frameF);
-
-        drawFrame(frameI);
-        updateNarrativeBeats(progress);
-        preloadAhead(frameI);
-      }
-
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
+    // Launch RAF initially
+    startRenderLoop();
 
     return () => {
       isRunningRef.current = false;
+      stopRenderLoop();
       if (st) st.kill();
       if (cleanupDesktop) cleanupDesktop();
       window.removeEventListener("scroll", handleMobileScroll);
-      cancelAnimationFrame(rafId);
     };
   }, [
     drawFrame,
@@ -466,7 +503,7 @@ export function HeroCanvasScrub() {
       className={`relative w-full bg-[#0A0A0A] ${
         isReducedMotion
           ? "h-screen h-[100dvh]"
-          : "h-[160vh] sm:h-[180vh] md:h-[220vh]"
+          : "h-[165vh] sm:h-[180vh] md:h-[270vh]"
       }`}
     >
       {/* Viewport Stage: Fixed Scrollytelling on Mobile / Sticky on Desktop */}
@@ -483,7 +520,7 @@ export function HeroCanvasScrub() {
           }`}
         >
           <Image
-            src="/frames/frame_0001.jpg"
+            src={getFrameUrl(0)}
             alt="Drafteados Basketball Arena"
             fill
             priority
@@ -493,31 +530,31 @@ export function HeroCanvasScrub() {
           />
         </div>
 
-        {/* 60 FPS 2D Canvas Engine - Full dynamic range & vivid parquet colors */}
+        {/* 60 FPS 2D Canvas Engine - High-Clarity Broadcast Contrast */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full block z-0 pointer-events-none will-change-transform [filter:contrast(1.03)_saturate(1.06)]"
         />
 
-        {/* Top Navigation Scrim (Only at top to preserve navbar readability without darkening the arena) */}
+        {/* Top Navigation Scrim (Only at top for navbar legibility) */}
         <div
           aria-hidden="true"
           className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10"
         />
 
-        {/* Bottom Transition Scrim (Only at bottom edge for seamless blend into next section) */}
+        {/* Bottom Transition Scrim (Only at bottom edge for seamless blend) */}
         <div
           aria-hidden="true"
           className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent pointer-events-none z-10"
         />
 
-        {/* Subtle Lens Vignette (Center 70% is 100% crystal-clear; gentle vignette only on outer perimeter) */}
+        {/* Subtle Lens Vignette (Center 70% is crystal-clear) */}
         <div
           aria-hidden="true"
           className="absolute inset-0 z-10 pointer-events-none bg-radial-[circle_at_center,_transparent_70%,_rgba(0,0,0,0.35)_100%]"
         />
 
-        {/* Subtle Warm Orange Brand Atmosphere Glow */}
+        {/* Warm Orange Brand Atmosphere Glow */}
         <div
           aria-hidden="true"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] sm:w-[800px] h-[350px] sm:h-[420px] rounded-full bg-[#FF5A1F]/12 blur-[130px] pointer-events-none z-10"

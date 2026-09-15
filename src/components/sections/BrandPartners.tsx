@@ -32,11 +32,12 @@ export function BrandPartners() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
+            duration: 1.05,
             ease: "power3.out",
             scrollTrigger: {
               trigger: leftColRef.current,
-              start: "top 85%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -49,12 +50,13 @@ export function BrandPartners() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
+            duration: 1.05,
             delay: 0.1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: formCardRef.current,
-              start: "top 85%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -74,7 +76,7 @@ export function BrandPartners() {
     <section
       ref={sectionRef}
       id="contacto"
-      className="relative z-20 py-20 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden"
+      className="relative z-20 py-20 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl bg-white dark:bg-[#111113] border border-black/8 dark:border-white/10 p-6 sm:p-12 lg:p-16 overflow-hidden shadow-sm dark:shadow-2xl">

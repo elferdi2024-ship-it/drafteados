@@ -80,11 +80,12 @@ export function CommunityBuque() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
+            duration: 1.05,
             ease: "power3.out",
             scrollTrigger: {
               trigger: headerRef.current,
-              start: "top 85%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -100,12 +101,13 @@ export function CommunityBuque() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.85,
+            duration: 1.05,
             stagger: 0.1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: metricsRef.current,
-              start: "top 82%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -123,7 +125,8 @@ export function CommunityBuque() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: foundersHeaderRef.current,
-              start: "top 85%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -139,12 +142,13 @@ export function CommunityBuque() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.85,
+            duration: 1.05,
             stagger: 0.12,
             ease: "power3.out",
             scrollTrigger: {
               trigger: foundersGridRef.current,
-              start: "top 82%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -160,12 +164,13 @@ export function CommunityBuque() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.85,
+            duration: 1.05,
             stagger: 0.1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: testimonialsRef.current,
-              start: "top 85%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -184,7 +189,8 @@ export function CommunityBuque() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: manifestoRef.current,
-              start: "top 85%",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -198,7 +204,7 @@ export function CommunityBuque() {
     <section
       ref={sectionRef}
       id="comunidad"
-      className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0D] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300"
+      className="relative z-20 py-24 sm:py-36 bg-[#F4F4F6] dark:bg-[#0B0B0D] border-y border-black/5 dark:border-white/5 overflow-hidden transition-colors duration-300 content-auto"
     >
       {/* Subtle Court Lines Background */}
       <div

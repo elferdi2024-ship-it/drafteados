@@ -41,12 +41,12 @@ export function UniverseSection() {
           {
             opacity: 1,
             y: 0,
-            duration: 0.85,
+            duration: 1.05,
             ease: "power3.out",
             scrollTrigger: {
               trigger: headerRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -66,13 +66,13 @@ export function UniverseSection() {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.85,
+            duration: 1.05,
             stagger: 0.1,
             ease: "power3.out",
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 82%",
-              toggleActions: "play none none none",
+              start: "top 80%",
+              toggleActions: "play none none reverse",
             },
           }
         );
@@ -86,7 +86,7 @@ export function UniverseSection() {
     <section
       ref={sectionRef}
       id="universo"
-      className="relative z-20 py-24 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden"
+      className="relative z-20 py-24 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
     >
       {/* Subtle ambient lighting */}
       <div
