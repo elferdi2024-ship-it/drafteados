@@ -52,9 +52,7 @@ export function Footer() {
             </Link>
 
             <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-sm">
-              La plataforma de referencia en español para los verdaderos
-              enamorados del baloncesto. Análisis táctico, podcast y comunidad
-              viva.
+              Tu casa NBA en español desde 2017. Generamos contenidos propios que se expanden a través de experiencias y proyectos únicos para una comunidad global.
             </p>
 
             <div className="mt-6 flex items-center gap-3">

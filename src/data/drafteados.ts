@@ -51,6 +51,17 @@ export interface FounderItem {
   specialties: string[];
 }
 
+export interface PressMilestone {
+  id: string;
+  date: string;
+  category: string;
+  title: string;
+  summary: string;
+  location?: string;
+  highlight?: string;
+}
+
+// Backward compatibility interface
 export interface CommunityTestimonial {
   id: string;
   author: string;
@@ -60,28 +71,36 @@ export interface CommunityTestimonial {
   timeWithUs: string;
 }
 
+export const BUQUE_ORIGIN = {
+  title: "¿Qué significa ser un Buque?",
+  subtitle: "El origen de nuestra comunidad",
+  story:
+    "El término surge de manera orgánica en la cultura interna de Drafteados, inspirado en el jugador de la NBA Devin Booker. Después de analizar una de sus actuaciones, su apellido derivó coloquialmente de “Booker” a “Buque”, asociando la figura del basquetbolista con una idea clara: grandeza y liderazgo. Con el tiempo, el término trascendió la pista y se consolidó como el símbolo oficial de nuestra identidad.",
+  highlight: "+880.000 personas forman hoy la comunidad en más de 70 países.",
+};
+
 export const FOUNDERS: FounderItem[] = [
   {
     number: "01",
     name: "José Sáenz de Tejada",
-    role: "Cofundador & La Pizarra de la Madrugada",
+    role: "Cofundador de Drafteados",
     tagline: "Pizarra & Rigor Táctico",
     handle: "@josesaenz",
-    bio: "El rigor táctico que no duerme. Lleva desde 2017 desgranando sistemas, bloqueos ciegos y defensas zonales en el salón de casa con una taza de café a las cuatro de la madrugada. Si un rookie hace un corte inteligente en la puerta de atrás, Jose ya tiene el análisis listo.",
+    bio: "Especialista en análisis táctico, sistemas de juego y scouting del NBA Draft. Analiza cada madrugada la mejor liga de baloncesto del mundo desde 2017, desgranando rotaciones, defensas y talento joven con rigor y contexto.",
     avatar: "/images/jose.jpg",
-    quote: "Drafteados es el refugio de los que nos quedamos despiertos a deshoras para ver botar un balón. Aquí no hay postureo: se viene a amar el baloncesto con respeto y criterio.",
+    quote: "Drafteados nació para explicar el juego con pasión y criterio. Tratamos la NBA con el respeto y la profundidad que merece.",
     specialties: ["Sistemas & Playbooks", "Scouting NBA Draft", "Pizarra Táctica", "Análisis Avanzado"],
   },
   {
     number: "02",
     name: "Sergio Andrés Chacón",
-    role: "Cofundador & El Alma del Buque",
+    role: "Cofundador de Drafteados",
     tagline: "Voz & Conexión Directa",
     handle: "@sergioandres",
-    bio: "La emoción pura, el debate sin filtros y la complicidad directa con el chat. Sergio conecta con cada Buque como si estuviera viendo el partido en el sofá de al lado. Defiende a su gente, sufre con las derrotas y celebra cada canasta agónica con el corazón en la mano.",
+    bio: "Comunicación directa, coberturas en pista en Estados Unidos y el pulso diario de las franquicias de la NBA. Conecta a la comunidad hispanohablante con las historias, protagonistas y el debate apasionado del baloncesto.",
     avatar: "/images/sergio.jpg",
-    quote: "Subirse al Buque no es suscribirse a un canal: es saber que nunca más vas a ver un partido de la NBA en soledad. En este barco remamos todos juntos, ganen o pierdan.",
-    specialties: ["Directos en Pista", "Debates Calientes", "Voz de la Comunidad", "Cultura Urbana"],
+    quote: "Subirse al Buque es saber que nunca vas a ver la NBA solo. Somos una comunidad que comparte la misma pasión en más de 70 países.",
+    specialties: ["Coberturas en Pista", "Debate & Actualidad", "Comunidad Global", "Cultura del Juego"],
   },
 ];
 
@@ -112,7 +131,7 @@ export const LATEST_VIDEOS: VideoItem[] = [
   {
     id: "Pc_-JOvRRv0",
     title: "¡ANTONI DAIMIEL SE CONFIESA! Errores, consejos de Montes, ¿volverá a la NBA?",
-    description: "Una charla íntima, histórica y sin precedentes con la voz eterna del baloncesto estadounidense en España.",
+    description: "Una charla íntima, histórica y sin precedentes con la voz del baloncesto estadounidense en España.",
     duration: "48:10",
     views: 310000,
     date: "Hace 4 días",
@@ -124,7 +143,7 @@ export const LATEST_VIDEOS: VideoItem[] = [
   {
     id: "DC0P4CrEChw",
     title: "¿CUÁNTOS PARTIDOS GANARÁN LOS 15 EQUIPOS DEL OESTE?",
-    description: "Tier list exhaustivo y predicción victoria a victoria de la conferencia más despiadada del planeta.",
+    description: "Tier list exhaustivo y predicción victoria a victoria de la conferencia más disputada.",
     duration: "34:20",
     views: 215000,
     date: "Hace 6 días",
@@ -157,7 +176,7 @@ export const LATEST_VIDEOS: VideoItem[] = [
   {
     id: "snRMM2lJx1Y",
     title: "¿QUIÉN ES EL PRÓXIMO WEMBY? BUSCANDO LAS ESTRELLAS DEL FUTURO",
-    description: "Scouting de prospectos universitarios e internacionales llamados a revolucionar el juego los próximos 10 años.",
+    description: "Scouting de prospectos universitarios e internacionales llamados a revolucionar el juego.",
     duration: "28:50",
     views: 175000,
     date: "Hace 2 semanas",
@@ -168,7 +187,7 @@ export const LATEST_VIDEOS: VideoItem[] = [
   {
     id: "FXsyqMDvBzY",
     title: "¡LÍO CON LAKERS Y CLIPPERS! ¿QUÉ PASA CON KAWHI Y DONCIC? ¿WESTBROOK TOP-5?",
-    description: "Debates calientes de vestuario, rumores de traspaso en el Trade Deadline y choque de opiniones.",
+    description: "Debates de vestuario, rumores de traspaso en el Trade Deadline y choque de opiniones.",
     duration: "25:30",
     views: 220000,
     date: "Hace 2 semanas",
@@ -182,15 +201,15 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
   {
     id: "buques-club",
     title: "Buques Club",
-    badge: "Streetwear & Identidad",
-    statusBadge: "DROP ACTIVO",
-    description: "La piel de nuestra comunidad. Cápsulas de ropa de edición limitada confeccionadas en 320gsm para los que llevan el baloncesto en el pecho.",
-    ctaText: "Explorar Drop Oficial",
+    badge: "Línea de Ropa Oficial",
+    statusBadge: "EDICIÓN LIMITADA",
+    description: "La marca de ropa oficial de los Buques para los Buques. Se distribuye mediante drops de edición limitada con diseños limpios y máxima atención a la calidad de las prendas.",
+    ctaText: "Visita la Tienda",
     ctaLink: "https://www.buquesclub.com/",
-    tag: "Colección Otoño / Invierno",
+    tag: "Drops Oficiales",
     gradient: "from-orange-500/20 via-orange-600/5 to-transparent",
     iconName: "ShoppingBag",
-    stats: "100% Algodón orgánico premium • Envíos globales",
+    stats: "Cápsulas de edición limitada • Diseños básicos",
     accentColor: "#FF5A1F",
     external: true,
     image: "/images/BUQUES CLUB.png",
@@ -198,31 +217,31 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
   {
     id: "podcast-3mas1",
     title: "3+1 Podcast",
-    badge: "Tertulia con Leyendas",
-    statusBadge: "NUEVO CADA MARTES",
-    description: "Antoni Daimiel, José Manuel Calderón, José y Sergio. La tertulia de referencia donde la táctica de élite se mezcla con anécdotas irrepetibles.",
+    badge: "Con Daimiel & Calderón",
+    statusBadge: "FORBES TOP 50",
+    description: "El programa en español de referencia para los aficionados a la NBA con Antoni Daimiel y José Manuel Calderón. Reconocido por Forbes como uno de los 50 mejores proyectos originales.",
     ctaText: "Escuchar en Spotify",
-    ctaLink: "https://open.spotify.com/show/0xkHMHfTleDMkGi0DymhMX",
-    tag: "Spotify & Apple Podcasts",
+    ctaLink: "https://open.spotify.com/show/0xkHMHfTleDMkGi0DymhMX?si=gcWP5P2kS66uDI-Ikjoabw",
+    tag: "Cada martes nuevo episodio",
     gradient: "from-emerald-600/20 via-teal-600/5 to-transparent",
     iconName: "Mic",
-    stats: "Top 5 Podcast Deportivo en España",
+    stats: "Audiovisual en YouTube y plataformas de podcast",
     accentColor: "#10B981",
     external: true,
     image: "/images/TRES+UNO.png",
   },
   {
     id: "viajes-usa",
-    title: "Viajes NBA a EE.UU.",
-    badge: "Experiencia a Pie de Pista",
-    statusBadge: "PLAZAS 2026",
-    description: "El viaje de tu vida en Nueva York, Los Ángeles y Boston con José, Sergio y el equipo de Drafteados. Asientos VIP, accesos exclusivos y backstage.",
-    ctaText: "Ver Próxima Expedición",
+    title: "Viajes a EE.UU.",
+    badge: "Vive la NBA en Directo",
+    statusBadge: "EXPEDICIONES 2026",
+    description: "Viajes organizados junto a Trip Double y José Manuel Calderón para vivir la experiencia NBA desde dentro, en ciudades como Los Ángeles, San Francisco, Nueva York y Miami.",
+    ctaText: "Viaja con Nosotros",
     ctaLink: "https://tripdouble.com/es/drafteados/",
-    tag: "TripDouble x Drafteados",
+    tag: "Trip Double x Drafteados",
     gradient: "from-blue-600/20 via-cyan-600/5 to-transparent",
     iconName: "Plane",
-    stats: "+500 Buques han vivido la NBA con nosotros",
+    stats: "Entradas NBA, backstage y experiencias compartidas",
     accentColor: "#38BDF8",
     external: true,
     image: "/images/VIAJES.png",
@@ -234,58 +253,105 @@ export const COMMUNITY_METRICS: CommunityMetric[] = [
     id: "buques",
     value: 880,
     suffix: ".000+",
-    label: "Buques en la Tripulación",
-    description: "Una comunidad global que no se pierde un debate ni una madrugada de partidos.",
+    label: "Buques en la Comunidad",
+    description: "Seguidores en YouTube, Instagram, X, TikTok y Spotify.",
   },
   {
-    id: "views",
-    value: 15,
-    suffix: "M+",
-    label: "Impactos Mensuales",
-    description: "Millones de minutos de baloncesto consumidos cada mes a través de todas nuestras plataformas.",
-  },
-  {
-    id: "horas",
-    value: 2400,
+    id: "paises",
+    value: 70,
     suffix: "+",
-    label: "Horas de Baloncesto",
-    description: "Desde 2017 subiendo al barco cada día con rigor, respeto y amor por el juego.",
+    label: "Países",
+    description: "Una comunidad hispanohablante conectada en todo el mundo.",
+  },
+  {
+    id: "youtube",
+    value: 383,
+    suffix: ".000+",
+    label: "Suscriptores YouTube",
+    description: "Canal de referencia de baloncesto en español desde 2017.",
   },
 ];
 
-export const COMMUNITY_TESTIMONIALS: CommunityTestimonial[] = [
+export const SOCIAL_COMMUNITY_STATS = [
+  { platform: "YouTube", count: "+383.000", label: "Suscriptores", href: "https://www.youtube.com/@DrafteadosNBA" },
+  { platform: "Instagram", count: "+197.000", label: "Seguidores", href: "https://www.instagram.com/drafteados/" },
+  { platform: "X (Twitter)", count: "+180.000", label: "Seguidores", href: "https://x.com/drafteados" },
+  { platform: "TikTok", count: "+121.000", label: "Seguidores", href: "https://www.tiktok.com/@drafteados" },
+];
+
+export const PRESS_MILESTONES: PressMilestone[] = [
   {
-    id: "test-1",
-    author: "Marcos R.",
+    id: "press-rialto",
+    date: "Junio 2026",
+    category: "Evento en Vivo",
+    title: "Gran cierre de 3+1 en el Teatro Rialto de Madrid",
+    summary: "El podcast producido por Drafteados finalizó temporada con un directo especial en la Gran Vía ante 1.000 personas junto a Antoni Daimiel y José Manuel Calderón.",
+    location: "Madrid, Gran Vía",
+    highlight: "1.000 Buques en directo",
+  },
+  {
+    id: "press-doncic",
+    date: "Junio 2026",
+    category: "Entrevista Exclusiva",
+    title: "Luka Dončić con Drafteados: “Ya nada me sorprende de LeBron”",
+    summary: "La estrella eslovena conversó mano a mano con José y Sergio durante su visita a Madrid sobre su objetivo del anillo y sus inicios en España con 13 años.",
     location: "Madrid",
-    roleBadge: "Buque desde 2018",
-    quote: "Viajé con ellos a Nueva York el año pasado. Ver un partido en el Garden teniendo a José y Sergio al lado explicando cada jugada es una experiencia que no se puede comprar.",
-    timeWithUs: "Viaje NY 2024",
+    highlight: "Entrevista exclusiva",
   },
   {
-    id: "test-2",
-    author: "Camila V.",
-    location: "Buenos Aires",
-    roleBadge: "Comunidad Madrugada",
-    quote: "En Argentina los partidos terminan a las tres de la mañana. Saber que abres el chat de Drafteados y hay miles de personas con la misma pasión te hace sentir que nunca estás sola.",
-    timeWithUs: "Miembro Activa",
+    id: "press-finals",
+    date: "Junio 2026",
+    category: "Cobertura NBA",
+    title: "Cobertura de las Finales NBA in situ en Estados Unidos",
+    summary: "Por cuarto año consecutivo, Drafteados se desplaza a las ciudades finalistas para una cobertura especial desde primera línea del mayor evento del baloncesto.",
+    location: "Estados Unidos",
+    highlight: "4º año consecutivo",
   },
   {
-    id: "test-3",
-    author: "Jordi P.",
-    location: "Barcelona",
-    roleBadge: "Oyente 3+1",
-    quote: "El podcast con Daimiel y Calderón es lo mejor que le ha pasado a la divulgación deportiva en español. Baloncesto de verdad sin el show barato de la tele.",
-    timeWithUs: "Top Fan Spotify",
+    id: "press-wemby",
+    date: "Marzo 2026",
+    category: "A Pie de Pista",
+    title: "Drafteados pregunta a Victor Wembanyama",
+    summary: "Tras el partido ante Miami Heat, el fenómeno de San Antonio Spurs analiza su impacto en pista y defiende su candidatura en la carrera por el MVP.",
+    location: "Miami, Florida",
+    highlight: "Rueda de prensa oficial",
+  },
+  {
+    id: "press-hugo",
+    date: "Abril 2026",
+    category: "Especial Rookie",
+    title: "24 horas con Hugo González en Boston Celtics",
+    summary: "Contenido exclusivo con el rookie de los Celtics que aborda su adaptación, anécdotas y los detalles de su primera experiencia en la NBA.",
+    location: "Boston, Massachusetts",
+    highlight: "Acceso exclusivo",
+  },
+  {
+    id: "press-jordi",
+    date: "Marzo 2026",
+    category: "3+1 Especial",
+    title: "Jordi Fernández desde el Brooklyn Nets Training Center",
+    summary: "El primer entrenador español en la historia de la NBA charla con Drafteados y Antoni Daimiel sobre el valor de los comienzos y las diferencias con Europa.",
+    location: "Nueva York",
+    highlight: "Brooklyn Nets Facility",
   },
 ];
+
+// Fallback compatibility
+export const COMMUNITY_TESTIMONIALS: CommunityTestimonial[] = PRESS_MILESTONES.slice(0, 3).map((p) => ({
+  id: p.id,
+  author: p.title,
+  location: p.location || "Drafteados",
+  roleBadge: p.category,
+  quote: p.summary,
+  timeWithUs: p.date,
+}));
 
 export const NAV_LINKS = [
-  { name: "Contenidos", href: "#contenidos", external: false },
+  { name: "¿Qué Hacemos?", href: "#contenidos", external: false },
   { name: "Universo", href: "#universo", external: false },
   { name: "Comunidad", href: "#comunidad", external: false },
-  { name: "Viajes", href: "https://tripdouble.com/es/drafteados/", external: true },
-  { name: "Tienda", href: "https://www.buquesclub.com/", external: true },
+  { name: "Viajes NBA", href: "https://tripdouble.com/es/drafteados/", external: true },
+  { name: "Buques Club", href: "https://www.buquesclub.com/", external: true },
   { name: "Contacto", href: "#contacto", external: false },
 ];
 

@@ -46,8 +46,8 @@ export function UniverseSection() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: headerRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
+              start: "top 92%",
+              once: true,
             },
           }
         );
@@ -72,8 +72,8 @@ export function UniverseSection() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 80%",
-              toggleActions: "play none none reverse",
+              start: "top 92%",
+              once: true,
             },
           }
         );
@@ -87,7 +87,7 @@ export function UniverseSection() {
     <section
       ref={sectionRef}
       id="universo"
-      className="relative z-20 py-24 sm:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
+      className="relative z-20 py-20 sm:py-28 lg:py-32 scroll-mt-16 sm:scroll-mt-20 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
     >
       {/* Dynamic Background System */}
       <div
@@ -120,7 +120,7 @@ export function UniverseSection() {
         <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
           <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4">
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
-            <span>02 &bull; EL ECOSISTEMA DRAFTEADOS</span>
+            <span>02 &bull; EXTENSIÓN DE MARCA</span>
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
 
@@ -128,10 +128,10 @@ export function UniverseSection() {
             className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-tight"
             style={{ fontFamily: "var(--font-title)" }}
           >
-            El Universo Drafteados
+            UNIVERSO DRAFTEADOS
           </h2>
           <p className="mt-4 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
-            De un canal de YouTube a un movimiento cultural de baloncesto. Tres grandes proyectos creados desde la pasión para vivir la NBA en todas sus dimensiones.
+            Generamos contenidos propios que se expanden a través de experiencias y proyectos únicos para una audiencia global.
           </p>
         </div>
 

@@ -65,8 +65,8 @@ export function LatestContent() {
         {
           scrollTrigger: {
             trigger: section,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
+            start: "top 92%",
+            once: true,
           },
           y: 0,
           opacity: 1,
@@ -159,7 +159,7 @@ export function LatestContent() {
     <section
       id="contenidos"
       ref={sectionRef}
-      className="relative z-20 py-20 sm:py-28 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white content-auto"
+      className="relative z-20 py-16 sm:py-24 lg:py-28 scroll-mt-16 sm:scroll-mt-20 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white content-auto"
     >
       {/* Decorative Brand Text Backdrop */}
       <div
@@ -180,18 +180,17 @@ export function LatestContent() {
           <div>
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-white/95 uppercase mb-3">
               <span className="w-2 h-0.5 bg-white" />
-              <span>01 &bull; CONTENIDO RECIENTE &bull; YOUTUBE</span>
+              <span>01 &bull; ¿QUÉ HACEMOS? &bull; YOUTUBE</span>
             </div>
 
             <h2
               className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-white tracking-tight leading-[0.95]"
               style={{ fontFamily: "var(--font-title)" }}
             >
-              ÚLTIMOS VÍDEOS &amp; PIZARRA
+              ÚLTIMOS VÍDEOS &amp; ANÁLISIS
             </h2>
             <p className="mt-3 text-white/95 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
-              La actualidad de la NBA explicada con análisis táctico, scouting de futuro y el calor
-              del chat de madrugada. Todo el contenido oficial de la Casa.
+              Acercamos la cultura NBA a los aficionados hispanohablantes que quieren entenderla, compartirla y vivirla. Cobertura diaria en temporada regular y playoffs; en verano, nuevo vídeo cada lunes y jueves.
             </p>
           </div>
 

@@ -25,9 +25,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://drafteados.com"),
-  title: "Drafteados | Tu Casa NBA - Web Oficial",
+  title: "Drafteados | Tu Casa NBA",
   description:
-    "La comunidad que vive el baloncesto como nadie. Análisis táctico de la NBA, debates sin filtro, 3+1 Podcast con Antoni Daimiel y José Manuel Calderón, viajes a EE.UU. y Buques Club.",
+    "Somos un canal de YouTube especializado en NBA desde 2017. Acercamos la cultura NBA a los aficionados hispanohablantes a través de contenidos, 3+1 Podcast, viajes a EE.UU. y experiencias.",
   keywords: [
     "Drafteados",
     "NBA",

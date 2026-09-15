@@ -562,7 +562,7 @@ export function HeroCanvasScrub() {
           {/* Eyebrow - Pure Editorial Typography */}
           <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4 sm:mb-6 drop-shadow-md">
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
-            <span>DESDE 2017 &bull; TU CASA NBA &bull; +880K BUQUES</span>
+            <span>DESDE 2017 &bull; TU CASA NBA &bull; +880.000 BUQUES</span>
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
 
@@ -579,7 +579,7 @@ export function HeroCanvasScrub() {
 
           {/* Subtitle */}
           <p className="mt-5 sm:mt-7 text-base sm:text-xl md:text-2xl text-zinc-100 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
-            El canal de baloncesto en español más visto del mundo. Análisis táctico de madrugada, debates que duelen en el alma y una comunidad que respira NBA los 365 días del año.
+            Especialistas en NBA desde 2017. Más de 880.000 personas siguen a diario la mejor liga de baloncesto del mundo a través de nuestros análisis, directos y experiencias.
           </p>
 
           {/* Action CTAs */}
