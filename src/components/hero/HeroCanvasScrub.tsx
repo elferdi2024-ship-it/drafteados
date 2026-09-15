@@ -246,45 +246,42 @@ export function HeroCanvasScrub() {
 
   // Direct DOM choreography for narrative text & canvas exit
   const updateNarrativeBeats = useCallback((p: number) => {
-    // Scroll indicator fades out rapidly in first 10%
+    // Scroll indicator fades out rapidly in first 8%
     if (scrollIndicatorRef.current) {
-      const indOp = Math.max(0, 1 - p * 10);
+      const indOp = Math.max(0, 1 - p * 8);
       scrollIndicatorRef.current.style.opacity = indOp.toFixed(3);
-      scrollIndicatorRef.current.style.transform = `translateY(${p * 25}px)`;
+      scrollIndicatorRef.current.style.transform = `translateY(${p * 20}px)`;
     }
 
     // Hero intro text panel
     if (beat1Ref.current) {
-      if (p <= 0.16) {
+      if (p <= 0.12) {
         beat1Ref.current.style.opacity = "1";
         beat1Ref.current.style.transform = "scale(1) translateY(0px)";
         beat1Ref.current.style.pointerEvents = "auto";
-      } else if (p <= 0.42) {
-        const norm = (p - 0.16) / 0.26;
+      } else if (p <= 0.40) {
+        const norm = (p - 0.12) / 0.28;
         const op = Math.max(0, 1 - norm);
-        const scale = 1 + norm * 0.04;
-        const ty = -norm * 32;
+        const scale = 1 + norm * 0.03;
+        const ty = -norm * 24;
         beat1Ref.current.style.opacity = op.toFixed(3);
         beat1Ref.current.style.transform = `scale(${scale.toFixed(3)}) translateY(${ty.toFixed(1)}px)`;
         beat1Ref.current.style.pointerEvents = op > 0.1 ? "auto" : "none";
       } else {
         beat1Ref.current.style.opacity = "0";
         beat1Ref.current.style.pointerEvents = "none";
-        beat1Ref.current.style.transform = "scale(1.04) translateY(-32px)";
+        beat1Ref.current.style.transform = "scale(1.03) translateY(-24px)";
       }
     }
 
-    // Canvas exit cinematic scale & blend for transition into SocialMarqueeStrip (82% - 100%)
+    // Canvas exit subtle scale (85% - 100%) - retains full crystal brightness
     if (canvasRef.current) {
-      if (p > 0.82) {
-        const norm = (p - 0.82) / 0.18;
-        const scale = 1 - norm * 0.05;
-        const brightness = 1 - norm * 0.22;
+      if (p > 0.85) {
+        const norm = (p - 0.85) / 0.15;
+        const scale = 1 - norm * 0.03;
         canvasRef.current.style.transform = `scale(${scale.toFixed(3)})`;
-        canvasRef.current.style.filter = `brightness(${brightness.toFixed(2)})`;
       } else {
         canvasRef.current.style.transform = "scale(1)";
-        canvasRef.current.style.filter = "none";
       }
     }
   }, []);
@@ -354,7 +351,7 @@ export function HeroCanvasScrub() {
       }
 
       // 3. GPU Power Saver: Hide and stop rendering when completely scrolled past
-      if (currentScroll > driverHeight + 150) {
+      if (currentScroll > driverHeight + 100) {
         if (isVisibleRef.current) {
           isVisibleRef.current = false;
           stage.style.visibility = "hidden";
@@ -398,6 +395,7 @@ export function HeroCanvasScrub() {
       };
 
       window.addEventListener("scroll", onDesktopNativeScroll, { passive: true });
+
       return () => {
         window.removeEventListener("scroll", onDesktopNativeScroll);
       };
@@ -412,7 +410,7 @@ export function HeroCanvasScrub() {
       cleanupDesktop = setupDesktopScrub();
     }
 
-    // High Performance Smooth Render Loop with Viscous Fluid Dynamic Dampening
+    // High Performance Smooth Render Loop with Fluid Dynamic Dampening
     const tick = () => {
       if (!isRunningRef.current) return;
 
@@ -423,9 +421,9 @@ export function HeroCanvasScrub() {
         if (absDiff < 0.00008) {
           currentProgressRef.current = targetProgressRef.current;
         } else {
-          // Viscous fluid curve: high responsiveness on rapid flick, velvety deceleration on settle
-          const baseFactor = isMobileDevice ? 0.16 : 0.12;
-          const velocityBoost = Math.min(0.18, absDiff * 0.55);
+          // Snappy, instant tracking on mobile; velvety deceleration on settle
+          const baseFactor = isMobileDevice ? 0.3 : 0.14;
+          const velocityBoost = Math.min(0.25, absDiff * 0.6);
           const factor = baseFactor + velocityBoost;
 
           currentProgressRef.current += diff * factor;
@@ -468,9 +466,7 @@ export function HeroCanvasScrub() {
       className={`relative w-full bg-[#0A0A0A] ${
         isReducedMotion
           ? "h-screen h-[100dvh]"
-          : isMobileDevice
-          ? "h-[300vh]"
-          : "h-[280vh]"
+          : "h-[160vh] sm:h-[180vh] md:h-[220vh]"
       }`}
     >
       {/* Viewport Stage: Fixed Scrollytelling on Mobile / Sticky on Desktop */}
@@ -491,39 +487,53 @@ export function HeroCanvasScrub() {
             alt="Drafteados Basketball Arena"
             fill
             priority
-            quality={90}
+            quality={95}
             sizes="100vw"
             className="object-cover object-center"
           />
         </div>
 
-        {/* 60 FPS 2D Canvas Engine */}
+        {/* 60 FPS 2D Canvas Engine - Full dynamic range & vivid parquet colors */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full block z-0 pointer-events-none will-change-transform"
+          className="absolute inset-0 w-full h-full block z-0 pointer-events-none will-change-transform [filter:contrast(1.03)_saturate(1.06)]"
         />
 
-        {/* Cinematic Multi-layer Gradient Overlays */}
+        {/* Top Navigation Scrim (Only at top to preserve navbar readability without darkening the arena) */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-[#0A0A0A] via-black/40 to-black/60"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 z-10 pointer-events-none bg-radial-[circle_at_center,_transparent_40%,_rgba(10,10,10,0.85)_100%]"
+          className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10"
         />
 
-        {/* Orange Brand Atmosphere Glow */}
+        {/* Bottom Transition Scrim (Only at bottom edge for seamless blend into next section) */}
         <div
           aria-hidden="true"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-[#FF5A1F]/15 blur-[140px] pointer-events-none z-10"
+          className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent pointer-events-none z-10"
+        />
+
+        {/* Subtle Lens Vignette (Center 70% is 100% crystal-clear; gentle vignette only on outer perimeter) */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-10 pointer-events-none bg-radial-[circle_at_center,_transparent_70%,_rgba(0,0,0,0.35)_100%]"
+        />
+
+        {/* Subtle Warm Orange Brand Atmosphere Glow */}
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] sm:w-[800px] h-[350px] sm:h-[420px] rounded-full bg-[#FF5A1F]/12 blur-[130px] pointer-events-none z-10"
         />
 
         {/* Hero Foreground Content */}
         <div
           ref={beat1Ref}
-          className="absolute z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-5xl mx-auto w-full pt-16 sm:pt-12 select-none will-change-transform"
+          className="relative z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-5xl mx-auto w-full pt-16 sm:pt-12 select-none will-change-transform"
         >
+          {/* Targeted Text Scrim: Guarantees high readability while keeping the court completely vivid */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -inset-x-6 sm:-inset-x-14 -z-10 rounded-3xl bg-radial-[ellipse_at_center,_rgba(0,0,0,0.45)_0%,_transparent_75%] pointer-events-none"
+          />
+
           {/* Eyebrow - Pure Editorial Typography */}
           <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4 sm:mb-6 drop-shadow-md">
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
@@ -533,7 +543,7 @@ export function HeroCanvasScrub() {
 
           {/* Main Headline */}
           <h1
-            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight text-white leading-[0.92] drop-shadow-[0_16px_50px_rgba(0,0,0,0.95)]"
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight text-white leading-[0.92] drop-shadow-[0_8px_25px_rgba(0,0,0,0.85)] drop-shadow-[0_20px_60px_rgba(0,0,0,0.95)]"
             style={{ fontFamily: "var(--font-title)" }}
           >
             Bienvenidos a{" "}
@@ -543,7 +553,7 @@ export function HeroCanvasScrub() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-5 sm:mt-7 text-base sm:text-xl md:text-2xl text-zinc-200 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
+          <p className="mt-5 sm:mt-7 text-base sm:text-xl md:text-2xl text-zinc-100 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
             El canal de baloncesto en español más visto del mundo. Análisis táctico de madrugada, debates que duelen en el alma y una comunidad que respira NBA los 365 días del año.
           </p>
 
@@ -578,19 +588,13 @@ export function HeroCanvasScrub() {
           ref={scrollIndicatorRef}
           className="absolute bottom-6 sm:bottom-8 z-20 flex flex-col items-center gap-2.5 pointer-events-none will-change-transform"
         >
-          <span className="text-[10px] tracking-[0.35em] uppercase text-zinc-300 font-bold drop-shadow-md">
+          <span className="text-[10px] tracking-[0.35em] uppercase text-zinc-200 font-bold drop-shadow-md">
             Desliza para entrar a la pista
           </span>
-          <div className="w-5 h-9 rounded-full border border-white/35 flex items-start justify-center p-1 bg-black/50 backdrop-blur-md shadow-[0_0_20px_rgba(255,90,31,0.25)]">
+          <div className="w-5 h-9 rounded-full border border-white/35 flex items-start justify-center p-1 bg-black/40 backdrop-blur-md shadow-[0_0_20px_rgba(255,90,31,0.25)]">
             <div className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-[#FF5A1F] to-[#FF8A50] animate-bounce shadow-[0_0_8px_#FF5A1F]" />
           </div>
         </div>
-
-        {/* Bottom seamless transition fade */}
-        <div
-          aria-hidden="true"
-          className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#0A0A0A] to-transparent z-10 pointer-events-none"
-        />
       </div>
     </section>
   );
