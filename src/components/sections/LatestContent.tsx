@@ -61,34 +61,46 @@ export function LatestContent() {
 
     const ctx = gsap.context(() => {
       if (headerRef.current) {
-        gsap.from(headerRef.current, {
-          y: 30,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          headerRef.current,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       if (sliderRef.current && sliderRef.current.children.length > 0) {
-        gsap.from(sliderRef.current.children, {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          stagger: 0.1,
-          scrollTrigger: {
-            trigger: sliderRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          sliderRef.current.children,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            stagger: 0.08,
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: sliderRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
     }, section);
+
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, [filteredVideos.length]);
@@ -173,7 +185,7 @@ export function LatestContent() {
     <section
       ref={sectionRef}
       id="contenidos"
-      className="relative z-20 pt-10 sm:pt-24 pb-10 sm:pb-20 scroll-mt-16 sm:scroll-mt-20 bg-gradient-to-b from-[#FF5A1F] to-[#E04810] transition-colors duration-300 overflow-hidden content-auto"
+      className="relative z-20 pt-10 sm:pt-24 pb-10 sm:pb-20 scroll-mt-16 sm:scroll-mt-20 bg-gradient-to-b from-[#FF5A1F] to-[#E04810] transition-colors duration-300 overflow-hidden"
     >
       {/* Cinematic Watermark Typography */}
       <div

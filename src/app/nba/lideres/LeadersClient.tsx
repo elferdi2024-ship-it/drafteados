@@ -73,12 +73,12 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                 </div>
 
                 <div className="my-4 flex items-center gap-4">
-                  <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5 border border-[var(--hub-border)] shrink-0 flex items-center justify-center shadow-inner">
                     {headshotUrl ? (
                       <img
                         src={headshotUrl}
                         alt={item.player.fullName}
-                        className="w-full h-full object-cover object-top"
+                        className="w-full h-full object-cover object-top filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = "none";
                         }}
@@ -144,7 +144,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
         <div className="divide-y divide-[var(--hub-border)]">
           {lines.map((item) => {
             const nbaId = getPlayerNbaId(item.player.fullName);
-            const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "260x190") : null;
+            const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "1040x760") : null;
 
             return (
               <div
@@ -158,7 +158,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                     #{item.rank}
                   </span>
 
-                  <div className="w-9 h-9 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
+                  <div className="w-11 h-11 rounded-xl overflow-hidden bg-black/5 dark:bg-white/5 border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
                     {headshotUrl ? (
                       <img
                         src={headshotUrl}

@@ -122,12 +122,12 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Right Actions: Theme Toggle + Pick'em CTA Sobrio + YouTube CTA */}
+          {/* Right Actions: Theme Toggle + Pick'em CTA + YouTube CTA (High contrast in Light & Dark Mode) */}
           <div className="hidden md:flex items-center gap-2.5">
             <button
               type="button"
               onClick={toggleTheme}
-              className={`p-2.5 rounded-full border transition-all duration-300 focus:outline-none flex items-center justify-center cursor-pointer ${
+              className={`p-2 rounded-full border transition-all duration-300 focus:outline-none flex items-center justify-center cursor-pointer ${
                 isScrolled
                   ? "border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 hover:border-[#FF5A1F]/50 hover:text-[#FF5A1F]"
                   : "border-white/15 bg-white/10 text-white hover:border-[#FF5A1F] hover:text-[#FF5A1F]"
@@ -143,32 +143,33 @@ export function Navbar() {
             </button>
 
             {/* Botón Pick'em: Sobrio, delicado pero con distinción visual y micro-dot luminoso */}
-            <MagneticButton
-              variant="outline"
-              size="sm"
+            <Link
               href="/pickem"
-              className={`group gap-2 rounded-full border transition-all duration-300 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold tracking-wide normal-case ${
+              className={`group flex items-center gap-2 rounded-full border transition-all duration-300 px-3.5 py-1.5 text-xs font-semibold tracking-wide ${
                 isScrolled
-                  ? "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-[#FF5A1F]/[0.07] hover:bg-[#FF5A1F]/[0.16] text-zinc-900 dark:text-zinc-100 shadow-[0_2px_12px_rgba(255,90,31,0.10)] hover:shadow-[0_4px_20px_rgba(255,90,31,0.22)]"
-                  : "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-black/40 hover:bg-[#FF5A1F]/[0.15] text-white shadow-[0_2px_12px_rgba(255,90,31,0.15)] hover:shadow-[0_4px_22px_rgba(255,90,31,0.28)]"
+                  ? "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-[#FF5A1F]/10 hover:bg-[#FF5A1F]/20 text-zinc-900 dark:text-zinc-100 shadow-sm"
+                  : "border-[#FF5A1F]/50 hover:border-[#FF5A1F] bg-black/40 hover:bg-[#FF5A1F]/20 text-white shadow-sm"
               }`}
             >
               <Trophy className="w-3.5 h-3.5 text-[#FF5A1F] transition-transform duration-300 group-hover:scale-110" />
               <span>Jugar Pick'em</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] shadow-[0_0_6px_#FF5A1F]" />
-            </MagneticButton>
+            </Link>
 
-            <MagneticButton
-              variant="secondary"
-              size="sm"
+            {/* Botón YouTube Oficial: Alto contraste visible tanto en Light Mode como en Dark Mode */}
+            <a
               href="https://www.youtube.com/@DrafteadosNBA"
               target="_blank"
               rel="noopener noreferrer"
-              className="gap-1.5"
+              className={`group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
+                isScrolled
+                  ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-black/10 dark:border-white/10 hover:bg-[#FF5A1F] dark:hover:bg-[#FF5A1F] dark:hover:text-white shadow-sm"
+                  : "bg-white/15 hover:bg-[#FF5A1F] text-white border-white/20 hover:border-[#FF5A1F] shadow-sm"
+              }`}
             >
-              <YoutubeIcon className="w-4 h-4" />
+              <YoutubeIcon className="w-4 h-4 text-[#FF5A1F] group-hover:text-white transition-colors" />
               <span className="hidden lg:inline">YouTube</span>
-            </MagneticButton>
+            </a>
           </div>
 
           {/* Mobile Actions: Theme Toggle + Mobile Menu Trigger */}

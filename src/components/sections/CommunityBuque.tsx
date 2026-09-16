@@ -77,61 +77,83 @@ export function CommunityBuque() {
 
     const ctx = gsap.context(() => {
       if (headerRef.current) {
-        gsap.from(headerRef.current, {
-          y: 30,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          headerRef.current,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       if (metricsRef.current) {
-        gsap.from(metricsRef.current, {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: metricsRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          metricsRef.current,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: metricsRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       if (foundersRef.current) {
-        gsap.from(foundersRef.current, {
-          y: 45,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: foundersRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          foundersRef.current,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: foundersRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       if (milestonesRef.current) {
-        gsap.from(milestonesRef.current, {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: milestonesRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          milestonesRef.current,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: milestonesRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
     }, sectionRef);
+
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);
@@ -140,7 +162,7 @@ export function CommunityBuque() {
     <section
       ref={sectionRef}
       id="comunidad"
-      className="relative z-20 py-16 sm:py-24 lg:py-28 scroll-mt-16 sm:scroll-mt-20 bg-[#F4F4F5] dark:bg-[#0E0E11] transition-colors duration-300 overflow-hidden content-auto"
+      className="relative z-20 py-16 sm:py-24 lg:py-28 scroll-mt-16 sm:scroll-mt-20 bg-[#F4F4F5] dark:bg-[#0E0E11] transition-colors duration-300 overflow-hidden"
     >
       {/* Subtle Background Atmosphere */}
       <div

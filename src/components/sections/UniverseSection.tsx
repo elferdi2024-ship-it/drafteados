@@ -40,36 +40,49 @@ export function UniverseSection() {
     const ctx = gsap.context(() => {
       // Header reveal
       if (headerRef.current) {
-        gsap.from(headerRef.current, {
-          y: 30,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          headerRef.current,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
-      // Cards staggered reveal
+      // Cards staggered reveal (with clearProps to guarantee permanent visibility)
       const cards = cardsRef.current?.children;
       if (cards && cards.length > 0) {
-        gsap.from(cards, {
-          y: 45,
-          opacity: 0,
-          duration: 0.9,
-          stagger: 0.12,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          cards,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: cardsRef.current,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
     }, sectionRef);
+
+    // Refresh ScrollTrigger after paint
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);
@@ -78,7 +91,7 @@ export function UniverseSection() {
     <section
       ref={sectionRef}
       id="universo"
-      className="relative z-20 py-20 sm:py-28 lg:py-32 scroll-mt-16 sm:scroll-mt-20 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
+      className="relative z-20 py-20 sm:py-28 lg:py-32 scroll-mt-16 sm:scroll-mt-20 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden"
     >
       {/* Dynamic Background System */}
       <div

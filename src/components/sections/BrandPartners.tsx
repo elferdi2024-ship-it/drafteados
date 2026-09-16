@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Send, CheckCircle2, ArrowUpRight, MapPin, Mail } from "lucide-react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function BrandPartners() {
@@ -25,32 +26,44 @@ export function BrandPartners() {
 
     const ctx = gsap.context(() => {
       if (leftColRef.current) {
-        gsap.from(leftColRef.current, {
-          y: 30,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: leftColRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          leftColRef.current,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: leftColRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
 
       if (formCardRef.current) {
-        gsap.from(formCardRef.current, {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: formCardRef.current,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        });
+        gsap.fromTo(
+          formCardRef.current,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            clearProps: "all",
+            scrollTrigger: {
+              trigger: formCardRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
       }
+
+      ScrollTrigger.refresh();
     }, sectionRef);
 
     return () => ctx.revert();
@@ -66,7 +79,7 @@ export function BrandPartners() {
     <section
       ref={sectionRef}
       id="contacto"
-      className="relative z-20 py-16 sm:py-24 lg:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden content-auto"
+      className="relative z-20 py-16 sm:py-24 lg:py-32 bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl bg-white dark:bg-[#111113] border border-black/8 dark:border-white/10 p-5 sm:p-10 lg:p-14 overflow-hidden shadow-sm dark:shadow-2xl">

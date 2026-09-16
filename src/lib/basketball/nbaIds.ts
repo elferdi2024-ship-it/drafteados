@@ -404,12 +404,11 @@ export const NBA_PLAYER_IDS: Record<string, number> = {
 };
 
 /**
- * Resolves the official NBA headshot URL (served via cached server proxy)
+ * Resolves the official NBA headshot URL in Ultra HD 1040x760 studio quality
  */
-export function getPlayerHeadshotUrl(nbaId: number | null | undefined, size: '1040x760' | '260x190' = '1040x760'): string {
+export function getPlayerHeadshotUrl(nbaId: number | null | undefined, _size: '1040x760' | '260x190' = '1040x760'): string {
   if (!nbaId) return '/fallback-player.png';
-  const dimension = size === '260x190' ? '260x190' : '1040x760';
-  return `https://cdn.nba.com/headshots/nba/latest/${dimension}/${nbaId}.png`;
+  return `https://cdn.nba.com/headshots/nba/latest/1040x760/${nbaId}.png`;
 }
 
 /**
