@@ -92,7 +92,7 @@ export function CountdownClock() {
           </h2>
 
           <p className="mt-2 text-xs sm:text-sm text-[var(--hub-text-muted)] font-normal leading-relaxed">
-            La 81ª temporada regular de la NBA arranca oficialmente con la ceremonia del anillo de Boston Celtics frente a New York Knicks.
+            La temporada regular de la NBA arranca oficialmente con el salto inicial de la nueva campaña y los vigentes campeones New York Knicks defendiendo su corona.
           </p>
         </div>
 

@@ -24,7 +24,7 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--hub-border)]">
         <div>
           <span className="text-[10px] font-mono uppercase font-bold text-[var(--hub-accent)] tracking-widest block">
-            CLASIFICACIÓN · REFERENCIA 2025/26
+            CLASIFICACIÓN · BALANCE OFICIAL
           </span>
           <h3
             className="text-xl sm:text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none mt-0.5"
@@ -33,7 +33,7 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
             TOP CONFERENCIA
           </h3>
           <span className="text-[10px] font-mono text-[var(--hub-text-dim)] mt-1 block">
-            Posiciones consolidadas antes del arranque 2026/27.
+            Vigente Campeón: New York Knicks (4-1 vs Spurs).
           </span>
         </div>
 
@@ -62,31 +62,31 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
       </div>
 
       {/* Table Rows */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {list.map((item) => {
           const nbaId = getTeamNbaId(item.team.abbreviation);
           const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
           const isStreakWin = item.streak?.startsWith("W");
+          const teamSlug = item.team.slug || item.team.abbreviation.toLowerCase();
 
           return (
-            <div
+            <Link
               key={item.team.id}
-              className="flex items-center justify-between p-2 rounded-xl hover:bg-[var(--hub-surface-2)] transition-colors"
+              href={`/nba/equipo/${teamSlug}`}
+              className="flex items-center justify-between p-2 sm:p-2.5 rounded-xl hover:bg-[var(--hub-surface-2)] transition-colors group"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <span className="w-5 text-center text-xs font-mono font-bold text-[var(--hub-text-dim)]">
                   {item.conferenceRank}
                 </span>
 
-                <div className="w-6 h-6 rounded-md flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
                   {logoUrl ? (
                     <img
                       src={logoUrl}
                       alt={item.team.name}
-                      className="w-full h-full object-contain"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = "none";
-                      }}
+                      className="w-full h-full object-contain filter drop-shadow-sm"
+                      loading="lazy"
                     />
                   ) : (
                     <span className="text-[10px] font-mono font-bold text-[var(--hub-text)]">
@@ -96,7 +96,7 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
                 </div>
 
                 <div className="truncate">
-                  <span className="text-sm font-bold text-[var(--hub-text)] truncate block">
+                  <span className="text-sm font-bold text-[var(--hub-text)] truncate block group-hover:text-[var(--hub-accent)] transition-colors">
                     {item.team.name}
                   </span>
                 </div>
@@ -123,7 +123,7 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
                   </span>
                 )}
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

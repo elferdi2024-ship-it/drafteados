@@ -22,7 +22,7 @@ import { getPlayerHeadshotUrl, getPlayerNbaId } from "@/lib/basketball/nbaIds";
 
 // Mapeo Canónico de Franquicias a IDs numéricos de ESPN
 export const ESPN_TEAM_ID_MAP: Record<string, string> = {
-  // Slugs
+  // Slugs canónicos completos
   "atlanta-hawks": "1",
   "boston-celtics": "2",
   "new-orleans-pelicans": "3",
@@ -53,7 +53,44 @@ export const ESPN_TEAM_ID_MAP: Record<string, string> = {
   "toronto-raptors": "28",
   "memphis-grizzlies": "29",
   "charlotte-hornets": "30",
-  // Abreviaturas
+
+  // Slugs cortos oficiales de Drafteados / MOCK_TEAMS
+  hawks: "1",
+  celtics: "2",
+  pelicans: "3",
+  bulls: "4",
+  cavaliers: "5",
+  cavs: "5",
+  mavericks: "6",
+  mavs: "6",
+  nuggets: "7",
+  pistons: "8",
+  warriors: "9",
+  rockets: "10",
+  pacers: "11",
+  clippers: "12",
+  lakers: "13",
+  heat: "14",
+  bucks: "15",
+  timberwolves: "16",
+  wolves: "16",
+  nets: "17",
+  knicks: "18",
+  magic: "19",
+  sixers: "20",
+  "76ers": "20",
+  suns: "21",
+  blazers: "22",
+  kings: "23",
+  spurs: "24",
+  thunder: "25",
+  jazz: "26",
+  wizards: "27",
+  raptors: "28",
+  grizzlies: "29",
+  hornets: "30",
+
+  // Abreviaturas oficiales NBA
   ATL: "1", BOS: "2", NOP: "3", NO: "3", CHI: "4",
   CLE: "5", DAL: "6", DEN: "7", DET: "8", GSW: "9",
   GS: "9", HOU: "10", IND: "11", LAC: "12", LAL: "13",
@@ -76,15 +113,32 @@ for (const t of MOCK_TEAMS) {
 }
 
 export function getEspnTeamId(slugOrAbbrOrId: string): string {
-  if (!slugOrAbbrOrId) return "2";
+  if (!slugOrAbbrOrId) return "18"; // New York Knicks (Vigente Campeón)
   const clean = slugOrAbbrOrId.toLowerCase().trim();
+
+  // 1. Coincidencia directa por mapa
   if (ESPN_TEAM_ID_MAP[clean]) return ESPN_TEAM_ID_MAP[clean];
   const upper = slugOrAbbrOrId.toUpperCase().trim();
   if (ESPN_TEAM_ID_MAP[upper]) return ESPN_TEAM_ID_MAP[upper];
-  // Check if it's already an ESPN numeric id (1-30)
+
+  // 2. Coincidencia por franquicia en MOCK_TEAMS
+  const matched = MOCK_TEAMS.find(
+    (t) =>
+      t.slug.toLowerCase() === clean ||
+      t.abbreviation.toLowerCase() === clean ||
+      t.id === clean ||
+      t.name.toLowerCase() === clean ||
+      t.name.toLowerCase().includes(clean)
+  );
+  if (matched && ESPN_TEAM_ID_MAP[matched.abbreviation]) {
+    return ESPN_TEAM_ID_MAP[matched.abbreviation];
+  }
+
+  // 3. ID numérico de ESPN (1-30)
   const num = parseInt(clean, 10);
   if (!isNaN(num) && num >= 1 && num <= 30) return String(num);
-  return "2";
+
+  return "18"; // Default al campeón vigente Knicks
 }
 
 export function formatSalary(salary?: number): { formatted?: string; tier?: Player["salaryTier"] } {
