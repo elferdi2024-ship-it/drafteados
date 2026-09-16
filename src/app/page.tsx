@@ -2,7 +2,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { HeroCanvasScrub } from "@/components/hero/HeroCanvasScrub";
 import { SocialMarqueeStrip } from "@/components/sections/SocialMarqueeStrip";
 import { LatestContent } from "@/components/sections/LatestContent";
-import { PickemHomeBanner } from "@/components/sections/PickemHomeBanner";
 import { UniverseSection } from "@/components/sections/UniverseSection";
 import { CommunityBuque } from "@/components/sections/CommunityBuque";
 import { BrandPartners } from "@/components/sections/BrandPartners";
@@ -14,7 +13,7 @@ export default function Home() {
       {/* Fixed Glassmorphism Navigation */}
       <Navbar />
 
-      {/* Hero with 60 FPS 2D Canvas Scrubbing (Awwwards Grade) */}
+      {/* Hero with 60 FPS 2D Canvas Scrubbing */}
       <HeroCanvasScrub />
 
       {/* Transición Elegante: Marquee Infinito de Redes y Canales Oficiales */}
@@ -23,10 +22,7 @@ export default function Home() {
       {/* Narrative Section 2: Últimos Contenidos */}
       <LatestContent />
 
-      {/* Featured Banner: Drafteados Pick'em NBA */}
-      <PickemHomeBanner />
-
-      {/* Narrative Section 3: Universo Drafteados (2x2 Cards) */}
+      {/* Narrative Section 3: Ecosistema Universo Drafteados */}
       <UniverseSection />
 
       {/* Narrative Section 4: Somos Buques (Comunidad & Manifiesto) */}

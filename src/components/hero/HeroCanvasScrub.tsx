@@ -3,9 +3,8 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { Users, Trophy, ArrowRight, Flame } from "lucide-react";
+import { Users } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 
 import gsap from "gsap";
@@ -560,20 +559,8 @@ export function HeroCanvasScrub() {
             className="absolute inset-0 -inset-x-6 sm:-inset-x-14 -z-10 rounded-3xl bg-radial-[ellipse_at_center,_rgba(0,0,0,0.45)_0%,_transparent_75%] pointer-events-none"
           />
 
-          {/* Pick'em Announcement Pill */}
-          <Link
-            href="/pickem"
-            className="group inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/70 hover:bg-black/90 border border-[#FF5A1F]/60 backdrop-blur-xl transition-all duration-300 mb-4 sm:mb-5 hover:scale-105 shadow-[0_0_30px_rgba(255,90,31,0.35)] cursor-pointer"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-[#FF5A1F] animate-ping" />
-            <span className="font-mono text-xs font-bold tracking-wider text-white uppercase flex items-center gap-1.5">
-              <span className="text-[#FF5A1F]">NUEVO:</span> PICK'EM 2026/27 &bull; PRONÓSTICOS NBA
-            </span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#FF5A1F] group-hover:translate-x-1 transition-transform" />
-          </Link>
-
           {/* Eyebrow - Pure Editorial Typography */}
-          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-zinc-300 uppercase mb-3 sm:mb-4 drop-shadow-md">
+          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4 sm:mb-6 drop-shadow-md">
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
             <span>DESDE 2017 &bull; TU CASA NBA &bull; +880.000 BUQUES</span>
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
@@ -596,34 +583,24 @@ export function HeroCanvasScrub() {
           </p>
 
           {/* Action CTAs */}
-          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-lg sm:max-w-none">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full max-w-md sm:max-w-none">
             <MagneticButton
               variant="primary"
-              size="lg"
-              href="/pickem"
-              className="w-full sm:w-auto shadow-[0_4px_35px_rgba(255,90,31,0.55)] border border-white/20 gap-2 text-base font-bold"
-            >
-              <Trophy className="w-5 h-5 text-white" />
-              <span>Jugar al Pick'em Oficial</span>
-            </MagneticButton>
-
-            <MagneticButton
-              variant="secondary"
               size="lg"
               href="https://www.youtube.com/@DrafteadosNBA"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto gap-2"
+              className="w-full sm:w-auto shadow-[0_4px_30px_rgba(255,90,31,0.4)]"
             >
-              <YoutubeIcon className="w-5 h-5 text-red-500" />
-              <span>Ver en YouTube</span>
+              <YoutubeIcon className="w-5 h-5 text-white" />
+              <span>Subir al Buque en YouTube</span>
             </MagneticButton>
 
             <MagneticButton
               variant="secondary"
               size="lg"
               href="#comunidad"
-              className="w-full sm:w-auto gap-2"
+              className="w-full sm:w-auto"
             >
               <Users className="w-5 h-5 text-[#FF5A1F]" />
               <span>Somos Buques</span>

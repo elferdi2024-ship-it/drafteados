@@ -246,6 +246,21 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
     external: true,
     image: "/images/VIAJES.png",
   },
+  {
+    id: "pickem-nba",
+    title: "Pick'em NBA",
+    badge: "Juego Oficial",
+    description: "La porra de la comunidad. Pronostica los 13 galardones de la temporada NBA, compite en el ranking global de Los Buques y demuestra cuánto sabes de la liga.",
+    ctaText: "Jugar Pick'em",
+    ctaLink: "/pickem",
+    tag: "Temporada 2026/27",
+    gradient: "from-amber-600/20 via-orange-600/5 to-transparent",
+    iconName: "Trophy",
+    stats: "13 Galardones • Ranking Oficial • 100% Gratuito",
+    accentColor: "#FF5A1F",
+    external: false,
+    image: "/images/logo.png",
+  },
 ];
 
 export const COMMUNITY_METRICS: CommunityMetric[] = [

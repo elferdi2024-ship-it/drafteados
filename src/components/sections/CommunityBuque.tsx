@@ -11,7 +11,7 @@ import {
   BUQUE_ORIGIN,
   SOCIAL_COMMUNITY_STATS,
 } from "@/data/drafteados";
-import { Quote, ArrowUpRight, Newspaper, Calendar, MapPin, Sparkles } from "lucide-react";
+import { Quote, ArrowUpRight, Newspaper, Calendar, MapPin } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import gsap from "gsap";
@@ -314,8 +314,8 @@ export function CommunityBuque() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-[#FF5A1F]/5 rounded-full blur-[100px] pointer-events-none" />
 
           <div className="relative z-10 max-w-4xl mx-auto">
-            <div className="flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF5A1F] mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-[0.25em] text-[#FF5A1F] mb-3">
+              <span className="w-2 h-0.5 bg-[#FF5A1F]" />
               <span>{BUQUE_ORIGIN.subtitle}</span>
             </div>
 
@@ -378,15 +378,8 @@ export function CommunityBuque() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-                  {/* Kicker badge */}
-                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[10px] sm:text-xs font-mono font-bold text-white border border-white/20">
-                      #{founder.number} &bull; {founder.tagline}
-                    </span>
-                  </div>
-
                   {/* Founder Name on Media Bottom */}
-                  <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
+                  <div className="absolute bottom-4 left-5 right-5 z-10 text-white">
                     <h4
                       className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-white"
                       style={{ fontFamily: "var(--font-title)" }}
@@ -409,17 +402,6 @@ export function CommunityBuque() {
                     <blockquote className="text-xs sm:text-sm italic text-zinc-800 dark:text-zinc-200 border-l-2 border-[#FF5A1F] pl-3 py-0.5">
                       &ldquo;{founder.quote}&rdquo;
                     </blockquote>
-
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {founder.specialties.map((spec) => (
-                        <span
-                          key={spec}
-                          className="px-2.5 py-1 rounded-md bg-black/[0.03] dark:bg-white/[0.04] text-[10px] sm:text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-black/5 dark:border-white/5"
-                        >
-                          {spec}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                 </div>
               </div>

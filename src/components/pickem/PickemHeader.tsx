@@ -1,9 +1,9 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Menu, X, User, LogOut, Trophy, Sun, Moon, ArrowLeft, Flame, Sparkles } from "lucide-react";
+import { Menu, X, User, LogOut, Trophy, Sun, Moon, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { AuthModal } from "./AuthModal";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -143,17 +143,15 @@ export function PickemHeader() {
               <nav className="hidden md:flex items-center gap-1 lg:gap-2">
                 <Link
                   href="/pickem/picks"
-                  className="px-3.5 py-1.5 text-sm font-semibold rounded-full text-zinc-700 dark:text-zinc-200 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-200 hover:text-[#FF5A1F] dark:hover:text-[#FF5A1F] transition-colors"
                 >
-                  <Flame className="w-4 h-4 text-[#FF5A1F]" />
-                  <span>Tablero de Picks</span>
+                  Tablero de Picks
                 </Link>
                 <Link
                   href="/pickem/leaderboard"
-                  className="px-3.5 py-1.5 text-sm font-semibold rounded-full text-zinc-700 dark:text-zinc-200 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-200 hover:text-[#FF5A1F] dark:hover:text-[#FF5A1F] transition-colors"
                 >
-                  <Trophy className="w-4 h-4 text-[#FF5A1F]" />
-                  <span>Clasificación</span>
+                  Clasificación
                 </Link>
                 <Link
                   href="/"
@@ -275,19 +273,19 @@ export function PickemHeader() {
             <Link
               href="/pickem/picks"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 text-zinc-900 dark:text-white font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
+              className="flex items-center justify-between px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-zinc-900 dark:text-white font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
             >
-              <Flame className="w-5 h-5 text-[#FF5A1F]" />
               <span>Tablero de Pronósticos</span>
+              <span className="font-mono text-xs text-[#FF5A1F]">→</span>
             </Link>
 
             <Link
               href="/pickem/leaderboard"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 text-zinc-900 dark:text-white font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
+              className="flex items-center justify-between px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 text-zinc-900 dark:text-white font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
             >
-              <Trophy className="w-5 h-5 text-[#FF5A1F]" />
               <span>Tabla de Clasificación</span>
+              <span className="font-mono text-xs text-zinc-400">→</span>
             </Link>
 
             <Link

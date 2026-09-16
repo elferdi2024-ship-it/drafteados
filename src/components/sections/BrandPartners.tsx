@@ -2,8 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Send, CheckCircle2, ArrowUpRight, MapPin, Mail, Sparkles } from "lucide-react";
-import gsap from "gsap";
+import { Send, CheckCircle2, ArrowUpRight, MapPin, Mail } from "lucide-react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function BrandPartners() {

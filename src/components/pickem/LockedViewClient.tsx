@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Lock, Trophy, Share2, CheckCircle2, Sparkles } from 'lucide-react';
+import { Lock, Trophy, Share2, CheckCircle2 } from 'lucide-react';
 import { ShareCardModal } from './ShareCardModal';
 
 interface LockedPickItem {
@@ -38,10 +38,9 @@ export function LockedViewClient({
         <div className="w-16 h-16 bg-[#FF5A1F]/15 border border-[#FF5A1F]/40 rounded-2xl flex items-center justify-center mx-auto text-[#FF5A1F] shadow-xl">
           <Lock className="w-8 h-8" />
         </div>
-        <div className="inline-flex items-center gap-1.5 bg-[#181818] border border-white/10 text-xs font-semibold text-[#8B8B8B] px-3.5 py-1 rounded-full uppercase tracking-wider">
-          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-          REGISTRADO OFICIALMENTE
-        </div>
+        <p className="font-mono text-xs uppercase tracking-widest text-emerald-500 font-bold">
+          [REGISTRADO OFICIALMENTE]
+        </p>
         <h1 className="font-title text-5xl sm:text-7xl tracking-tight text-[#F5F5F5] uppercase">
           TUS PREDICCIONES ESTÁN SELLADAS
         </h1>
@@ -107,9 +106,8 @@ export function LockedViewClient({
                     <span className="text-xs text-[#555555]">•</span>
                     <span className="text-xs text-[#FF5A1F] font-title">{pick.points} PUNTOS</span>
                     {pick.isUnderdog && (
-                      <span className="badge-underdog text-[9px] font-black px-1.5 py-0.2 rounded flex items-center gap-0.5">
-                        <Sparkles className="w-2.5 h-2.5" />
-                        x1.5
+                      <span className="text-[9px] font-mono font-bold text-[#FBBF24] border border-[#FBBF24]/30 px-1 py-0.5 rounded tracking-wider">
+                        x1.5 PTS
                       </span>
                     )}
                   </div>

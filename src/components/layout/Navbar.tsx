@@ -88,22 +88,22 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             {NAV_LINKS.map((link) => {
-              if (link.href === "/pickem") {
+              const isInternal = link.href.startsWith("/") && !link.href.startsWith("/#");
+              const linkClasses = `px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group ${
+                link.href === "/pickem"
+                  ? isScrolled
+                    ? "text-[#FF5A1F] font-semibold hover:bg-[#FF5A1F]/10"
+                    : "text-[#FF5A1F] font-semibold hover:bg-white/10"
+                  : isScrolled
+                  ? "text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                  : "text-zinc-300 hover:text-white hover:bg-white/5"
+              }`;
+
+              if (isInternal) {
                 return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`px-3.5 py-1.5 text-sm font-semibold transition-all duration-200 rounded-full relative group flex items-center gap-1.5 ${
-                      isScrolled
-                        ? "text-[#FF5A1F] bg-[#FF5A1F]/10 hover:bg-[#FF5A1F]/20 border border-[#FF5A1F]/30 shadow-sm"
-                        : "text-white bg-[#FF5A1F]/25 hover:bg-[#FF5A1F]/35 border border-[#FF5A1F]/40 backdrop-blur-md"
-                    }`}
-                  >
-                    <Flame className="w-3.5 h-3.5 text-[#FF5A1F] animate-pulse" />
-                    <span>{link.name}</span>
-                    <span className="px-1.5 py-0.2 rounded-full text-[9px] font-mono font-black uppercase bg-[#FF5A1F] text-white">
-                      NUEVO
-                    </span>
+                  <Link key={link.name} href={link.href} className={linkClasses}>
+                    {link.name}
+                    <span className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-[#FF5A1F] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
                   </Link>
                 );
               }
@@ -114,11 +114,7 @@ export function Navbar() {
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  className={`px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group ${
-                    isScrolled
-                      ? "text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
-                      : "text-zinc-300 hover:text-white hover:bg-white/5"
-                  }`}
+                  className={linkClasses}
                 >
                   {link.name}
                   <span className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-[#FF5A1F] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
@@ -215,54 +211,52 @@ export function Navbar() {
             transition={{ duration: 0.25 }}
             className="fixed inset-0 top-[60px] z-40 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl px-6 py-8 flex flex-col justify-between md:hidden border-t border-black/10 dark:border-white/10"
           >
-            <div className="flex flex-col gap-2.5 overflow-y-auto max-h-[calc(100vh-200px)] pr-1">
-              {/* Featured Pick'em App Card */}
-              <Link
-                href="/pickem"
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-4 rounded-2xl bg-gradient-to-br from-[#FF5A1F]/25 via-[#FF5A1F]/15 to-transparent border border-[#FF5A1F]/40 flex items-center justify-between group active:scale-[0.98] transition-transform shadow-lg shadow-[#FF5A1F]/10 mb-2"
-              >
-                <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FF5A1F] to-[#FF7A45] text-white flex items-center justify-center shadow-lg shadow-[#FF5A1F]/30 flex-shrink-0">
-                    <Trophy className="w-6 h-6" />
-                  </div>
-                  <div className="text-left">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="font-black text-2xl tracking-wider text-zinc-900 dark:text-white uppercase leading-none"
+            <div className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-200px)] pr-1">
+              {NAV_LINKS.map((link, idx) => {
+                const isInternal = link.href.startsWith("/") && !link.href.startsWith("/#");
+                const rowClasses = "text-2xl sm:text-3xl font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200 hover:text-[#FF5A1F] transition-colors py-3 border-b border-black/5 dark:border-white/5 flex items-center justify-between";
+
+                if (isInternal) {
+                  return (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, x: -15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.04 }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={rowClasses}
                         style={{ fontFamily: "var(--font-title)" }}
                       >
-                        PICK'EM NBA
-                      </span>
-                      <span className="px-1.5 py-0.5 rounded bg-[#FF5A1F] text-white font-mono text-[9px] font-black tracking-wider">
-                        NUEVO
-                      </span>
-                    </div>
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 font-sans mt-0.5">
-                      Pronósticos oficiales con cromos NBA
-                    </p>
-                  </div>
-                </div>
-                <ChevronRight className="w-5 h-5 text-[#FF5A1F] group-hover:translate-x-1 transition-transform" />
-              </Link>
+                        <span className={link.href === "/pickem" ? "text-[#FF5A1F]" : ""}>
+                          {link.name}
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-zinc-400" />
+                      </Link>
+                    </motion.div>
+                  );
+                }
 
-              {NAV_LINKS.filter((l) => l.href !== "/pickem").map((link, idx) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noopener noreferrer" : undefined}
-                  onClick={() => setMobileMenuOpen(false)}
-                  initial={{ opacity: 0, x: -15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.04 }}
-                  className="text-2xl font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200 hover:text-[#FF5A1F] transition-colors py-2 border-b border-black/5 dark:border-white/5 flex items-center justify-between"
-                  style={{ fontFamily: "var(--font-title)" }}
-                >
-                  <span>{link.name}</span>
-                  <ChevronRight className="w-4 h-4 text-zinc-400" />
-                </motion.a>
-              ))}
+                return (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
+                    onClick={() => setMobileMenuOpen(false)}
+                    initial={{ opacity: 0, x: -15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.04 }}
+                    className={rowClasses}
+                    style={{ fontFamily: "var(--font-title)" }}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight className="w-4 h-4 text-zinc-400" />
+                  </motion.a>
+                );
+              })}
 
               <div className="pt-2">
                 <button

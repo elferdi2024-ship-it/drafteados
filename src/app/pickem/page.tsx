@@ -80,122 +80,117 @@ export default function PickemLandingPage() {
       {/* HERO SECTION EDITORIAL ANIMADO */}
       <PickemHero />
 
-      {/* CÓMO FUNCIONA (SPORTS HUDS) */}
-      <section className="py-24 bg-black/[0.02] dark:bg-[#0d0d0d] border-b border-black/10 dark:border-white/[0.06] relative transition-colors">
+      {/* CÓMO FUNCIONA (EDITORIAL SWISS PLAYBOOK) */}
+      <section className="py-20 sm:py-28 bg-black/[0.02] dark:bg-[#0c0c0e] border-b border-black/10 dark:border-white/[0.08] relative transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 space-y-2">
-            <span className="text-xs uppercase font-black text-[#FF5A1F] tracking-widest">
-              REGLAS DE JUEGO
-            </span>
-            <h2 className="font-title text-4xl sm:text-5xl tracking-tight uppercase text-zinc-900 dark:text-white">
+          <div className="text-center mb-16 sm:mb-20 space-y-3">
+            <div className="flex items-center justify-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase">
+              <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+              <span>SISTEMA DE JUEGO</span>
+              <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+            </div>
+            <h2
+              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase text-zinc-950 dark:text-white"
+              style={{ fontFamily: "var(--font-title)" }}
+            >
               EL CAMINO HACIA EL ANILLO
             </h2>
+            <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto font-normal">
+              Cuatro tiempos para sellar tu legado en la comunidad más grande de la NBA en español.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
               {
-                num: '01',
-                title: 'ELEGÍ TUS PICKS',
-                desc: 'Completá tus 13 pronósticos: líderes estadísticos, galardones y campeones de conferencia.',
-                icon: Target,
-                color: '#3B82F6',
+                num: "01",
+                title: "ELEGÍ TUS PICKS",
+                desc: "13 pronósticos oficiales: líderes estadísticos, galardones individuales y campeones de conferencia.",
               },
               {
-                num: '02',
-                title: 'BLOQUEÁ OFICIALMENTE',
-                desc: 'Confirmá tus selecciones antes del tip-off del primer partido. Sin modificaciones posteriores.',
-                icon: Lock,
-                color: '#F59E0B',
+                num: "02",
+                title: "BLOQUEÁ LA JUGADA",
+                desc: "Confirmá tu quinteto y elecciones antes del salto inicial. Tras el cierre, el sistema bloquea ediciones.",
               },
               {
-                num: '03',
-                title: 'VIVÍ LA TEMPORADA',
-                desc: 'Seguí el minuto a minuto. Festejá los game-winners y sufrí con las rachas de tu equipo.',
-                icon: Eye,
-                color: '#10B981',
+                num: "03",
+                title: "VIVÍ CADA JORNADA",
+                desc: "Puntuación en tiempo real sincronizada con las estadísticas oficiales de la NBA noche a noche.",
               },
               {
-                num: '04',
-                title: 'CONQUISTÁ LA CIMA',
-                desc: 'Sumá puntos por cada acierto y demostrá en el ranking global quién es el verdadero oráculo.',
-                icon: Trophy,
-                color: '#FF5A1F',
+                num: "04",
+                title: "RECLAMÁ EL ANILLO",
+                desc: "Sumá puntos por acierto, activá multiplicadores underdog y peleá por el número uno del ranking.",
               },
-            ].map((step) => {
-              const Icon = step.icon;
-              return (
-                <div 
-                  key={step.num}
-                  className="sports-card rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between"
-                >
-                  <span className="absolute -top-3 -right-1 font-title text-7xl font-black text-white/[0.03] select-none">
+            ].map((step) => (
+              <div 
+                key={step.num}
+                className="relative p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#141416] border border-black/10 dark:border-white/10 shadow-sm flex flex-col justify-between transition-colors"
+              >
+                <div>
+                  <div
+                    className="text-5xl sm:text-6xl font-black text-[#FF5A1F] leading-none mb-4"
+                    style={{ fontFamily: "var(--font-title)" }}
+                  >
                     {step.num}
-                  </span>
-                  <div>
-                    <div 
-                      className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 border"
-                      style={{
-                        backgroundColor: `${step.color}15`,
-                        borderColor: `${step.color}40`,
-                        color: step.color,
-                      }}
-                    >
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <div className="font-title text-sm text-[#71717A] tracking-wider mb-1">
-                      PASO {step.num}
-                    </div>
-                    <h3 className="font-title text-2xl text-[#F5F5F5] tracking-tight mb-2 uppercase">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs text-[#8B8B8B] leading-relaxed">
-                      {step.desc}
-                    </p>
                   </div>
+                  <h3
+                    className="text-2xl sm:text-3xl font-black text-zinc-950 dark:text-white tracking-tight uppercase mb-2"
+                    style={{ fontFamily: "var(--font-title)" }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
+                    {step.desc}
+                  </p>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* GRILLA DE LAS 13 PREDICCIONES (TRADING CARDS) */}
-      <section className="py-28 bg-background transition-colors">
+      {/* GRILLA DE LAS 13 PREDICCIONES */}
+      <section className="py-20 sm:py-28 bg-background transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-16 pb-8 border-b border-black/10 dark:border-white/[0.08]">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12 sm:mb-16 pb-6 border-b border-black/10 dark:border-white/10">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs uppercase font-black text-[#FF5A1F] tracking-widest mb-2">
-                <Flame className="w-4 h-4" />
-                CATÁLOGO DE PRONÓSTICOS
+              <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-2">
+                <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+                <span>CATEGORÍAS OFICIALES</span>
               </div>
-              <h2 className="font-title text-5xl sm:text-6xl md:text-7xl tracking-tight text-zinc-900 dark:text-white uppercase">
+              <h2
+                className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-zinc-950 dark:text-white uppercase"
+                style={{ fontFamily: "var(--font-title)" }}
+              >
                 13 PREDICCIONES
               </h2>
-              <p className="text-zinc-500 dark:text-zinc-400 text-base mt-1">
-                Tocá cualquier tarjeta para abrir el selector y elegir a tu candidato.
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base mt-1">
+                Elegí tus favoritos para la temporada regular y playoffs de la NBA.
               </p>
             </div>
 
             <Link
               href="/pickem/picks"
-              className="inline-flex items-center gap-2 bg-[#FF5A1F] hover:bg-[#FF6B35] text-white font-title text-xl tracking-wider px-6 py-3.5 rounded-xl transition-transform hover:scale-105"
+              className="inline-flex items-center gap-2 bg-[#FF5A1F] hover:bg-[#FF6B35] text-white text-xl sm:text-2xl font-black tracking-wider px-7 py-3.5 rounded-xl transition-all hover:scale-105 uppercase"
+              style={{ fontFamily: "var(--font-title)" }}
             >
               <span>JUGAR AHORA</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
             {predictions.map((pred, i) => (
               <PredictionCard key={i} {...pred} />
             ))}
           </div>
 
-          <div className="text-center mt-16 pt-10 border-t border-white/[0.06]">
+          <div className="text-center mt-16 pt-10 border-t border-black/10 dark:border-white/10">
             <Link
               href="/pickem/picks"
-              className="inline-flex items-center justify-center gap-3 bg-[#FF5A1F] hover:bg-[#FF6B35] text-white font-title text-3xl tracking-wider px-12 py-5 rounded-2xl transition-all hover:scale-105 shadow-2xl shadow-[#FF5A1F]/30"
+              className="inline-flex items-center justify-center gap-3 bg-[#FF5A1F] hover:bg-[#FF6B35] text-white text-2xl sm:text-3xl font-black tracking-wider px-10 py-4.5 rounded-2xl transition-all hover:scale-105 shadow-xl shadow-[#FF5A1F]/25 uppercase"
+              style={{ fontFamily: "var(--font-title)" }}
             >
               <span>COMPLETAR MIS 13 PREDICCIONES</span>
               <ArrowRight className="w-6 h-6" />
@@ -205,14 +200,18 @@ export default function PickemLandingPage() {
       </section>
 
       {/* SECCIÓN SOCIAL Y RANKING TEASER */}
-      <section className="py-24 bg-black/[0.02] dark:bg-[#0d0d0d] border-y border-black/10 dark:border-white/[0.06] overflow-hidden transition-colors">
+      <section className="py-20 sm:py-28 bg-black/[0.02] dark:bg-[#0c0c0e] border-y border-black/10 dark:border-white/10 overflow-hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6">
-              <span className="text-xs uppercase font-black text-[#FF5A1F] tracking-widest">
-                COMUNIDAD DE BUQUES
-              </span>
-              <h2 className="font-title text-5xl sm:text-6xl md:text-7xl tracking-tight text-zinc-900 dark:text-white uppercase leading-[0.95]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="space-y-5">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase">
+                <span className="w-2 h-0.5 bg-[#FF5A1F]" />
+                <span>COMUNIDAD OFICIAL</span>
+              </div>
+              <h2
+                className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-zinc-950 dark:text-white uppercase leading-[0.95]"
+                style={{ fontFamily: "var(--font-title)" }}
+              >
                 COMPETÍ CONTRA<br />
                 <span className="text-[#FF5A1F]">LOS BUQUES</span>
               </h2>
@@ -222,13 +221,15 @@ export default function PickemLandingPage() {
               <div className="pt-2 flex flex-wrap gap-4">
                 <Link 
                   href="/pickem/picks" 
-                  className="inline-flex items-center justify-center bg-[#FF5A1F] hover:bg-[#FF7A45] text-white font-title text-2xl tracking-wider px-8 py-4 rounded-xl transition-all shadow-lg shadow-[#FF5A1F]/20 active:scale-95"
+                  className="inline-flex items-center justify-center bg-[#FF5A1F] hover:bg-[#FF7A45] text-white text-2xl font-black tracking-wider px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-[#FF5A1F]/20 uppercase"
+                  style={{ fontFamily: "var(--font-title)" }}
                 >
                   SUMARME AL JUEGO
                 </Link>
                 <Link 
                   href="/pickem/leaderboard" 
-                  className="inline-flex items-center justify-center bg-black/5 dark:bg-[#181818] hover:bg-black/10 dark:hover:bg-[#222222] border border-black/10 dark:border-white/10 text-zinc-900 dark:text-white font-title text-2xl tracking-wider px-8 py-4 rounded-xl transition-colors"
+                  className="inline-flex items-center justify-center bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/15 dark:border-white/15 text-zinc-950 dark:text-white text-2xl font-black tracking-wider px-8 py-3.5 rounded-xl transition-colors uppercase"
+                  style={{ fontFamily: "var(--font-title)" }}
                 >
                   TABLA COMPLETA
                 </Link>
@@ -236,50 +237,59 @@ export default function PickemLandingPage() {
             </div>
             
             {/* Podium Simulation Card */}
-            <div className="bg-white dark:bg-[#121212] border border-black/10 dark:border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden transition-colors">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF5A1F]/10 rounded-full blur-3xl pointer-events-none" />
-
+            <div className="bg-white dark:bg-[#141416] border border-black/10 dark:border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden transition-colors">
               <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4 mb-6">
                 <div className="flex items-center gap-2">
                   <Trophy className="w-5 h-5 text-[#FF5A1F]" />
-                  <span className="font-title text-2xl text-zinc-900 dark:text-white tracking-wide">
+                  <span
+                    className="text-2xl sm:text-3xl font-black text-zinc-950 dark:text-white tracking-wide uppercase"
+                    style={{ fontFamily: "var(--font-title)" }}
+                  >
                     TOP 3 COMUNIDAD
                   </span>
                 </div>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
                   TEMPORADA 2026/27
                 </span>
               </div>
 
               <div className="space-y-3">
                 {[
-                  { rank: 1, name: 'Jose', points: 310, isBuque: true, medal: '🥇' },
-                  { rank: 2, name: 'Sertxu', points: 285, isBuque: true, medal: '🥈' },
-                  { rank: 3, name: 'ElPibeNBA', points: 280, isBuque: false, medal: '🥉' },
+                  { rank: 1, name: 'Jose', points: 310, isBuque: true, medal: '01' },
+                  { rank: 2, name: 'Sertxu', points: 285, isBuque: true, medal: '02' },
+                  { rank: 3, name: 'ElPibeNBA', points: 280, isBuque: false, medal: '03' },
                 ].map((user) => (
                   <div 
                     key={user.rank} 
-                    className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
                       user.rank === 1 
-                        ? 'bg-[#FF5A1F]/10 border-[#FF5A1F]/40 shadow-lg shadow-[#FF5A1F]/10' 
-                        : 'bg-[#181818] border-white/5'
+                        ? 'bg-[#FF5A1F]/5 border-[#FF5A1F]/30 shadow-sm' 
+                        : 'bg-black/[0.02] dark:bg-white/[0.02] border-black/5 dark:border-white/5'
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <span className="text-2xl select-none">{user.medal}</span>
+                      <span
+                        className="text-xl font-black text-[#FF5A1F] leading-none"
+                        style={{ fontFamily: "var(--font-title)" }}
+                      >
+                        {user.medal}
+                      </span>
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-base text-[#F5F5F5]">{user.name}</span>
+                          <span className="font-bold text-base text-zinc-950 dark:text-white">{user.name}</span>
                           {user.isBuque && <CheckCircle2 className="w-4 h-4 text-[#3B82F6]" />}
                         </div>
-                        <span className="text-xs text-[#8B8B8B]">Buque Oficial</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">Buque Oficial</span>
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="font-title text-2xl text-[#F5F5F5] tabular-nums">
+                      <span
+                        className="text-2xl font-black text-zinc-950 dark:text-white tabular-nums"
+                        style={{ fontFamily: "var(--font-title)" }}
+                      >
                         {user.points}
                       </span>
-                      <span className="text-xs text-[#8B8B8B] ml-1 font-bold">PTS</span>
+                      <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400 ml-1 font-bold">PTS</span>
                     </div>
                   </div>
                 ))}

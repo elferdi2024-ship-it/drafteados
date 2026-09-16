@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useMemo } from 'react';
-import { Search, X, Check, User, Sparkles, Flame } from 'lucide-react';
+import { Search, X, Check, User } from 'lucide-react';
 import { getCommunityPercentage, isUnderdogPick } from '@/lib/pickem/community';
 import { getPlayerNbaId, getPlayerHeadshotUrl } from '@/lib/basketball/nbaIds';
 
@@ -69,8 +69,7 @@ export function PlayerSelector({
         {/* Encabezado */}
         <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-[#141414]">
           <div>
-            <span className="text-[11px] uppercase font-black text-[#FF5A1F] tracking-widest flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#FF5A1F] animate-pulse" />
+            <span className="text-[11px] font-mono uppercase font-bold text-[#FF5A1F] tracking-widest block">
               ELEGÍ JUGADOR
             </span>
             <h3 className="font-title text-2xl sm:text-3xl text-[#F5F5F5] tracking-tight">{title}</h3>
@@ -183,9 +182,8 @@ export function PlayerSelector({
                           {player.displayName}
                         </span>
                         {isUnderdog && (
-                          <span className="badge-underdog text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md shrink-0 flex items-center gap-1 shadow-sm">
-                            <Sparkles className="w-2.5 h-2.5 text-[#FBBF24]" />
-                            SORPRESA x1.5
+                          <span className="text-[9px] font-mono font-bold text-[#FBBF24] border border-[#FBBF24]/30 px-1.5 py-0.5 rounded tracking-wider shrink-0">
+                            x1.5 PTS
                           </span>
                         )}
                       </div>

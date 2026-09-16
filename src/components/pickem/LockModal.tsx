@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Lock, Loader2, ArrowRight, Flame, ShieldAlert, Sparkles } from 'lucide-react';
+import { Lock, Loader2, ArrowRight, ShieldAlert } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface LockModalProps {
@@ -94,8 +94,7 @@ export function LockModal({
             <div className="text-[10px] uppercase font-bold text-[#8B8B8B] tracking-wider mb-1">
               SORPRESA (x1.5)
             </div>
-            <div className="font-title text-3xl text-[#FBBF24] flex items-center justify-center gap-1 font-black">
-              <Sparkles className="w-4 h-4 text-[#FBBF24]" />
+            <div className="font-title text-3xl text-[#FBBF24] flex items-center justify-center font-black">
               <span>{underdogCount}</span>
             </div>
           </div>

@@ -157,11 +157,11 @@ export function LatestContent() {
 
   return (
     <section
-      id="contenidos"
       ref={sectionRef}
-      className="relative z-20 py-16 sm:py-24 lg:py-28 scroll-mt-16 sm:scroll-mt-20 bg-[#FF5A1F] text-white overflow-hidden selection:bg-black selection:text-white content-auto"
+      id="contenidos"
+      className="relative z-20 pt-10 sm:pt-24 pb-10 sm:pb-20 scroll-mt-16 sm:scroll-mt-20 bg-gradient-to-b from-[#FF5A1F] to-[#E04810] transition-colors duration-300 overflow-hidden content-auto"
     >
-      {/* Decorative Brand Text Backdrop */}
+      {/* Cinematic Watermark Typography */}
       <div
         aria-hidden="true"
         className="absolute -top-10 left-0 right-0 overflow-hidden select-none pointer-events-none opacity-10"
@@ -176,31 +176,31 @@ export function LatestContent() {
 
       <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 sm:mb-8 gap-3 sm:gap-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-white/95 uppercase mb-3">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-white/95 uppercase mb-1.5 sm:mb-3">
               <span className="w-2 h-0.5 bg-white" />
               <span>01 &bull; ¿QUÉ HACEMOS? &bull; YOUTUBE</span>
             </div>
 
             <h2
-              className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-white tracking-tight leading-[0.95]"
+              className="text-3xl sm:text-6xl lg:text-7xl font-black uppercase text-white tracking-tight leading-[0.95]"
               style={{ fontFamily: "var(--font-title)" }}
             >
               ÚLTIMOS VÍDEOS &amp; ANÁLISIS
             </h2>
-            <p className="mt-3 text-white/95 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
-              Acercamos la cultura NBA a los aficionados hispanohablantes que quieren entenderla, compartirla y vivirla. Cobertura diaria en temporada regular y playoffs; en verano, nuevo vídeo cada lunes y jueves.
+            <p className="mt-1.5 sm:mt-3 text-white/95 text-xs sm:text-base max-w-2xl font-normal leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Acercamos la cultura NBA a los aficionados hispanohablantes. Cobertura diaria en temporada regular y playoffs.
             </p>
           </div>
 
-          {/* Carousel Action Controls */}
-          <div className="flex items-center gap-3 self-start md:self-end">
+          {/* Carousel Action Controls (Desktop Only - Mobile swipes natively) */}
+          <div className="hidden md:flex items-center gap-3 self-end">
             <a
               href="https://www.youtube.com/@DrafteadosNBA/videos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black text-white hover:bg-zinc-900 transition-all text-xs font-mono font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-[0.98] border border-white/10"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black text-white hover:bg-zinc-900 transition-all text-xs font-mono font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-[0.98] border border-white/10"
             >
               <YoutubeIcon className="w-4 h-4 text-[#FF5A1F]" />
               <span>Canal YouTube</span>
@@ -230,8 +230,8 @@ export function LatestContent() {
           </div>
         </div>
 
-        {/* Category Filters Bar - Clinical Segmented Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-4 mb-3">
+        {/* Category Filters Bar */}
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-2 sm:pb-4 mb-2 sm:mb-3">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -267,7 +267,7 @@ export function LatestContent() {
           {filteredVideos.map((video: VideoItem, idx: number) => (
             <div
               key={video.id}
-              className="flex-shrink-0 w-[300px] sm:w-[360px] md:w-[380px]"
+              className="flex-shrink-0 w-[260px] sm:w-[360px] md:w-[380px]"
               style={{ scrollSnapAlign: "start" }}
             >
               <a
@@ -283,7 +283,7 @@ export function LatestContent() {
                     src={video.thumbnail}
                     alt={video.title}
                     fill
-                    sizes="(max-width: 768px) 300px, 380px"
+                    sizes="(max-width: 768px) 260px, 380px"
                     loading={idx < 3 ? "eager" : "lazy"}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
@@ -292,23 +292,23 @@ export function LatestContent() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                   {/* Clean Duration Badge in Mono (Bottom Right) */}
-                  <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-black/90 text-[11px] font-mono font-bold text-white tracking-wider border border-white/10 backdrop-blur-sm">
+                  <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/90 text-[10px] sm:text-[11px] font-mono font-bold text-white tracking-wider border border-white/10 backdrop-blur-sm">
                     {video.duration}
                   </div>
 
                   {/* Play Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30 backdrop-blur-[2px]">
-                    <div className="w-13 h-13 rounded-full bg-[#FF5A1F] text-white flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-transform duration-300 border border-white/20">
-                      <Play className="w-5 h-5 fill-white ml-0.5" />
+                    <div className="w-12 h-12 rounded-full bg-[#FF5A1F] text-white flex items-center justify-center shadow-2xl transform scale-75 group-hover:scale-100 transition-transform duration-300 border border-white/20">
+                      <Play className="w-4 h-4 fill-white ml-0.5" />
                     </div>
                   </div>
                 </div>
 
-                {/* Card Body - Clinical Swiss Typography */}
-                <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 bg-[#111113]">
+                {/* Card Body */}
+                <div className="p-3 sm:p-5 flex flex-col justify-between flex-1 bg-[#111113]">
                   <div>
                     {/* Metadata Header: Category & Editorial Highlights */}
-                    <div className="flex items-center justify-between gap-2 mb-2 text-[11px] font-mono">
+                    <div className="flex items-center justify-between gap-2 mb-1.5 sm:mb-2 text-[10px] sm:text-[11px] font-mono">
                       <div className="flex items-center gap-1.5 uppercase tracking-wider">
                         <span className="font-bold text-[#FF7A45]">{video.category}</span>
                         {video.featured && (
@@ -321,17 +321,17 @@ export function LatestContent() {
                       <span className="text-zinc-400 font-medium">{video.date}</span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-[#FF7A45] transition-colors leading-snug line-clamp-2">
+                    <h3 className="text-sm sm:text-lg font-bold text-white group-hover:text-[#FF7A45] transition-colors leading-snug line-clamp-2">
                       {video.title}
                     </h3>
 
-                    <p className="mt-2 text-xs text-zinc-400 line-clamp-2 leading-relaxed font-normal">
+                    <p className="mt-1.5 text-xs text-zinc-400 line-clamp-2 leading-relaxed font-normal hidden sm:block">
                       {video.description}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-400">
-                    <span>{formatViews(video.views)} reproducciones</span>
+                  <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-white/10 flex items-center justify-between text-[11px] sm:text-xs font-mono text-zinc-400">
+                    <span>{formatViews(video.views)} views</span>
                     <span className="flex items-center gap-1 font-bold text-zinc-300 group-hover:text-[#FF7A45] transition-colors">
                       <span>Ver vídeo</span>
                       <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

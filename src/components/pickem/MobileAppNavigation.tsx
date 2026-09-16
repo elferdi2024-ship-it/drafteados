@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -7,6 +7,11 @@ import { Home, Flame, Trophy, Lock, User } from "lucide-react";
 
 export function MobileAppNavigation() {
   const pathname = usePathname();
+
+  // Do not render bottom nav on /pickem/picks to leave 100% of viewport for the cards and action bar
+  if (pathname.startsWith("/pickem/picks")) {
+    return null;
+  }
 
   const tabs = [
     {
@@ -19,7 +24,6 @@ export function MobileAppNavigation() {
       name: "Picks",
       href: "/pickem/picks",
       icon: Flame,
-      badge: "13",
     },
     {
       name: "Ranking",
@@ -55,14 +59,7 @@ export function MobileAppNavigation() {
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
               }`}
             >
-              <div className="relative">
-                <Icon className={`w-5 h-5 ${isActive ? "scale-110" : "scale-100"} transition-transform`} />
-                {tab.badge && (
-                  <span className="absolute -top-1.5 -right-2.5 bg-[#FF5A1F] text-white text-[9px] font-mono font-black rounded-full px-1 py-0.2 shadow-sm">
-                    {tab.badge}
-                  </span>
-                )}
-              </div>
+              <Icon className={`w-5 h-5 ${isActive ? "scale-110" : "scale-100"} transition-transform`} />
               <span className="text-[10px] font-mono uppercase tracking-wider leading-none">
                 {tab.name}
               </span>

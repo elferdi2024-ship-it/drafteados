@@ -310,8 +310,7 @@ export function PicksClient({
     <div className="min-h-screen bg-[#080808] pb-36 text-[#F5F5F5] selection:bg-[#FF5A1F] selection:text-white">
       {/* Toast */}
       {toastMessage && (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[#161616] border border-[#FF5A1F]/50 text-[#F5F5F5] text-xs font-semibold px-5 py-2.5 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] animate-in fade-in slide-in-from-top-4 flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-[#FF5A1F] animate-ping" />
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-white dark:bg-[#161616] border border-[#FF5A1F] text-zinc-900 dark:text-[#F5F5F5] text-xs font-mono font-bold px-5 py-2.5 rounded-xl shadow-xl animate-in fade-in slide-in-from-top-4">
           {toastMessage}
         </div>
       )}
@@ -398,38 +397,35 @@ export function PicksClient({
         </div>
         </div>
 
-        {/* FLOATING ACTION HUD */}
+        {/* FLOATING ACTION BAR */}
         {!isLocked && (
-          <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#0a0a0a]/95 backdrop-blur-2xl border-t border-white/10 p-3.5 sm:p-4 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
-            <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
-              <div className="text-xs">
-                <div className="font-title text-lg sm:text-xl text-[#F5F5F5] tracking-wide flex items-center gap-2">
-                  <span>{allCompleted ? '¡13/13 PREDICCIONES LISTAS!' : `FALTAN ${predictionTypes.length - completedCount} PREDICCIONES`}</span>
-                  {underdogCount > 0 && (
-                    <span className="badge-underdog text-[10px] px-2.5 py-0.5 rounded-md font-sans font-bold flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-[#FBBF24]" />
-                      +{underdogCount} Sorpresa x1.5
-                    </span>
-                  )}
+          <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-black/10 dark:border-white/10 p-3 sm:p-4 shadow-[0_-8px_30px_rgba(0,0,0,0.15)] transition-colors">
+            <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+              <div>
+                <div
+                  className="text-lg sm:text-xl text-zinc-950 dark:text-white uppercase tracking-tight font-black leading-none"
+                  style={{ fontFamily: "var(--font-title)" }}
+                >
+                  {allCompleted ? "¡13/13 PREDICCIONES LISTAS!" : `FALTAN ${predictionTypes.length - completedCount} PREDICCIONES`}
                 </div>
-                <div className="text-[#8B8B8B] text-xs">
+                <div className="text-zinc-500 dark:text-zinc-400 text-xs mt-0.5">
                   {allCompleted 
-                    ? 'Bloqueá oficialmente para sellar tus puntos en el ranking.' 
-                    : 'Completá todos los campos para poder sellar tu jugada.'}
+                    ? "Bloqueá oficialmente para sellar tus puntos en el ranking." 
+                    : "Completá las 13 categorías para sellar tu jugada."}
                 </div>
               </div>
 
               <button
                 onClick={handleLockConfirmation}
                 disabled={!allCompleted || isPending}
-                className="bg-[#FF5A1F] hover:bg-[#FF6B35] disabled:opacity-40 disabled:hover:bg-[#FF5A1F] text-white font-title text-lg sm:text-2xl tracking-wider px-6 sm:px-10 py-3 sm:py-3.5 rounded-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(255,90,31,0.4)]"
+                className="bg-[#FF5A1F] hover:bg-[#FF6B35] disabled:opacity-40 disabled:hover:bg-[#FF5A1F] text-white font-title text-base sm:text-xl tracking-wider px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-200 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-[#FF5A1F]/25 cursor-pointer shrink-0"
               >
                 {isPending ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
                   <>
-                    <span>SELLAR PREDICCIONES</span>
-                    <Lock className="w-5 h-5" />
+                    <span>SELLAR PICKS</span>
+                    <Lock className="w-4 h-4" />
                   </>
                 )}
               </button>

@@ -135,8 +135,8 @@ export function UniverseSection() {
           </p>
         </div>
 
-        {/* 3-Pillar Universe Cards Grid */}
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        {/* Ecosistema Universe Cards Grid (4 Pilares) */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {UNIVERSE_ITEMS.map((item) => {
             const Icon = iconMap[item.iconName];
             const anchorId =
