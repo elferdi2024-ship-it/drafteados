@@ -22,6 +22,41 @@
   --pickem-accent: #FF5A1F;
   --pickem-accent-hover: #E04810;
   --pickem-gold: #FF5A1F;
+
+  /* ============================================================
+     DRAFTEADOS NBA HUB — DESIGN TOKENS
+     ============================================================ */
+  --hub-bg: #080808;
+  --hub-surface: #111111;
+  --hub-surface-2: #181818;
+  --hub-surface-3: #1f1f1f;
+
+  --hub-border: #282828;
+  --hub-border-hover: #3a3a3a;
+
+  --hub-text: #F5F5F5;
+  --hub-text-muted: #8B8B8B;
+  --hub-text-dim: #5A5A5A;
+
+  --hub-accent: #FF5A1F;
+  --hub-accent-hover: #FF6B35;
+  --hub-accent-soft: rgba(255, 90, 31, 0.12);
+
+  --hub-live: #22C55E;
+  --hub-live-soft: rgba(34, 197, 94, 0.15);
+  --hub-final: #6B7280;
+  --hub-scheduled: #8B8B8B;
+  --hub-win: #22C55E;
+  --hub-loss: #EF4444;
+
+  --hub-east: #3B82F6;
+  --hub-west: #A855F7;
+
+  --hub-font-display: var(--font-title), "Bebas Neue", system-ui, sans-serif;
+  --hub-font-sans: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --hub-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --hub-glow-accent: 0 0 24px rgba(255, 90, 31, 0.25);
 }
 
 html.dark {
@@ -82,6 +117,23 @@ html.dark {
   --color-status-correct: #22C55E;
   --color-status-incorrect: #EF4444;
   --color-status-locked: #6B7280;
+
+  /* NBA Hub Theme Colors */
+  --color-hub-bg: var(--hub-bg);
+  --color-hub-surface: var(--hub-surface);
+  --color-hub-surface-2: var(--hub-surface-2);
+  --color-hub-surface-3: var(--hub-surface-3);
+  --color-hub-border: var(--hub-border);
+  --color-hub-border-hover: var(--hub-border-hover);
+  --color-hub-text: var(--hub-text);
+  --color-hub-text-muted: var(--hub-text-muted);
+  --color-hub-text-dim: var(--hub-text-dim);
+  --color-hub-accent: var(--hub-accent);
+  --color-hub-accent-hover: var(--hub-accent-hover);
+  --color-hub-live: var(--hub-live);
+  --color-hub-final: var(--hub-final);
+  --color-hub-east: var(--hub-east);
+  --color-hub-west: var(--hub-west);
 }
 
 /* Base resets & typography */
