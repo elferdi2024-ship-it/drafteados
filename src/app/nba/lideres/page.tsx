@@ -31,11 +31,11 @@ export default async function LeadersPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <header className="border-b border-white/[0.08] pb-6">
+      <header className="border-b border-[var(--hub-border)] pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
-          <span>TEMPORADA REGULAR 2026/27</span>
+          <span>PRETEMPORADA 2026/27</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
@@ -46,14 +46,25 @@ export default async function LeadersPage() {
               LÍDERES
             </h1>
             <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-1.5 font-normal">
-              Quién está rompiéndola esta temporada. Las estadísticas que definen a los mejores.
+              Estadísticas individuales de referencia histórica (2025/26) previas al salto inicial de la nueva temporada 2026/27.
             </p>
           </div>
-          <span className="text-xs font-mono text-[var(--hub-text-dim)] shrink-0">
-            Actualizado hace 15 min
-          </span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--hub-surface-2)] border border-[var(--hub-border)] text-xs font-mono text-[var(--hub-text-muted)] shrink-0">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <span>Ref. Temporada 2025/26</span>
+          </div>
         </div>
       </header>
+
+      {/* Pre-season notice */}
+      <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-xs text-[var(--hub-text-muted)] flex items-start gap-2.5">
+        <span className="font-bold text-amber-500 uppercase tracking-wider shrink-0 font-mono">
+          PRETEMPORADA:
+        </span>
+        <span>
+          Las métricas mostradas reflejan los líderes consolidados de la última temporada regular (2025/26). A partir del 20 de octubre de 2026, los promedios se actualizarán automáticamente noche a noche con los partidos oficiales de la temporada 2026/27.
+        </span>
+      </div>
 
       {/* Interactive Leaders Table with Tabs */}
       <LeadersClient initialLeaders={allLeaders} />

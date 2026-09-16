@@ -106,27 +106,38 @@ export const FOUNDERS: FounderItem[] = [
 
 export const LATEST_VIDEOS: VideoItem[] = [
   {
+    id: "aqJUm_Ol8os",
+    title: "¡LA NUEVA APUESTA DE LOS WARRIORS! ¿Se equivocan? | Guía GSW 26-27",
+    description: "¡Empieza la GUÍA NBA 2026/2027! Comenzamos con los Golden State Warriors y el análisis a fondo del nuevo rumbo.",
+    duration: "24:30",
+    views: 95000,
+    date: "Hoy",
+    category: "Análisis NBA",
+    thumbnail: "https://i.ytimg.com/vi/aqJUm_Ol8os/maxresdefault.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=aqJUm_Ol8os",
+    featured: true,
+  },
+  {
+    id: "ZS4F-l1de30",
+    title: "¿CÓMO AFRONTARÁN LA TEMPORADA ESTAS 2 SUPERESTRELLAS?",
+    description: "Shai Gilgeous-Alexander y Jalen Brunson ante su temporada más exigente en OKC y Knicks.",
+    duration: "18:40",
+    views: 110000,
+    date: "Ayer",
+    category: "Análisis NBA",
+    thumbnail: "https://i.ytimg.com/vi/ZS4F-l1de30/maxresdefault.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=ZS4F-l1de30",
+  },
+  {
     id: "ms8NxjBHfkI",
     title: "¡ASÍ SERÁ LA TEMPORADA NBA SEGÚN LOS EXPERTOS! MVP, Campeón, Rookie del año…",
     description: "Pronósticos atrevidos, candidatos al anillo y el debate definitivo de la temporada con todo el equipo de la Casa.",
     duration: "26:40",
     views: 184000,
-    date: "Destacado",
-    category: "Análisis NBA",
-    thumbnail: "https://i.ytimg.com/vi/ms8NxjBHfkI/maxresdefault.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=ms8NxjBHfkI",
-    featured: true,
-  },
-  {
-    id: "MrhdFvSAWi4",
-    title: "¿DUDAS CON EL FUTURO DE CURRY? ¿KAWHI SE VA DE ROSITAS?",
-    description: "Análisis sin filtros de la encrucijada en Warriors y Clippers en un Salvaje Oeste sin piedad.",
-    duration: "22:15",
-    views: 142000,
     date: "Hace 2 días",
     category: "Debates",
-    thumbnail: "https://i.ytimg.com/vi/MrhdFvSAWi4/maxresdefault.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=MrhdFvSAWi4",
+    thumbnail: "https://i.ytimg.com/vi/ms8NxjBHfkI/maxresdefault.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=ms8NxjBHfkI",
   },
   {
     id: "Pc_-JOvRRv0",
@@ -378,7 +389,7 @@ export const COMMUNITY_TESTIMONIALS: CommunityTestimonial[] = PRESS_MILESTONES.s
 }));
 
 export const NAV_LINKS = [
-  { name: "NBA Hub", href: "/nba", external: false, badge: "EN VIVO" },
+  { name: "NBA Hub", href: "/nba", external: false },
   { name: "Pick'em NBA", href: "/pickem", external: false, isPickem: true, badge: "NUEVO" },
   { name: "¿Qué Hacemos?", href: "/#contenidos", external: false },
   { name: "Universo", href: "/#universo", external: false },

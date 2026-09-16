@@ -1,10 +1,11 @@
 // filepath: src/components/nba/HubNav.tsx
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Flame, Trophy, Calendar, ListOrdered, Users, ArrowUpRight } from "lucide-react";
+import { Flame, Trophy, Calendar, ListOrdered, Users, ArrowUpRight, Sun, Moon } from "lucide-react";
 
 interface NavItem {
   href: string;
@@ -23,9 +24,29 @@ const NAV_ITEMS: NavItem[] = [
 
 export function HubNav() {
   const pathname = usePathname();
+  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--hub-bg)]/90 backdrop-blur-md border-b border-[var(--hub-border)]">
+    <header className="sticky top-0 z-40 bg-[var(--hub-bg)]/95 backdrop-blur-md border-b border-[var(--hub-border)] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18 gap-4">
           {/* Logo Drafteados -> Link a Home Marketing ('/') */}
@@ -69,7 +90,7 @@ export function HubNav() {
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all ${
                     isActive
                       ? "bg-[var(--hub-accent)] text-white shadow-md shadow-[var(--hub-accent)]/20"
-                      : "text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] hover:bg-white/5"
+                      : "text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] hover:bg-[var(--hub-surface-2)]"
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -79,8 +100,22 @@ export function HubNav() {
             })}
           </nav>
 
-          {/* Direct CTA to Pick'em */}
-          <div className="flex items-center gap-3">
+          {/* Actions: Theme Toggle + CTA to Pick'em */}
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-2 rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] text-[var(--hub-text)] hover:border-[var(--hub-accent)] transition-all cursor-pointer flex items-center justify-center"
+              aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+              title={theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"}
+            >
+              {mounted && theme === "dark" ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+              )}
+            </button>
+
             <Link
               href="/pickem"
               className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-[var(--hub-accent-soft)] hover:bg-[var(--hub-accent)] text-[var(--hub-accent)] hover:text-white border border-[var(--hub-accent)]/40 transition-all font-mono font-bold text-xs uppercase tracking-wider group shrink-0"
@@ -92,7 +127,7 @@ export function HubNav() {
         </div>
 
         {/* Mobile Horizontal Sub-Nav */}
-        <div className="flex md:hidden items-center gap-1.5 overflow-x-auto py-2.5 border-t border-white/[0.04] no-scrollbar -mx-4 px-4">
+        <div className="flex md:hidden items-center gap-1.5 overflow-x-auto py-2.5 border-t border-[var(--hub-border)] no-scrollbar -mx-4 px-4">
           {NAV_ITEMS.map((item) => {
             const isActive = item.exact
               ? pathname === item.href
@@ -106,7 +141,7 @@ export function HubNav() {
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold tracking-wider uppercase shrink-0 transition-colors ${
                   isActive
                     ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                    : "bg-[var(--hub-surface-2)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-white/5"
+                    : "bg-[var(--hub-surface-2)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
                 }`}
               >
                 <Icon className="w-3 h-3" />

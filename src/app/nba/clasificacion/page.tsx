@@ -1,6 +1,7 @@
 // filepath: src/app/nba/clasificacion/page.tsx
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { Info } from "lucide-react";
 
 export const revalidate = 300;
 
@@ -15,7 +16,7 @@ export default async function StandingsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <header className="border-b border-white/[0.08] pb-6">
+      <header className="border-b border-[var(--hub-border)] pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
@@ -34,16 +35,25 @@ export default async function StandingsPage() {
             </p>
           </div>
           <span className="text-xs font-mono text-[var(--hub-text-dim)] shrink-0">
-            Actualizado hace 5 min
+            Pretemporada 2026/27
           </span>
         </div>
       </header>
 
+      {/* Banner de Contexto Temporada */}
+      <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex items-start sm:items-center gap-3 shadow-sm">
+        <Info className="w-5 h-5 text-[var(--hub-accent)] shrink-0 mt-0.5 sm:mt-0" />
+        <div className="text-xs text-[var(--hub-text-muted)] leading-relaxed">
+          <strong className="text-[var(--hub-text)] font-semibold">Datos de Referencia Histórica (Temporada 2025/26): </strong>
+          La temporada regular 2026/27 arranca el <strong>20 de octubre de 2026</strong>. Mientras tanto, las tablas reflejan los registros previos de referencia y se reiniciarán a 0-0 sincronizadamente con el primer partido.
+        </div>
+      </div>
+
       {/* Grid Este & Oeste */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Conferencia Este */}
-        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-6 shadow-[var(--hub-shadow)] space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--hub-border)] pb-3">
             <h2
               className="text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight"
               style={{ fontFamily: "var(--hub-font-display)" }}
@@ -58,7 +68,7 @@ export default async function StandingsPage() {
           <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left">
               <thead>
-                <tr className="text-[11px] font-mono text-[var(--hub-text-dim)] border-b border-white/5 uppercase">
+                <tr className="text-[11px] font-mono text-[var(--hub-text-dim)] border-b border-[var(--hub-border)] uppercase">
                   <th className="py-2 pl-2 w-8">#</th>
                   <th className="py-2">EQUIPO</th>
                   <th className="py-2 text-right">W</th>
@@ -67,7 +77,7 @@ export default async function StandingsPage() {
                   <th className="py-2 text-right pr-2">RACHA</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04] text-xs font-mono">
+              <tbody className="divide-y divide-[var(--hub-border)] text-xs font-mono">
                 {standings.east.map((item) => {
                   const nbaId = getTeamNbaId(item.team.abbreviation);
                   const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
@@ -75,13 +85,13 @@ export default async function StandingsPage() {
                   const isPlayIn = item.conferenceRank > 6 && item.conferenceRank <= 10;
 
                   return (
-                    <tr key={item.team.id} className="hover:bg-white/[0.03] transition-colors">
+                    <tr key={item.team.id} className="hover:bg-[var(--hub-surface-2)] transition-colors">
                       <td className="py-2.5 pl-2 font-bold text-[var(--hub-text-dim)]">
                         {item.conferenceRank}
                       </td>
                       <td className="py-2.5">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-6 h-6 rounded flex items-center justify-center p-0.5 bg-[#18181a] border border-white/10 shrink-0">
+                          <div className="w-6 h-6 rounded flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
                             {logoUrl ? (
                               <img
                                 src={logoUrl}
@@ -109,7 +119,7 @@ export default async function StandingsPage() {
                         .{Math.round(item.winPct * 1000)}
                       </td>
                       <td className="py-2.5 text-right pr-2">
-                        <span className={item.streak?.startsWith("W") ? "text-emerald-400 font-bold" : "text-red-400"}>
+                        <span className={item.streak?.startsWith("W") ? "text-emerald-500 font-bold" : "text-red-500"}>
                           {item.streak}
                         </span>
                       </td>
@@ -122,8 +132,8 @@ export default async function StandingsPage() {
         </div>
 
         {/* Conferencia Oeste */}
-        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-6 shadow-[var(--hub-shadow)] space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--hub-border)] pb-3">
             <h2
               className="text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight"
               style={{ fontFamily: "var(--hub-font-display)" }}
@@ -138,7 +148,7 @@ export default async function StandingsPage() {
           <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left">
               <thead>
-                <tr className="text-[11px] font-mono text-[var(--hub-text-dim)] border-b border-white/5 uppercase">
+                <tr className="text-[11px] font-mono text-[var(--hub-text-dim)] border-b border-[var(--hub-border)] uppercase">
                   <th className="py-2 pl-2 w-8">#</th>
                   <th className="py-2">EQUIPO</th>
                   <th className="py-2 text-right">W</th>
@@ -147,7 +157,7 @@ export default async function StandingsPage() {
                   <th className="py-2 text-right pr-2">RACHA</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04] text-xs font-mono">
+              <tbody className="divide-y divide-[var(--hub-border)] text-xs font-mono">
                 {standings.west.map((item) => {
                   const nbaId = getTeamNbaId(item.team.abbreviation);
                   const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
@@ -155,13 +165,13 @@ export default async function StandingsPage() {
                   const isPlayIn = item.conferenceRank > 6 && item.conferenceRank <= 10;
 
                   return (
-                    <tr key={item.team.id} className="hover:bg-white/[0.03] transition-colors">
+                    <tr key={item.team.id} className="hover:bg-[var(--hub-surface-2)] transition-colors">
                       <td className="py-2.5 pl-2 font-bold text-[var(--hub-text-dim)]">
                         {item.conferenceRank}
                       </td>
                       <td className="py-2.5">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-6 h-6 rounded flex items-center justify-center p-0.5 bg-[#18181a] border border-white/10 shrink-0">
+                          <div className="w-6 h-6 rounded flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
                             {logoUrl ? (
                               <img
                                 src={logoUrl}
@@ -189,7 +199,7 @@ export default async function StandingsPage() {
                         .{Math.round(item.winPct * 1000)}
                       </td>
                       <td className="py-2.5 text-right pr-2">
-                        <span className={item.streak?.startsWith("W") ? "text-emerald-400 font-bold" : "text-red-400"}>
+                        <span className={item.streak?.startsWith("W") ? "text-emerald-500 font-bold" : "text-red-500"}>
                           {item.streak}
                         </span>
                       </td>

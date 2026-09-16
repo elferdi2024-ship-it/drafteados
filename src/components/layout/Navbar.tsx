@@ -90,9 +90,9 @@ export function Navbar() {
             {NAV_LINKS.filter((link) => link.href !== "/pickem").map((link) => {
               const isInternal = link.href.startsWith("/") && !link.href.startsWith("/#");
               const isNbaHub = link.href === "/nba";
-              const linkClasses = `px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group flex items-center gap-1.5 ${
+              const linkClasses = `px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group ${
                 isNbaHub
-                  ? "text-[#FF5A1F] font-bold hover:bg-[#FF5A1F]/10"
+                  ? "text-[#FF5A1F] font-semibold"
                   : isScrolled
                   ? "text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                   : "text-zinc-300 hover:text-white hover:bg-white/5"
@@ -101,12 +101,6 @@ export function Navbar() {
               if (isInternal) {
                 return (
                   <Link key={link.name} href={link.href} className={linkClasses}>
-                    {isNbaHub && (
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5A1F] opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5A1F]" />
-                      </span>
-                    )}
                     <span>{link.name}</span>
                     <span className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-[#FF5A1F] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
                   </Link>

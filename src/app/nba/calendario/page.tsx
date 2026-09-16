@@ -1,6 +1,7 @@
 // filepath: src/app/nba/calendario/page.tsx
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { CalendarClient } from "@/components/nba/CalendarClient";
+import { CountdownClock } from "@/components/nba/CountdownClock";
 
 export const revalidate = 300;
 
@@ -18,7 +19,7 @@ export default async function CalendarPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
-      <header className="border-b border-white/[0.08] pb-6">
+      <header className="border-b border-[var(--hub-border)] pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
@@ -31,9 +32,12 @@ export default async function CalendarPage() {
           CALENDARIO
         </h1>
         <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-1.5 font-normal">
-          Toda la temporada. Programación oficial de partidos, horarios y resultados acumulados con la mirada de los Buques.
+          Programación oficial de la temporada con fechas exactas, pabellones y horarios para España (peninsular) y EE.UU.
         </p>
       </header>
+
+      {/* Reloj Cuenta Regresiva */}
+      <CountdownClock />
 
       {/* Interactive Calendar Client */}
       <CalendarClient initialGames={games} teams={teams} />

@@ -62,31 +62,47 @@ function TeamScoreRow({
 export function ScoreboardCard({ game }: ScoreboardCardProps) {
   const isLive = game.status === "live";
   const isFinal = game.status === "final";
+  const isScheduled = game.status === "scheduled";
   const awayWon = isFinal && (game.awayScore ?? 0) > (game.homeScore ?? 0);
   const homeWon = isFinal && (game.homeScore ?? 0) > (game.awayScore ?? 0);
+
+  const dateObj = game.date ? new Date(game.date) : null;
+  const formattedDate = dateObj && !isNaN(dateObj.getTime())
+    ? new Intl.DateTimeFormat("es-ES", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(dateObj) + "h"
+    : "";
 
   return (
     <Link
       href={`/nba/partido/${game.id}`}
-      className="block group rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 hover:border-[var(--hub-accent)]/60 transition-all duration-200 hover:-translate-y-0.5 shadow-lg shadow-black/40 relative overflow-hidden"
+      className="block group rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 hover:border-[var(--hub-accent)]/60 transition-all duration-200 hover:-translate-y-0.5 shadow-[var(--hub-shadow)] relative overflow-hidden"
     >
       {/* Accent strip if live */}
       {isLive && (
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[var(--hub-accent)] to-emerald-400" />
       )}
 
-      {/* Header bar */}
-      <div className="flex items-center justify-between gap-2 pb-3 mb-2 border-b border-white/[0.06]">
+      {/* Header bar: Status Badge + Date / Time */}
+      <div className="flex items-center justify-between gap-2 pb-3 mb-2 border-b border-[var(--hub-border)]">
         <LiveBadge
           status={game.status}
           period={game.period}
           clock={game.clock}
         />
-        {game.arena && (
+        {formattedDate ? (
+          <span className="text-[11px] font-mono font-bold text-[var(--hub-text-muted)]">
+            {formattedDate}
+          </span>
+        ) : game.arena ? (
           <span className="text-[11px] font-mono text-[var(--hub-text-dim)] truncate max-w-[160px]">
             {game.arena}
           </span>
-        )}
+        ) : null}
       </div>
 
       {/* Teams Score Rows */}
@@ -106,11 +122,11 @@ export function ScoreboardCard({ game }: ScoreboardCardProps) {
       </div>
 
       {/* Footer / Context */}
-      <div className="mt-3 pt-2.5 border-t border-white/[0.04] flex items-center justify-between text-[10px] font-mono text-[var(--hub-text-dim)]">
-        <span className="uppercase">
-          {game.awayTeam.conference} vs {game.homeTeam.conference}
+      <div className="mt-3 pt-2.5 border-t border-[var(--hub-border)] flex items-center justify-between text-[10px] font-mono text-[var(--hub-text-dim)]">
+        <span className="uppercase truncate max-w-[180px]">
+          {game.arena || `${game.awayTeam.conference} vs ${game.homeTeam.conference}`}
         </span>
-        <span className="group-hover:text-[var(--hub-accent)] transition-colors">
+        <span className="group-hover:text-[var(--hub-accent)] transition-colors shrink-0">
           VER DETALLE &rarr;
         </span>
       </div>

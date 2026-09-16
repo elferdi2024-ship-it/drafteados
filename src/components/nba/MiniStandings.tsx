@@ -19,12 +19,12 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
   const list = (conference === "east" ? standings.east : standings.west).slice(0, limit);
 
   return (
-    <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 shadow-lg shadow-black/40">
+    <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 shadow-[var(--hub-shadow)]">
       {/* Header with Conference Tabs */}
-      <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-white/[0.06]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--hub-border)]">
         <div>
           <span className="text-[10px] font-mono uppercase font-bold text-[var(--hub-accent)] tracking-widest block">
-            CLASIFICACIÓN RÁPIDA
+            CLASIFICACIÓN · REFERENCIA 2025/26
           </span>
           <h3
             className="text-xl sm:text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none mt-0.5"
@@ -32,9 +32,12 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
           >
             TOP CONFERENCIA
           </h3>
+          <span className="text-[10px] font-mono text-[var(--hub-text-dim)] mt-1 block">
+            Posiciones consolidadas antes del arranque 2026/27.
+          </span>
         </div>
 
-        <div className="flex items-center gap-1 bg-[var(--hub-surface-2)] p-1 rounded-xl border border-white/5">
+        <div className="flex items-center gap-1 bg-[var(--hub-surface-2)] p-1 rounded-xl border border-[var(--hub-border)] shrink-0 self-start sm:self-auto">
           <button
             onClick={() => setConference("east")}
             className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
@@ -68,14 +71,14 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
           return (
             <div
               key={item.team.id}
-              className="flex items-center justify-between p-2 rounded-xl hover:bg-white/[0.03] transition-colors"
+              className="flex items-center justify-between p-2 rounded-xl hover:bg-[var(--hub-surface-2)] transition-colors"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <span className="w-5 text-center text-xs font-mono font-bold text-[var(--hub-text-dim)]">
                   {item.conferenceRank}
                 </span>
 
-                <div className="w-6 h-6 rounded-md flex items-center justify-center p-0.5 bg-[#18181a] border border-white/10 shrink-0">
+                <div className="w-6 h-6 rounded-md flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
                   {logoUrl ? (
                     <img
                       src={logoUrl}
@@ -86,7 +89,7 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
                       }}
                     />
                   ) : (
-                    <span className="text-[10px] font-mono font-bold text-white">
+                    <span className="text-[10px] font-mono font-bold text-[var(--hub-text)]">
                       {item.team.abbreviation}
                     </span>
                   )}
@@ -112,8 +115,8 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
                   <span
                     className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded ${
                       isStreakWin
-                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                        : "bg-red-500/10 text-red-400 border border-red-500/30"
+                        ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                        : "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/30"
                     }`}
                   >
                     {item.streak}
@@ -126,7 +129,7 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
       </div>
 
       {/* Footer Link */}
-      <div className="mt-4 pt-3 border-t border-white/[0.06] text-center">
+      <div className="mt-4 pt-3 border-t border-[var(--hub-border)] text-center">
         <Link
           href="/nba/clasificacion"
           className="text-xs font-mono font-bold text-[var(--hub-accent)] hover:text-[var(--hub-accent-hover)] tracking-wider uppercase inline-flex items-center gap-1 transition-colors"

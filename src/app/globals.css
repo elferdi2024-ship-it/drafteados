@@ -24,39 +24,39 @@
   --pickem-gold: #FF5A1F;
 
   /* ============================================================
-     DRAFTEADOS NBA HUB — DESIGN TOKENS
+     DRAFTEADOS NBA HUB — DESIGN TOKENS (LIGHT MODE DEFAULT)
      ============================================================ */
-  --hub-bg: #080808;
-  --hub-surface: #111111;
-  --hub-surface-2: #181818;
-  --hub-surface-3: #1f1f1f;
+  --hub-bg: #F5F5F7;
+  --hub-surface: #FFFFFF;
+  --hub-surface-2: #ECECEF;
+  --hub-surface-3: #E2E2E6;
 
-  --hub-border: #282828;
-  --hub-border-hover: #3a3a3a;
+  --hub-border: rgba(0, 0, 0, 0.08);
+  --hub-border-hover: rgba(0, 0, 0, 0.16);
 
-  --hub-text: #F5F5F5;
-  --hub-text-muted: #8B8B8B;
-  --hub-text-dim: #5A5A5A;
+  --hub-text: #111113;
+  --hub-text-muted: #6E6E73;
+  --hub-text-dim: #9E9EA5;
 
   --hub-accent: #FF5A1F;
-  --hub-accent-hover: #FF6B35;
-  --hub-accent-soft: rgba(255, 90, 31, 0.12);
+  --hub-accent-hover: #E04810;
+  --hub-accent-soft: rgba(255, 90, 31, 0.08);
 
-  --hub-live: #22C55E;
-  --hub-live-soft: rgba(34, 197, 94, 0.15);
-  --hub-final: #6B7280;
-  --hub-scheduled: #8B8B8B;
-  --hub-win: #22C55E;
-  --hub-loss: #EF4444;
+  --hub-live: #16A34A;
+  --hub-live-soft: rgba(22, 163, 74, 0.12);
+  --hub-final: #71717A;
+  --hub-scheduled: #6E6E73;
+  --hub-win: #16A34A;
+  --hub-loss: #DC2626;
 
-  --hub-east: #3B82F6;
-  --hub-west: #A855F7;
+  --hub-east: #2563EB;
+  --hub-west: #9333EA;
 
   --hub-font-display: var(--font-title), "Bebas Neue", system-ui, sans-serif;
   --hub-font-sans: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
 
-  --hub-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --hub-glow-accent: 0 0 24px rgba(255, 90, 31, 0.25);
+  --hub-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --hub-glow-accent: 0 0 24px rgba(255, 90, 31, 0.18);
 }
 
 html.dark {
@@ -80,6 +80,36 @@ html.dark {
   --pickem-accent: #FF5A1F;
   --pickem-accent-hover: #FF7A45;
   --pickem-gold: #FF5A1F;
+
+  /* NBA Hub Tokens - Dark Mode */
+  --hub-bg: #0A0A0C;
+  --hub-surface: #121215;
+  --hub-surface-2: #19191D;
+  --hub-surface-3: #222228;
+
+  --hub-border: rgba(255, 255, 255, 0.08);
+  --hub-border-hover: rgba(255, 255, 255, 0.16);
+
+  --hub-text: #F5F5F7;
+  --hub-text-muted: #A1A1AA;
+  --hub-text-dim: #71717A;
+
+  --hub-accent: #FF5A1F;
+  --hub-accent-hover: #FF7A45;
+  --hub-accent-soft: rgba(255, 90, 31, 0.15);
+
+  --hub-live: #22C55E;
+  --hub-live-soft: rgba(34, 197, 94, 0.15);
+  --hub-final: #6B7280;
+  --hub-scheduled: #8B8B8B;
+  --hub-win: #22C55E;
+  --hub-loss: #EF4444;
+
+  --hub-east: #3B82F6;
+  --hub-west: #A855F7;
+
+  --hub-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  --hub-glow-accent: 0 0 24px rgba(255, 90, 31, 0.3);
 }
 
 @theme inline {

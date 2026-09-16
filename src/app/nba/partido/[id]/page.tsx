@@ -49,7 +49,7 @@ export default async function GameDetailPage({
         )}
 
         {/* State header */}
-        <div className="flex items-center justify-between gap-4 border-b border-white/[0.08] pb-4 mb-8">
+        <div className="flex items-center justify-between gap-4 border-b border-[var(--hub-border)] pb-4 mb-8">
           <LiveBadge
             status={game.status}
             period={game.period}
@@ -146,13 +146,13 @@ export default async function GameDetailPage({
 
         {/* Linescore por cuartos si el partido está en juego o terminado */}
         {(isLive || isFinal) && (
-          <div className="mt-8 pt-6 border-t border-white/[0.08] overflow-x-auto no-scrollbar">
+          <div className="mt-8 pt-6 border-t border-[var(--hub-border)] overflow-x-auto no-scrollbar">
             <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[var(--hub-text-dim)] mb-3">
               MARCADOR CUARTO POR CUARTO
             </h3>
             <table className="w-full text-center font-mono text-xs">
               <thead>
-                <tr className="border-b border-white/5 text-[var(--hub-text-dim)]">
+                <tr className="border-b border-[var(--hub-border)] text-[var(--hub-text-dim)]">
                   <th className="text-left py-2 font-normal">EQUIPO</th>
                   <th className="py-2 font-normal">Q1</th>
                   <th className="py-2 font-normal">Q2</th>
@@ -161,7 +161,7 @@ export default async function GameDetailPage({
                   <th className="py-2 font-bold text-[var(--hub-text)]">TOTAL</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-[var(--hub-border)]">
                 <tr>
                   <td className="text-left py-2.5 font-bold text-[var(--hub-text)]">{game.awayTeam.abbreviation}</td>
                   <td className="py-2.5 text-[var(--hub-text-muted)]">28</td>

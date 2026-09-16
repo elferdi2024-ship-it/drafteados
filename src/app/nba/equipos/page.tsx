@@ -18,7 +18,7 @@ export default async function TeamsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       {/* Header */}
-      <header className="border-b border-white/[0.08] pb-6">
+      <header className="border-b border-[var(--hub-border)] pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
@@ -37,7 +37,7 @@ export default async function TeamsPage() {
 
       {/* Este */}
       <section className="space-y-4">
-        <div className="flex items-center gap-2 border-b border-white/[0.06] pb-2">
+        <div className="flex items-center gap-2 border-b border-[var(--hub-border)] pb-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[var(--hub-east)]" />
           <h2
             className="text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight"
@@ -82,7 +82,7 @@ export default async function TeamsPage() {
 
       {/* Oeste */}
       <section className="space-y-4">
-        <div className="flex items-center gap-2 border-b border-white/[0.06] pb-2">
+        <div className="flex items-center gap-2 border-b border-[var(--hub-border)] pb-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[var(--hub-west)]" />
           <h2
             className="text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight"

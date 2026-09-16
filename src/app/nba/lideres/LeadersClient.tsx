@@ -63,7 +63,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
               >
                 <div className="flex items-center justify-between">
                   <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
-                    isFirst ? "bg-[var(--hub-accent)] text-white" : "bg-white/5 text-[var(--hub-text-dim)]"
+                    isFirst ? "bg-[var(--hub-accent)] text-white" : "bg-[var(--hub-surface-2)] text-[var(--hub-text-dim)] border border-[var(--hub-border)]"
                   }`}>
                     #{item.rank}
                   </span>
@@ -73,7 +73,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                 </div>
 
                 <div className="my-4 flex items-center gap-4">
-                  <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-black/40 border border-white/10 shrink-0 flex items-center justify-center">
+                  <div className="relative w-20 h-20 rounded-2xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
                     {headshotUrl ? (
                       <img
                         src={headshotUrl}
@@ -84,7 +84,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                         }}
                       />
                     ) : (
-                      <span className="font-title text-2xl font-black text-white/40">
+                      <span className="font-title text-2xl font-black text-[var(--hub-text-muted)]">
                         {item.player.firstName[0]}
                       </span>
                     )}
@@ -108,7 +108,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-white/[0.06] flex items-baseline justify-between">
+                <div className="pt-3 border-t border-[var(--hub-border)] flex items-baseline justify-between">
                   <span className="text-xs font-mono text-[var(--hub-text-dim)] uppercase">
                     PROMEDIO
                   </span>
@@ -132,7 +132,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
 
       {/* Complete Table List */}
       <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] overflow-hidden shadow-xl">
-        <div className="p-4 border-b border-white/[0.06] flex items-center justify-between">
+        <div className="p-4 border-b border-[var(--hub-border)] flex items-center justify-between">
           <span className="text-xs font-mono uppercase font-bold text-[var(--hub-accent)] tracking-wider">
             TABLA GENERAL · {currentTabMeta.label}
           </span>
@@ -141,7 +141,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
           </span>
         </div>
 
-        <div className="divide-y divide-white/[0.04]">
+        <div className="divide-y divide-[var(--hub-border)]">
           {lines.map((item) => {
             const nbaId = getPlayerNbaId(item.player.fullName);
             const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "260x190") : null;
@@ -149,7 +149,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
             return (
               <div
                 key={item.player.id}
-                className="flex items-center justify-between p-3 sm:p-4 hover:bg-white/[0.02] transition-colors"
+                className="flex items-center justify-between p-3 sm:p-4 hover:bg-[var(--hub-surface-2)]/50 transition-colors"
               >
                 <div className="flex items-center gap-3.5 min-w-0">
                   <span className={`w-6 text-center text-xs sm:text-sm font-mono font-bold ${
@@ -158,7 +158,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                     #{item.rank}
                   </span>
 
-                  <div className="w-9 h-9 rounded-xl overflow-hidden bg-black/40 border border-white/10 shrink-0 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
                     {headshotUrl ? (
                       <img
                         src={headshotUrl}
@@ -169,7 +169,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                         }}
                       />
                     ) : (
-                      <span className="text-xs font-mono font-bold text-white">
+                      <span className="text-xs font-mono font-bold text-[var(--hub-text)]">
                         {item.player.firstName[0]}
                       </span>
                     )}

@@ -23,22 +23,25 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
   const currentLines = (leaders[stat] || leaders.pts || []).slice(0, limit);
 
   return (
-    <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 shadow-lg shadow-black/40">
+    <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 shadow-[var(--hub-shadow)]">
       {/* Header with Stat Pills */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-white/[0.06]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--hub-border)]">
         <div>
           <span className="text-[10px] font-mono uppercase font-bold text-[var(--hub-accent)] tracking-widest block">
-            LÍDERES DE LA TEMPORADA
+            LÍDERES · REFERENCIA 2025/26
           </span>
           <h3
             className="text-xl sm:text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none mt-0.5"
             style={{ fontFamily: "var(--hub-font-display)" }}
           >
-            QUIÉN ESTÁ ROMPIÉNDOLA
+            LOS DOMINADORES DE LA LIGA
           </h3>
+          <span className="text-[10px] font-mono text-[var(--hub-text-dim)] mt-1 block">
+            Promedios oficiales hasta el inicio de la 2026/27.
+          </span>
         </div>
 
-        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar bg-[var(--hub-surface-2)] p-1 rounded-xl border border-white/5 shrink-0">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar bg-[var(--hub-surface-2)] p-1 rounded-xl border border-[var(--hub-border)] shrink-0 self-start sm:self-auto">
           {Object.entries(STAT_LABELS).map(([key, { label }]) => (
             <button
               key={key}
@@ -64,7 +67,7 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
           return (
             <div
               key={line.player.id}
-              className="flex items-center justify-between p-2 rounded-xl hover:bg-white/[0.03] transition-colors"
+              className="flex items-center justify-between p-2 rounded-xl hover:bg-[var(--hub-surface-2)] transition-colors"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <span className={`w-5 text-center text-xs font-mono font-bold ${
@@ -74,9 +77,9 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
                 </span>
 
                 <div 
-                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-[#18181a] border border-white/10 shrink-0 relative"
+                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 relative"
                   style={{
-                    borderColor: line.team?.primaryColor ? `${line.team.primaryColor}50` : "rgba(255,255,255,0.1)",
+                    borderColor: line.team?.primaryColor ? `${line.team.primaryColor}50` : undefined,
                   }}
                 >
                   {headshotUrl ? (
@@ -89,7 +92,7 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
                       }}
                     />
                   ) : (
-                    <span className="text-xs font-mono font-bold text-white">
+                    <span className="text-xs font-mono font-bold text-[var(--hub-text)]">
                       {line.player.firstName[0]}
                     </span>
                   )}
@@ -122,7 +125,7 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
       </div>
 
       {/* Footer Link */}
-      <div className="mt-4 pt-3 border-t border-white/[0.06] text-center">
+      <div className="mt-4 pt-3 border-t border-[var(--hub-border)] text-center">
         <Link
           href="/nba/lideres"
           className="text-xs font-mono font-bold text-[var(--hub-accent)] hover:text-[var(--hub-accent-hover)] tracking-wider uppercase inline-flex items-center gap-1 transition-colors"

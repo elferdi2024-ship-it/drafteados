@@ -81,20 +81,20 @@ export default async function TeamDetailPage({
 
         {/* Record Badge */}
         {teamStanding && (
-          <div className="flex items-center gap-4 bg-[var(--hub-surface-2)] p-4 rounded-2xl border border-white/5 shrink-0">
+          <div className="flex items-center gap-4 bg-[var(--hub-surface-2)] p-4 rounded-2xl border border-[var(--hub-border)] shrink-0">
             <div className="text-center">
               <span
-                className="text-3xl sm:text-4xl font-black text-white block leading-none"
+                className="text-3xl sm:text-4xl font-black text-[var(--hub-text)] block leading-none"
                 style={{ fontFamily: "var(--hub-font-display)" }}
               >
                 {teamStanding.wins}-{teamStanding.losses}
               </span>
               <span className="text-[10px] font-mono uppercase text-[var(--hub-text-dim)] tracking-wider">
-                RÉCORD ACTUAL
+                REF. 2025/26
               </span>
             </div>
 
-            <div className="w-px h-10 bg-white/10" />
+            <div className="w-px h-10 bg-[var(--hub-border)]" />
 
             <div className="text-center">
               <span
@@ -155,7 +155,7 @@ export default async function TeamDetailPage({
       {/* Plantilla / Roster */}
       {players.length > 0 && (
         <section className="space-y-4">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+          <div className="flex items-center justify-between border-b border-[var(--hub-border)] pb-3">
             <h2
               className="text-2xl sm:text-3xl font-black text-[var(--hub-text)] uppercase tracking-tight"
               style={{ fontFamily: "var(--hub-font-display)" }}
@@ -174,7 +174,7 @@ export default async function TeamDetailPage({
                 className="flex items-center justify-between p-3 rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)]"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[var(--hub-surface-2)] border border-white/10 flex items-center justify-center font-mono font-bold text-xs text-[var(--hub-text)]">
+                  <div className="w-9 h-9 rounded-lg bg-[var(--hub-surface-2)] border border-[var(--hub-border)] flex items-center justify-center font-mono font-bold text-xs text-[var(--hub-text)]">
                     {p.jerseyNumber ? `#${p.jerseyNumber}` : "-"}
                   </div>
                   <div>

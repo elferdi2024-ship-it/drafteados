@@ -77,64 +77,68 @@ const getTeam = (abbr: string) => MOCK_TEAMS.find((t) => t.abbreviation === abbr
 
 export const MOCK_SCOREBOARD: Game[] = [
   {
-    id: "g1",
-    date: new Date().toISOString(),
-    status: "live",
+    id: "g-20261020-bos-nyk",
+    date: "2026-10-20T23:30:00Z", // 01:30h peninsular española (21 Oct) / 19:30 ET
+    status: "scheduled",
     homeTeam: getTeam("BOS"),
     awayTeam: getTeam("NYK"),
-    homeScore: 86,
-    awayScore: 82,
-    period: 3,
-    clock: "5:14",
-    arena: "TD Garden",
+    arena: "TD Garden (Boston) · Ceremonia del Anillo",
   },
   {
-    id: "g2",
-    date: new Date().toISOString(),
-    status: "live",
-    homeTeam: getTeam("OKC"),
-    awayTeam: getTeam("DEN"),
-    homeScore: 71,
-    awayScore: 68,
-    period: 3,
-    clock: "8:02",
-    arena: "Paycom Center",
-  },
-  {
-    id: "g3",
-    date: new Date().toISOString(),
+    id: "g-20261020-lal-min",
+    date: "2026-10-21T02:00:00Z", // 04:00h peninsular española (21 Oct) / 22:00 ET
     status: "scheduled",
     homeTeam: getTeam("LAL"),
-    awayTeam: getTeam("GSW"),
-    arena: "Crypto.com Arena",
+    awayTeam: getTeam("MIN"),
+    arena: "Crypto.com Arena (Los Angeles)",
   },
   {
-    id: "g4",
-    date: new Date().toISOString(),
+    id: "g-20261021-phi-mil",
+    date: "2026-10-21T23:00:00Z", // 01:00h peninsular española (22 Oct) / 19:00 ET
+    status: "scheduled",
+    homeTeam: getTeam("PHI"),
+    awayTeam: getTeam("MIL"),
+    arena: "Wells Fargo Center (Philadelphia)",
+  },
+  {
+    id: "g-20261021-mia-ind",
+    date: "2026-10-21T23:30:00Z", // 01:30h peninsular española (22 Oct) / 19:30 ET
     status: "scheduled",
     homeTeam: getTeam("MIA"),
-    awayTeam: getTeam("MIL"),
-    arena: "Kaseya Center",
+    awayTeam: getTeam("IND"),
+    arena: "Kaseya Center (Miami)",
   },
   {
-    id: "g5",
-    date: new Date().toISOString(),
-    status: "final",
+    id: "g-20261021-dal-gsw",
+    date: "2026-10-22T01:30:00Z", // 03:30h peninsular española (22 Oct) / 21:30 ET
+    status: "scheduled",
     homeTeam: getTeam("DAL"),
-    awayTeam: getTeam("PHX"),
-    homeScore: 118,
-    awayScore: 112,
-    arena: "American Airlines Center",
+    awayTeam: getTeam("GSW"),
+    arena: "American Airlines Center (Dallas)",
   },
   {
-    id: "g6",
-    date: new Date().toISOString(),
-    status: "final",
-    homeTeam: getTeam("SAS"),
-    awayTeam: getTeam("MIN"),
-    homeScore: 105,
-    awayScore: 121,
-    arena: "Frost Bank Center",
+    id: "g-20261021-okc-den",
+    date: "2026-10-22T02:00:00Z", // 04:00h peninsular española (22 Oct) / 22:00 ET
+    status: "scheduled",
+    homeTeam: getTeam("OKC"),
+    awayTeam: getTeam("DEN"),
+    arena: "Paycom Center (Oklahoma City)",
+  },
+  {
+    id: "g-20261022-lac-phx",
+    date: "2026-10-23T02:30:00Z", // 04:30h peninsular española (23 Oct) / 22:30 ET
+    status: "scheduled",
+    homeTeam: getTeam("LAC"),
+    awayTeam: getTeam("PHX"),
+    arena: "Intuit Dome (Inglewood)",
+  },
+  {
+    id: "g-20261023-cle-chi",
+    date: "2026-10-23T23:30:00Z", // 01:30h peninsular española (24 Oct) / 19:30 ET
+    status: "scheduled",
+    homeTeam: getTeam("CLE"),
+    awayTeam: getTeam("CHI"),
+    arena: "Rocket Mortgage FieldHouse (Cleveland)",
   },
 ];
 
