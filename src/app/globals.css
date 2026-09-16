@@ -35,6 +35,27 @@ html.dark {
   --color-muted: var(--color-muted);
   --font-title: var(--font-title), sans-serif;
   --font-sans: var(--font-sans), sans-serif;
+
+  /* Pick'em Design Tokens */
+  --color-pickem-bg: #080808;
+  --color-pickem-surface: #111111;
+  --color-pickem-surface-2: #181818;
+  --color-pickem-border: #282828;
+  --color-pickem-text: #F5F5F5;
+  --color-pickem-muted: #8B8B8B;
+  --color-pickem-accent: #FF5A1F;
+  --color-pickem-accent-hover: #FF6B35;
+
+  /* Category Colors */
+  --color-cat-stats: #3B82F6;
+  --color-cat-awards: #F59E0B;
+  --color-cat-teams: #10B981;
+  --color-cat-finals: #FF5A1F;
+
+  /* Status Colors */
+  --color-status-correct: #22C55E;
+  --color-status-incorrect: #EF4444;
+  --color-status-locked: #6B7280;
 }
 
 /* Base resets & typography */
@@ -153,6 +174,159 @@ html.lenis body {
 .content-auto {
   content-visibility: auto;
   contain-intrinsic-size: 1px 850px;
+}
+
+/* Sports Editorial & Trading Card Utilities */
+/* Sports Editorial & Trading Card Utilities */
+.bg-court-grid {
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(255, 90, 31, 0.12) 0%, transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+}
+
+.bg-parquet-floor {
+  background-color: #080808;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(255, 90, 31, 0.18) 0%, rgba(10, 10, 10, 0.95) 75%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 2px, transparent 0, transparent 40px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 2px, transparent 0, transparent 40px);
+}
+
+/* Authentic Sports Trading Card (Panini / Topps Chrome feel) */
+.trading-card {
+  position: relative;
+  background: linear-gradient(175deg, #181818 0%, #101010 45%, #0a0a0a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.8);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+}
+
+.trading-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  border-color: rgba(255, 90, 31, 0.7);
+  box-shadow: 
+    0 20px 45px -12px rgba(0, 0, 0, 0.95),
+    0 0 35px -5px rgba(255, 90, 31, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.trading-card-selected {
+  background: linear-gradient(175deg, #201a16 0%, #15110f 45%, #0c0a09 100%);
+  border: 1.5px solid rgba(255, 90, 31, 0.75);
+  box-shadow: 
+    0 15px 35px -10px rgba(0, 0, 0, 0.9),
+    0 0 28px -4px rgba(255, 90, 31, 0.35),
+    inset 0 1px 0 rgba(255, 120, 70, 0.3);
+}
+
+/* Holographic Rainbow Foil Sheen */
+.card-foil {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-foil::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.04) 40%,
+    rgba(255, 90, 31, 0.2) 48%,
+    rgba(59, 130, 246, 0.2) 52%,
+    rgba(245, 158, 11, 0.2) 56%,
+    rgba(255, 255, 255, 0.08) 60%,
+    transparent 80%
+  );
+  transform: rotate(28deg) translateY(-120%);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: 0.8;
+}
+
+.card-foil:hover::after {
+  transform: rotate(28deg) translateY(120%);
+}
+
+/* Heavy Sports Stamp (SELLADO / BLOQUEADO) */
+@keyframes stamp-seal-heavy {
+  0% {
+    opacity: 0;
+    transform: scale(2.8) rotate(-22deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.94) rotate(-10deg);
+  }
+  80% {
+    transform: scale(1.04) rotate(-7deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+.animate-stamp {
+  animation: stamp-seal-heavy 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.stamp-badge {
+  border: 4px double #DC2626;
+  color: #EF4444;
+  background-color: rgba(185, 28, 28, 0.22);
+  text-shadow: 0 0 16px rgba(239, 68, 68, 0.85), 0 2px 4px rgba(0, 0, 0, 0.95);
+  box-shadow: 
+    0 0 40px rgba(220, 38, 38, 0.6), 
+    inset 0 0 24px rgba(185, 28, 28, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.22em;
+}
+
+/* Metallic Gold Underdog Plaque */
+.badge-underdog {
+  background: linear-gradient(135deg, #3A2A0D 0%, #1F1707 50%, #4D3810 100%);
+  border: 1px solid #F59E0B;
+  color: #FDE68A;
+  box-shadow: 
+    0 0 15px -2px rgba(245, 158, 11, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.sports-card {
+  background: linear-gradient(180deg, #161616 0%, #0e0e0e 100%);
+  border: 1px solid #262626;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sports-card:hover {
+  border-color: rgba(255, 90, 31, 0.5);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(255, 90, 31, 0.2);
+  transform: translateY(-2px);
+}
+
+.sports-card-selected {
+  background: linear-gradient(180deg, #1c1815 0%, #11100f 100%);
+  border: 1px solid rgba(255, 90, 31, 0.6);
+  box-shadow: 0 0 20px -4px rgba(255, 90, 31, 0.25);
+}
+
+.hud-pill {
+  background: rgba(18, 18, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Accessibility: respect prefers-reduced-motion */
