@@ -20,10 +20,20 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
     const query = search.trim().toLowerCase();
 
     return initialGames.filter((game) => {
-      // Filtro de estado / conferencia
+      // Filtro de fase / estado / conferencia
       if (filterType === "LIVE" && game.status !== "live") return false;
       if (filterType === "FINAL" && game.status !== "final") return false;
-      if (filterType === "SCHEDULED" && game.status !== "scheduled") return false;
+      if (filterType === "OPENING") {
+        const gameTime = new Date(game.date).getTime();
+        const start = new Date("2026-10-20T00:00:00Z").getTime();
+        const end = new Date("2026-10-27T12:00:00Z").getTime();
+        if (gameTime < start || gameTime > end) return false;
+      }
+      if (filterType === "PRESEASON") {
+        const gameTime = new Date(game.date).getTime();
+        const startOpening = new Date("2026-10-20T00:00:00Z").getTime();
+        if (gameTime >= startOpening && !game.isPreseason) return false;
+      }
       if (filterType === "EAST" && game.homeTeam.conference !== "East" && game.awayTeam.conference !== "East") return false;
       if (filterType === "WEST" && game.homeTeam.conference !== "West" && game.awayTeam.conference !== "West") return false;
 
@@ -115,11 +125,10 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar border-t border-[var(--hub-border)] pt-3">
           {[
             { id: "ALL", label: "TODOS LOS PARTIDOS" },
-            { id: "SCHEDULED", label: "SEMANA INAUGURAL" },
+            { id: "OPENING", label: "SEMANA INAUGURAL (20-26 OCT)" },
+            { id: "PRESEASON", label: "PRETEMPORADA" },
             { id: "EAST", label: "CONFERENCIA ESTE" },
             { id: "WEST", label: "CONFERENCIA OESTE" },
-            { id: "LIVE", label: "EN VIVO" },
-            { id: "FINAL", label: "FINALIZADOS" },
           ].map((tab) => (
             <button
               key={tab.id}

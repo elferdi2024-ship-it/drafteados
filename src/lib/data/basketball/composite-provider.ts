@@ -102,8 +102,40 @@ export class CompositeProvider implements BasketballDataProvider {
     });
   }
 
-  async getGames(params?: { startDate?: string; endDate?: string; teamId?: string }): Promise<Game[]> {
-    const key = `games:${params?.startDate || ""}:${params?.endDate || ""}:${params?.teamId || "all"}`;
+  async getRoster(teamIdOrSlug: string): Promise<Player[]> {
+    const key = `roster:${teamIdOrSlug.toLowerCase()}`;
+    // Roster TTL: 3600 segundos (1 hora)
+    return hubCache.getOrSet(key, 3600, async () => {
+      try {
+        const roster = await this.espn.getRoster(teamIdOrSlug);
+        if (roster && roster.length > 0) return roster;
+        return await this.mock.getRoster(teamIdOrSlug);
+      } catch (err) {
+        console.warn("[CompositeProvider] ESPN getRoster failed, falling back to mock:", err);
+        return this.mock.getRoster(teamIdOrSlug);
+      }
+    });
+  }
+
+  async getTeamSchedule(teamIdOrSlug: string): Promise<{ recent: Game[]; upcoming: Game[] }> {
+    const key = `teamschedule:${teamIdOrSlug.toLowerCase()}`;
+    // Schedule TTL: 300 segundos (5 minutos)
+    return hubCache.getOrSet(key, 300, async () => {
+      try {
+        const schedule = await this.espn.getTeamSchedule(teamIdOrSlug);
+        if (schedule && (schedule.recent.length > 0 || schedule.upcoming.length > 0)) {
+          return schedule;
+        }
+        return await this.mock.getTeamSchedule(teamIdOrSlug);
+      } catch (err) {
+        console.warn("[CompositeProvider] ESPN getTeamSchedule failed, falling back to mock:", err);
+        return this.mock.getTeamSchedule(teamIdOrSlug);
+      }
+    });
+  }
+
+  async getGames(params?: { startDate?: string; endDate?: string; teamId?: string; seasonType?: number }): Promise<Game[]> {
+    const key = `games:${params?.startDate || ""}:${params?.endDate || ""}:${params?.teamId || "all"}:${params?.seasonType || "all"}`;
     return hubCache.getOrSet(key, 300, async () => {
       try {
         const games = await this.espn.getGames(params);

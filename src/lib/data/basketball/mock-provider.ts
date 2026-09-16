@@ -54,11 +54,27 @@ export class MockProvider implements BasketballDataProvider {
     return result;
   }
 
+  async getRoster(teamIdOrSlug: string): Promise<Player[]> {
+    const team = await this.getTeam(teamIdOrSlug);
+    if (!team) return [];
+    return this.getPlayers({ teamId: team.id });
+  }
+
+  async getTeamSchedule(teamIdOrSlug: string): Promise<{ recent: Game[]; upcoming: Game[] }> {
+    const team = await this.getTeam(teamIdOrSlug);
+    if (!team) return { recent: [], upcoming: [] };
+    const games = await this.getGames({ teamId: team.id });
+    return {
+      recent: games.filter((g) => g.status === "final").slice(0, 5),
+      upcoming: games.filter((g) => g.status === "scheduled").slice(0, 5),
+    };
+  }
+
   async getScoreboard(_date?: string): Promise<Game[]> {
     return MOCK_SCOREBOARD;
   }
 
-  async getGames(params?: { startDate?: string; endDate?: string; teamId?: string }): Promise<Game[]> {
+  async getGames(params?: { startDate?: string; endDate?: string; teamId?: string; seasonType?: number }): Promise<Game[]> {
     let games = MOCK_SCOREBOARD;
     if (params?.teamId) {
       games = games.filter(
