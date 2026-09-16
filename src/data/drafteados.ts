@@ -286,7 +286,7 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
     stats: "13 Galardones • Ranking Oficial • 100% Gratuito",
     accentColor: "#FF5A1F",
     external: false,
-    image: "/images/logo.png",
+    image: "/images/heropicekm.png",
   },
 ];
 

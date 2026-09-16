@@ -265,24 +265,28 @@ export function CommunityBuque() {
                 key={founder.number}
                 className="group rounded-3xl bg-white dark:bg-[#121215] border border-black/8 dark:border-white/10 overflow-hidden shadow-sm hover:border-[#FF5A1F]/50 transition-all duration-300 flex flex-col"
               >
-                <div className="relative w-full h-72 sm:h-80 lg:h-96 bg-zinc-900 overflow-hidden shrink-0">
+                <div className="relative w-full h-80 sm:h-96 lg:h-[460px] bg-zinc-900 overflow-hidden shrink-0">
                   <Image
                     src={founder.avatar}
                     alt={founder.name}
                     fill
+                    priority
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    className={`object-cover ${
+                      founder.number === "01" ? "object-[center_12%]" : "object-[center_8%]"
+                    } group-hover:scale-102 transition-transform duration-700`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                  {/* Localized Bottom Gradient Only Behind Text - Leaves Faces Completely Clear & Bright */}
+                  <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
 
                   <div className="absolute bottom-4 left-5 right-5 z-10 text-white">
                     <h4
-                      className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white"
+                      className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow-md"
                       style={{ fontFamily: "var(--font-title)" }}
                     >
                       {founder.name}
                     </h4>
-                    <span className="text-xs font-mono text-[#FF5A1F] font-bold tracking-wider uppercase block mt-0.5">
+                    <span className="text-xs font-mono text-[#FF5A1F] font-bold tracking-wider uppercase block mt-0.5 drop-shadow-sm">
                       {founder.role}
                     </span>
                   </div>
