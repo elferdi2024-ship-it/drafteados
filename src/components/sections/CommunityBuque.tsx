@@ -243,7 +243,7 @@ export function CommunityBuque() {
                 key={founder.number}
                 className="group rounded-3xl bg-white dark:bg-[#121215] border border-black/8 dark:border-white/10 overflow-hidden shadow-sm hover:border-[#FF5A1F]/50 transition-all duration-300 flex flex-col"
               >
-                <div className="relative w-full h-64 sm:h-72 bg-zinc-900 overflow-hidden shrink-0">
+                <div className="relative w-full h-72 sm:h-80 lg:h-96 bg-zinc-900 overflow-hidden shrink-0">
                   <Image
                     src={founder.avatar}
                     alt={founder.name}
