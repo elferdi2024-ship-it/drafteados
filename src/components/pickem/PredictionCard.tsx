@@ -3,8 +3,9 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Flame, Sparkles, User, Plus, ChevronRight } from 'lucide-react';
+import { Flame, Sparkles, User, Plus, ChevronRight, Users } from 'lucide-react';
 import { getPlayerHeadshotUrl, getTeamLogoUrl, getTeamNbaId } from '@/lib/basketball/nbaIds';
+import { getCommunityPercentage } from '@/lib/pickem/community';
 
 export interface PredictionCardProps {
   prediction: {
@@ -83,6 +84,10 @@ export function PredictionCard({
 
   // Team ID for watermark background
   const watermarkTeamId = selectedTeam?.nba_team_id || (selectedPlayer?.team_abbreviation ? getTeamNbaId(selectedPlayer.team_abbreviation) : null);
+
+  // Consensus percentage revealed ONLY after pick
+  const identifier = selectedPlayer?.name || selectedTeam?.abbreviation || '';
+  const consensus = hasSelection ? getCommunityPercentage(prediction.slug, identifier) : null;
 
   const CardContent = (
     <div
@@ -195,11 +200,18 @@ export function PredictionCard({
                   >
                     {selectedPlayer?.name || selectedTeam?.name}
                   </div>
-                  {isUnderdog && (
-                    <span className="text-[9px] font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider mt-1 inline-block">
-                      SORPRESA &times;1.5
-                    </span>
-                  )}
+                  <div className="flex flex-wrap items-center gap-2 mt-1">
+                    {isUnderdog && (
+                      <span className="text-[9px] font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider inline-block">
+                        SORPRESA &times;1.5
+                      </span>
+                    )}
+                    {consensus !== null && (
+                      <span className="text-[9px] font-mono font-semibold text-zinc-500 dark:text-zinc-400">
+                        {consensus}% de los Buques
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -323,13 +335,21 @@ export function PredictionCard({
                     {selectedPlayer?.name || selectedTeam?.name}
                   </div>
 
-                  {/* Underdog multiplier indicator */}
-                  {isUnderdog && (
-                    <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>SORPRESA &times;1.5 ACTIVADA</span>
-                    </div>
-                  )}
+                  {/* Underdog multiplier indicator & Community consensus */}
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    {isUnderdog && (
+                      <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 tracking-wider">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>SORPRESA &times;1.5 ACTIVADA</span>
+                      </div>
+                    )}
+                    {consensus !== null && (
+                      <div className="inline-flex items-center gap-1.5 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-black/5 dark:bg-white/5 px-2.5 py-0.5 rounded-md border border-black/5 dark:border-white/10">
+                        <Users className="w-3 h-3 text-[#FF5A1F]" />
+                        <span>El <strong className="text-zinc-800 dark:text-zinc-200 font-bold">{consensus}%</strong> de los Buques también eligió este pick</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Hero Showcase Graphic: Cutout for Player, High-Res SVG for Team */}

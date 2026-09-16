@@ -104,9 +104,9 @@ export function PickemHeader() {
             {/* Left: Brand Logo & Title */}
             <div className="flex items-center gap-6">
               <Link
-                href="/pickem"
+                href="/"
                 className="flex items-center gap-3 group focus:outline-none"
-                aria-label="Drafteados Pick'em - Inicio"
+                aria-label="Drafteados - Inicio"
               >
                 <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6 border border-black/10 dark:border-white/10">
                   <Image
@@ -134,7 +134,7 @@ export function PickemHeader() {
                     </span>
                   </div>
                   <span className="text-[9px] tracking-[0.25em] uppercase -mt-0.5 font-medium text-zinc-500 dark:text-zinc-400 hidden sm:block">
-                    Pronósticos Oficiales NBA
+                    Pronóstico Oficial de los Buques
                   </span>
                 </div>
               </Link>

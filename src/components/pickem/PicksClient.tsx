@@ -19,6 +19,7 @@ import { TeamSelector, type TeamOption } from './TeamSelector';
 import { AuthModal } from './AuthModal';
 import { ProgressHUD } from './ProgressHUD';
 import { LockModal } from './LockModal';
+import { CountdownLockBanner } from './CountdownLockBanner';
 import { savePickAction, lockPicksAction } from '@/lib/pickem/actions';
 import { isUnderdogPick, calculatePotentialPoints } from '@/lib/pickem/community';
 import { getGuestPicks, saveGuestPicks, clearGuestPicks } from '@/lib/pickem/storage';
@@ -325,10 +326,13 @@ export function PicksClient({
         isLocked={isLocked}
         selectedCategoryTab={selectedCategoryTab}
         onSelectCategoryTab={setSelectedCategoryTab}
+        onOpenLockModal={handleLockConfirmation}
       />
 
       {/* CARDS GRID */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+        <CountdownLockBanner targetDate={season.lockAt || undefined} />
+
         {!isLoggedIn && (
           <div className="p-4 bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
             <div className="flex items-center gap-3">

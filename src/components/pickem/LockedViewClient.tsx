@@ -137,6 +137,7 @@ export function LockedViewClient({
         onClose={() => setShareModalOpen(false)}
         username={username}
         potentialPoints={potentialPoints}
+        picks={userPicks}
       />
     </>
   );

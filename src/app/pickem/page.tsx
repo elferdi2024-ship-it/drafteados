@@ -1,6 +1,7 @@
 // filepath: src/app/pickem/page.tsx
 import Link from 'next/link';
 import { Target, Lock, Eye, Trophy, CheckCircle2, ArrowRight, Flame, Sparkles, Shield } from 'lucide-react';
+import { CountdownLockBanner } from '@/components/pickem/CountdownLockBanner';
 import { PredictionCard, type PredictionCardProps } from '@/components/pickem/PredictionCard';
 import { PickemHero } from '@/components/pickem/PickemHero';
 
@@ -79,6 +80,11 @@ export default function PickemLandingPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-300 selection:bg-[#FF5A1F] selection:text-white">
       {/* HERO SECTION EDITORIAL ANIMADO */}
       <PickemHero />
+
+      {/* COUNTDOWN AL LOCK DE TEMPORADA */}
+      <section className="relative -mt-6 sm:-mt-10 z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <CountdownLockBanner />
+      </section>
 
       {/* CÓMO FUNCIONA (EDITORIAL SWISS PLAYBOOK) */}
       <section className="py-20 sm:py-28 bg-black/[0.02] dark:bg-[#0c0c0e] border-b border-black/10 dark:border-white/[0.08] relative transition-colors">
