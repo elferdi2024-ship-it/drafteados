@@ -48,7 +48,13 @@ export async function savePickAction(params: SavePickParams) {
     return { success: false, error: 'Tus picks ya están bloqueados. No podés cambiar nada.' };
   }
 
-  // 4. Upsert prediction
+  // 4. Upsert prediction (safely handling UUIDs vs custom rookie/fallback IDs)
+  const isUUID = (str?: string | null): boolean =>
+    Boolean(str && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str));
+
+  const isPlayerUuid = isUUID(params.playerId);
+  const isTeamUuid = isUUID(params.teamId);
+
   const { error: upsertError } = await supabase
     .from('predictions')
     .upsert(
@@ -56,8 +62,9 @@ export async function savePickAction(params: SavePickParams) {
         user_id: user.id,
         season_id: params.seasonId,
         prediction_type_id: params.predictionTypeId,
-        player_id: params.playerId || null,
-        team_id: params.teamId || null,
+        player_id: isPlayerUuid ? params.playerId : null,
+        team_id: isTeamUuid ? params.teamId : null,
+        selected_value: (!isPlayerUuid && params.playerId) || (!isTeamUuid && params.teamId) || null,
         status: 'OPEN',
       },
       {

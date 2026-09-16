@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { PicksClient } from '@/components/pickem/PicksClient';
 import { PREDICTION_CATALOG } from '@/lib/pickem/types';
+import { ROOKIE_PLAYER_OPTIONS } from '@/lib/pickem/candidateOrder';
 import { Loader2 } from 'lucide-react';
 
 export default function PicksPage() {
@@ -75,7 +76,7 @@ export default function PicksPage() {
         secondaryColor: t.secondary_color,
       }));
 
-      // 4. Fetch players with team information
+      // 4. Fetch players with team information + merge official rookies
       const { data: playersData } = await supabase
         .from('players')
         .select(`
@@ -94,7 +95,7 @@ export default function PicksPage() {
         .eq('active', true)
         .order('display_name', { ascending: true });
 
-      const players = (playersData || []).map((p: any) => {
+      const dbPlayers = (playersData || []).map((p: any) => {
         const teamRel = Array.isArray(p.teams) ? p.teams[0] : p.teams;
         return {
           id: p.id,
@@ -109,6 +110,13 @@ export default function PicksPage() {
           } : null,
         };
       });
+
+      // Asegurar que todos los novatos oficiales 2026/27 estén en el catálogo de jugadores
+      const existingNames = new Set(dbPlayers.map((p) => p.displayName.toLowerCase()));
+      const missingRookies = ROOKIE_PLAYER_OPTIONS.filter(
+        (r) => !existingNames.has(r.displayName.toLowerCase())
+      );
+      const players = [...dbPlayers, ...missingRookies];
 
       setData({
         season: {

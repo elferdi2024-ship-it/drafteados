@@ -135,14 +135,14 @@ export function PlayerSelector({
       onClick={onClose}
     >
       <div 
-        className="w-full sm:max-w-xl bg-[#121212] border-t sm:border border-white/10 rounded-t-[2rem] sm:rounded-3xl flex flex-col h-[85dvh] sm:h-[82vh] sm:max-h-[82vh] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200"
+        className="w-full sm:max-w-xl bg-[#121212] border-t sm:border border-white/10 rounded-t-[2.25rem] sm:rounded-3xl flex flex-col h-[92dvh] max-h-[92dvh] sm:h-[85vh] sm:max-h-[85vh] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-5 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Mobile touch indicator bar */}
-        <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto my-2.5 sm:hidden shrink-0" />
+        <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto my-3 sm:hidden shrink-0" />
 
         {/* Encabezado */}
-        <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between bg-[#141414] shrink-0">
+        <div className="px-5 py-3.5 border-b border-white/10 flex items-center justify-between bg-[#141414] shrink-0">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-mono uppercase font-black text-[#FF5A1F] tracking-widest block">
@@ -164,7 +164,7 @@ export function PlayerSelector({
           </button>
         </div>
 
-        {/* Buscador debounced y Filtros rápidos */}
+        {/* Buscador y Filtros rápidos (Sin autoFocus para no forzar el teclado en móvil) */}
         <div className="p-4 space-y-3 bg-[#0d0d0d] border-b border-white/10 shrink-0">
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8B8B8B]" />
@@ -173,7 +173,6 @@ export function PlayerSelector({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar candidato (ej: Doncic, SGA, Edwards, Curry)..."
-              autoFocus
               className="w-full bg-[#181818] border border-white/10 focus:border-[#FF5A1F] rounded-xl pl-10 pr-4 py-2.5 text-sm text-[#F5F5F5] placeholder-[#666666] outline-none transition-colors"
             />
           </div>
@@ -203,8 +202,8 @@ export function PlayerSelector({
           </div>
         </div>
 
-        {/* Lista de Jugadores (Consenso oculto para evitar sesgo de confirmación) */}
-        <div className="flex-1 overflow-y-auto p-3 pb-80 sm:pb-4 divide-y divide-white/[0.04] overscroll-contain">
+        {/* Lista de Jugadores */}
+        <div className="flex-1 overflow-y-auto p-3.5 pb-20 sm:pb-4 divide-y divide-white/[0.04] overscroll-contain">
           {filteredPlayers.length === 0 ? (
             <div className="py-16 text-center text-sm text-[#8B8B8B] space-y-2">
               <p className="font-semibold text-zinc-300">No encontramos candidatos para esa búsqueda.</p>
@@ -220,7 +219,7 @@ export function PlayerSelector({
                 <button
                   key={player.id}
                   onClick={() => handleSelect(player)}
-                  className={`w-full flex items-center justify-between p-3 rounded-2xl transition-all text-left cursor-pointer ${
+                  className={`w-full flex items-center justify-between p-3 rounded-2xl transition-all text-left cursor-pointer active:scale-[0.99] ${
                     isSelected
                       ? 'bg-[#FF5A1F]/15 border border-[#FF5A1F]/50 shadow-md'
                       : 'hover:bg-white/[0.04]'

@@ -8,6 +8,8 @@ import { LockedViewClient } from '@/components/pickem/LockedViewClient';
 import { isUnderdogPick, calculatePotentialPoints } from '@/lib/pickem/community';
 import { Loader2 } from 'lucide-react';
 
+import { ROOKIE_PLAYER_OPTIONS } from '@/lib/pickem/candidateOrder';
+
 export default function LockedPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -58,6 +60,9 @@ export default function LockedPage() {
             id,
             status,
             points_awarded,
+            player_id,
+            team_id,
+            selected_value,
             prediction_types:prediction_type_id (
               slug,
               name,
@@ -93,9 +98,19 @@ export default function LockedPage() {
             } else if (tm) {
               sName = tm.name;
               sSub = tm.abbreviation || '';
+            } else if (rp.selected_value) {
+              const matchedRookie = ROOKIE_PLAYER_OPTIONS.find(
+                (r) => r.id === rp.selected_value || r.displayName.toLowerCase() === rp.selected_value.toLowerCase()
+              );
+              if (matchedRookie) {
+                sName = matchedRookie.displayName;
+                sSub = `${matchedRookie.team.abbreviation} • #${matchedRookie.jerseyNumber}`;
+              } else {
+                sName = rp.selected_value;
+              }
             }
 
-            const selectionId = rp.player_id || rp.team_id || '';
+            const selectionId = rp.player_id || rp.team_id || rp.selected_value || '';
             const underdog = pt ? isUnderdogPick(pt.slug, selectionId) : false;
 
             return {

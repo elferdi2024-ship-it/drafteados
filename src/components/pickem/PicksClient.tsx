@@ -24,6 +24,7 @@ import { savePickAction, lockPicksAction } from '@/lib/pickem/actions';
 import { isUnderdogPick, calculatePotentialPoints } from '@/lib/pickem/community';
 import { getGuestPicks, saveGuestPicks, clearGuestPicks } from '@/lib/pickem/storage';
 import { PredictionCard } from './PredictionCard';
+import { sortPlayersForCategory, ROOKIE_PLAYER_OPTIONS } from '@/lib/pickem/candidateOrder';
 import { getPlayerNbaId, getTeamNbaId } from '@/lib/basketball/nbaIds';
 import { createClient } from '@/lib/supabase/client';
 
@@ -103,7 +104,19 @@ export function PicksClient({
   const [lockError, setLockError] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const playerMap = useMemo(() => new Map(players.map((p) => [p.id, p])), [players]);
+  const playerMap = useMemo(() => {
+    const map = new Map<string, PlayerOption>();
+    // Cargar novatos primero
+    for (const r of ROOKIE_PLAYER_OPTIONS) {
+      map.set(r.id, r);
+    }
+    // Cargar jugadores de la base de datos
+    for (const p of players) {
+      map.set(p.id, p);
+    }
+    return map;
+  }, [players]);
+
   const teamMap = useMemo(() => new Map(teams.map((t) => [t.id, t])), [teams]);
 
   // Sincronización inicial y migración limpia de invitado -> registrado
@@ -153,7 +166,7 @@ export function PicksClient({
       if (user) {
         supabase
           .from('predictions')
-          .select('prediction_type_id, player_id, team_id, status')
+          .select('prediction_type_id, player_id, team_id, selected_value, status')
           .eq('user_id', user.id)
           .eq('season_id', season.id)
           .then(({ data: userPicks }) => {
@@ -161,7 +174,10 @@ export function PicksClient({
               const loaded: Record<string, { playerId?: string | null; teamId?: string | null }> = {};
               let anyLocked = false;
               for (const p of userPicks) {
-                loaded[p.prediction_type_id] = { playerId: p.player_id, teamId: p.team_id };
+                loaded[p.prediction_type_id] = { 
+                  playerId: p.player_id || p.selected_value, 
+                  teamId: p.team_id || (!p.player_id ? p.selected_value : null)
+                };
                 if (p.status === 'LOCKED') anyLocked = true;
               }
               setPicks(loaded);
