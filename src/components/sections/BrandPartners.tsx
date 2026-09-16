@@ -25,40 +25,31 @@ export function BrandPartners() {
 
     const ctx = gsap.context(() => {
       if (leftColRef.current) {
-        gsap.fromTo(
-          leftColRef.current,
-          { opacity: 0, y: 35 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: leftColRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(leftColRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: leftColRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
 
       if (formCardRef.current) {
-        gsap.fromTo(
-          formCardRef.current,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            delay: 0.08,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: formCardRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(formCardRef.current, {
+          y: 40,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: formCardRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
     }, sectionRef);
 

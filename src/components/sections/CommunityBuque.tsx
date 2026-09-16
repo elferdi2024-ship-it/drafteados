@@ -77,75 +77,59 @@ export function CommunityBuque() {
 
     const ctx = gsap.context(() => {
       if (headerRef.current) {
-        gsap.fromTo(
-          headerRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: headerRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(headerRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
 
       if (metricsRef.current) {
-        gsap.fromTo(
-          metricsRef.current,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: metricsRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(metricsRef.current, {
+          y: 40,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: metricsRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
 
       if (foundersRef.current) {
-        gsap.fromTo(
-          foundersRef.current,
-          { opacity: 0, y: 35 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: foundersRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(foundersRef.current, {
+          y: 45,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: foundersRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
 
       if (milestonesRef.current) {
-        gsap.fromTo(
-          milestonesRef.current,
-          { opacity: 0, y: 35 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: milestonesRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(milestonesRef.current, {
+          y: 40,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: milestonesRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
     }, sectionRef);
 

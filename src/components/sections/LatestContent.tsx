@@ -20,6 +20,7 @@ const CATEGORIES = ["Todos", "Análisis NBA", "3+1 Podcast", "Debates", "Scoutin
 export function LatestContent() {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const [videos, setVideos] = useState<VideoItem[]>(LATEST_VIDEOS);
@@ -50,7 +51,7 @@ export function LatestContent() {
     return videos.filter((v) => v.category === selectedCategory);
   }, [selectedCategory, videos]);
 
-  // Consistent GSAP Entrance Transition from Hero
+  // Smooth GSAP Reveal Animations (drafteados.com original style)
   useEffect(() => {
     const section = sectionRef.current;
     if (!section || !containerRef.current) return;
@@ -59,25 +60,38 @@ export function LatestContent() {
     if (prefersReduced) return;
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        containerRef.current,
-        { y: 50, opacity: 0 },
-        {
+      if (headerRef.current) {
+        gsap.from(headerRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
-            trigger: section,
-            start: "top 92%",
-            once: true,
+            trigger: headerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
           },
-          y: 0,
-          opacity: 1,
-          duration: 1.05,
-          ease: "power3.out",
-        }
-      );
+        });
+      }
+
+      if (sliderRef.current && sliderRef.current.children.length > 0) {
+        gsap.from(sliderRef.current.children, {
+          y: 40,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: sliderRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [filteredVideos.length]);
 
   // Update scroll boundaries & active dot index
   const handleScroll = useCallback(() => {
@@ -176,7 +190,7 @@ export function LatestContent() {
 
       <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 sm:mb-8 gap-3 sm:gap-6">
+        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between mb-4 sm:mb-8 gap-3 sm:gap-6">
           <div>
             <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-[0.25em] text-white/95 uppercase mb-1.5 sm:mb-3">
               <span className="w-2 h-0.5 bg-white" />

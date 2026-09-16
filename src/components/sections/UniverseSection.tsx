@@ -40,47 +40,34 @@ export function UniverseSection() {
     const ctx = gsap.context(() => {
       // Header reveal
       if (headerRef.current) {
-        gsap.fromTo(
-          headerRef.current,
-          { opacity: 0, y: 35 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.05,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: headerRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        gsap.from(headerRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        });
       }
 
       // Cards staggered reveal
       const cards = cardsRef.current?.children;
       if (cards && cards.length > 0) {
-        gsap.fromTo(
-          cards,
-          {
-            opacity: 0,
-            y: 45,
-            scale: 0.97,
+        gsap.from(cards, {
+          y: 45,
+          opacity: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
           },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.05,
-            stagger: 0.12,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: cardsRef.current,
-              start: "top 92%",
-              once: true,
-            },
-          }
-        );
+        });
       }
     }, sectionRef);
 

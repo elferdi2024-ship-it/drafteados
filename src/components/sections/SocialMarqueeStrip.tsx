@@ -1,11 +1,13 @@
 // filepath: src/components/sections/SocialMarqueeStrip.tsx
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { YoutubeIcon, SpotifyIcon, InstagramIcon, TwitterXIcon } from "@/components/ui/Icons";
 import { ShoppingBag, Plane, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 interface SocialChannel {
   name: string;
@@ -68,11 +70,38 @@ const SOCIAL_CHANNELS: SocialChannel[] = [
 ];
 
 export function SocialMarqueeStrip({ className }: { className?: string }) {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced || !sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(sectionRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       aria-label="Canales y Redes Oficiales de Drafteados"
       className={cn(
-        "relative z-20 py-4 sm:py-5 bg-white/95 dark:bg-[#0B0B0D] border-y border-black/10 dark:border-white/10 overflow-hidden transition-colors duration-300",
+        "relative z-20 py-4 sm:py-5 bg-white/95 dark:bg-[#0B0B0D] border-y border-black/10 dark:border-white/10 overflow-hidden transition-colors duration-300 will-change-transform",
         "[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]",
         className
       )}

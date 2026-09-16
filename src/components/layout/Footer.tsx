@@ -1,15 +1,42 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { SOCIAL_LINKS } from "@/data/drafteados";
 import { ArrowUp, Send, Check } from "lucide-react";
 import { YoutubeIcon, InstagramIcon, TwitterXIcon, SpotifyIcon } from "@/components/ui/Icons";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced || !footerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(footerRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +49,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative z-20 bg-[#F0F0F2] dark:bg-[#070708] border-t border-black/10 dark:border-white/10 pt-20 pb-12 overflow-hidden text-zinc-600 dark:text-zinc-400 transition-colors duration-300">
+    <footer ref={footerRef} className="relative z-20 bg-[#F0F0F2] dark:bg-[#070708] border-t border-black/10 dark:border-white/10 pt-20 pb-12 overflow-hidden text-zinc-600 dark:text-zinc-400 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-black/10 dark:border-white/10">
