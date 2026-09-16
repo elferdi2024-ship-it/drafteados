@@ -85,24 +85,33 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation (Excluye Pick'em repetido; vive en el CTA dedicado de la derecha) */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-2 lg:gap-4 xl:gap-6">
             {NAV_LINKS.filter((link) => link.href !== "/pickem").map((link) => {
               const isInternal = link.href.startsWith("/") && !link.href.startsWith("/#");
               const isNbaHub = link.href === "/nba";
-              const linkClasses = `px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group ${
+              const linkClasses = `relative py-1 text-xs lg:text-[13px] font-mono font-bold uppercase tracking-wider whitespace-nowrap transition-colors duration-200 group flex items-center gap-1.5 ${
                 isNbaHub
-                  ? "text-[#FF5A1F] font-semibold"
+                  ? "text-[#FF5A1F]"
                   : isScrolled
-                  ? "text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
-                  : "text-zinc-300 hover:text-white hover:bg-white/5"
+                  ? "text-zinc-700 dark:text-zinc-300 hover:text-[#FF5A1F] dark:hover:text-[#FF5A1F]"
+                  : "text-zinc-300 hover:text-white"
               }`;
+
+              const innerContent = (
+                <>
+                  {isNbaHub && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] shadow-[0_0_6px_#FF5A1F] shrink-0" />
+                  )}
+                  <span>{link.name}</span>
+                  <span className="absolute -bottom-0.5 left-0 w-0 h-[2px] bg-[#FF5A1F] group-hover:w-full transition-all duration-200 origin-left" />
+                </>
+              );
 
               if (isInternal) {
                 return (
                   <Link key={link.name} href={link.href} className={linkClasses}>
-                    <span>{link.name}</span>
-                    <span className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-[#FF5A1F] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
+                    {innerContent}
                   </Link>
                 );
               }
@@ -115,14 +124,13 @@ export function Navbar() {
                   rel={link.external ? "noopener noreferrer" : undefined}
                   className={linkClasses}
                 >
-                  {link.name}
-                  <span className="absolute bottom-1 left-3.5 right-3.5 h-[2px] bg-[#FF5A1F] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
+                  {innerContent}
                 </a>
               );
             })}
           </nav>
 
-          {/* Right Actions: Theme Toggle + Pick'em CTA + YouTube CTA (High contrast in Light & Dark Mode) */}
+          {/* Right Actions: Theme Toggle + Pick'em CTA + YouTube CTA */}
           <div className="hidden md:flex items-center gap-2.5">
             <button
               type="button"
@@ -142,10 +150,10 @@ export function Navbar() {
               )}
             </button>
 
-            {/* Botón Pick'em: Sobrio, delicado pero con distinción visual y micro-dot luminoso */}
+            {/* Botón Pick'em */}
             <Link
               href="/pickem"
-              className={`group flex items-center gap-2 rounded-full border transition-all duration-300 px-3.5 py-1.5 text-xs font-semibold tracking-wide ${
+              className={`group flex items-center gap-2 rounded-full border transition-all duration-300 px-3.5 py-1.5 text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap ${
                 isScrolled
                   ? "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-[#FF5A1F]/10 hover:bg-[#FF5A1F]/20 text-zinc-900 dark:text-zinc-100 shadow-sm"
                   : "border-[#FF5A1F]/50 hover:border-[#FF5A1F] bg-black/40 hover:bg-[#FF5A1F]/20 text-white shadow-sm"
@@ -156,12 +164,12 @@ export function Navbar() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] shadow-[0_0_6px_#FF5A1F]" />
             </Link>
 
-            {/* Botón YouTube Oficial: Alto contraste visible tanto en Light Mode como en Dark Mode */}
+            {/* Botón YouTube Oficial */}
             <a
               href="https://www.youtube.com/@DrafteadosNBA"
               target="_blank"
               rel="noopener noreferrer"
-              className={`group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
+              className={`group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-300 border cursor-pointer ${
                 isScrolled
                   ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-black/10 dark:border-white/10 hover:bg-[#FF5A1F] dark:hover:bg-[#FF5A1F] dark:hover:text-white shadow-sm"
                   : "bg-white/15 hover:bg-[#FF5A1F] text-white border-white/20 hover:border-[#FF5A1F] shadow-sm"

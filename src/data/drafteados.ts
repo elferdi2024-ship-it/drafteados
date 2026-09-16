@@ -391,11 +391,11 @@ export const COMMUNITY_TESTIMONIALS: CommunityTestimonial[] = PRESS_MILESTONES.s
 export const NAV_LINKS = [
   { name: "NBA Hub", href: "/nba", external: false },
   { name: "Pick'em NBA", href: "/pickem", external: false, isPickem: true, badge: "NUEVO" },
-  { name: "¿Qué Hacemos?", href: "/#contenidos", external: false },
+  { name: "Contenido", href: "/#contenidos", external: false },
   { name: "Universo", href: "/#universo", external: false },
   { name: "Comunidad", href: "/#comunidad", external: false },
-  { name: "Viajes NBA", href: "https://tripdouble.com/es/drafteados/", external: true },
-  { name: "Buques Club", href: "https://www.buquesclub.com/", external: true },
+  { name: "Viajes", href: "https://tripdouble.com/es/drafteados/", external: true },
+  { name: "Tienda", href: "https://www.buquesclub.com/", external: true },
   { name: "Contacto", href: "/#contacto", external: false },
 ];
 
