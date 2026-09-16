@@ -5,6 +5,11 @@ import { TeamLogo } from "@/components/nba/TeamLogo";
 
 export const revalidate = 3600;
 
+export const metadata = {
+  title: "30 Equipos de la NBA · Franquicias Oficiales | Drafteados",
+  description: "Las 30 franquicias de la NBA. Plantillas, resultados, calendarios y estadísticas de Conferencia Este y Oeste.",
+};
+
 export default async function TeamsPage() {
   const teams = await basketball.getTeams();
   const eastTeams = teams.filter((t) => t.conference === "East");

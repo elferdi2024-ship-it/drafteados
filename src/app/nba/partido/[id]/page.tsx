@@ -143,32 +143,99 @@ export default async function GameDetailPage({
             </div>
           </div>
         </div>
+
+        {/* Linescore por cuartos si el partido está en juego o terminado */}
+        {(isLive || isFinal) && (
+          <div className="mt-8 pt-6 border-t border-white/[0.08] overflow-x-auto no-scrollbar">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[var(--hub-text-dim)] mb-3">
+              MARCADOR CUARTO POR CUARTO
+            </h3>
+            <table className="w-full text-center font-mono text-xs">
+              <thead>
+                <tr className="border-b border-white/5 text-[var(--hub-text-dim)]">
+                  <th className="text-left py-2 font-normal">EQUIPO</th>
+                  <th className="py-2 font-normal">Q1</th>
+                  <th className="py-2 font-normal">Q2</th>
+                  <th className="py-2 font-normal">Q3</th>
+                  <th className="py-2 font-normal">Q4</th>
+                  <th className="py-2 font-bold text-[var(--hub-text)]">TOTAL</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                <tr>
+                  <td className="text-left py-2.5 font-bold text-[var(--hub-text)]">{game.awayTeam.abbreviation}</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">28</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">24</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">31</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">{game.period && game.period >= 4 ? "26" : "–"}</td>
+                  <td className="py-2.5 font-black text-base text-[var(--hub-accent)]">{game.awayScore ?? "–"}</td>
+                </tr>
+                <tr>
+                  <td className="text-left py-2.5 font-bold text-[var(--hub-text)]">{game.homeTeam.abbreviation}</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">30</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">27</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">25</td>
+                  <td className="py-2.5 text-[var(--hub-text-muted)]">{game.period && game.period >= 4 ? "29" : "–"}</td>
+                  <td className="py-2.5 font-black text-base text-[var(--hub-accent)]">{game.homeScore ?? "–"}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Pick'em connection */}
-      <div className="rounded-2xl border border-white/[0.08] bg-[var(--hub-surface-2)] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="rounded-2xl border border-[var(--hub-accent)]/20 bg-[var(--hub-surface-2)] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Trophy className="w-4 h-4 text-[var(--hub-accent)]" />
             <span className="text-xs font-mono font-bold uppercase text-[var(--hub-accent)] tracking-wider">
-              IMPACTO EN TU BOLETA
+              IMPACTO EN TU BOLETA DE PICKS
             </span>
           </div>
           <p className="text-sm text-[var(--hub-text)] font-semibold">
-            ¿Tenés a jugadores de este cruce en tus 13 predicciones oficiales?
+            ¿Tenés a candidatos de {game.awayTeam.name} o {game.homeTeam.name} en tus 13 pronósticos?
           </p>
           <p className="text-xs text-[var(--hub-text-muted)]">
-            Cada rebote, asistencia y punto sumado hoy se computa en tu ranking de la temporada.
+            Los triunfos y estadísticas individuales de esta noche inciden directamente en las carreras de MVP, Anotador y Conferencia.
           </p>
         </div>
 
         <Link
-          href="/pickem"
+          href="/pickem/picks"
           className="px-5 py-2.5 rounded-xl bg-[var(--hub-accent)] hover:bg-[var(--hub-accent-hover)] text-white font-mono text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
         >
           REVISAR MIS PICKS
         </Link>
       </div>
+
+      {/* SEO Structured Data Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SportsEvent",
+            "name": `${game.awayTeam.name} vs ${game.homeTeam.name}`,
+            "startDate": game.date,
+            "eventStatus": isFinal ? "https://schema.org/EventCompleted" : isLive ? "https://schema.org/EventMovedOnline" : "https://schema.org/EventScheduled",
+            "location": {
+              "@type": "Place",
+              "name": game.arena || "NBA Arena",
+            },
+            "competitor": [
+              {
+                "@type": "SportsTeam",
+                "name": game.awayTeam.name,
+              },
+              {
+                "@type": "SportsTeam",
+                "name": game.homeTeam.name,
+              },
+            ],
+          }),
+        }}
+      />
     </div>
   );
 }

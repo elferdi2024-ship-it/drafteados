@@ -4,6 +4,11 @@ import { LeadersClient } from "./LeadersClient";
 
 export const revalidate = 300;
 
+export const metadata = {
+  title: "Líderes Estadísticos NBA 2026/27 · Puntos, Asistencias, Rebotes | Drafteados",
+  description: "Los máximos anotadores, pasadores, taponadores y triplistas de la temporada regular NBA 2026/27.",
+};
+
 export default async function LeadersPage() {
   const [pts, ast, reb, blk, stl, fg3m] = await Promise.all([
     basketball.getLeaders("pts", "2026-27", 15),

@@ -141,6 +141,21 @@ export default async function NbaHubPage() {
           </div>
         </div>
       </section>
+
+      {/* SEO Structured Data Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SportsOrganization",
+            "name": "Drafteados NBA Hub",
+            "url": "https://drafteados.com/nba",
+            "description": "El hub oficial de la NBA en español para los Buques. Marcadores en vivo, clasificación Este/Oeste y estadísticas.",
+            "sport": "Basketball",
+          }),
+        }}
+      />
     </div>
   );
 }

@@ -4,6 +4,11 @@ import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 
 export const revalidate = 300;
 
+export const metadata = {
+  title: "Clasificación NBA 2026/27 · Conferencia Este y Oeste | Drafteados",
+  description: "Tabla de posiciones oficial de la NBA 2026/27. Récords, rachas y zona de playoffs de los 30 equipos con la mirada de los Buques.",
+};
+
 export default async function StandingsPage() {
   const standings = await basketball.getStandings();
 
