@@ -11,6 +11,17 @@
   --color-surface-hover: #F4F4F5;
   --color-border: rgba(0, 0, 0, 0.08);
   --color-muted: #71717A;
+  /* Pick'em Tokens - Light Mode */
+  --pickem-bg: #F4F4F6;
+  --pickem-surface: #FFFFFF;
+  --pickem-surface-2: #E8E8EC;
+  --pickem-card: #FFFFFF;
+  --pickem-border: rgba(0, 0, 0, 0.08);
+  --pickem-text: #111113;
+  --pickem-muted: #6E6E73;
+  --pickem-accent: #FF5A1F;
+  --pickem-accent-hover: #E04810;
+  --pickem-gold: #FF5A1F;
 }
 
 html.dark {
@@ -22,6 +33,18 @@ html.dark {
   --color-surface-hover: #18181B;
   --color-border: rgba(255, 255, 255, 0.08);
   --color-muted: #A1A1AA;
+
+  /* Pick'em Tokens - Dark Mode */
+  --pickem-bg: #0A0A0A;
+  --pickem-surface: #121212;
+  --pickem-surface-2: #18181B;
+  --pickem-card: #141416;
+  --pickem-border: rgba(255, 255, 255, 0.09);
+  --pickem-text: #F5F5F7;
+  --pickem-muted: #8E8E93;
+  --pickem-accent: #FF5A1F;
+  --pickem-accent-hover: #FF7A45;
+  --pickem-gold: #FF5A1F;
 }
 
 @theme inline {
@@ -35,16 +58,19 @@ html.dark {
   --color-muted: var(--color-muted);
   --font-title: var(--font-title), sans-serif;
   --font-sans: var(--font-sans), sans-serif;
+  --font-mono: var(--font-mono), monospace;
 
   /* Pick'em Design Tokens */
-  --color-pickem-bg: #080808;
-  --color-pickem-surface: #111111;
-  --color-pickem-surface-2: #181818;
-  --color-pickem-border: #282828;
-  --color-pickem-text: #F5F5F5;
-  --color-pickem-muted: #8B8B8B;
-  --color-pickem-accent: #FF5A1F;
-  --color-pickem-accent-hover: #FF6B35;
+  --color-pickem-bg: var(--pickem-bg);
+  --color-pickem-surface: var(--pickem-surface);
+  --color-pickem-surface-2: var(--pickem-surface-2);
+  --color-pickem-card: var(--pickem-card);
+  --color-pickem-border: var(--pickem-border);
+  --color-pickem-text: var(--pickem-text);
+  --color-pickem-muted: var(--pickem-muted);
+  --color-pickem-accent: var(--pickem-accent);
+  --color-pickem-accent-hover: var(--pickem-accent-hover);
+  --color-pickem-gold: var(--pickem-gold);
 
   /* Category Colors */
   --color-cat-stats: #3B82F6;

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bebas_Neue, Plus_Jakarta_Sans } from "next/font/google";
+import { Bebas_Neue, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { CustomCursor } from "@/components/ui/CustomCursor";
@@ -14,6 +14,12 @@ const bebasNeue = Bebas_Neue({
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -69,7 +75,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bebasNeue.variable} ${plusJakartaSans.variable} dark`}
+      className={`${bebasNeue.variable} ${plusJakartaSans.variable} ${spaceGrotesk.variable} dark`}
       suppressHydrationWarning
     >
       <head>

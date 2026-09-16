@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { HeroCanvasScrub } from "@/components/hero/HeroCanvasScrub";
 import { SocialMarqueeStrip } from "@/components/sections/SocialMarqueeStrip";
 import { LatestContent } from "@/components/sections/LatestContent";
+import { PickemHomeBanner } from "@/components/sections/PickemHomeBanner";
 import { UniverseSection } from "@/components/sections/UniverseSection";
 import { CommunityBuque } from "@/components/sections/CommunityBuque";
 import { BrandPartners } from "@/components/sections/BrandPartners";
@@ -21,6 +22,9 @@ export default function Home() {
 
       {/* Narrative Section 2: Últimos Contenidos */}
       <LatestContent />
+
+      {/* Featured Banner: Drafteados Pick'em NBA */}
+      <PickemHomeBanner />
 
       {/* Narrative Section 3: Universo Drafteados (2x2 Cards) */}
       <UniverseSection />

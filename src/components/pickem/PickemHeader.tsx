@@ -1,12 +1,12 @@
-// filepath: src/components/pickem/PickemHeader.tsx
-"use client";
+﻿"use client";
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Menu, X, User, LogOut, Trophy } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
-import { AuthModal } from './AuthModal';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { Menu, X, User, LogOut, Trophy, Sun, Moon, ArrowLeft, Flame, Sparkles } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { AuthModal } from "./AuthModal";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface Profile {
   username: string;
@@ -17,22 +17,28 @@ interface Profile {
 export function PickemHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [mounted, setMounted] = useState(false);
 
   const supabase = createClient();
 
   useEffect(() => {
+    setMounted(true);
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
+
     async function loadUser() {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
       if (user) {
         const { data } = await supabase
-          .from('profiles')
-          .select('username, display_name, avatar_url')
-          .eq('id', user.id)
+          .from("profiles")
+          .select("username, display_name, avatar_url")
+          .eq("id", user.id)
           .single();
         if (data) {
           setProfile(data);
@@ -47,9 +53,9 @@ export function PickemHeader() {
       setUser(currentUser);
       if (currentUser) {
         const { data } = await supabase
-          .from('profiles')
-          .select('username, display_name, avatar_url')
-          .eq('id', currentUser.id)
+          .from("profiles")
+          .select("username, display_name, avatar_url")
+          .eq("id", currentUser.id)
           .single();
         if (data) {
           setProfile(data);
@@ -64,15 +70,27 @@ export function PickemHeader() {
     };
   }, []);
 
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
     setUserMenuOpen(false);
-    window.location.href = '/pickem';
+    window.location.href = "/pickem";
   };
 
-  const openAuth = (mode: 'login' | 'signup') => {
+  const openAuth = (mode: "login" | "signup") => {
     setAuthMode(mode);
     setAuthModalOpen(true);
     setIsOpen(false);
@@ -80,70 +98,126 @@ export function PickemHeader() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 bg-[#080808]/90 backdrop-blur-xl border-b border-[#282828]">
+      <header className="fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-[#0A0A0A]/90 backdrop-blur-xl border-b border-black/10 dark:border-white/10 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Left: Brand */}
+          <div className="flex items-center justify-between h-16 sm:h-18">
+            {/* Left: Brand Logo & Title */}
             <div className="flex items-center gap-6">
-              <Link href="/pickem" className="flex items-center gap-2 group">
-                <span className="font-title text-2xl tracking-tight text-[#F5F5F5] group-hover:text-white transition-colors">
-                  DRAFTEADOS
-                </span>
-                <span className="bg-[#FF5A1F] text-white font-title text-sm tracking-widest px-2 py-0.5 rounded-sm">
-                  PICK'EM
-                </span>
+              <Link
+                href="/pickem"
+                className="flex items-center gap-3 group focus:outline-none"
+                aria-label="Drafteados Pick'em - Inicio"
+              >
+                <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6 border border-black/10 dark:border-white/10">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Drafteados Logo"
+                    fill
+                    priority
+                    sizes="48px"
+                    className="object-contain"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="text-xl sm:text-2xl font-black tracking-wider uppercase group-hover:text-[#FF5A1F] transition-colors text-zinc-900 dark:text-white"
+                      style={{ fontFamily: "var(--font-title)" }}
+                    >
+                      Drafteados
+                    </span>
+                    <span
+                      className="bg-[#FF5A1F] text-white font-black text-[11px] sm:text-xs tracking-widest px-2 py-0.5 rounded-md uppercase"
+                      style={{ fontFamily: "var(--font-title)" }}
+                    >
+                      PICK'EM
+                    </span>
+                  </div>
+                  <span className="text-[9px] tracking-[0.25em] uppercase -mt-0.5 font-medium text-zinc-500 dark:text-zinc-400 hidden sm:block">
+                    Pronósticos Oficiales NBA
+                  </span>
+                </div>
               </Link>
 
               {/* Navigation links */}
-              <nav className="hidden md:flex items-center gap-5 text-sm font-medium">
-                <Link href="/pickem/picks" className="text-[#8B8B8B] hover:text-[#F5F5F5] transition-colors">
-                  Picks
+              <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+                <Link
+                  href="/pickem/picks"
+                  className="px-3.5 py-1.5 text-sm font-semibold rounded-full text-zinc-700 dark:text-zinc-200 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center gap-1.5"
+                >
+                  <Flame className="w-4 h-4 text-[#FF5A1F]" />
+                  <span>Tablero de Picks</span>
                 </Link>
-                <Link href="/pickem/leaderboard" className="text-[#8B8B8B] hover:text-[#F5F5F5] transition-colors flex items-center gap-1.5">
-                  <Trophy className="w-3.5 h-3.5 text-[#FF5A1F]" />
-                  Ranking
+                <Link
+                  href="/pickem/leaderboard"
+                  className="px-3.5 py-1.5 text-sm font-semibold rounded-full text-zinc-700 dark:text-zinc-200 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center gap-1.5"
+                >
+                  <Trophy className="w-4 h-4 text-[#FF5A1F]" />
+                  <span>Clasificación</span>
+                </Link>
+                <Link
+                  href="/"
+                  className="px-3 py-1.5 text-xs font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-[#FF5A1F] transition-colors flex items-center gap-1"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Volver a la Web</span>
                 </Link>
               </nav>
             </div>
 
-            {/* Right: Desktop Actions */}
-            <div className="hidden md:flex items-center gap-4">
+            {/* Right: Theme Toggle & User Actions */}
+            <div className="hidden md:flex items-center gap-3">
+              {/* Theme Toggle */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="p-2.5 rounded-full border border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 hover:border-[#FF5A1F]/50 hover:text-[#FF5A1F] transition-all focus:outline-none cursor-pointer"
+                aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+                title={theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"}
+              >
+                {mounted && theme === "dark" ? (
+                  <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
+                ) : (
+                  <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300 transition-transform hover:-rotate-12" />
+                )}
+              </button>
+
               {user ? (
                 <div className="relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center gap-2.5 bg-[#181818] hover:bg-[#222222] border border-[#282828] py-1.5 px-3 rounded-xl transition-colors"
+                    className="flex items-center gap-2.5 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/10 py-1.5 px-3 rounded-full transition-colors cursor-pointer"
                   >
                     <div className="w-7 h-7 rounded-full bg-[#FF5A1F]/20 border border-[#FF5A1F]/40 flex items-center justify-center text-[#FF5A1F] font-title text-sm">
                       {profile?.username ? profile.username.substring(0, 2).toUpperCase() : <User className="w-4 h-4" />}
                     </div>
-                    <span className="text-sm font-semibold text-[#F5F5F5]">
-                      @{profile?.username || 'buque'}
+                    <span className="text-sm font-semibold text-zinc-900 dark:text-white">
+                      @{profile?.username || "buque"}
                     </span>
                   </button>
 
                   {userMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-[#111111] border border-[#282828] rounded-xl shadow-2xl py-1.5 z-50 animate-in fade-in zoom-in-95 duration-100">
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#121212] border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in zoom-in-95 duration-100">
                       <Link
-                        href={`/pickem/profile/${profile?.username || 'me'}`}
+                        href={`/pickem/profile?u=${profile?.username || "me"}`}
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-[#F5F5F5] hover:bg-[#181818] transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-zinc-800 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                       >
-                        <User className="w-4 h-4 text-[#8B8B8B]" />
+                        <User className="w-4 h-4 text-zinc-400" />
                         Mi Perfil
                       </Link>
                       <Link
                         href="/pickem/picks"
                         onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-[#F5F5F5] hover:bg-[#181818] transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-zinc-800 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                       >
                         <span className="text-[#FF5A1F] font-bold">13</span>
                         Mis Predicciones
                       </Link>
-                      <div className="border-t border-[#282828] my-1" />
+                      <div className="border-t border-black/5 dark:border-white/10 my-1" />
                       <button
                         onClick={handleSignOut}
-                        className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-500 hover:bg-red-500/10 transition-colors text-left cursor-pointer"
                       >
                         <LogOut className="w-4 h-4" />
                         Cerrar Sesión
@@ -152,29 +226,42 @@ export function PickemHeader() {
                   )}
                 </div>
               ) : (
-                <>
-                  <button 
-                    onClick={() => openAuth('login')}
-                    className="text-sm font-medium text-[#8B8B8B] hover:text-[#F5F5F5] transition-colors px-2 py-1"
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => openAuth("login")}
+                    className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors px-3 py-2 cursor-pointer"
                   >
-                    INICIAR SESIÓN
+                    Iniciar Sesión
                   </button>
-                  <Link 
-                    href="/pickem/picks"
-                    className="bg-[#FF5A1F] hover:bg-[#FF6B35] text-white font-title text-lg tracking-wider px-6 py-2 rounded-md transition-colors"
+                  <button
+                    onClick={() => openAuth("signup")}
+                    className="bg-[#FF5A1F] hover:bg-[#FF7A45] text-white text-xs font-mono font-bold uppercase tracking-wider px-4 py-2 rounded-full transition-all shadow-md shadow-[#FF5A1F]/20 cursor-pointer active:scale-95"
                   >
-                    JUGAR AHORA
-                  </Link>
-                </>
+                    Crear Cuenta
+                  </button>
+                </div>
               )}
             </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
+            {/* Mobile Menu Actions */}
+            <div className="flex md:hidden items-center gap-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="p-2 rounded-lg border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 focus:outline-none"
+                aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
+              >
+                {mounted && theme === "dark" ? (
+                  <Sun className="w-4 h-4 text-amber-400" />
+                ) : (
+                  <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+                )}
+              </button>
+
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-[#8B8B8B] hover:text-[#F5F5F5] p-2"
-                aria-label="Abrir menú"
+                className="p-2 text-zinc-700 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-colors focus:outline-none"
+                aria-label="Menú móvil"
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -182,64 +269,66 @@ export function PickemHeader() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Dropdown Menu */}
         {isOpen && (
-          <div className="md:hidden bg-[#111111] border-b border-[#282828]">
-            <div className="px-4 pt-3 pb-6 space-y-3">
-              <Link 
-                href="/pickem/picks"
-                onClick={() => setIsOpen(false)}
-                className="block text-[#F5F5F5] font-semibold text-base py-2"
-              >
-                Mis Picks
-              </Link>
-              <Link 
-                href="/pickem/leaderboard"
-                onClick={() => setIsOpen(false)}
-                className="block text-[#8B8B8B] font-semibold text-base py-2"
-              >
-                Ranking Global
-              </Link>
+          <div className="md:hidden border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl px-4 pt-4 pb-8 space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
+            <Link
+              href="/pickem/picks"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 text-zinc-900 dark:text-white font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
+            >
+              <Flame className="w-5 h-5 text-[#FF5A1F]" />
+              <span>Tablero de Pronósticos</span>
+            </Link>
 
-              <div className="border-t border-[#282828] pt-3" />
+            <Link
+              href="/pickem/leaderboard"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 text-zinc-900 dark:text-white font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
+            >
+              <Trophy className="w-5 h-5 text-[#FF5A1F]" />
+              <span>Tabla de Clasificación</span>
+            </Link>
 
-              {user ? (
-                <div className="space-y-3">
-                  <div className="text-sm text-[#8B8B8B]">
-                    Conectado como <span className="text-white font-bold">@{profile?.username || 'buque'}</span>
-                  </div>
-                  <Link
-                    href={`/pickem/profile/${profile?.username || 'me'}`}
-                    onClick={() => setIsOpen(false)}
-                    className="block text-sm text-[#F5F5F5] py-1"
-                  >
-                    Ver mi Perfil
-                  </Link>
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full text-left text-sm text-red-400 py-1"
-                  >
-                    Cerrar Sesión
-                  </button>
+            <Link
+              href="/"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 text-zinc-600 dark:text-zinc-300 font-mono text-xs uppercase tracking-wider"
+            >
+              <ArrowLeft className="w-4 h-4 text-zinc-400" />
+              <span>Volver a la Web Principal</span>
+            </Link>
+
+            {user ? (
+              <div className="pt-2 border-t border-black/10 dark:border-white/10 space-y-2">
+                <div className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-500 dark:text-zinc-400">
+                  <User className="w-4 h-4 text-[#FF5A1F]" />
+                  <span>Conectado como <strong className="text-zinc-900 dark:text-white">@{profile?.username || "buque"}</strong></span>
                 </div>
-              ) : (
-                <div className="space-y-3 pt-2">
-                  <button 
-                    onClick={() => openAuth('login')}
-                    className="w-full text-center text-sm font-medium text-[#8B8B8B] hover:text-[#F5F5F5] py-2 border border-[#282828] rounded-md transition-colors"
-                  >
-                    INICIAR SESIÓN
-                  </button>
-                  <Link 
-                    href="/pickem/picks"
-                    className="block text-center bg-[#FF5A1F] hover:bg-[#FF6B35] text-white font-title text-xl tracking-wider px-6 py-3 rounded-md transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    JUGAR AHORA
-                  </Link>
-                </div>
-              )}
-            </div>
+                <button
+                  onClick={handleSignOut}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-500/10 text-red-500 font-mono text-xs uppercase tracking-wider font-bold"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Cerrar Sesión</span>
+                </button>
+              </div>
+            ) : (
+              <div className="pt-2 border-t border-black/10 dark:border-white/10 grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => openAuth("login")}
+                  className="w-full py-3 rounded-xl border border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-zinc-900 dark:text-white font-mono text-xs uppercase tracking-wider font-bold"
+                >
+                  Iniciar Sesión
+                </button>
+                <button
+                  onClick={() => openAuth("signup")}
+                  className="w-full py-3 rounded-xl bg-[#FF5A1F] text-white font-mono text-xs uppercase tracking-wider font-bold shadow-lg shadow-[#FF5A1F]/20"
+                >
+                  Crear Cuenta
+                </button>
+              </div>
+            )}
           </div>
         )}
       </header>
