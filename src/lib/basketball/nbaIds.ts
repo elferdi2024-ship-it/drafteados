@@ -362,16 +362,16 @@ export const NBA_PLAYER_IDS: Record<string, number> = {
  */
 export function getPlayerHeadshotUrl(nbaId: number | null | undefined, size: '1040x760' | '260x190' = '1040x760'): string {
   if (!nbaId) return '/fallback-player.png';
-  const sizeParam = size === '260x190' ? '&size=thumb' : '';
-  return `/api/nba-avatar?id=${nbaId}${sizeParam}`;
+  const dimension = size === '260x190' ? '260x190' : '1040x760';
+  return `https://cdn.nba.com/headshots/nba/latest/${dimension}/${nbaId}.png`;
 }
 
 /**
- * Resolves official NBA team logo SVG (served via cached server proxy)
+ * Resolves official NBA team logo SVG (served via direct official NBA CDN)
  */
 export function getTeamLogoUrl(nbaTeamId: number | null | undefined): string {
   if (!nbaTeamId) return '/fallback-team.svg';
-  return `/api/nba-logo?id=${nbaTeamId}`;
+  return `https://cdn.nba.com/logos/nba/${nbaTeamId}/global/L/logo.svg`;
 }
 
 /**

@@ -1,8 +1,4 @@
-// filepath: src/lib/pickem/actions.ts
-"use server";
-
-import { createClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { createClient } from '@/lib/supabase/client';
 
 export interface SavePickParams {
   seasonId: string;
@@ -12,7 +8,7 @@ export interface SavePickParams {
 }
 
 export async function savePickAction(params: SavePickParams) {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   // 1. Authenticate user
   const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -73,12 +69,11 @@ export async function savePickAction(params: SavePickParams) {
     return { success: false, error: upsertError.message };
   }
 
-  revalidatePath('/pickem/picks');
   return { success: true };
 }
 
 export async function lockPicksAction(seasonId: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) {
@@ -130,7 +125,5 @@ export async function lockPicksAction(seasonId: string) {
     return { success: false, error: lockError.message };
   }
 
-  revalidatePath('/pickem/picks');
-  revalidatePath('/pickem/locked');
   return { success: true };
 }

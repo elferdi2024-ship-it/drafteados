@@ -24,6 +24,7 @@ import { isUnderdogPick, calculatePotentialPoints } from '@/lib/pickem/community
 import { getGuestPicks, saveGuestPicks, clearGuestPicks } from '@/lib/pickem/storage';
 import { PredictionCard } from './PredictionCard';
 import { getPlayerNbaId, getTeamNbaId } from '@/lib/basketball/nbaIds';
+import { createClient } from '@/lib/supabase/client';
 
 interface PredictionTypeItem {
   id: string;
@@ -143,6 +144,32 @@ export function PicksClient({
       }
     }
   }, [existingPicks, season.id, isLoggedIn]);
+
+  // Si el usuario ya está autenticado en el navegador, cargar sus picks en vivo desde Supabase
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        supabase
+          .from('predictions')
+          .select('prediction_type_id, player_id, team_id, status')
+          .eq('user_id', user.id)
+          .eq('season_id', season.id)
+          .then(({ data: userPicks }) => {
+            if (userPicks && userPicks.length > 0) {
+              const loaded: Record<string, { playerId?: string | null; teamId?: string | null }> = {};
+              let anyLocked = false;
+              for (const p of userPicks) {
+                loaded[p.prediction_type_id] = { playerId: p.player_id, teamId: p.team_id };
+                if (p.status === 'LOCKED') anyLocked = true;
+              }
+              setPicks(loaded);
+              setIsLocked(anyLocked);
+            }
+          });
+      }
+    });
+  }, [season.id]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
