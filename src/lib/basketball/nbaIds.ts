@@ -7,123 +7,169 @@
 export const NBA_TEAM_IDS: Record<string, number> = {
   // Atlanta Hawks
   ATL: 1610612737,
+  hawks: 1610612737,
+  Hawks: 1610612737,
   'Atlanta Hawks': 1610612737,
 
   // Boston Celtics
   BOS: 1610612738,
+  celtics: 1610612738,
+  Celtics: 1610612738,
   'Boston Celtics': 1610612738,
 
   // Cleveland Cavaliers
   CLE: 1610612739,
+  cavaliers: 1610612739,
+  cavs: 1610612739,
   'Cleveland Cavaliers': 1610612739,
 
   // New Orleans Pelicans
   NOP: 1610612740,
+  NO: 1610612740,
+  pelicans: 1610612740,
   'New Orleans Pelicans': 1610612740,
 
   // Chicago Bulls
   CHI: 1610612741,
+  bulls: 1610612741,
   'Chicago Bulls': 1610612741,
 
   // Dallas Mavericks
   DAL: 1610612742,
+  mavericks: 1610612742,
+  mavs: 1610612742,
   'Dallas Mavericks': 1610612742,
 
   // Denver Nuggets
   DEN: 1610612743,
+  nuggets: 1610612743,
   'Denver Nuggets': 1610612743,
 
   // Golden State Warriors
   GSW: 1610612744,
+  GS: 1610612744,
+  warriors: 1610612744,
   'Golden State Warriors': 1610612744,
 
   // Houston Rockets
   HOU: 1610612745,
+  rockets: 1610612745,
   'Houston Rockets': 1610612745,
 
   // LA Clippers
   LAC: 1610612746,
+  clippers: 1610612746,
   'LA Clippers': 1610612746,
   'Los Angeles Clippers': 1610612746,
 
   // Los Angeles Lakers
   LAL: 1610612747,
+  lakers: 1610612747,
   'Los Angeles Lakers': 1610612747,
 
   // Miami Heat
   MIA: 1610612748,
+  heat: 1610612748,
   'Miami Heat': 1610612748,
 
   // Milwaukee Bucks
   MIL: 1610612749,
+  bucks: 1610612749,
   'Milwaukee Bucks': 1610612749,
 
   // Minnesota Timberwolves
   MIN: 1610612750,
+  timberwolves: 1610612750,
+  wolves: 1610612750,
   'Minnesota Timberwolves': 1610612750,
 
   // Brooklyn Nets
   BKN: 1610612751,
+  nets: 1610612751,
   'Brooklyn Nets': 1610612751,
 
   // New York Knicks
   NYK: 1610612752,
+  NY: 1610612752,
+  knicks: 1610612752,
+  Knicks: 1610612752,
   'New York Knicks': 1610612752,
+  'New York': 1610612752,
 
   // Orlando Magic
   ORL: 1610612753,
+  magic: 1610612753,
   'Orlando Magic': 1610612753,
 
   // Indiana Pacers
   IND: 1610612754,
+  pacers: 1610612754,
   'Indiana Pacers': 1610612754,
 
   // Philadelphia 76ers
   PHI: 1610612755,
+  sixers: 1610612755,
+  '76ers': 1610612755,
   'Philadelphia 76ers': 1610612755,
 
   // Phoenix Suns
   PHX: 1610612756,
+  suns: 1610612756,
   'Phoenix Suns': 1610612756,
 
   // Portland Trail Blazers
   POR: 1610612757,
+  blazers: 1610612757,
   'Portland Trail Blazers': 1610612757,
 
   // Sacramento Kings
   SAC: 1610612758,
+  kings: 1610612758,
   'Sacramento Kings': 1610612758,
 
   // San Antonio Spurs
   SAS: 1610612759,
+  SA: 1610612759,
+  spurs: 1610612759,
+  Spurs: 1610612759,
   'San Antonio Spurs': 1610612759,
+  'San Antonio': 1610612759,
 
   // Oklahoma City Thunder
   OKC: 1610612760,
+  thunder: 1610612760,
   'Oklahoma City Thunder': 1610612760,
 
   // Toronto Raptors
   TOR: 1610612761,
+  raptors: 1610612761,
   'Toronto Raptors': 1610612761,
 
   // Utah Jazz
   UTA: 1610612762,
+  UTAH: 1610612762,
+  jazz: 1610612762,
   'Utah Jazz': 1610612762,
 
   // Memphis Grizzlies
   MEM: 1610612763,
+  grizzlies: 1610612763,
   'Memphis Grizzlies': 1610612763,
 
   // Washington Wizards
   WAS: 1610612764,
+  WSH: 1610612764,
+  wizards: 1610612764,
   'Washington Wizards': 1610612764,
 
   // Detroit Pistons
   DET: 1610612765,
+  pistons: 1610612765,
   'Detroit Pistons': 1610612765,
 
   // Charlotte Hornets
   CHA: 1610612766,
+  hornets: 1610612766,
   'Charlotte Hornets': 1610612766,
 };
 
@@ -397,18 +443,29 @@ export function getPlayerNbaId(name: string): number | null {
 /**
  * Returns the official NBA team ID by team abbreviation or name
  */
-export function getTeamNbaId(abbreviationOrName: string): number {
-  if (!abbreviationOrName) return 1610612738; // Default to Celtics
-  const upper = abbreviationOrName.toUpperCase().trim();
-  if (NBA_TEAM_IDS[upper]) return NBA_TEAM_IDS[upper];
-  if (NBA_TEAM_IDS[abbreviationOrName]) return NBA_TEAM_IDS[abbreviationOrName];
+export function getTeamNbaId(abbreviationOrName?: string | null, fallbackName?: string | null): number {
+  const candidates = [abbreviationOrName, fallbackName].filter(Boolean) as string[];
+  if (candidates.length === 0) return 1610612752; // Default to New York Knicks (2026 Champion)
 
-  // Check by partial name
-  for (const [key, id] of Object.entries(NBA_TEAM_IDS)) {
-    if (key.toLowerCase() === abbreviationOrName.toLowerCase()) {
-      return id;
+  for (const candidate of candidates) {
+    const clean = candidate.trim();
+    const upper = clean.toUpperCase();
+    const lower = clean.toLowerCase();
+
+    // 1. Direct key match (case sensitive, uppercase, lowercase)
+    if (NBA_TEAM_IDS[upper]) return NBA_TEAM_IDS[upper];
+    if (NBA_TEAM_IDS[clean]) return NBA_TEAM_IDS[clean];
+    if (NBA_TEAM_IDS[lower]) return NBA_TEAM_IDS[lower];
+
+    // 2. Case-insensitive exact & partial matching
+    for (const [key, id] of Object.entries(NBA_TEAM_IDS)) {
+      const keyLower = key.toLowerCase();
+      if (keyLower === lower) return id;
+      if (lower.length >= 3 && (lower.includes(keyLower) || keyLower.includes(lower))) {
+        return id;
+      }
     }
   }
 
-  return 1610612738;
+  return 1610612752; // Default to New York Knicks
 }

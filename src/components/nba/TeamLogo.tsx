@@ -28,7 +28,7 @@ export function TeamLogo({
   className = "",
 }: TeamLogoProps) {
   const [error, setError] = useState(false);
-  const nbaId = getTeamNbaId(abbreviation);
+  const nbaId = getTeamNbaId(abbreviation, name);
   const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
 
   return (

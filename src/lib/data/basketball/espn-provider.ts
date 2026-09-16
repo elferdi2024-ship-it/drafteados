@@ -203,25 +203,46 @@ export class EspnProvider implements BasketballDataProvider {
   private standingsUrl = "https://site.api.espn.com/apis/v2/sports/basketball/nba/standings";
 
   private mapTeam(espnTeam: EspnCompetitor["team"]): Team {
-    const abbr = espnTeam.abbreviation || "NBA";
-    const meta = TEAM_META_MAP[abbr] || {
-      conference: "East" as const,
-      division: "NBA",
-      slug: espnTeam.name?.toLowerCase().replace(/\s+/g, "-") || abbr.toLowerCase(),
-      primaryColor: espnTeam.color ? `#${espnTeam.color}` : "#FF5A1F",
-    };
+    const rawAbbr = espnTeam.abbreviation || "NBA";
+    const espnId = String(espnTeam.id || "");
+    const cleanName = (espnTeam.displayName || espnTeam.name || "").toLowerCase();
+
+    // Buscar coincidencia canónica en MOCK_TEAMS
+    const matched = MOCK_TEAMS.find((t) => {
+      const tEspnId = ESPN_TEAM_ID_MAP[t.slug];
+      return (
+        tEspnId === espnId ||
+        t.id === espnId ||
+        t.abbreviation.toUpperCase() === rawAbbr.toUpperCase() ||
+        (rawAbbr === "NY" && t.abbreviation === "NYK") ||
+        (rawAbbr === "SA" && t.abbreviation === "SAS") ||
+        (rawAbbr === "GS" && t.abbreviation === "GSW") ||
+        (rawAbbr === "NO" && t.abbreviation === "NOP") ||
+        (rawAbbr === "WSH" && t.abbreviation === "WAS") ||
+        (rawAbbr === "UTAH" && t.abbreviation === "UTA") ||
+        t.name.toLowerCase() === cleanName ||
+        cleanName.includes(t.name.toLowerCase()) ||
+        t.name.toLowerCase().includes(cleanName)
+      );
+    });
+
+    const canonicalAbbr = matched ? matched.abbreviation : rawAbbr;
+    const conference = matched ? matched.conference : "East";
+    const division = matched ? matched.division : "NBA";
+    const slug = matched ? matched.slug : (espnTeam.name?.toLowerCase().replace(/\s+/g, "-") || canonicalAbbr.toLowerCase());
+    const primaryColor = espnTeam.color ? `#${espnTeam.color}` : (matched?.primaryColor || "#FF5A1F");
 
     return {
-      id: String(espnTeam.id),
-      name: espnTeam.displayName || espnTeam.name || abbr,
-      abbreviation: abbr,
-      city: espnTeam.location || "",
-      conference: meta.conference,
-      division: meta.division,
-      slug: meta.slug,
-      primaryColor: espnTeam.color ? `#${espnTeam.color}` : meta.primaryColor,
+      id: espnId,
+      name: matched?.name || espnTeam.displayName || espnTeam.name || canonicalAbbr,
+      abbreviation: canonicalAbbr,
+      city: matched?.city || espnTeam.location || "",
+      conference,
+      division,
+      slug,
+      primaryColor,
       secondaryColor: espnTeam.alternateColor ? `#${espnTeam.alternateColor}` : undefined,
-      logoUrl: espnTeam.logos?.[0]?.href || `https://a.espncdn.com/i/teamlogos/nba/500/${abbr.toLowerCase()}.png`,
+      logoUrl: espnTeam.logos?.[0]?.href || `https://a.espncdn.com/i/teamlogos/nba/500/${canonicalAbbr.toLowerCase()}.png`,
     };
   }
 
