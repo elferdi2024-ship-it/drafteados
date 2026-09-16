@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Clock, Calendar, Sparkles } from "lucide-react";
+import { Clock, Calendar } from "lucide-react";
 
 interface TimeLeft {
   days: number;

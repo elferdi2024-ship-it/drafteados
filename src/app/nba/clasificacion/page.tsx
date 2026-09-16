@@ -8,7 +8,6 @@ import {
   Medal,
   ArrowUpRight,
   ChevronRight,
-  Sparkles,
 } from "lucide-react";
 
 import type { Metadata } from "next";
@@ -199,7 +198,7 @@ export default async function StandingsPage() {
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-4 max-w-2xl">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F58426] tracking-widest uppercase">
-              <Sparkles className="w-3.5 h-3.5" />
+              <span className="w-2 h-0.5 bg-[#F58426]" />
               <span>CRÓNICA DE CAMPEONATO · MADISON SQUARE GARDEN</span>
             </div>
 

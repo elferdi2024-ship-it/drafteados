@@ -11,7 +11,7 @@ import {
   BUQUE_ORIGIN,
   SOCIAL_COMMUNITY_STATS,
 } from "@/data/drafteados";
-import { Quote, ArrowUpRight, Calendar, MapPin, Sparkles } from "lucide-react";
+import { Quote, ArrowUpRight, Calendar, MapPin } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import gsap from "gsap";
@@ -249,38 +249,27 @@ export function CommunityBuque() {
                     alt={founder.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
                   <div className="absolute bottom-4 left-5 right-5 z-10 text-white">
-                    <span className="text-[11px] font-mono font-bold text-[#FF5A1F] tracking-widest uppercase block mb-0.5">
-                      {founder.tagline}
-                    </span>
                     <h4
                       className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white"
                       style={{ fontFamily: "var(--font-title)" }}
                     >
                       {founder.name}
                     </h4>
+                    <span className="text-xs font-mono text-[#FF5A1F] font-bold tracking-wider uppercase block mt-0.5">
+                      {founder.role}
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-                  <blockquote className="text-xs sm:text-sm italic text-zinc-700 dark:text-zinc-300 border-l-2 border-[#FF5A1F] pl-3 py-0.5 leading-relaxed">
+                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-center">
+                  <blockquote className="text-xs sm:text-sm italic text-zinc-700 dark:text-zinc-300 border-l-2 border-[#FF5A1F] pl-3 py-1 leading-relaxed">
                     &ldquo;{founder.quote}&rdquo;
                   </blockquote>
-
-                  <div className="flex flex-wrap gap-1.5 pt-2 border-t border-black/5 dark:border-white/5">
-                    {founder.specialties.map((spec) => (
-                      <span
-                        key={spec}
-                        className="px-2.5 py-1 rounded-md bg-black/[0.03] dark:bg-white/[0.04] text-[11px] font-mono text-zinc-600 dark:text-zinc-400 border border-black/5 dark:border-white/5"
-                      >
-                        {spec}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
             ))}
@@ -290,7 +279,7 @@ export function CommunityBuque() {
           <div className="rounded-2xl p-5 sm:p-6 bg-white dark:bg-[#151518] border border-black/8 dark:border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="space-y-1 max-w-2xl">
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#FF5A1F] uppercase">
-                <Sparkles className="w-3.5 h-3.5" />
+                <span className="w-2 h-0.5 bg-[#FF5A1F]" />
                 <span>¿QUÉ SIGNIFICA SER UN BUQUE?</span>
               </div>
               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed font-normal">
