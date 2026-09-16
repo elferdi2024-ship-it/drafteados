@@ -328,7 +328,7 @@ export function PicksClient({
       />
 
       {/* CARDS GRID */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-8 space-y-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
         {!isLoggedIn && (
           <div className="p-4 bg-[#FF5A1F]/10 border border-[#FF5A1F]/30 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
             <div className="flex items-center gap-3">
@@ -339,14 +339,14 @@ export function PicksClient({
             </div>
             <button
               onClick={() => setAuthModalOpen(true)}
-              className="shrink-0 bg-[#FF5A1F] hover:bg-[#FF6B35] text-white font-title text-sm tracking-wider px-5 py-2.5 rounded-xl transition-colors shadow-md"
+              className="shrink-0 bg-[#FF5A1F] hover:bg-[#FF6B35] text-white font-title text-sm tracking-wider px-5 py-2.5 rounded-xl transition-colors shadow-md cursor-pointer"
             >
               INICIAR SESIÓN
             </button>
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {filteredPredictions.map((type) => {
             const currentPick = picks[type.id];
             const selectedPlayer = currentPick?.playerId ? playerMap.get(currentPick.playerId) : null;
@@ -380,6 +380,8 @@ export function PicksClient({
                   nba_id: getPlayerNbaId(selectedPlayer.displayName),
                   team_abbreviation: selectedPlayer.team?.abbreviation || 'NBA',
                   team_primary_color: selectedPlayer.team?.primaryColor || '#FF5A1F',
+                  position: selectedPlayer.position || undefined,
+                  jersey_number: selectedPlayer.jerseyNumber || undefined,
                 } : null}
                 selectedTeam={selectedTeam ? {
                   id: selectedTeam.id,
@@ -387,6 +389,7 @@ export function PicksClient({
                   abbreviation: selectedTeam.abbreviation,
                   nba_team_id: getTeamNbaId(selectedTeam.abbreviation),
                   primary_color: selectedTeam.primaryColor || '#10B981',
+                  conference: selectedTeam.conference,
                 } : null}
                 isLocked={isLocked}
                 isUnderdog={isUnderdog}

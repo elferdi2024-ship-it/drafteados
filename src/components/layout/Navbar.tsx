@@ -1,10 +1,11 @@
+// filepath: src/components/layout/Navbar.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon, Flame, Trophy, ChevronRight } from "lucide-react";
+import { Menu, X, Sun, Moon, Trophy, ChevronRight } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import { NAV_LINKS } from "@/data/drafteados";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -84,17 +85,12 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation (Excluye Pick'em repetido; vive en el CTA dedicado de la derecha) */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-            {NAV_LINKS.map((link) => {
+            {NAV_LINKS.filter((link) => link.href !== "/pickem").map((link) => {
               const isInternal = link.href.startsWith("/") && !link.href.startsWith("/#");
               const linkClasses = `px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full relative group ${
-                link.href === "/pickem"
-                  ? isScrolled
-                    ? "text-[#FF5A1F] font-semibold hover:bg-[#FF5A1F]/10"
-                    : "text-[#FF5A1F] font-semibold hover:bg-white/10"
-                  : isScrolled
+                isScrolled
                   ? "text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
                   : "text-zinc-300 hover:text-white hover:bg-white/5"
               }`;
@@ -123,7 +119,7 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Right Actions: Theme Toggle + Pick'em CTA + YouTube CTA */}
+          {/* Right Actions: Theme Toggle + Pick'em CTA Sobrio + YouTube CTA */}
           <div className="hidden md:flex items-center gap-2.5">
             <button
               type="button"
@@ -143,14 +139,20 @@ export function Navbar() {
               )}
             </button>
 
+            {/* Botón Pick'em: Sobrio, delicado pero con distinción visual y micro-dot luminoso */}
             <MagneticButton
-              variant="primary"
+              variant="outline"
               size="sm"
               href="/pickem"
-              className="gap-2 shadow-[0_0_20px_rgba(255,90,31,0.35)] hover:shadow-[0_0_30px_rgba(255,90,31,0.55)]"
+              className={`group gap-2 rounded-full border transition-all duration-300 backdrop-blur-md px-3.5 py-1.5 text-xs font-semibold tracking-wide normal-case ${
+                isScrolled
+                  ? "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-[#FF5A1F]/[0.07] hover:bg-[#FF5A1F]/[0.16] text-zinc-900 dark:text-zinc-100 shadow-[0_2px_12px_rgba(255,90,31,0.10)] hover:shadow-[0_4px_20px_rgba(255,90,31,0.22)]"
+                  : "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-black/40 hover:bg-[#FF5A1F]/[0.15] text-white shadow-[0_2px_12px_rgba(255,90,31,0.15)] hover:shadow-[0_4px_22px_rgba(255,90,31,0.28)]"
+              }`}
             >
-              <Trophy className="w-4 h-4 text-white" />
+              <Trophy className="w-3.5 h-3.5 text-[#FF5A1F] transition-transform duration-300 group-hover:scale-110" />
               <span>Jugar Pick'em</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] shadow-[0_0_6px_#FF5A1F]" />
             </MagneticButton>
 
             <MagneticButton

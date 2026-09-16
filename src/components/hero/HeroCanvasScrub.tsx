@@ -14,7 +14,7 @@ const TOTAL_FRAMES = 240;
 const FRAME_PAD = 4;
 const FRAME_VERSION = process.env.NEXT_PUBLIC_FRAME_VERSION || "";
 
-function getFrameUrl(index: number, version = FRAME_VERSION): string {
+export function getFrameUrl(index: number, version = FRAME_VERSION): string {
   const frameNumber = String(index + 1).padStart(FRAME_PAD, "0");
   const basePath = version ? `/frames/${version}/` : "/frames/";
   return `${basePath}frame_${frameNumber}.jpg`;
@@ -275,10 +275,10 @@ export function HeroCanvasScrub() {
         const norm = (p - 0.85) / 0.15;
         const scale = 1 - norm * 0.04;
         const op = 1 - norm * 0.35;
-        canvasRef.current.style.transform = `scale(${scale.toFixed(3)})`;
+        canvasRef.current.style.transform = `scale(${scale.toFixed(3)}) translateZ(0)`;
         canvasRef.current.style.opacity = op.toFixed(3);
       } else {
-        canvasRef.current.style.transform = "scale(1)";
+        canvasRef.current.style.transform = "scale(1) translateZ(0)";
         canvasRef.current.style.opacity = "1";
       }
     }
@@ -307,7 +307,7 @@ export function HeroCanvasScrub() {
     }
   }, [isReducedMotion]);
 
-  // Scrollytelling Engine: Dual Architecture (Desktop Sticky vs Mobile Fixed Driver)
+  // Scrollytelling Engine: Unificado Sticky + ScrollTrigger con optimización iOS
   useEffect(() => {
     if (isReducedMotion) {
       loadFrame(0, () => drawFrame(0));
@@ -316,10 +316,20 @@ export function HeroCanvasScrub() {
 
     if (typeof window === "undefined") return;
 
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Elimina micro-saltos en iOS provocados por la barra dinámica de Safari
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
+    // Activa normalización de scroll en dispositivos táctiles
+    if (ScrollTrigger.isTouch === 1) {
+      ScrollTrigger.normalizeScroll(true);
+    }
+
     let st: ScrollTrigger | null = null;
     isRunningRef.current = true;
 
-    // Start / Stop RAF dynamically to eliminate GPU usage when off-screen
+    // Control dinámico de RAF para liberar la GPU fuera de pantalla
     const startRenderLoop = () => {
       if (rafIdRef.current !== null) return;
 
@@ -333,7 +343,7 @@ export function HeroCanvasScrub() {
           if (absDiff < 0.00008) {
             currentProgressRef.current = targetProgressRef.current;
           } else {
-            // LERP_FACTOR: 0.15 on desktop (sweet spot in 0.14 - 0.18) / 0.22 on mobile
+            // LERP_FACTOR: 0.15 en desktop / 0.22 en mobile para respuesta táctil inmediata
             const baseFactor = isMobileDevice ? 0.22 : 0.15;
             const velocityBoost = Math.min(0.2, absDiff * 0.5);
             const factor = baseFactor + velocityBoost;
@@ -363,117 +373,39 @@ export function HeroCanvasScrub() {
       }
     };
 
-    // Mobile Scrollytelling Scroll Handler (zero interference, native 120Hz compositor)
-    const handleMobileScroll = () => {
-      const container = containerRef.current;
-      const stage = stageRef.current;
-      if (!container || !stage) return;
-
-      const driverHeight = container.offsetHeight;
-      const vpHeight = window.innerHeight;
-      const maxScroll = driverHeight - vpHeight;
-      const currentScroll = window.scrollY;
-
-      if (maxScroll <= 0) return;
-
-      // 1. Calculate strictly bound progress
-      const progress = Math.min(1, Math.max(0, currentScroll / maxScroll));
-      targetProgressRef.current = progress;
-
-      // 2. Classical Scrollytelling Stage Pinning (eliminates CSS sticky bugs on mobile)
-      if (currentScroll >= maxScroll) {
-        stage.style.position = "absolute";
-        stage.style.top = "auto";
-        stage.style.bottom = "0px";
-      } else {
-        stage.style.position = "fixed";
-        stage.style.top = "0px";
-        stage.style.bottom = "auto";
-      }
-
-      // 3. GPU Power Saver: Completely pause RAF and hide rendering when scrolled past
-      if (currentScroll > driverHeight + 80) {
+    st = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: isMobileDevice ? 0.15 : 0.1,
+      onUpdate: (self) => {
+        targetProgressRef.current = self.progress;
+      },
+      onLeave: () => {
         hasExitedHeroRef.current = true;
-        if (isVisibleRef.current) {
-          isVisibleRef.current = false;
-          stage.style.visibility = "hidden";
-          stage.style.pointerEvents = "none";
-          stopRenderLoop();
-        }
-      } else {
+        isVisibleRef.current = false;
+        stopRenderLoop();
+      },
+      onEnterBack: () => {
         hasExitedHeroRef.current = false;
-        if (!isVisibleRef.current) {
-          isVisibleRef.current = true;
-          stage.style.visibility = "visible";
-          stage.style.pointerEvents = "auto";
-          startRenderLoop();
-        }
-      }
-    };
+        isVisibleRef.current = true;
+        startRenderLoop();
+      },
+      onEnter: () => {
+        isVisibleRef.current = true;
+        startRenderLoop();
+      },
+    });
 
-    // Desktop Scroll Handler (GSAP ScrollTrigger + Lenis)
-    const setupDesktopScrub = () => {
-      gsap.registerPlugin(ScrollTrigger);
-
-      st = ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 0.1,
-        onUpdate: (self) => {
-          targetProgressRef.current = self.progress;
-        },
-        onLeave: () => {
-          hasExitedHeroRef.current = true;
-          isVisibleRef.current = false;
-          stopRenderLoop();
-        },
-        onEnterBack: () => {
-          hasExitedHeroRef.current = false;
-          isVisibleRef.current = true;
-          startRenderLoop();
-        },
-      });
-
-      const onDesktopNativeScroll = () => {
-        const container = containerRef.current;
-        if (!container) return;
-        const rect = container.getBoundingClientRect();
-        const maxScroll = rect.height - window.innerHeight;
-        if (maxScroll <= 0) return;
-        const currentScroll = -rect.top;
-        if (currentScroll < 0) {
-          targetProgressRef.current = 0;
-        } else if (currentScroll > maxScroll) {
-          targetProgressRef.current = 1;
-        }
-      };
-
-      window.addEventListener("scroll", onDesktopNativeScroll, { passive: true });
-
-      return () => {
-        window.removeEventListener("scroll", onDesktopNativeScroll);
-      };
-    };
-
-    let cleanupDesktop: (() => void) | undefined;
-
-    if (isMobileDevice) {
-      window.addEventListener("scroll", handleMobileScroll, { passive: true });
-      handleMobileScroll();
-    } else {
-      cleanupDesktop = setupDesktopScrub();
-    }
-
-    // Launch RAF initially
     startRenderLoop();
 
     return () => {
       isRunningRef.current = false;
       stopRenderLoop();
       if (st) st.kill();
-      if (cleanupDesktop) cleanupDesktop();
-      window.removeEventListener("scroll", handleMobileScroll);
+      if (ScrollTrigger.isTouch === 1) {
+        ScrollTrigger.normalizeScroll(false);
+      }
     };
   }, [
     drawFrame,
@@ -491,15 +423,18 @@ export function HeroCanvasScrub() {
       className={`relative w-full bg-[#0A0A0A] ${
         isReducedMotion
           ? "h-screen h-[100dvh]"
-          : "h-[165vh] sm:h-[180vh] md:h-[270vh]"
+          : "h-[200vh] sm:h-[220vh] md:h-[270vh]"
       }`}
     >
-      {/* Viewport Stage: Fixed Scrollytelling on Mobile / Sticky on Desktop */}
+      {/* Viewport Stage: Sticky Unificado con composición de hardware acelerada para iOS */}
       <div
         ref={stageRef}
-        className={`w-full h-screen h-[100dvh] overflow-hidden flex flex-col items-center justify-center bg-[#0A0A0A] touch-pan-y ${
-          isMobileDevice ? "fixed top-0 left-0 z-10" : "sticky top-0 z-10"
-        }`}
+        className="w-full h-screen h-[100dvh] overflow-hidden flex flex-col items-center justify-center bg-[#0A0A0A] touch-pan-y sticky top-0 z-10"
+        style={{
+          transform: "translateZ(0)",
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+        }}
       >
         {/* Instant LCP Poster Layer */}
         <div
@@ -518,25 +453,29 @@ export function HeroCanvasScrub() {
           />
         </div>
 
-        {/* 60 FPS 2D Canvas Engine - High-Clarity Broadcast Contrast */}
+        {/* 60 FPS 2D Canvas Engine con hardware compositing para WebKit */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 w-full h-full block z-0 pointer-events-none will-change-transform [filter:contrast(1.03)_saturate(1.06)]"
+          style={{
+            transform: "translateZ(0)",
+            willChange: "transform",
+          }}
         />
 
-        {/* Top Navigation Scrim (Only at top for navbar legibility) */}
+        {/* Top Navigation Scrim */}
         <div
           aria-hidden="true"
           className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-gradient-to-b from-black/60 via-black/20 to-transparent pointer-events-none z-10"
         />
 
-        {/* Bottom Transition Scrim (Only at bottom edge for seamless blend) */}
+        {/* Bottom Transition Scrim */}
         <div
           aria-hidden="true"
           className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent pointer-events-none z-10"
         />
 
-        {/* Subtle Lens Vignette (Center 70% is crystal-clear) */}
+        {/* Subtle Lens Vignette */}
         <div
           aria-hidden="true"
           className="absolute inset-0 z-10 pointer-events-none bg-radial-[circle_at_center,_transparent_70%,_rgba(0,0,0,0.35)_100%]"
@@ -553,7 +492,7 @@ export function HeroCanvasScrub() {
           ref={beat1Ref}
           className="relative z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 max-w-5xl mx-auto w-full pt-16 sm:pt-12 select-none will-change-transform"
         >
-          {/* Targeted Text Scrim: Guarantees high readability while keeping the court completely vivid */}
+          {/* Targeted Text Scrim */}
           <div
             aria-hidden="true"
             className="absolute inset-0 -inset-x-6 sm:-inset-x-14 -z-10 rounded-3xl bg-radial-[ellipse_at_center,_rgba(0,0,0,0.45)_0%,_transparent_75%] pointer-events-none"
