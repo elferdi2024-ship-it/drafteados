@@ -85,6 +85,26 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
+                <Link
+                  href="/nba"
+                  className="flex items-center gap-2 text-[#FF5A1F] hover:text-[#FF7A45] font-semibold transition-colors"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5A1F] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5A1F]" />
+                  </span>
+                  <span>NBA Hub (En Vivo)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/pickem"
+                  className="hover:text-zinc-900 dark:hover:text-white transition-colors flex items-center gap-1.5"
+                >
+                  <span>Pick'em NBA 26/27</span>
+                </Link>
+              </li>
+              <li>
                 <a href="#contenidos" className="hover:text-zinc-900 dark:hover:text-white transition-colors">
                   Últimos vídeos
                 </a>

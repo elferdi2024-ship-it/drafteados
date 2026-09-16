@@ -142,6 +142,16 @@ export function PickemHeader() {
               {/* Navigation links */}
               <nav className="hidden md:flex items-center gap-1 lg:gap-2">
                 <Link
+                  href="/nba"
+                  className="px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider text-[#FF5A1F] hover:text-[#FF7A45] transition-colors flex items-center gap-1.5 font-bold"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5A1F] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5A1F]" />
+                  </span>
+                  <span>NBA Hub</span>
+                </Link>
+                <Link
                   href="/pickem/picks"
                   className="px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-200 hover:text-[#FF5A1F] dark:hover:text-[#FF5A1F] transition-colors"
                 >
@@ -270,6 +280,21 @@ export function PickemHeader() {
         {/* Mobile Dropdown Menu */}
         {isOpen && (
           <div className="md:hidden border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl px-4 pt-4 pb-8 space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
+            <Link
+              href="/nba"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center justify-between px-4 py-3 rounded-xl bg-[#FF5A1F]/10 border border-[#FF5A1F]/25 text-[#FF5A1F] font-title text-xl tracking-wide uppercase active:scale-98 transition-transform"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5A1F] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5A1F]" />
+                </span>
+                <span>NBA Hub &bull; En Vivo</span>
+              </div>
+              <span className="font-mono text-xs text-[#FF5A1F]">→</span>
+            </Link>
+
             <Link
               href="/pickem/picks"
               onClick={() => setIsOpen(false)}

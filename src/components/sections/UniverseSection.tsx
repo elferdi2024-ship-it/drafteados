@@ -9,6 +9,8 @@ import {
   Plane,
   Mic,
   Trophy,
+  Activity,
+  Flame,
   ArrowUpRight,
 } from "lucide-react";
 import gsap from "gsap";
@@ -19,6 +21,8 @@ const iconMap = {
   Plane,
   Mic,
   Trophy,
+  Activity,
+  Flame,
 };
 
 export function UniverseSection() {
@@ -135,8 +139,8 @@ export function UniverseSection() {
           </p>
         </div>
 
-        {/* Ecosistema Universe Cards Grid (4 Pilares) */}
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Ecosistema Universe Cards Grid (5 Pilares de la Marca) */}
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {UNIVERSE_ITEMS.map((item) => {
             const Icon = iconMap[item.iconName];
             const anchorId =

@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroCanvasScrub } from "@/components/hero/HeroCanvasScrub";
 import { SocialMarqueeStrip } from "@/components/sections/SocialMarqueeStrip";
+import { NbaHubTeaser } from "@/components/sections/NbaHubTeaser";
 import { LatestContent } from "@/components/sections/LatestContent";
 import { UniverseSection } from "@/components/sections/UniverseSection";
 import { CommunityBuque } from "@/components/sections/CommunityBuque";
@@ -18,6 +19,9 @@ export default function Home() {
 
       {/* Transición Elegante: Marquee Infinito de Redes y Canales Oficiales */}
       <SocialMarqueeStrip />
+
+      {/* Nueva Sección Oficial: NBA Hub & Marcadores en Vivo */}
+      <NbaHubTeaser />
 
       {/* Narrative Section 2: Últimos Contenidos */}
       <LatestContent />

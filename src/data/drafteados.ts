@@ -23,7 +23,7 @@ export interface UniverseItem {
   ctaLink: string;
   tag: string;
   gradient: string;
-  iconName: "ShoppingBag" | "Plane" | "Mic" | "Trophy";
+  iconName: "ShoppingBag" | "Plane" | "Mic" | "Trophy" | "Flame" | "Activity";
   stats?: string;
   accentColor: string;
   external?: boolean;
@@ -247,6 +247,22 @@ export const UNIVERSE_ITEMS: UniverseItem[] = [
     image: "/images/VIAJES.png",
   },
   {
+    id: "nba-hub",
+    title: "NBA Hub",
+    badge: "Resultados & En Vivo",
+    statusBadge: "NUEVO",
+    description: "El pulso diario de la NBA al estilo Drafteados. Marcadores en directo, clasificación Este y Oeste, calendario oficial, plantillas completas y líderes estadísticos.",
+    ctaText: "Entrar al Hub",
+    ctaLink: "/nba",
+    tag: "Resultados en Vivo",
+    gradient: "from-[#FF5A1F]/30 via-orange-600/10 to-transparent",
+    iconName: "Activity",
+    stats: "Marcadores • Clasificación • Calendario • Rosters",
+    accentColor: "#FF5A1F",
+    external: false,
+    image: "/images/logo.png",
+  },
+  {
     id: "pickem-nba",
     title: "Pick'em NBA",
     badge: "Juego Oficial",
@@ -362,6 +378,7 @@ export const COMMUNITY_TESTIMONIALS: CommunityTestimonial[] = PRESS_MILESTONES.s
 }));
 
 export const NAV_LINKS = [
+  { name: "NBA Hub", href: "/nba", external: false, badge: "EN VIVO" },
   { name: "Pick'em NBA", href: "/pickem", external: false, isPickem: true, badge: "NUEVO" },
   { name: "¿Qué Hacemos?", href: "/#contenidos", external: false },
   { name: "Universo", href: "/#universo", external: false },
