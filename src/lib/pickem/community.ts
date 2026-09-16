@@ -78,11 +78,11 @@ export const COMMUNITY_CONSENSUS: Record<string, CommunityVote[]> = {
   ],
   // 9. ROY
   roy: [
-    { targetId: 'Reed Sheppard', percentage: 33 },
-    { targetId: 'Zaccharie Risacher', percentage: 24 },
-    { targetId: 'Stephon Castle', percentage: 19 },
-    { targetId: 'Zach Edey', percentage: 14 },
-    { targetId: 'Alex Sarr', percentage: 10 },
+    { targetId: 'Darryn Peterson', percentage: 34 },
+    { targetId: 'Cameron Boozer', percentage: 28 },
+    { targetId: 'AJ Dybantsa', percentage: 22 },
+    { targetId: 'Caleb Wilson', percentage: 11 },
+    { targetId: 'Keaton Wagler', percentage: 5 },
   ],
   // 10. Mejor Récord
   best_record: [

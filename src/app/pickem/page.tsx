@@ -321,7 +321,7 @@ export default function PickemLandingPage() {
             {[
               { q: "¿Qué es Drafteados Pick'em?", a: "Es el juego de predicciones oficial de la comunidad de Drafteados. Elegís a tus favoritos para 13 categorías clave de la NBA antes de que empiece la temporada regular y competís por puntos y posición en el leaderboard." },
               { q: "¿Cuándo se cierran las predicciones?", a: "Se bloquean automáticamente antes del salto inicial del primer partido oficial de la temporada regular 2026/27. Después del cierre, no se aceptan modificaciones." },
-              { q: "¿Cómo se calcula la puntuación?", a: "Líderes estadísticos: 20 puntos c/u. Premios individuales: entre 25 y 30 puntos. Campeones de conferencia: 30 puntos. Campeón del anillo NBA: 50 puntos. Máximo teórico: 320 puntos." },
+              { q: "¿Cómo se calcula la puntuación?", a: "Líderes estadísticos: entre 15 y 25 puntos (Tapones, Robos, Rebotes, Triples: 15 PTS; Asistencias: 20 PTS; Anotación: 25 PTS). Premios de temporada: ROY 25 PTS, DPOY 30 PTS y MVP 40 PTS. Campeones de conferencia: 35 puntos c/u. Campeón del anillo NBA: 50 puntos. Máximo teórico: 345 puntos (sin contar bonificación x1.5 de Underdog)." },
               { q: "¿Puedo editar mis selecciones?", a: "Sí, podés cambiarlas las veces que quieras mientras la temporada esté en estado ABIERTO antes de la fecha límite." },
               { q: "¿Tiene algún costo participar?", a: "Es 100% gratuito para todos los Buques de España y Latinoamérica." },
             ].map((faq, i) => (

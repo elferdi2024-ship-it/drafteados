@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Search, X, Check, Flame } from 'lucide-react';
 import { isUnderdogPick } from '@/lib/pickem/community';
 import { getTeamNbaId, getTeamLogoUrl } from '@/lib/basketball/nbaIds';
+import { sortTeamsForCategory } from '@/lib/pickem/candidateOrder';
 
 export interface TeamOption {
   id: string;
@@ -62,10 +63,15 @@ export function TeamSelector({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Ordenar franquicias priorizando contendientes y candidatos lógicos
+  const baseTeams = useMemo(() => {
+    return sortTeamsForCategory(teams, categorySlug);
+  }, [teams, categorySlug]);
+
   const filteredTeams = useMemo(() => {
     const query = debouncedSearch.trim().toLowerCase();
 
-    return teams.filter((t) => {
+    return baseTeams.filter((t) => {
       if (conferenceConstraint && t.conference !== conferenceConstraint) {
         return false;
       }
@@ -79,7 +85,7 @@ export function TeamSelector({
         t.abbreviation.toLowerCase().includes(query)
       );
     });
-  }, [teams, debouncedSearch, conferenceFilter, conferenceConstraint]);
+  }, [baseTeams, debouncedSearch, conferenceFilter, conferenceConstraint]);
 
   if (!isOpen) return null;
 
@@ -89,7 +95,7 @@ export function TeamSelector({
       onClick={onClose}
     >
       <div 
-        className="w-full sm:max-w-xl bg-[#121212] border-t sm:border border-white/10 rounded-t-[2rem] sm:rounded-3xl flex flex-col max-h-[92vh] sm:max-h-[85vh] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200"
+        className="w-full sm:max-w-xl bg-[#121212] border-t sm:border border-white/10 rounded-t-[2rem] sm:rounded-3xl flex flex-col h-[85dvh] sm:h-[82vh] sm:max-h-[82vh] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Mobile touch indicator bar */}
@@ -156,7 +162,7 @@ export function TeamSelector({
         </div>
 
         {/* Lista de Equipos (Consenso oculto para evitar sesgo) */}
-        <div className="flex-1 overflow-y-auto p-3 divide-y divide-white/[0.04]">
+        <div className="flex-1 overflow-y-auto p-3 pb-80 sm:pb-4 divide-y divide-white/[0.04] overscroll-contain">
           {filteredTeams.length === 0 ? (
             <div className="py-16 text-center text-sm text-[#8B8B8B] space-y-2">
               <p className="font-semibold text-zinc-300">No encontramos franquicias para esa búsqueda.</p>

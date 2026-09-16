@@ -239,18 +239,18 @@ export const PREDICTION_CATALOG: Array<{
   points: number;
   sortOrder: number;
 }> = [
-  { slug: 'scoring_leader', name: 'Máximo Anotador', description: '¿Quién anota más puntos por partido en temporada regular?', category: 'STATS', selectionType: 'player', points: 20, sortOrder: 1 },
+  { slug: 'scoring_leader', name: 'Máximo Anotador', description: '¿Quién anota más puntos por partido en temporada regular?', category: 'STATS', selectionType: 'player', points: 25, sortOrder: 1 },
   { slug: 'assists_leader', name: 'Líder en Asistencias', description: 'El cerebro de la cancha. ¿Quién reparte más pases de gol?', category: 'STATS', selectionType: 'player', points: 20, sortOrder: 2 },
-  { slug: 'rebounds_leader', name: 'Líder en Rebotes', description: 'Dueño de los tableros. Mayor promedio de rebotes por noche.', category: 'STATS', selectionType: 'player', points: 20, sortOrder: 3 },
-  { slug: 'three_point_leader', name: 'Líder en Triples', description: 'El francotirador. ¿Quién mete más triples en la temporada?', category: 'STATS', selectionType: 'player', points: 20, sortOrder: 4 },
-  { slug: 'steals_leader', name: 'Líder en Robos', description: 'Manos rápidas. ¿Quién recupera más balones de la NBA?', category: 'STATS', selectionType: 'player', points: 20, sortOrder: 5 },
-  { slug: 'blocks_leader', name: 'Líder en Tapones', description: 'El protector del aro. Mayor promedio de bloqueos de la liga.', category: 'STATS', selectionType: 'player', points: 20, sortOrder: 6 },
-  { slug: 'mvp', name: 'MVP de la Temporada', description: 'El galardón supremo. Trofeo Michael Jordan al más determinante.', category: 'AWARDS', selectionType: 'player', points: 30, sortOrder: 7 },
-  { slug: 'dpoy', name: 'Defensor del Año', description: 'El candado defensivo. Trofeo Hakeem Olajuwon.', category: 'AWARDS', selectionType: 'player', points: 25, sortOrder: 8 },
+  { slug: 'rebounds_leader', name: 'Líder en Rebotes', description: 'Dueño de los tableros. Mayor promedio de rebotes por noche.', category: 'STATS', selectionType: 'player', points: 15, sortOrder: 3 },
+  { slug: 'three_point_leader', name: 'Líder en Triples', description: 'El francotirador. ¿Quién mete más triples en la temporada?', category: 'STATS', selectionType: 'player', points: 15, sortOrder: 4 },
+  { slug: 'steals_leader', name: 'Líder en Robos', description: 'Manos rápidas. ¿Quién recupera más balones de la NBA?', category: 'STATS', selectionType: 'player', points: 15, sortOrder: 5 },
+  { slug: 'blocks_leader', name: 'Líder en Tapones', description: 'El protector del aro. Mayor promedio de bloqueos de la liga.', category: 'STATS', selectionType: 'player', points: 15, sortOrder: 6 },
+  { slug: 'mvp', name: 'MVP de la Temporada', description: 'El galardón supremo. Trofeo Michael Jordan al más determinante.', category: 'AWARDS', selectionType: 'player', points: 40, sortOrder: 7 },
+  { slug: 'dpoy', name: 'Defensor del Año', description: 'El candado defensivo. Trofeo Hakeem Olajuwon.', category: 'AWARDS', selectionType: 'player', points: 30, sortOrder: 8 },
   { slug: 'roy', name: 'Novato del Año', description: 'La joya de primer año. Trofeo Wilt Chamberlain.', category: 'AWARDS', selectionType: 'player', points: 25, sortOrder: 9 },
-  { slug: 'best_record', name: 'Mejor Récord Global', description: 'Franquicia con más victorias tras los 82 partidos de regular season.', category: 'TEAMS', selectionType: 'team', points: 20, sortOrder: 10 },
-  { slug: 'east_champion', name: 'Campeón del Este', description: 'Ganador de las Finales de la Conferencia Este.', category: 'TEAMS', selectionType: 'team', points: 30, sortOrder: 11 },
-  { slug: 'west_champion', name: 'Campeón del Oeste', description: 'Ganador de las Finales de la Conferencia Oeste.', category: 'TEAMS', selectionType: 'team', points: 30, sortOrder: 12 },
+  { slug: 'best_record', name: 'Mejor Récord Global', description: 'Franquicia con más victorias tras los 82 partidos de regular season.', category: 'TEAMS', selectionType: 'team', points: 25, sortOrder: 10 },
+  { slug: 'east_champion', name: 'Campeón del Este', description: 'Ganador de las Finales de la Conferencia Este.', category: 'TEAMS', selectionType: 'team', points: 35, sortOrder: 11 },
+  { slug: 'west_champion', name: 'Campeón del Oeste', description: 'Ganador de las Finales de la Conferencia Oeste.', category: 'TEAMS', selectionType: 'team', points: 35, sortOrder: 12 },
   { slug: 'nba_champion', name: 'Campeón de la NBA', description: 'El anillo de campeón. Trofeo Larry O\'Brien en lo más alto.', category: 'FINALS', selectionType: 'team', points: 50, sortOrder: 13 },
 ];
 

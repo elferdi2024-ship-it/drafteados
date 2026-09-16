@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Search, X, Check, User, Clock, Flame } from 'lucide-react';
 import { isUnderdogPick } from '@/lib/pickem/community';
 import { getPlayerNbaId, getPlayerHeadshotUrl } from '@/lib/basketball/nbaIds';
+import { sortPlayersForCategory, ROOKIE_PLAYER_OPTIONS } from '@/lib/pickem/candidateOrder';
 
 export interface PlayerOption {
   id: string;
@@ -89,10 +90,23 @@ export function PlayerSelector({
     onClose();
   };
 
+  // Base ordenada con lógica de temporada 2026/27 y novatos oficiales
+  const basePlayers = useMemo(() => {
+    if (categorySlug === 'roy') {
+      const existingNames = new Set(players.map((p) => p.displayName.toLowerCase()));
+      const missingRookies = ROOKIE_PLAYER_OPTIONS.filter(
+        (r) => !existingNames.has(r.displayName.toLowerCase())
+      );
+      const combined = [...players, ...missingRookies];
+      return sortPlayersForCategory(combined, categorySlug);
+    }
+    return sortPlayersForCategory(players, categorySlug);
+  }, [players, categorySlug]);
+
   const filteredPlayers = useMemo(() => {
     const query = debouncedSearch.trim().toLowerCase();
 
-    return players.filter((p) => {
+    return basePlayers.filter((p) => {
       // Filtro de recientes
       if (positionFilter === 'RECENT') {
         if (!recentPlayerIds.includes(p.id)) return false;
@@ -111,7 +125,7 @@ export function PlayerSelector({
         (p.team?.abbreviation && p.team.abbreviation.toLowerCase().includes(query))
       );
     });
-  }, [players, debouncedSearch, positionFilter, recentPlayerIds]);
+  }, [basePlayers, debouncedSearch, positionFilter, recentPlayerIds]);
 
   if (!isOpen) return null;
 
@@ -121,7 +135,7 @@ export function PlayerSelector({
       onClick={onClose}
     >
       <div 
-        className="w-full sm:max-w-xl bg-[#121212] border-t sm:border border-white/10 rounded-t-[2rem] sm:rounded-3xl flex flex-col max-h-[92vh] sm:max-h-[85vh] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200"
+        className="w-full sm:max-w-xl bg-[#121212] border-t sm:border border-white/10 rounded-t-[2rem] sm:rounded-3xl flex flex-col h-[85dvh] sm:h-[82vh] sm:max-h-[82vh] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Mobile touch indicator bar */}
@@ -190,7 +204,7 @@ export function PlayerSelector({
         </div>
 
         {/* Lista de Jugadores (Consenso oculto para evitar sesgo de confirmación) */}
-        <div className="flex-1 overflow-y-auto p-3 divide-y divide-white/[0.04]">
+        <div className="flex-1 overflow-y-auto p-3 pb-80 sm:pb-4 divide-y divide-white/[0.04] overscroll-contain">
           {filteredPlayers.length === 0 ? (
             <div className="py-16 text-center text-sm text-[#8B8B8B] space-y-2">
               <p className="font-semibold text-zinc-300">No encontramos candidatos para esa búsqueda.</p>
