@@ -278,7 +278,7 @@ export class EspnProvider implements BasketballDataProvider {
     }
 
     const parseConferenceEntries = (entries: any[] = []): Standing[] => {
-      return entries.map((entry, index): Standing => {
+      const mapped = entries.map((entry): Standing => {
         const team = this.mapTeam(entry.team);
         const statsMap: Record<string, string | number> = {};
         for (const s of entry.stats || []) {
@@ -295,14 +295,24 @@ export class EspnProvider implements BasketballDataProvider {
           team,
           wins,
           losses,
-          winPct,
-          conferenceRank: index + 1,
+          winPct: isNaN(winPct) ? 0 : winPct,
+          conferenceRank: 1,
           gamesBack: isNaN(gamesBack) ? 0 : gamesBack,
           streak: String(statsMap.streak || "-"),
           homeRecord: String(statsMap.Home || "0-0"),
           roadRecord: String(statsMap.Road || "0-0"),
         };
       });
+
+      // Ordenar rigurosamente por porcentaje de victorias descendente y victorias
+      mapped.sort((a, b) => b.winPct - a.winPct || b.wins - a.wins);
+
+      // Asignar posición de conferencia 1..15
+      mapped.forEach((item, idx) => {
+        item.conferenceRank = idx + 1;
+      });
+
+      return mapped;
     };
 
     return {
