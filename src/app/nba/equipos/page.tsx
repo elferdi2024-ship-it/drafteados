@@ -3,11 +3,41 @@ import Link from "next/link";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { TeamLogo } from "@/components/nba/TeamLogo";
 
+import type { Metadata } from "next";
+
 export const revalidate = 3600;
 
-export const metadata = {
-  title: "30 Equipos de la NBA · Franquicias Oficiales | Drafteados",
-  description: "Las 30 franquicias de la NBA. Plantillas, resultados, calendarios y estadísticas de Conferencia Este y Oeste.",
+export const metadata: Metadata = {
+  title: "30 Equipos de la NBA · Franquicias Oficiales",
+  description:
+    "Las 30 franquicias de la NBA. Plantillas actualizadas con salarios, resultados recientes, calendarios y estadísticas de Conferencia Este y Oeste.",
+  openGraph: {
+    title: "30 Equipos de la NBA · Franquicias Oficiales | Drafteados",
+    description:
+      "Explorá las 30 franquicias de la NBA: plantillas completas, contratos de jugadores, últimos partidos y calendario.",
+    url: "https://drafteados.com/nba/equipos",
+    siteName: "Drafteados",
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-nba.png",
+        width: 1200,
+        height: 630,
+        alt: "30 Franquicias NBA · Drafteados",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "30 Equipos de la NBA · Franquicias Oficiales | Drafteados",
+    description:
+      "Plantillas completas, contratos de jugadores, últimos partidos y calendario de las 30 franquicias.",
+    site: "@drafteados",
+    creator: "@drafteados",
+    images: ["/images/og-nba.png"],
+  },
 };
 
 export default async function TeamsPage() {

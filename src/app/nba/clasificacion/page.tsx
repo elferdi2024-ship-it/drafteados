@@ -11,12 +11,41 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import type { Metadata } from "next";
+
 export const revalidate = 300;
 
-export const metadata = {
-  title: "Clasificación NBA 2026/27 · Conferencia Este y Oeste | Drafteados",
+export const metadata: Metadata = {
+  title: "Clasificación NBA 2026/27 · Conferencia Este y Oeste",
   description:
-    "Tabla de posiciones oficial de la NBA 2026/27. Campeón vigente New York Knicks, subcampeón San Antonio Spurs, foco editorial y zona de playoffs con la mirada de los Buques.",
+    "Tabla de posiciones oficial de la NBA 2026/27. Campeón vigente New York Knicks, subcampeón San Antonio Spurs, rachas y zona de playoffs.",
+  openGraph: {
+    title: "Clasificación NBA 2026/27 · Conferencia Este y Oeste | Drafteados",
+    description:
+      "Tabla de posiciones oficial de la NBA con la mirada de los Buques. Balances, rachas, campeón NY Knicks y zona de playoffs.",
+    url: "https://drafteados.com/nba/clasificacion",
+    siteName: "Drafteados",
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-nba.png",
+        width: 1200,
+        height: 630,
+        alt: "Clasificación NBA · Drafteados",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Clasificación NBA 2026/27 · Este y Oeste | Drafteados",
+    description:
+      "Tabla de posiciones oficial de la NBA. Campeón New York Knicks y subcampeón San Antonio Spurs.",
+    site: "@drafteados",
+    creator: "@drafteados",
+    images: ["/images/og-nba.png"],
+  },
 };
 
 export default async function StandingsPage() {

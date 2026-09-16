@@ -2,11 +2,41 @@
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { LeadersClient } from "./LeadersClient";
 
+import type { Metadata } from "next";
+
 export const revalidate = 300;
 
-export const metadata = {
-  title: "Líderes Estadísticos NBA 2026/27 · Puntos, Asistencias, Rebotes | Drafteados",
-  description: "Los máximos anotadores, pasadores, taponadores y triplistas de la temporada regular NBA 2026/27.",
+export const metadata: Metadata = {
+  title: "Líderes Estadísticos NBA 2026/27 · Puntos, Asistencias, Rebotes",
+  description:
+    "Los máximos anotadores, pasadores, reboteadores y triplistas de la NBA 2026/27 con estadísticas detalladas y rankings oficiales.",
+  openGraph: {
+    title: "Líderes Estadísticos NBA 2026/27 | Drafteados",
+    description:
+      "Rankings oficiales de la NBA: líderes en puntos por partido (PPG), asistencias (APG), rebotes (RPG) y triples anotados (3PM).",
+    url: "https://drafteados.com/nba/lideres",
+    siteName: "Drafteados",
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-nba.png",
+        width: 1200,
+        height: 630,
+        alt: "Líderes NBA · Drafteados",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Líderes Estadísticos NBA 2026/27 | Drafteados",
+    description:
+      "Rankings en vivo de anotadores, pasadores y reboteadores de la NBA.",
+    site: "@drafteados",
+    creator: "@drafteados",
+    images: ["/images/og-nba.png"],
+  },
 };
 
 export default async function LeadersPage() {

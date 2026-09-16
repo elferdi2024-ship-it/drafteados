@@ -1,6 +1,7 @@
 // filepath: src/app/nba/page.tsx
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Trophy, Flame, AlertCircle, Info, Calendar, Users, BarChart3 } from "lucide-react";
+import { ArrowRight, Trophy, Flame, AlertCircle, Calendar, Users, BarChart3, ChevronRight } from "lucide-react";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { ScoreboardCard } from "@/components/nba/ScoreboardCard";
 import { SectionHeader } from "@/components/nba/SectionHeader";
@@ -10,10 +11,37 @@ import { CountdownClock } from "@/components/nba/CountdownClock";
 
 export const revalidate = 60;
 
-export const metadata = {
-  title: "NBA Hub · Los Buques | Drafteados",
+export const metadata: Metadata = {
+  title: "NBA Hub · Marcadores, Clasificación y Estadísticas",
   description:
-    "El cuartel general de la NBA para los Buques. Marcadores en directo, clasificación Este y Oeste, calendario de la temporada regular y estadísticas.",
+    "El cuartel general de la NBA para los Buques. Marcadores en directo, clasificación Este/Oeste, calendario 2026/27, plantillas de las 30 franquicias y Pick'em oficial.",
+  openGraph: {
+    title: "NBA Hub de los Buques · Resultados, Marcadores y Clasificación en Vivo",
+    description:
+      "Seguí la jornada NBA con la mirada de Drafteados. Marcadores oficiales en tiempo real, tabla de posiciones y plantillas actualizadas.",
+    url: "https://drafteados.com/nba",
+    siteName: "Drafteados",
+    locale: "es_ES",
+    type: "website",
+    images: [
+      {
+        url: "/images/og-nba.png",
+        width: 1200,
+        height: 630,
+        alt: "NBA Hub · Drafteados",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NBA Hub · Los Buques | Drafteados",
+    description:
+      "Marcadores oficiales, clasificación Este/Oeste y el análisis diario de la NBA.",
+    site: "@drafteados",
+    creator: "@drafteados",
+    images: ["/images/og-nba.png"],
+  },
 };
 
 export default async function NbaHubPage() {
@@ -44,9 +72,9 @@ export default async function NbaHubPage() {
   }).format(new Date());
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Hero Header */}
-      <header className="border-b border-[var(--hub-border)] pb-8">
+      <header className="border-b border-[var(--hub-border)] pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
@@ -58,32 +86,32 @@ export default async function NbaHubPage() {
         >
           HOY EN LA NBA
         </h1>
-        <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-2.5 max-w-2xl font-normal leading-relaxed">
-          Resultados, marcadores oficiales y el pulso diario de la mejor liga del mundo con la mirada de Drafteados.
+        <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-2 max-w-xl font-normal">
+          Marcadores oficiales, clasificaciones y el pulso diario de la liga con la mirada de Drafteados.
         </p>
 
         {/* Barra de Acceso Rápido Editorial */}
-        <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-6 text-xs font-mono font-bold">
+        <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-5 text-xs font-mono font-bold">
           <Link
             href="/nba/clasificacion"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
           >
             <Trophy className="w-3.5 h-3.5 text-amber-500" />
-            <span>CLASIFICACIÓN (KNICKS 🏆)</span>
+            <span>CLASIFICACIÓN</span>
           </Link>
           <Link
             href="/nba/calendario"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
           >
             <Calendar className="w-3.5 h-3.5 text-[var(--hub-accent)]" />
-            <span>CALENDARIO (50+ PARTIDOS)</span>
+            <span>CALENDARIO</span>
           </Link>
           <Link
             href="/nba/equipos"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
           >
             <Users className="w-3.5 h-3.5 text-blue-500" />
-            <span>30 FRANQUICIAS</span>
+            <span>30 EQUIPOS</span>
           </Link>
           <Link
             href="/nba/lideres"
@@ -105,12 +133,48 @@ export default async function NbaHubPage() {
       {/* Reloj Cuenta Regresiva Salto Inicial 2026/27 */}
       <CountdownClock />
 
-      {/* Banner de Contexto de Temporada */}
-      <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 sm:p-5 flex items-start sm:items-center gap-3.5 shadow-sm">
-        <Info className="w-5 h-5 text-[var(--hub-accent)] shrink-0 mt-0.5 sm:mt-0" />
-        <div className="text-xs sm:text-sm text-[var(--hub-text-muted)] leading-relaxed">
-          <strong className="text-[var(--hub-text)] font-semibold">Temporada Regular 2026/27: </strong>
-          El Opening Night oficial arranca el <strong>20 de octubre de 2026</strong>. Mientras tanto, el hub presenta la cartelera completa de la primera semana, los balances históricos consolidados y las plantillas oficiales con contratos actualizados.
+      {/* Quick Stat Strip / Claves de Temporada (Compacto & Escaneable) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+            OPENING NIGHT
+          </span>
+          <span className="text-sm sm:text-base font-black text-[var(--hub-text)] mt-1 font-mono">
+            20 OCTUBRE 2026
+          </span>
+        </div>
+        <Link
+          href="/nba/equipo/knicks"
+          className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+              CAMPEÓN VIGENTE
+            </span>
+            <Trophy className="w-3 h-3 text-amber-500" />
+          </div>
+          <span className="text-sm sm:text-base font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
+            NY KNICKS (4-1)
+          </span>
+        </Link>
+        <Link
+          href="/nba/equipo/spurs"
+          className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group"
+        >
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+            SUBCAMPEÓN 2026
+          </span>
+          <span className="text-sm sm:text-base font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
+            SAN ANTONIO SPURS
+          </span>
+        </Link>
+        <div className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+            COBERTURA TOTAL
+          </span>
+          <span className="text-sm sm:text-base font-black text-[var(--hub-accent)] mt-1 font-mono">
+            82 PARTIDOS + PLAYOFFS
+          </span>
         </div>
       </div>
 
@@ -119,32 +183,29 @@ export default async function NbaHubPage() {
         <SectionHeader
           eyebrow="CALENDARIO OFICIAL · SEMANA INAUGURAL"
           title="Partidos de la jornada"
-          subtitle="Horarios oficiales para España peninsular y horario local estadounidense."
+          subtitle="Horarios oficiales para España (peninsular) y EE.UU."
           actionHref="/nba/calendario"
           actionLabel="Ver Calendario Completo"
         />
 
         {games.length === 0 ? (
-          <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-12 text-center space-y-2">
-            <AlertCircle className="w-8 h-8 text-[var(--hub-accent)] mx-auto" />
-            <p className="font-bold text-lg text-[var(--hub-text)]">
-              No hay partidos en juego en este momento.
+          <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-8 text-center space-y-2">
+            <AlertCircle className="w-7 h-7 text-[var(--hub-accent)] mx-auto" />
+            <p className="font-bold text-base text-[var(--hub-text)]">
+              Sin partidos en juego en este momento.
             </p>
-            <p className="text-sm text-[var(--hub-text-muted)]">
-              Disfrutá el descanso, Buque. Consultá la cartelera de la semana inaugural o revisá tus predicciones en el Pick&apos;em.
+            <p className="text-xs sm:text-sm text-[var(--hub-text-muted)] max-w-md mx-auto">
+              Consultá la cartelera de la semana inaugural o prepará tus predicciones en el Pick&apos;em.
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {/* Live games if any */}
             {liveGames.map((game) => (
               <ScoreboardCard key={game.id} game={game} />
             ))}
-            {/* Upcoming games */}
             {upcomingGames.map((game) => (
               <ScoreboardCard key={game.id} game={game} />
             ))}
-            {/* Final games */}
             {finalGames.map((game) => (
               <ScoreboardCard key={game.id} game={game} />
             ))}
@@ -159,38 +220,46 @@ export default async function NbaHubPage() {
       </section>
 
       {/* 3. Call to Action Editorial hacia Pick'em */}
-      <section className="rounded-3xl border border-[var(--hub-accent)]/40 bg-gradient-to-r from-[var(--hub-accent)]/10 via-[var(--hub-surface)] to-[var(--hub-surface)] p-6 sm:p-10 shadow-[var(--hub-shadow)] relative overflow-hidden">
+      <section className="rounded-2xl border border-[var(--hub-accent)]/30 bg-gradient-to-r from-[var(--hub-accent)]/10 via-[var(--hub-surface)] to-[var(--hub-surface)] p-6 sm:p-8 shadow-[var(--hub-shadow)] relative overflow-hidden">
         <div className="relative z-10 max-w-2xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase bg-[var(--hub-accent-soft)] text-[var(--hub-accent)] border border-[var(--hub-accent)]/20">
-            <Flame className="w-3.5 h-3.5" />
-            <span>PRONÓSTICO OFICIAL · TEMPORADA 2026/27</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold tracking-wider uppercase bg-[var(--hub-accent-soft)] text-[var(--hub-accent)] border border-[var(--hub-accent)]/20">
+            <Flame className="w-3 h-3" />
+            <span>PRONÓSTICO TEMPORADA 2026/27</span>
           </div>
 
           <h2
-            className="text-3xl sm:text-5xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none"
+            className="text-2xl sm:text-4xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none"
             style={{ fontFamily: "var(--hub-font-display)", letterSpacing: "-0.03em" }}
           >
-            ¿TUS PICKS TODAVÍA VIVEN?
+            ¿LISTO PARA EL SALTO INICIAL?
           </h2>
 
-          <p className="text-sm sm:text-base text-[var(--hub-text-muted)] font-normal leading-relaxed">
-            Cada actuación individual y cada balance semanal alteran el ranking oficial de los Buques. Asegurá tus 13 predicciones antes de que se selle definitivamente la boleta de la temporada.
+          <p className="text-xs sm:text-sm text-[var(--hub-text-muted)] font-normal leading-relaxed">
+            Completá tus 13 predicciones oficiales de la temporada y competí contra toda la comunidad de los Buques.
           </p>
 
-          <div className="pt-3 flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-4 text-xs font-mono text-[var(--hub-text-dim)] pt-1">
+            <span>13 PREGUNTAS</span>
+            <span>•</span>
+            <span>PREMIOS EXCLUSIVOS</span>
+            <span>•</span>
+            <span>RANKING EN VIVO</span>
+          </div>
+
+          <div className="pt-2 flex flex-wrap items-center gap-3">
             <Link
               href="/pickem"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--hub-accent)] hover:bg-[var(--hub-accent-hover)] text-white font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-98"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--hub-accent)] hover:bg-[var(--hub-accent-hover)] text-white font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-98"
             >
-              <span>Ir a Pick&apos;em Oficial</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Jugar Pick&apos;em</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               href="/pickem/leaderboard"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface-2)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] font-mono font-bold text-xs uppercase tracking-wider transition-all active:scale-98"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface-2)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] font-mono font-bold text-xs uppercase tracking-wider transition-all active:scale-98"
             >
               <Trophy className="w-3.5 h-3.5 text-[var(--hub-accent)]" />
-              <span>Ver Ranking de la Comunidad</span>
+              <span>Leaderboard</span>
             </Link>
           </div>
         </div>

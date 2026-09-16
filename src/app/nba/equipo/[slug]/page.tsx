@@ -6,11 +6,60 @@ import { basketball } from "@/lib/data/basketball/composite-provider";
 import { TeamLogo } from "@/components/nba/TeamLogo";
 import { TeamTabsView } from "@/components/nba/TeamTabsView";
 
+import type { Metadata } from "next";
+import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const teams = await basketball.getTeams();
   return teams.map((t) => ({ slug: t.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const team = await basketball.getTeam(slug);
+  if (!team) {
+    return {
+      title: "Equipo no encontrado | Drafteados NBA",
+    };
+  }
+
+  const nbaId = getTeamNbaId(team.abbreviation, team.name);
+
+  return {
+    title: `${team.name} · Plantilla, Calendario y Resultados 2026/27`,
+    description: `Ficha oficial de ${team.name} (${team.abbreviation}) en Drafteados. Plantilla completa con salarios, próximos partidos, resultados y posición en la Conferencia ${team.conference === "East" ? "Este" : "Oeste"}.`,
+    openGraph: {
+      title: `${team.name} · Ficha Oficial y Plantilla NBA 2026/27 | Drafteados`,
+      description: `Plantilla completa con estadísticas y salarios, calendario y balance oficial de ${team.name} en la NBA.`,
+      url: `https://drafteados.com/nba/equipo/${team.slug}`,
+      siteName: "Drafteados",
+      locale: "es_ES",
+      type: "website",
+      images: [
+        {
+          url: "/images/og-nba.png",
+          width: 1200,
+          height: 630,
+          alt: `${team.name} - Drafteados NBA`,
+          type: "image/png",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${team.name} · Plantilla y Estadísticas | Drafteados NBA`,
+      description: `Roster completo, calendario de partidos y balance de ${team.name}.`,
+      site: "@drafteados",
+      creator: "@drafteados",
+      images: ["/images/og-nba.png"],
+    },
+  };
 }
 
 export default async function TeamDetailPage({

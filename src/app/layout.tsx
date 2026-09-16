@@ -31,39 +31,74 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://drafteados.com"),
-  title: "Drafteados | Tu Casa NBA",
+  title: {
+    default: "Drafteados | Tu Casa NBA",
+    template: "%s | Drafteados",
+  },
   description:
-    "Somos un canal de YouTube especializado en NBA desde 2017. Acercamos la cultura NBA a los aficionados hispanohablantes a través de contenidos, 3+1 Podcast, viajes a EE.UU. y experiencias.",
+    "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
   keywords: [
     "Drafteados",
     "NBA",
     "Baloncesto",
     "Tu Casa NBA",
-    "Buques",
+    "Los Buques",
     "3+1 Podcast",
     "Antoni Daimiel",
     "José Manuel Calderón",
+    "Resultados NBA",
+    "Clasificación NBA",
+    "Pick'em NBA",
   ],
-  authors: [{ name: "Drafteados" }],
+  authors: [{ name: "Drafteados", url: "https://drafteados.com" }],
+  creator: "Drafteados",
+  publisher: "Drafteados",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: "/images/logo.png",
     apple: "/images/logo.png",
   },
   openGraph: {
-    title: "Drafteados | Tu Casa NBA",
-    description: "La comunidad que vive el baloncesto como nadie.",
+    title: "Drafteados · Tu Casa NBA | La Comunidad de los Buques",
+    description:
+      "La comunidad que vive el baloncesto como nadie. Marcadores en vivo, clasificación Este/Oeste, podcast 3+1, pronósticos oficiales y experiencias.",
     url: "https://drafteados.com",
     siteName: "Drafteados",
     images: [
       {
-        url: "/images/logo.png",
-        width: 800,
-        height: 800,
-        alt: "Drafteados Logo",
+        url: "/images/og-main.png",
+        width: 1200,
+        height: 630,
+        alt: "Drafteados · Tu Casa NBA",
+        type: "image/png",
       },
     ],
     locale: "es_ES",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Drafteados · Tu Casa NBA",
+    description:
+      "La comunidad que vive el baloncesto como nadie. Marcadores en vivo, podcast 3+1 y análisis diario.",
+    site: "@drafteados",
+    creator: "@drafteados",
+    images: ["/images/og-main.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
