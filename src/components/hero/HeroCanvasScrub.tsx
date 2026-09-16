@@ -501,7 +501,7 @@ export function HeroCanvasScrub() {
           {/* Eyebrow - Pure Editorial Typography */}
           <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4 sm:mb-6 drop-shadow-md">
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
-            <span>DESDE 2017 &bull; TU CASA NBA &bull; +880.000 BUQUES</span>
+            <span>TU CASA NBA &bull; DESDE 2017 &bull; +880.000 BUQUES</span>
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
 
@@ -517,8 +517,8 @@ export function HeroCanvasScrub() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-5 sm:mt-7 text-base sm:text-xl md:text-2xl text-zinc-100 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
-            Especialistas en NBA desde 2017. Más de 880.000 personas siguen a diario la mejor liga de baloncesto del mundo a través de nuestros análisis, directos y experiencias.
+          <p className="mt-4 sm:mt-6 text-base sm:text-xl md:text-2xl text-zinc-100 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
+            Análisis táctico diario, directos y la mayor comunidad de baloncesto en español.
           </p>
 
           {/* Action CTAs */}

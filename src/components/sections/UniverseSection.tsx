@@ -108,34 +108,25 @@ export function UniverseSection() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-[#FF5A1F]/10 blur-[180px] rounded-full" />
         <div className="absolute -bottom-20 left-10 w-[450px] h-[450px] bg-[#38BDF8]/5 blur-[160px] rounded-full" />
 
-        {/* Giant Watermark Typography */}
-        <div className="absolute top-1/3 left-0 right-0 overflow-hidden opacity-[0.03] dark:opacity-[0.04] text-center">
-          <span
-            className="text-[140px] sm:text-[220px] font-black uppercase text-black dark:text-white whitespace-nowrap block"
-            style={{ fontFamily: "var(--font-title)" }}
-          >
-            ECOSISTEMA &bull; TRIPULACIÓN
-          </span>
-        </div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header - Editorial, Anti-Slop */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
-          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-4">
+        {/* Section Header */}
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
+          <div className="flex items-center justify-center gap-2.5 text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase mb-3">
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
             <span>02 &bull; EXTENSIÓN DE MARCA</span>
             <span className="w-2 h-0.5 bg-[#FF5A1F]" />
           </div>
 
           <h2
-            className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-tight"
+            className="text-3xl sm:text-6xl lg:text-7xl font-black uppercase text-zinc-900 dark:text-white tracking-tight leading-tight"
             style={{ fontFamily: "var(--font-title)" }}
           >
             UNIVERSO DRAFTEADOS
           </h2>
-          <p className="mt-4 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
-            Generamos contenidos propios que se expanden a través de experiencias y proyectos únicos para una audiencia global.
+          <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
+            Podcast original con Daimiel y Calderón, viajes a la NBA, tienda oficial y centro de estadísticas.
           </p>
         </div>
 

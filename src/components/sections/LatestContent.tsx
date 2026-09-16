@@ -321,13 +321,9 @@ export function LatestContent() {
                       <span className="text-zinc-400 font-medium">{video.date}</span>
                     </div>
 
-                    <h3 className="text-sm sm:text-lg font-bold text-white group-hover:text-[#FF7A45] transition-colors leading-snug line-clamp-2">
+                    <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-[#FF7A45] transition-colors leading-snug line-clamp-2 min-h-[2.5rem]">
                       {video.title}
                     </h3>
-
-                    <p className="mt-1.5 text-xs text-zinc-400 line-clamp-2 leading-relaxed font-normal hidden sm:block">
-                      {video.description}
-                    </p>
                   </div>
 
                   <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-white/10 flex items-center justify-between text-[11px] sm:text-xs font-mono text-zinc-400">
