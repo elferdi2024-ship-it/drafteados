@@ -9,11 +9,23 @@ import { TeamTabsView } from "@/components/nba/TeamTabsView";
 import type { Metadata } from "next";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 
+import { MOCK_TEAMS } from "@/lib/data/basketball/mock-data";
+
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const teams = await basketball.getTeams();
-  return teams.map((t) => ({ slug: t.slug }));
+  const slugSet = new Set<string>();
+
+  // Garantizar los 30 slugs canónicos
+  for (const t of MOCK_TEAMS) {
+    slugSet.add(t.slug);
+  }
+  for (const t of teams) {
+    slugSet.add(t.slug);
+  }
+
+  return Array.from(slugSet).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -22,7 +34,17 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const team = await basketball.getTeam(slug);
+  let team = await basketball.getTeam(slug);
+  if (!team) {
+    team =
+      MOCK_TEAMS.find(
+        (t) =>
+          t.slug.toLowerCase() === slug.toLowerCase() ||
+          t.abbreviation.toLowerCase() === slug.toLowerCase() ||
+          t.id === slug
+      ) || null;
+  }
+
   if (!team) {
     return {
       title: "Equipo no encontrado | Drafteados NBA",
@@ -68,7 +90,17 @@ export default async function TeamDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const team = await basketball.getTeam(slug);
+  let team = await basketball.getTeam(slug);
+
+  if (!team) {
+    team =
+      MOCK_TEAMS.find(
+        (t) =>
+          t.slug.toLowerCase() === slug.toLowerCase() ||
+          t.abbreviation.toLowerCase() === slug.toLowerCase() ||
+          t.id === slug
+      ) || null;
+  }
 
   if (!team) {
     notFound();

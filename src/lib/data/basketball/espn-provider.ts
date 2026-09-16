@@ -397,7 +397,7 @@ export class EspnProvider implements BasketballDataProvider {
   }
 
   async getTeams(): Promise<Team[]> {
-    const res = await fetch(`${this.baseUrl}/teams`, {
+    const res = await fetch(`${this.baseUrl}/teams?limit=100`, {
       headers: { "User-Agent": "Mozilla/5.0 (compatible; DrafteadosHub/2.0)" },
       next: { revalidate: 86400 },
     });
@@ -410,14 +410,31 @@ export class EspnProvider implements BasketballDataProvider {
   }
 
   async getTeam(slugOrId: string): Promise<Team | null> {
+    const clean = slugOrId.toLowerCase().trim();
     const teams = await this.getTeams();
-    const clean = slugOrId.toLowerCase();
+    const found = teams.find(
+      (t) =>
+        t.id === clean ||
+        t.slug.toLowerCase() === clean ||
+        t.abbreviation.toLowerCase() === clean ||
+        t.name.toLowerCase() === clean ||
+        t.name.toLowerCase().includes(clean)
+    );
+    if (found) return found;
+
+    // Fallback por ID de ESPN mapeado
+    const espnId = getEspnTeamId(clean);
+    const byId = teams.find((t) => t.id === espnId);
+    if (byId) return byId;
+
+    // Fallback a MOCK_TEAMS
     return (
-      teams.find(
+      MOCK_TEAMS.find(
         (t) =>
           t.id === clean ||
           t.slug.toLowerCase() === clean ||
-          t.abbreviation.toLowerCase() === clean
+          t.abbreviation.toLowerCase() === clean ||
+          t.name.toLowerCase() === clean
       ) || null
     );
   }

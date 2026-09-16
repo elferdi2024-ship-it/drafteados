@@ -75,7 +75,15 @@ export class CompositeProvider implements BasketballDataProvider {
       try {
         const teams = await this.espn.getTeams();
         if (teams && teams.length >= 30) return teams;
-        return await this.mock.getTeams();
+        // Merge ESPN teams con MOCK_TEAMS para garantizar que las 30 franquicias estén presentes
+        const map = new Map<string, Team>();
+        for (const t of (await this.mock.getTeams())) {
+          map.set(t.slug.toLowerCase(), t);
+        }
+        for (const t of (teams || [])) {
+          map.set(t.slug.toLowerCase(), t);
+        }
+        return Array.from(map.values());
       } catch {
         return this.mock.getTeams();
       }
@@ -83,7 +91,7 @@ export class CompositeProvider implements BasketballDataProvider {
   }
 
   async getTeam(slugOrId: string): Promise<Team | null> {
-    const key = `team:${slugOrId}`;
+    const key = `team:${slugOrId.toLowerCase()}`;
     return hubCache.getOrSet(key, 86400, async () => {
       try {
         const team = await this.espn.getTeam(slugOrId);
