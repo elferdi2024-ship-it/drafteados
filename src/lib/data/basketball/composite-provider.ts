@@ -15,9 +15,11 @@ import type {
   StatType 
 } from "./types";
 import { MockProvider } from "./mock-provider";
+import { EspnProvider } from "./espn-provider";
 import { hubCache } from "./cache";
 
 export class CompositeProvider implements BasketballDataProvider {
+  private espn = new EspnProvider();
   private mock = new MockProvider();
 
   async getScoreboard(date?: string): Promise<Game[]> {
@@ -25,8 +27,11 @@ export class CompositeProvider implements BasketballDataProvider {
     // Scoreboard TTL: 60 segundos
     return hubCache.getOrSet(key, 60, async () => {
       try {
+        const games = await this.espn.getScoreboard(date);
+        if (games && games.length > 0) return games;
         return await this.mock.getScoreboard(date);
-      } catch {
+      } catch (err) {
+        console.warn("[CompositeProvider] ESPN scoreboard failed, falling back to mock:", err);
         return this.mock.getScoreboard(date);
       }
     });
@@ -37,8 +42,13 @@ export class CompositeProvider implements BasketballDataProvider {
     // Standings TTL: 600 segundos (10 minutos)
     return hubCache.getOrSet(key, 600, async () => {
       try {
+        const standings = await this.espn.getStandings(season);
+        if (standings.east.length > 0 && standings.west.length > 0) {
+          return standings;
+        }
         return await this.mock.getStandings(season);
-      } catch {
+      } catch (err) {
+        console.warn("[CompositeProvider] ESPN standings failed, falling back to mock:", err);
         return this.mock.getStandings(season);
       }
     });
@@ -49,6 +59,8 @@ export class CompositeProvider implements BasketballDataProvider {
     // Leaders TTL: 900 segundos (15 minutos)
     return hubCache.getOrSet(key, 900, async () => {
       try {
+        const leaders = await this.espn.getLeaders(stat, season, limit);
+        if (leaders && leaders.length > 0) return leaders;
         return await this.mock.getLeaders(stat, season, limit);
       } catch {
         return this.mock.getLeaders(stat, season, limit);
@@ -60,14 +72,26 @@ export class CompositeProvider implements BasketballDataProvider {
     const key = "teams:all";
     // Teams TTL: 86400 segundos (24 horas)
     return hubCache.getOrSet(key, 86400, async () => {
-      return this.mock.getTeams();
+      try {
+        const teams = await this.espn.getTeams();
+        if (teams && teams.length >= 30) return teams;
+        return await this.mock.getTeams();
+      } catch {
+        return this.mock.getTeams();
+      }
     });
   }
 
   async getTeam(slugOrId: string): Promise<Team | null> {
     const key = `team:${slugOrId}`;
     return hubCache.getOrSet(key, 86400, async () => {
-      return this.mock.getTeam(slugOrId);
+      try {
+        const team = await this.espn.getTeam(slugOrId);
+        if (team) return team;
+        return await this.mock.getTeam(slugOrId);
+      } catch {
+        return this.mock.getTeam(slugOrId);
+      }
     });
   }
 
@@ -81,14 +105,26 @@ export class CompositeProvider implements BasketballDataProvider {
   async getGames(params?: { startDate?: string; endDate?: string; teamId?: string }): Promise<Game[]> {
     const key = `games:${params?.startDate || ""}:${params?.endDate || ""}:${params?.teamId || "all"}`;
     return hubCache.getOrSet(key, 300, async () => {
-      return this.mock.getGames(params);
+      try {
+        const games = await this.espn.getGames(params);
+        if (games && games.length > 0) return games;
+        return await this.mock.getGames(params);
+      } catch {
+        return this.mock.getGames(params);
+      }
     });
   }
 
   async getGame(gameId: string): Promise<(Game & { boxScore?: unknown }) | null> {
     const key = `game:${gameId}`;
     return hubCache.getOrSet(key, 60, async () => {
-      return this.mock.getGame(gameId);
+      try {
+        const game = await this.espn.getGame(gameId);
+        if (game) return game;
+        return await this.mock.getGame(gameId);
+      } catch {
+        return this.mock.getGame(gameId);
+      }
     });
   }
 }
