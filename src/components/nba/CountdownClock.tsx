@@ -79,20 +79,20 @@ export function CountdownClock() {
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         {/* Left Column: Context */}
         <div className="max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase bg-[var(--hub-accent-soft)] border border-[var(--hub-accent)]/25 mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase bg-[var(--hub-accent-soft)] border border-[var(--hub-accent)]/25 mb-3">
             <Clock className="w-3.5 h-3.5" />
-            <span>OPENING NIGHT &bull; 20 OCTUBRE 2026</span>
+            <span>OPENING NIGHT · 20 OCTUBRE 2026</span>
           </div>
 
           <h2
             className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase text-[var(--hub-text)] tracking-tight leading-none"
             style={{ fontFamily: "var(--hub-font-display)" }}
           >
-            CUENTA REGRESIVA &bull; TEMPORADA 2026/27
+            Cuenta regresiva · Temporada 2026/27
           </h2>
 
-          <p className="mt-2 text-xs sm:text-sm text-[var(--hub-text-muted)] font-normal leading-relaxed">
-            La temporada regular de la NBA arranca oficialmente con el salto inicial de la nueva campaña y los vigentes campeones New York Knicks defendiendo su corona.
+          <p className="mt-2 text-xs sm:text-sm text-[var(--hub-text-secondary)] font-normal leading-relaxed">
+            La temporada regular arranca oficialmente el 20 de octubre con los vigentes campeones New York Knicks defendiendo su corona.
           </p>
         </div>
 
@@ -104,12 +104,11 @@ export function CountdownClock() {
               className="flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl bg-[var(--hub-surface-2)] border border-[var(--hub-border)] min-w-[64px] sm:min-w-[80px]"
             >
               <span
-                className="text-2xl sm:text-4xl font-black text-[var(--hub-text)] tabular-nums leading-none"
-                style={{ fontFamily: "var(--hub-font-display)" }}
+                className="text-2xl sm:text-4xl font-black text-[var(--hub-text)] tabular-nums leading-none font-mono"
               >
                 {mounted ? String(unit.value).padStart(2, "0") : "--"}
               </span>
-              <span className="text-[9px] sm:text-[10px] font-mono font-bold text-[var(--hub-text-dim)] uppercase tracking-wider mt-1.5">
+              <span className="text-[9px] sm:text-[10px] font-sans font-semibold text-[var(--hub-text-muted)] uppercase tracking-wider mt-1.5">
                 {unit.label}
               </span>
             </div>

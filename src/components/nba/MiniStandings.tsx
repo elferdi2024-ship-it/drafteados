@@ -23,8 +23,8 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
       {/* Header with Conference Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--hub-border)]">
         <div>
-          <span className="text-[10px] font-mono uppercase font-bold text-[var(--hub-accent)] tracking-widest block">
-            CLASIFICACIÓN · BALANCE OFICIAL
+          <span className="text-[10px] font-sans uppercase font-semibold text-[var(--hub-accent)] tracking-widest block">
+            CLASIFICACIÓN · BALANCE
           </span>
           <h3
             className="text-xl sm:text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none mt-0.5"
@@ -32,28 +32,28 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
           >
             TOP CONFERENCIA
           </h3>
-          <span className="text-[10px] font-mono text-[var(--hub-text-dim)] mt-1 block">
-            Vigente Campeón: New York Knicks (4-1 vs Spurs).
+          <span className="text-xs font-sans text-[var(--hub-text-muted)] mt-1 block">
+            Pretemporada · Vigente Campeón: NY Knicks (4-1).
           </span>
         </div>
 
         <div className="flex items-center gap-1 bg-[var(--hub-surface-2)] p-1 rounded-xl border border-[var(--hub-border)] shrink-0 self-start sm:self-auto">
           <button
             onClick={() => setConference("east")}
-            className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
               conference === "east"
                 ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                : "text-[var(--hub-text-muted)] hover:text-[var(--hub-text)]"
+                : "text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)]"
             }`}
           >
             ESTE
           </button>
           <button
             onClick={() => setConference("west")}
-            className={`px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer ${
               conference === "west"
                 ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                : "text-[var(--hub-text-muted)] hover:text-[var(--hub-text)]"
+                : "text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)]"
             }`}
           >
             OESTE

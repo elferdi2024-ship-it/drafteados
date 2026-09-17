@@ -75,7 +75,7 @@ export default async function NbaHubPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Hero Header */}
       <header className="border-b border-[var(--hub-border)] pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
+        <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
           <span className="capitalize">{todayStr}</span>
@@ -86,48 +86,9 @@ export default async function NbaHubPage() {
         >
           HOY EN LA NBA
         </h1>
-        <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-2 max-w-xl font-normal">
-          Marcadores oficiales, clasificaciones y el pulso diario de la liga con la mirada de Drafteados.
+        <p className="text-sm sm:text-base text-[var(--hub-text-secondary)] mt-2 max-w-xl font-normal">
+          Marcadores, clasificación y lo que importa hoy.
         </p>
-
-        {/* Barra de Acceso Rápido Editorial */}
-        <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-5 text-xs font-mono font-bold">
-          <Link
-            href="/nba/clasificacion"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
-          >
-            <Trophy className="w-3.5 h-3.5 text-amber-500" />
-            <span>CLASIFICACIÓN</span>
-          </Link>
-          <Link
-            href="/nba/calendario"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
-          >
-            <Calendar className="w-3.5 h-3.5 text-[var(--hub-accent)]" />
-            <span>CALENDARIO</span>
-          </Link>
-          <Link
-            href="/nba/equipos"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
-          >
-            <Users className="w-3.5 h-3.5 text-blue-500" />
-            <span>30 EQUIPOS</span>
-          </Link>
-          <Link
-            href="/nba/lideres"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] hover:text-[var(--hub-accent)] transition-colors shrink-0"
-          >
-            <BarChart3 className="w-3.5 h-3.5 text-emerald-500" />
-            <span>LÍDERES</span>
-          </Link>
-          <Link
-            href="/pickem"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--hub-accent)]/30 bg-[var(--hub-accent-soft)] hover:bg-[var(--hub-accent)] text-[var(--hub-accent)] hover:text-white transition-colors shrink-0 ml-auto"
-          >
-            <Flame className="w-3.5 h-3.5" />
-            <span>PICK&apos;EM OFICIAL</span>
-          </Link>
-        </nav>
       </header>
 
       {/* Reloj Cuenta Regresiva Salto Inicial 2026/27 */}
@@ -135,44 +96,44 @@ export default async function NbaHubPage() {
 
       {/* Quick Stat Strip / Claves de Temporada (Compacto & Escaneable) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between shadow-sm">
+          <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
             OPENING NIGHT
           </span>
-          <span className="text-sm sm:text-base font-black text-[var(--hub-text)] mt-1 font-mono">
+          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] mt-1 font-mono">
             20 OCTUBRE 2026
           </span>
         </div>
         <Link
           href="/nba/equipo/knicks"
-          className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group"
+          className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group shadow-sm"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+            <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
               CAMPEÓN VIGENTE
             </span>
-            <Trophy className="w-3 h-3 text-amber-500" />
+            <Trophy className="w-3.5 h-3.5 text-amber-500" />
           </div>
-          <span className="text-sm sm:text-base font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
+          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
             NY KNICKS (4-1)
           </span>
         </Link>
         <Link
           href="/nba/equipo/spurs"
-          className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group"
+          className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group shadow-sm"
         >
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+          <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
             SUBCAMPEÓN 2026
           </span>
-          <span className="text-sm sm:text-base font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
+          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
             SAN ANTONIO SPURS
           </span>
         </Link>
-        <div className="rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3.5 flex flex-col justify-between">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--hub-text-dim)] font-bold">
+        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between shadow-sm">
+          <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
             COBERTURA TOTAL
           </span>
-          <span className="text-sm sm:text-base font-black text-[var(--hub-accent)] mt-1 font-mono">
+          <span className="text-base sm:text-lg font-black text-[var(--hub-accent)] mt-1 font-mono">
             82 PARTIDOS + PLAYOFFS
           </span>
         </div>

@@ -31,10 +31,10 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
           <button
             key={tab.id}
             onClick={() => setSelectedStat(tab.id)}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all shrink-0 cursor-pointer ${
+            className={`px-4 py-2 rounded-lg text-xs font-sans font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer ${
               selectedStat === tab.id
-                ? "bg-[var(--hub-accent)] text-white shadow-lg shadow-[var(--hub-accent)]/20"
-                : "bg-[var(--hub-surface)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
+                ? "bg-[var(--hub-accent)] text-white shadow-sm"
+                : "bg-[var(--hub-surface)] text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
             }`}
           >
             {tab.label}
@@ -45,7 +45,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
       {/* Podium Top 3 Cards (Desktop) */}
       {lines.length >= 3 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-          {lines.slice(0, 3).map((item, idx) => {
+          {lines.slice(0, 3).map((item) => {
             const nbaId = getPlayerNbaId(item.player.fullName);
             const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "1040x760") : null;
             const teamNbaId = getTeamNbaId(item.team.abbreviation);
@@ -57,23 +57,23 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                 key={item.player.id}
                 className={`rounded-2xl border p-5 relative overflow-hidden flex flex-col justify-between transition-all ${
                   isFirst
-                    ? "bg-gradient-to-b from-[var(--hub-surface-2)] to-[var(--hub-surface)] border-[var(--hub-accent)]/50 shadow-xl shadow-[var(--hub-accent)]/10"
-                    : "bg-[var(--hub-surface)] border-[var(--hub-border)]"
+                    ? "bg-gradient-to-b from-[var(--hub-surface-2)] to-[var(--hub-surface)] border-[var(--hub-accent)]/50 shadow-md shadow-[var(--hub-accent)]/5"
+                    : "bg-[var(--hub-surface)] border-[var(--hub-border)] shadow-sm"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
-                    isFirst ? "bg-[var(--hub-accent)] text-white" : "bg-[var(--hub-surface-2)] text-[var(--hub-text-dim)] border border-[var(--hub-border)]"
+                  <span className={`text-xs font-sans font-bold px-2 py-0.5 rounded-md ${
+                    isFirst ? "bg-[var(--hub-accent)] text-white" : "bg-[var(--hub-surface-2)] text-[var(--hub-text-muted)] border border-[var(--hub-border)]"
                   }`}>
                     #{item.rank}
                   </span>
-                  <span className="text-[11px] font-mono text-[var(--hub-text-dim)] uppercase">
+                  <span className="text-[11px] font-sans font-semibold text-[var(--hub-text-muted)] uppercase">
                     {item.team.name}
                   </span>
                 </div>
 
                 <div className="my-4 flex items-center gap-4">
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-black/5 dark:bg-white/5 border border-[var(--hub-border)] shrink-0 flex items-center justify-center shadow-inner">
+                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center shadow-inner">
                     {headshotUrl ? (
                       <img
                         src={headshotUrl}
@@ -84,7 +84,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                         }}
                       />
                     ) : (
-                      <span className="font-title text-2xl font-black text-[var(--hub-text-muted)]">
+                      <span className="font-sans text-2xl font-black text-[var(--hub-text-muted)]">
                         {item.player.firstName[0]}
                       </span>
                     )}
@@ -101,7 +101,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                       {teamLogo && (
                         <img src={teamLogo} alt="" className="w-4 h-4 object-contain" />
                       )}
-                      <span className="text-xs font-mono text-[var(--hub-text-muted)]">
+                      <span className="text-xs font-sans text-[var(--hub-text-muted)]">
                         {item.team.abbreviation} · {item.player.position}
                       </span>
                     </div>
@@ -109,7 +109,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                 </div>
 
                 <div className="pt-3 border-t border-[var(--hub-border)] flex items-baseline justify-between">
-                  <span className="text-xs font-mono text-[var(--hub-text-dim)] uppercase">
+                  <span className="text-xs font-sans font-semibold text-[var(--hub-text-muted)] uppercase">
                     PROMEDIO
                   </span>
                   <div className="flex items-baseline gap-1">
@@ -119,7 +119,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                     >
                       {item.value.toFixed(1)}
                     </span>
-                    <span className="text-xs font-mono text-[var(--hub-text-dim)]">
+                    <span className="text-xs font-sans font-semibold text-[var(--hub-text-muted)]">
                       {currentTabMeta.unit}
                     </span>
                   </div>
@@ -131,12 +131,12 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
       )}
 
       {/* Complete Table List */}
-      <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] overflow-hidden shadow-xl">
+      <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] overflow-hidden shadow-sm">
         <div className="p-4 border-b border-[var(--hub-border)] flex items-center justify-between">
-          <span className="text-xs font-mono uppercase font-bold text-[var(--hub-accent)] tracking-wider">
+          <span className="text-xs font-sans uppercase font-bold text-[var(--hub-accent)] tracking-wider">
             TABLA GENERAL · {currentTabMeta.label}
           </span>
-          <span className="text-xs font-mono text-[var(--hub-text-dim)]">
+          <span className="text-xs font-sans text-[var(--hub-text-muted)]">
             MÍNIMO 70% DE PARTIDOS
           </span>
         </div>
@@ -152,13 +152,13 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                 className="flex items-center justify-between p-3 sm:p-4 hover:bg-[var(--hub-surface-2)]/50 transition-colors"
               >
                 <div className="flex items-center gap-3.5 min-w-0">
-                  <span className={`w-6 text-center text-xs sm:text-sm font-mono font-bold ${
-                    item.rank <= 3 ? "text-[var(--hub-accent)]" : "text-[var(--hub-text-dim)]"
+                  <span className={`w-6 text-center text-xs sm:text-sm font-sans font-bold tabular-nums ${
+                    item.rank <= 3 ? "text-[var(--hub-accent)]" : "text-[var(--hub-text-muted)]"
                   }`}>
                     #{item.rank}
                   </span>
 
-                  <div className="w-11 h-11 rounded-xl overflow-hidden bg-black/5 dark:bg-white/5 border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
+                  <div className="w-11 h-11 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
                     {headshotUrl ? (
                       <img
                         src={headshotUrl}
@@ -169,7 +169,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                         }}
                       />
                     ) : (
-                      <span className="text-xs font-mono font-bold text-[var(--hub-text)]">
+                      <span className="text-xs font-sans font-bold text-[var(--hub-text)]">
                         {item.player.firstName[0]}
                       </span>
                     )}
@@ -179,7 +179,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                     <span className="text-sm sm:text-base font-bold text-[var(--hub-text)] truncate block">
                       {item.player.fullName}
                     </span>
-                    <span className="text-xs font-mono text-[var(--hub-text-dim)] uppercase">
+                    <span className="text-xs font-sans text-[var(--hub-text-muted)]">
                       {item.team.name} ({item.team.abbreviation}) · {item.player.position}
                     </span>
                   </div>
@@ -192,7 +192,7 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                   >
                     {item.value.toFixed(1)}
                   </span>
-                  <span className="text-xs font-mono text-[var(--hub-text-dim)] hidden sm:inline">
+                  <span className="text-xs font-sans font-semibold text-[var(--hub-text-muted)] hidden sm:inline">
                     {currentTabMeta.unit}
                   </span>
                 </div>

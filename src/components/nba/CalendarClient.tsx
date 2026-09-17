@@ -133,10 +133,10 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
             <button
               key={tab.id}
               onClick={() => setFilterType(tab.id)}
-              className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-bold uppercase transition-all shrink-0 cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg font-sans text-xs font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer ${
                 filterType === tab.id
                   ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                  : "bg-[var(--hub-surface-2)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
+                  : "bg-[var(--hub-surface-2)] text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
               }`}
             >
               {tab.label}

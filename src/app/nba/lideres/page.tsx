@@ -62,7 +62,7 @@ export default async function LeadersPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
       <header className="border-b border-[var(--hub-border)] pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
+        <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
           <span>PRETEMPORADA 2026/27</span>
@@ -75,24 +75,24 @@ export default async function LeadersPage() {
             >
               LÍDERES
             </h1>
-            <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-1.5 font-normal">
-              Estadísticas individuales de referencia histórica (2025/26) previas al salto inicial de la nueva temporada 2026/27.
+            <p className="text-sm sm:text-base text-[var(--hub-text-secondary)] mt-1.5 font-normal">
+              Líderes de la última temporada regular (2025/26).
             </p>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--hub-surface-2)] border border-[var(--hub-border)] text-xs font-mono text-[var(--hub-text-muted)] shrink-0">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--hub-surface-2)] border border-[var(--hub-border)] text-xs font-sans font-semibold text-[var(--hub-text-muted)] shrink-0">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
             <span>Ref. Temporada 2025/26</span>
           </div>
         </div>
       </header>
 
-      {/* Pre-season notice */}
-      <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-xs text-[var(--hub-text-muted)] flex items-start gap-2.5">
-        <span className="font-bold text-amber-500 uppercase tracking-wider shrink-0 font-mono">
-          PRETEMPORADA:
+      {/* Pre-season notice callout */}
+      <div className="rounded-2xl border-l-4 border-l-[var(--hub-accent)] border border-[var(--hub-border)] bg-[var(--hub-accent-soft)] px-5 py-4 text-xs sm:text-sm text-[var(--hub-text-secondary)] flex items-start gap-3 shadow-sm">
+        <span className="font-bold text-[var(--hub-accent)] uppercase tracking-wider shrink-0 font-sans text-xs">
+          ACTUALIZACIÓN:
         </span>
-        <span>
-          Las métricas mostradas reflejan los líderes consolidados de la última temporada regular (2025/26). A partir del 20 de octubre de 2026, los promedios se actualizarán automáticamente noche a noche con los partidos oficiales de la temporada 2026/27.
+        <span className="leading-relaxed">
+          Datos de la temporada 2025/26. Se actualizarán automáticamente noche a noche con el inicio de la temporada regular (20 de octubre).
         </span>
       </div>
 

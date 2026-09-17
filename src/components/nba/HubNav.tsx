@@ -87,10 +87,10 @@ export function HubNav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold tracking-wider uppercase transition-all ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-sans font-semibold tracking-wider uppercase transition-all ${
                     isActive
-                      ? "bg-[var(--hub-accent)] text-white shadow-md shadow-[var(--hub-accent)]/20"
-                      : "text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] hover:bg-[var(--hub-surface-2)]"
+                      ? "bg-[var(--hub-accent)] text-white shadow-sm"
+                      : "text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] hover:bg-[var(--hub-surface-2)]"
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -118,7 +118,7 @@ export function HubNav() {
 
             <Link
               href="/pickem"
-              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-[var(--hub-accent-soft)] hover:bg-[var(--hub-accent)] text-[var(--hub-accent)] hover:text-white border border-[var(--hub-accent)]/40 transition-all font-mono font-bold text-xs uppercase tracking-wider group shrink-0"
+              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-[var(--hub-accent-soft)] hover:bg-[var(--hub-accent)] text-[var(--hub-accent)] hover:text-white border border-[var(--hub-accent)]/30 transition-all font-sans font-semibold text-xs uppercase tracking-wider group shrink-0"
             >
               <span>PICK&apos;EM</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -138,10 +138,10 @@ export function HubNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold tracking-wider uppercase shrink-0 transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-sans font-semibold tracking-wider uppercase shrink-0 transition-colors ${
                   isActive
                     ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                    : "bg-[var(--hub-surface-2)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
+                    : "bg-[var(--hub-surface-2)] text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
                 }`}
               >
                 <Icon className="w-3 h-3" />

@@ -124,10 +124,10 @@ export default async function TeamDetailPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-      {/* Back button */}
+      {/* Back to teams link */}
       <Link
         href="/nba/equipos"
-        className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[var(--hub-accent)] hover:text-[var(--hub-accent-hover)] uppercase tracking-wider transition-colors"
+        className="inline-flex items-center gap-2 text-xs font-sans font-semibold text-[var(--hub-accent)] hover:text-[var(--hub-accent-hover)] uppercase tracking-wider transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>VOLVER A EQUIPOS</span>
@@ -135,7 +135,7 @@ export default async function TeamDetailPage({
 
       {/* Team Header Banner */}
       <div
-        className="rounded-3xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-6 sm:p-10 shadow-2xl relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
+        className="rounded-3xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-6 sm:p-10 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
         style={{
           borderLeftColor: team.primaryColor || undefined,
           borderLeftWidth: "6px",
@@ -151,7 +151,7 @@ export default async function TeamDetailPage({
 
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-[var(--hub-accent)]">
+              <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[var(--hub-accent)]">
                 CONFERENCIA {team.conference.toUpperCase()} · DIVISIÓN {team.division.toUpperCase()}
               </span>
             </div>
@@ -161,7 +161,7 @@ export default async function TeamDetailPage({
             >
               {team.name}
             </h1>
-            <p className="text-xs sm:text-sm text-[var(--hub-text-muted)] font-mono mt-1.5">
+            <p className="text-xs sm:text-sm text-[var(--hub-text-secondary)] mt-1.5">
               {team.city} · Sigla: {team.abbreviation} · {roster.length} Jugadores en Plantilla
             </p>
           </div>

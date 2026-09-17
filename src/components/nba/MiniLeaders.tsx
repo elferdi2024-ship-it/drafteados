@@ -27,17 +27,17 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
       {/* Header with Stat Pills */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--hub-border)]">
         <div>
-          <span className="text-[10px] font-mono uppercase font-bold text-[var(--hub-accent)] tracking-widest block">
+          <span className="text-[10px] font-sans uppercase font-semibold text-[var(--hub-accent)] tracking-widest block">
             LÍDERES · REFERENCIA 2025/26
           </span>
           <h3
             className="text-xl sm:text-2xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none mt-0.5"
             style={{ fontFamily: "var(--hub-font-display)" }}
           >
-            LOS DOMINADORES DE LA LIGA
+            LÍDERES DE LA LIGA
           </h3>
-          <span className="text-[10px] font-mono text-[var(--hub-text-dim)] mt-1 block">
-            Promedios oficiales hasta el inicio de la 2026/27.
+          <span className="text-xs font-sans text-[var(--hub-text-muted)] mt-1 block">
+            Promedios consolidados de la última temporada regular.
           </span>
         </div>
 
@@ -46,10 +46,10 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
             <button
               key={key}
               onClick={() => setStat(key)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer shrink-0 ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-sans font-semibold uppercase tracking-wider transition-colors cursor-pointer shrink-0 ${
                 stat === key
                   ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                  : "text-[var(--hub-text-muted)] hover:text-[var(--hub-text)]"
+                  : "text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)]"
               }`}
             >
               {key === "fg3m" ? "3PM" : key.toUpperCase()}

@@ -49,7 +49,7 @@ export default async function TeamsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       {/* Header */}
       <header className="border-b border-[var(--hub-border)] pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
+        <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
           <span>NBA HUB · LOS BUQUES</span>
           <span>•</span>
           <span>FRANQUICIAS OFICIALES</span>
@@ -60,8 +60,8 @@ export default async function TeamsPage() {
         >
           EQUIPOS
         </h1>
-        <p className="text-sm sm:text-base text-[var(--hub-text-muted)] mt-1.5 font-normal">
-          Los 30. Tocá uno y entrá a ver sus estadísticas, roster y calendario.
+        <p className="text-sm sm:text-base text-[var(--hub-text-secondary)] mt-1.5 font-normal">
+          Las 30 franquicias · Roster, stats y calendario.
         </p>
       </header>
 
@@ -82,7 +82,7 @@ export default async function TeamsPage() {
             <Link
               key={team.id}
               href={`/nba/equipo/${team.slug}`}
-              className="group flex items-center justify-between p-4 rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)]/50 transition-all hover:-translate-y-0.5 shadow-md"
+              className="group flex items-center justify-between p-4 rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)]/50 transition-all hover:-translate-y-0.5 shadow-sm"
             >
               <div className="flex items-center gap-3.5 min-w-0">
                 <TeamLogo
@@ -96,13 +96,13 @@ export default async function TeamsPage() {
                   <span className="font-bold text-base text-[var(--hub-text)] truncate block group-hover:text-[var(--hub-accent)] transition-colors">
                     {team.name}
                   </span>
-                  <span className="text-xs font-mono text-[var(--hub-text-dim)] uppercase">
+                  <span className="text-xs font-sans text-[var(--hub-text-muted)] uppercase">
                     {team.division} · {team.city}
                   </span>
                 </div>
               </div>
 
-              <span className="font-mono text-xs font-bold text-[var(--hub-text-dim)] group-hover:text-[var(--hub-accent)] transition-colors">
+              <span className="font-sans text-xs font-bold text-[var(--hub-text-muted)] group-hover:text-[var(--hub-accent)] transition-colors pr-1">
                 &rarr;
               </span>
             </Link>
@@ -127,7 +127,7 @@ export default async function TeamsPage() {
             <Link
               key={team.id}
               href={`/nba/equipo/${team.slug}`}
-              className="group flex items-center justify-between p-4 rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)]/50 transition-all hover:-translate-y-0.5 shadow-md"
+              className="group flex items-center justify-between p-4 rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] hover:border-[var(--hub-accent)]/50 transition-all hover:-translate-y-0.5 shadow-sm"
             >
               <div className="flex items-center gap-3.5 min-w-0">
                 <TeamLogo
@@ -141,13 +141,13 @@ export default async function TeamsPage() {
                   <span className="font-bold text-base text-[var(--hub-text)] truncate block group-hover:text-[var(--hub-accent)] transition-colors">
                     {team.name}
                   </span>
-                  <span className="text-xs font-mono text-[var(--hub-text-dim)] uppercase">
+                  <span className="text-xs font-sans text-[var(--hub-text-muted)] uppercase">
                     {team.division} · {team.city}
                   </span>
                 </div>
               </div>
 
-              <span className="font-mono text-xs font-bold text-[var(--hub-text-dim)] group-hover:text-[var(--hub-accent)] transition-colors">
+              <span className="font-sans text-xs font-bold text-[var(--hub-text-muted)] group-hover:text-[var(--hub-accent)] transition-colors pr-1">
                 &rarr;
               </span>
             </Link>

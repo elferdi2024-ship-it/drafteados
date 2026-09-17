@@ -26,90 +26,96 @@
   /* ============================================================
      DRAFTEADOS NBA HUB — DESIGN TOKENS (LIGHT MODE DEFAULT)
      ============================================================ */
-  --hub-bg: #F5F5F7;
+  --hub-bg: #FAFAFA;
   --hub-surface: #FFFFFF;
-  --hub-surface-2: #ECECEF;
-  --hub-surface-3: #E2E2E6;
+  --hub-surface-2: #F5F5F5;
+  --hub-surface-3: #E5E5E5;
 
-  --hub-border: rgba(0, 0, 0, 0.08);
-  --hub-border-hover: rgba(0, 0, 0, 0.16);
+  --hub-border: #E5E5E5;
+  --hub-border-hover: #D4D4D4;
 
-  --hub-text: #111113;
-  --hub-text-muted: #6E6E73;
-  --hub-text-dim: #9E9EA5;
+  --hub-text: #0A0A0A;
+  --hub-text-secondary: #404040;
+  --hub-text-muted: #737373;
+  --hub-text-dim: #A3A3A3;
 
-  --hub-accent: #FF5A1F;
-  --hub-accent-hover: #E04810;
-  --hub-accent-soft: rgba(255, 90, 31, 0.08);
+  --hub-accent: #F97316;
+  --hub-accent-hover: #EA580C;
+  --hub-accent-soft: #FFF7ED;
 
   --hub-live: #16A34A;
   --hub-live-soft: rgba(22, 163, 74, 0.12);
-  --hub-final: #71717A;
-  --hub-scheduled: #6E6E73;
+  --hub-final: #737373;
+  --hub-scheduled: #737373;
   --hub-win: #16A34A;
   --hub-loss: #DC2626;
+  --hub-success: #16A34A;
+  --hub-danger: #DC2626;
 
   --hub-east: #2563EB;
   --hub-west: #9333EA;
 
   --hub-font-display: var(--font-title), "Bebas Neue", system-ui, sans-serif;
-  --hub-font-sans: var(--font-sans), "Plus Jakarta Sans", system-ui, sans-serif;
+  --hub-font-sans: var(--font-sans), "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
 
-  --hub-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --hub-glow-accent: 0 0 24px rgba(255, 90, 31, 0.18);
+  --hub-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+  --hub-glow-accent: 0 0 24px rgba(249, 115, 22, 0.18);
 }
 
 html.dark {
   --background: #0A0A0A;
-  --foreground: #F5F5F7;
-  --color-brand: #FF5A1F;
-  --color-brand-glow: rgba(255, 90, 31, 0.35);
-  --color-surface: #121212;
-  --color-surface-hover: #18181B;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-muted: #A1A1AA;
+  --foreground: #FAFAFA;
+  --color-brand: #F97316;
+  --color-brand-glow: rgba(249, 115, 22, 0.35);
+  --color-surface: #171717;
+  --color-surface-hover: #262626;
+  --color-border: #262626;
+  --color-muted: #A3A3A3;
 
   /* Pick'em Tokens - Dark Mode */
   --pickem-bg: #0A0A0A;
-  --pickem-surface: #121212;
-  --pickem-surface-2: #18181B;
-  --pickem-card: #141416;
-  --pickem-border: rgba(255, 255, 255, 0.09);
-  --pickem-text: #F5F5F7;
-  --pickem-muted: #8E8E93;
-  --pickem-accent: #FF5A1F;
-  --pickem-accent-hover: #FF7A45;
-  --pickem-gold: #FF5A1F;
+  --pickem-surface: #171717;
+  --pickem-surface-2: #262626;
+  --pickem-card: #171717;
+  --pickem-border: #262626;
+  --pickem-text: #FAFAFA;
+  --pickem-muted: #A3A3A3;
+  --pickem-accent: #F97316;
+  --pickem-accent-hover: #EA580C;
+  --pickem-gold: #F97316;
 
   /* NBA Hub Tokens - Dark Mode */
-  --hub-bg: #0A0A0C;
-  --hub-surface: #121215;
-  --hub-surface-2: #19191D;
-  --hub-surface-3: #222228;
+  --hub-bg: #0A0A0A;
+  --hub-surface: #171717;
+  --hub-surface-2: #262626;
+  --hub-surface-3: #303030;
 
-  --hub-border: rgba(255, 255, 255, 0.08);
-  --hub-border-hover: rgba(255, 255, 255, 0.16);
+  --hub-border: #262626;
+  --hub-border-hover: #404040;
 
-  --hub-text: #F5F5F7;
-  --hub-text-muted: #A1A1AA;
-  --hub-text-dim: #71717A;
+  --hub-text: #FAFAFA;
+  --hub-text-secondary: #D4D4D4;
+  --hub-text-muted: #A3A3A3;
+  --hub-text-dim: #737373;
 
-  --hub-accent: #FF5A1F;
-  --hub-accent-hover: #FF7A45;
-  --hub-accent-soft: rgba(255, 90, 31, 0.15);
+  --hub-accent: #F97316;
+  --hub-accent-hover: #EA580C;
+  --hub-accent-soft: rgba(249, 115, 22, 0.15);
 
-  --hub-live: #22C55E;
-  --hub-live-soft: rgba(34, 197, 94, 0.15);
-  --hub-final: #6B7280;
-  --hub-scheduled: #8B8B8B;
-  --hub-win: #22C55E;
-  --hub-loss: #EF4444;
+  --hub-live: #16A34A;
+  --hub-live-soft: rgba(22, 163, 74, 0.15);
+  --hub-final: #737373;
+  --hub-scheduled: #A3A3A3;
+  --hub-win: #16A34A;
+  --hub-loss: #DC2626;
+  --hub-success: #16A34A;
+  --hub-danger: #DC2626;
 
   --hub-east: #3B82F6;
   --hub-west: #A855F7;
 
-  --hub-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
-  --hub-glow-accent: 0 0 24px rgba(255, 90, 31, 0.3);
+  --hub-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --hub-glow-accent: 0 0 24px rgba(249, 115, 22, 0.3);
 }
 
 @theme inline {
