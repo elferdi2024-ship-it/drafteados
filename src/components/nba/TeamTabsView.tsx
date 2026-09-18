@@ -288,21 +288,23 @@ export function TeamTabsView({
                 >
                   {/* Top: Avatar, Nombre y Posición */}
                   <div className="flex items-start gap-3.5">
-                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
-                      {player.headshotUrl ? (
+                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center text-xl font-black font-title text-[var(--hub-text-muted)]">
+                      <span className="absolute inset-0 flex items-center justify-center select-none">
+                        {player.firstName[0]}
+                      </span>
+                      {player.headshotUrl && (
                         <img
                           src={player.headshotUrl}
                           alt={player.fullName}
-                          className="w-full h-full object-cover object-top"
+                          className="w-full h-full object-cover object-top relative z-10"
                           loading="lazy"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
                         />
-                      ) : (
-                        <span className="font-title text-xl font-black text-[var(--hub-text-muted)]">
-                          {player.firstName[0]}
-                        </span>
                       )}
                       {player.jerseyNumber && (
-                        <span className="absolute bottom-1 right-1 bg-black/80 text-white font-mono text-[10px] font-bold px-1.5 py-0.2 rounded">
+                        <span className="absolute bottom-1 right-1 bg-black/80 text-white font-mono text-[10px] font-bold px-1.5 py-0.2 rounded z-20">
                           #{player.jerseyNumber}
                         </span>
                       )}
