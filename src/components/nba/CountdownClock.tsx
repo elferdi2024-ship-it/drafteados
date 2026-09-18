@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Clock, Calendar } from "lucide-react";
+import { GameTime } from "@/components/time/GameTime";
 
 interface TimeLeft {
   days: number;
@@ -79,9 +80,14 @@ export function CountdownClock() {
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
         {/* Left Column: Context */}
         <div className="max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase bg-[var(--hub-accent-soft)] border border-[var(--hub-accent)]/25 mb-3">
-            <Clock className="w-3.5 h-3.5" />
-            <span>OPENING NIGHT · 20 OCTUBRE 2026</span>
+          <div className="flex flex-wrap items-center gap-2.5 mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase bg-[var(--hub-accent-soft)] border border-[var(--hub-accent)]/25">
+              <Clock className="w-3.5 h-3.5" />
+              <span>OPENING NIGHT · 20 OCTUBRE 2026</span>
+            </div>
+            <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[var(--hub-surface-2)] border border-[var(--hub-border)]">
+              <GameTime iso={OPENING_NIGHT_ISO} size="sm" showEt={true} />
+            </div>
           </div>
 
           <h2

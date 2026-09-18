@@ -5,6 +5,7 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ThemeProvider, themeInitScript } from "@/components/theme";
+import { TimezoneProvider, timezoneInitScript } from "@/components/time";
 import { SITE_URL } from "@/lib/seo/config";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 
@@ -120,17 +121,19 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: themeInitScript,
+            __html: themeInitScript + "\n" + timezoneInitScript,
           }}
         />
       </head>
       <body className="bg-background text-foreground min-h-screen selection:bg-[#FF5A1F] selection:text-white font-sans antialiased">
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <ThemeProvider>
-          <SmoothScrollProvider>
-            <CustomCursor />
-            {children}
-          </SmoothScrollProvider>
+          <TimezoneProvider>
+            <SmoothScrollProvider>
+              <CustomCursor />
+              {children}
+            </SmoothScrollProvider>
+          </TimezoneProvider>
         </ThemeProvider>
       </body>
     </html>

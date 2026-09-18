@@ -1,3 +1,4 @@
+// filepath: src/components/layout/FloatingIslandNav.tsx
 "use client";
 
 import * as React from "react";
@@ -6,6 +7,7 @@ import { cn } from "@/lib/cn";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/theme";
+import { TimezonePicker } from "@/components/time/TimezonePicker";
 
 export interface NavItem {
   href: string;
@@ -38,7 +40,7 @@ export function FloatingIslandNav({
     <nav
       aria-label="Principal"
       className={cn(
-        "fixed left-1/2 top-6 z-50 flex h-14 -translate-x-1/2 items-center gap-5",
+        "fixed left-1/2 top-6 z-50 flex h-14 -translate-x-1/2 items-center gap-4 sm:gap-5",
         "rounded-full border border-[var(--color-border-subtle)] px-3 pl-4",
         "bg-[color-mix(in_srgb,var(--color-surface-1)_82%,transparent)]",
         "shadow-[0_20px_40px_rgba(0,0,0,0.35)]",
@@ -49,7 +51,7 @@ export function FloatingIslandNav({
     >
       <Link
         href={logoHref}
-        className="flex shrink-0 items-center gap-2 text-[var(--color-text-primary)]"
+        className="flex shrink-0 items-center gap-2 text-[var(--color-text-primary)] focus-visible:outline-[var(--color-border-accent)] rounded-full p-1"
       >
         {logo ?? (
           <span className="font-display text-lg tracking-wide text-[var(--color-brand-primary)]">
@@ -71,7 +73,7 @@ export function FloatingIslandNav({
               className={cn(
                 "rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors",
                 item.active
-                  ? "bg-[var(--color-brand-primary)] text-white"
+                  ? "bg-[var(--color-brand-primary)] text-white shadow-xs"
                   : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-2)]"
               )}
             >
@@ -88,9 +90,10 @@ export function FloatingIslandNav({
       ) : null}
 
       <div className="ml-auto flex items-center gap-2">
+        <TimezonePicker compact className="hidden sm:inline-block" />
         <ThemeToggle size="sm" className="hidden sm:inline-flex" />
         {cta ?? (
-          <Button variant="primary" size="sm" asChild={false}>
+          <Button variant="primary" size="sm" href="/pickem">
             Pick&apos;em
           </Button>
         )}

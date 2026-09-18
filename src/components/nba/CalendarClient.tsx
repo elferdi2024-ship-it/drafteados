@@ -4,7 +4,7 @@
 import { useState, useMemo } from "react";
 import type { Game, Team } from "@/types/basketball";
 import { GameCard } from "./GameCard";
-import { EmptyState } from "@/components/ui";
+import { Button, EmptyState } from "@/components/ui";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 import { Search, Filter, Calendar as CalendarIcon } from "lucide-react";
 
@@ -17,19 +17,14 @@ function mapGameToCardProps(game: Game) {
     statusLabel = `${game.period ? `${game.period}Q` : "EN VIVO"} ${game.clock || ""}`.trim();
   } else if (game.status === "final") {
     statusLabel = "Final";
-  } else if (game.time) {
-    statusLabel = `Hoy ${game.time}`;
-  } else if (game.date) {
-    const d = new Date(game.date);
-    if (!isNaN(d.getTime())) {
-      statusLabel = d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-    }
   }
 
   return {
     status: (game.status === "live" ? "live" : game.status === "final" ? "final" : "scheduled") as "live" | "final" | "scheduled",
     statusLabel,
-    broadcast: game.broadcast || game.arena,
+    date: game.date,
+    broadcast: game.broadcast,
+    arena: game.arena,
     href: `/nba/partido/${game.id}`,
     away: {
       tricode: game.awayTeam.abbreviation,
@@ -211,16 +206,17 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
           description="Probá seleccionando otra franquicia o reseteando los filtros de conferencia."
           action={
             (search || filterType !== "ALL" || selectedTeam !== "ALL") ? (
-              <button
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={() => {
                   setSearch("");
                   setFilterType("ALL");
                   setSelectedTeam("ALL");
                 }}
-                className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-brand-primary)] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)] cursor-pointer"
               >
                 Limpiar filtros
-              </button>
+              </Button>
             ) : undefined
           }
         />

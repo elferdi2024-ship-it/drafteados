@@ -7,6 +7,7 @@ import { Users, Calendar, TrendingUp, DollarSign, Search, Trophy, CheckCircle2, 
 import type { Team, Standing, Player, Game } from "@/types/basketball";
 import { TeamLogo } from "./TeamLogo";
 import { GameCard } from "./GameCard";
+import { PlayerHeadshot } from "./PlayerHeadshot";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 import { getTeamBySlug, getTeamByTricode } from "@/lib/nba/teamAssets";
 
@@ -19,19 +20,14 @@ function mapGameToCardProps(game: Game) {
     statusLabel = `${game.period ? `${game.period}Q` : "EN VIVO"} ${game.clock || ""}`.trim();
   } else if (game.status === "final") {
     statusLabel = "Final";
-  } else if (game.time) {
-    statusLabel = `Hoy ${game.time}`;
-  } else if (game.date) {
-    const d = new Date(game.date);
-    if (!isNaN(d.getTime())) {
-      statusLabel = d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-    }
   }
 
   return {
     status: (game.status === "live" ? "live" : game.status === "final" ? "final" : "scheduled") as "live" | "final" | "scheduled",
     statusLabel,
-    broadcast: game.broadcast || game.arena,
+    date: game.date,
+    broadcast: game.broadcast,
+    arena: game.arena,
     href: `/nba/partido/${game.id}`,
     away: {
       tricode: game.awayTeam.abbreviation,
@@ -288,23 +284,16 @@ export function TeamTabsView({
                 >
                   {/* Top: Avatar, Nombre y Posición */}
                   <div className="flex items-start gap-3.5">
-                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center text-xl font-black font-title text-[var(--hub-text-muted)]">
-                      <span className="absolute inset-0 flex items-center justify-center select-none">
-                        {player.firstName[0]}
-                      </span>
-                      {player.headshotUrl && (
-                        <img
-                          src={player.headshotUrl}
-                          alt={player.fullName}
-                          className="w-full h-full object-cover object-top relative z-10"
-                          loading="lazy"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = "none";
-                          }}
-                        />
-                      )}
+                    <div className="relative shrink-0">
+                      <PlayerHeadshot
+                        name={player.fullName}
+                        headshotUrl={player.headshotUrl}
+                        tricode={team.abbreviation}
+                        size={56}
+                        className="shadow-sm"
+                      />
                       {player.jerseyNumber && (
-                        <span className="absolute bottom-1 right-1 bg-black/80 text-white font-mono text-[10px] font-bold px-1.5 py-0.2 rounded z-20">
+                        <span className="absolute -bottom-1 -right-1 bg-black/85 text-white font-mono text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs">
                           #{player.jerseyNumber}
                         </span>
                       )}

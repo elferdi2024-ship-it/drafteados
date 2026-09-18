@@ -1,0 +1,192 @@
+/**
+ * DRAFTEADOS — Complete design tokens v2
+ * Typography + Color + Spacing + Motion
+ * Default = LIGHT (drafteados.com brand)
+ */
+
+:root {
+  /* Fonts — wire next/font variables if present */
+  --font-display: var(--font-title, var(--font-bebas, "Bebas Neue")), system-ui, sans-serif;
+  --font-sans: var(--font-jakarta, "Plus Jakarta Sans"), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains, "JetBrains Mono"), ui-monospace, monospace;
+
+  /* Type scale */
+  --text-display-xl: 64px;
+  --text-display-lg: 48px;
+  --text-display-md: 32px;
+  --text-display-sm: 24px;
+  --text-title-lg: 24px;
+  --text-title-md: 20px;
+  --text-title-sm: 18px;
+  --text-body-lg: 16px;
+  --text-body: 15px;
+  --text-body-sm: 13px;
+  --text-label: 11px;
+  --text-meta: 12px;
+  --text-stat: 14px;
+  --text-stat-lg: 20px;
+
+  /* Primitives orange */
+  --orange-50: #fff7ed;
+  --orange-100: #ffedd5;
+  --orange-200: #fed7aa;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #f97316;
+  --orange-600: #ea580c;
+  --orange-700: #c2410c;
+  --orange-900: #7c2d12;
+
+  /* Primitives neutral */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-750: #303030;
+  --neutral-800: #262626;
+  --neutral-850: #1c1c1e;
+  --neutral-900: #171717;
+  --neutral-950: #0d0d0e;
+  --neutral-1000: #0a0a0a;
+
+  --live-green: #16a34a;
+  --loss-red: #dc2626;
+  --east-blue: #2563eb;
+  --west-purple: #9333ea;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Motion */
+  --duration-fast: 100ms;
+  --duration-normal: 150ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Semantic LIGHT (default / brand) */
+  --color-canvas: #fafafa;
+  --color-surface-1: #ffffff;
+  --color-surface-2: #f5f5f5;
+  --color-surface-3: #e5e5e5;
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-border-strong: #d4d4d4;
+  --color-border-accent: #f97316;
+  --color-text-primary: #0a0a0a;
+  --color-text-secondary: #404040;
+  --color-text-muted: #737373;
+  --color-text-dim: #a3a3a3;
+  --color-brand-primary: #f97316;
+  --color-brand-hover: #ea580c;
+  --color-brand-soft: #fff7ed;
+  --color-state-live: #16a34a;
+  --color-state-live-soft: rgba(22, 163, 74, 0.12);
+  --color-state-win: #16a34a;
+  --color-state-loss: #dc2626;
+  --color-conf-east: #2563eb;
+  --color-conf-west: #9333ea;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-glow-orange: 0 0 24px rgba(249, 115, 22, 0.18);
+  --shadow-glow-live: 0 0 16px rgba(22, 163, 74, 0.28);
+}
+
+[data-theme="dark"] {
+  --color-canvas: #0a0a0a;
+  --color-surface-1: #171717;
+  --color-surface-2: #262626;
+  --color-surface-3: #303030;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: #404040;
+  --color-border-accent: #f97316;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #d4d4d4;
+  --color-text-muted: #a3a3a3;
+  --color-text-dim: #737373;
+  --color-brand-primary: #f97316;
+  --color-brand-hover: #ea580c;
+  --color-brand-soft: rgba(249, 115, 22, 0.15);
+  --color-state-live: #16a34a;
+  --color-state-live-soft: rgba(22, 163, 74, 0.2);
+  --color-state-win: #16a34a;
+  --color-state-loss: #dc2626;
+  --color-conf-east: #3b82f6;
+  --color-conf-west: #a855f7;
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow-orange: 0 0 24px rgba(249, 115, 22, 0.22), 0 0 48px rgba(249, 115, 22, 0.1);
+  --shadow-glow-live: 0 0 16px rgba(22, 163, 74, 0.35);
+}
+
+/* Type utilities */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.font-sans {
+  font-family: var(--font-sans);
+}
+.font-mono,
+.tabular,
+[data-stat] {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--text-display-xl);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.text-display-md {
+  font-family: var(--font-display);
+  font-size: var(--text-display-md);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.text-label {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+  }
+}

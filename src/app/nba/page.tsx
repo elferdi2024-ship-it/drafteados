@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Trophy, Flame, AlertCircle, Calendar, Users, BarChart3, ChevronRight } from "lucide-react";
 import { basketball } from "@/lib/data/basketball/composite-provider";
-import { PageHeader, EmptyState } from "@/components/ui";
+import { PageHeader, EmptyState, Button } from "@/components/ui";
 import { GameCard, TeamLogo } from "@/components/nba";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 import { SectionHeader } from "@/components/nba/SectionHeader";
@@ -34,19 +34,14 @@ function mapGameToCardProps(game: any) {
     statusLabel = `${game.period ? `${game.period}Q` : "EN VIVO"} ${game.clock || ""}`.trim();
   } else if (game.status === "final") {
     statusLabel = "Final";
-  } else if (game.time) {
-    statusLabel = `Hoy ${game.time}`;
-  } else if (game.date) {
-    const d = new Date(game.date);
-    if (!isNaN(d.getTime())) {
-      statusLabel = d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-    }
   }
 
   return {
     status: (game.status === "live" ? "live" : game.status === "final" ? "final" : "scheduled") as "live" | "final" | "scheduled",
     statusLabel,
-    broadcast: game.broadcast || game.arena,
+    date: game.date,
+    broadcast: game.broadcast,
+    arena: game.arena,
     href: `/nba/partido/${game.id}`,
     away: {
       tricode: game.awayTeam.abbreviation,
@@ -179,7 +174,7 @@ export default async function NbaHubPage() {
         <SectionHeader
           eyebrow="CALENDARIO OFICIAL · SEMANA INAUGURAL"
           title="Partidos de la jornada"
-          subtitle="Horarios oficiales para España (peninsular) y EE.UU."
+          subtitle="Horarios oficiales en tu zona horaria local con referencia NBA (ET)."
           actionHref="/nba/calendario"
           actionLabel="Ver Calendario Completo"
         />
@@ -189,12 +184,9 @@ export default async function NbaHubPage() {
             title="Sin partidos en juego en este momento."
             description="Consultá la cartelera de la semana inaugural o prepará tus predicciones en el Pick'em."
             action={
-              <Link
-                href="/nba/calendario"
-                className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-brand-primary)] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)]"
-              >
+              <Button href="/nba/calendario" variant="primary" size="sm">
                 Ver calendario
-              </Link>
+              </Button>
             }
           />
         ) : (
@@ -261,20 +253,24 @@ export default async function NbaHubPage() {
           </div>
 
           <div className="pt-2 flex flex-wrap items-center gap-3">
-            <Link
+            <Button
               href="/pickem"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--hub-accent)] hover:bg-[var(--hub-accent-hover)] text-white font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-98"
+              variant="primary"
+              size="md"
+              iconRight={<ArrowRight className="w-3.5 h-3.5" />}
+              className="text-xs font-mono font-bold uppercase tracking-wider"
             >
-              <span>Jugar Pick&apos;em</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-            <Link
+              Jugar Pick&apos;em
+            </Button>
+            <Button
               href="/pickem/leaderboard"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface-2)] hover:border-[var(--hub-accent)] text-[var(--hub-text)] font-mono font-bold text-xs uppercase tracking-wider transition-all active:scale-98"
+              variant="secondary"
+              size="md"
+              iconLeft={<Trophy className="w-3.5 h-3.5 text-[var(--color-brand-primary)]" />}
+              className="text-xs font-mono font-bold uppercase tracking-wider"
             >
-              <Trophy className="w-3.5 h-3.5 text-[var(--hub-accent)]" />
-              <span>Leaderboard</span>
-            </Link>
+              Leaderboard
+            </Button>
           </div>
         </div>
       </section>

@@ -3,7 +3,8 @@
 
 import { useState } from "react";
 import type { LeaderLine } from "@/types/basketball";
-import { getPlayerHeadshotUrl, getPlayerNbaId, getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { PlayerHeadshot } from "@/components/nba/PlayerHeadshot";
+import { TeamLogo } from "@/components/nba/TeamLogo";
 
 interface LeadersClientProps {
   initialLeaders: Record<string, LeaderLine[]>;
@@ -30,8 +31,9 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
         {STAT_TABS.map((tab) => (
           <button
             key={tab.id}
+            type="button"
             onClick={() => setSelectedStat(tab.id)}
-            className={`px-4 py-2 rounded-lg text-xs font-sans font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-sans font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer ${
               selectedStat === tab.id
                 ? "bg-[var(--hub-accent)] text-white shadow-sm"
                 : "bg-[var(--hub-surface)] text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
@@ -46,10 +48,6 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
       {lines.length >= 3 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
           {lines.slice(0, 3).map((item) => {
-            const nbaId = getPlayerNbaId(item.player.fullName);
-            const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "1040x760") : null;
-            const teamNbaId = getTeamNbaId(item.team.abbreviation);
-            const teamLogo = teamNbaId ? getTeamLogoUrl(teamNbaId) : null;
             const isFirst = item.rank === 1;
 
             return (
@@ -67,28 +65,22 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                   }`}>
                     #{item.rank}
                   </span>
-                  <span className="text-[11px] font-sans font-semibold text-[var(--hub-text-muted)] uppercase">
-                    {item.team.name}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <TeamLogo tricode={item.team.abbreviation} size={20} />
+                    <span className="text-[11px] font-sans font-semibold text-[var(--hub-text-muted)] uppercase">
+                      {item.team.name}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="my-4 flex items-center gap-4">
-                  <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center shadow-inner">
-                    {headshotUrl ? (
-                      <img
-                        src={headshotUrl}
-                        alt={item.player.fullName}
-                        className="w-full h-full object-cover object-top filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <span className="font-sans text-2xl font-black text-[var(--hub-text-muted)]">
-                        {item.player.firstName[0]}
-                      </span>
-                    )}
-                  </div>
+                  <PlayerHeadshot
+                    name={item.player.fullName}
+                    headshotUrl={item.player.headshotUrl}
+                    tricode={item.team.abbreviation}
+                    size={80}
+                    className="shrink-0 drop-shadow-md"
+                  />
 
                   <div className="min-w-0">
                     <h3
@@ -97,10 +89,8 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                     >
                       {item.player.fullName}
                     </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      {teamLogo && (
-                        <img src={teamLogo} alt="" className="w-4 h-4 object-contain" />
-                      )}
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <TeamLogo tricode={item.team.abbreviation} size={16} />
                       <span className="text-xs font-sans text-[var(--hub-text-muted)]">
                         {item.team.abbreviation} · {item.player.position}
                       </span>
@@ -143,9 +133,6 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
 
         <div className="divide-y divide-[var(--hub-border)]">
           {lines.map((item) => {
-            const nbaId = getPlayerNbaId(item.player.fullName);
-            const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "1040x760") : null;
-
             return (
               <div
                 key={item.player.id}
@@ -158,30 +145,21 @@ export function LeadersClient({ initialLeaders }: LeadersClientProps) {
                     #{item.rank}
                   </span>
 
-                  <div className="w-11 h-11 rounded-xl overflow-hidden bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 flex items-center justify-center">
-                    {headshotUrl ? (
-                      <img
-                        src={headshotUrl}
-                        alt={item.player.fullName}
-                        className="w-full h-full object-cover object-top"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      <span className="text-xs font-sans font-bold text-[var(--hub-text)]">
-                        {item.player.firstName[0]}
-                      </span>
-                    )}
-                  </div>
+                  <PlayerHeadshot
+                    name={item.player.fullName}
+                    headshotUrl={item.player.headshotUrl}
+                    tricode={item.team.abbreviation}
+                    size={40}
+                  />
 
                   <div className="truncate">
                     <span className="text-sm sm:text-base font-bold text-[var(--hub-text)] truncate block">
                       {item.player.fullName}
                     </span>
-                    <span className="text-xs font-sans text-[var(--hub-text-muted)]">
-                      {item.team.name} ({item.team.abbreviation}) · {item.player.position}
-                    </span>
+                    <div className="flex items-center gap-1.5 text-xs font-sans text-[var(--hub-text-muted)]">
+                      <TeamLogo tricode={item.team.abbreviation} size={14} />
+                      <span>{item.team.name} ({item.team.abbreviation}) · {item.player.position}</span>
+                    </div>
                   </div>
                 </div>
 

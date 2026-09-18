@@ -1,0 +1,154 @@
+{
+  "$schema": "https://design-tokens.org/schemas/drafts/2025-token-format.json",
+  "meta": {
+    "name": "Drafteados Typography",
+    "version": "2.0.0",
+    "product": "Tu Casa NBA"
+  },
+  "fontFamilies": {
+    "display": {
+      "value": "\"Bebas Neue\", \"Clash Display\", system-ui, sans-serif",
+      "primary": "Bebas Neue",
+      "fallback": "system-ui, sans-serif",
+      "googleFont": "Bebas+Neue",
+      "usage": "H1, scores grandes, VS, countdown digits, hero home"
+    },
+    "sans": {
+      "value": "\"Plus Jakarta Sans\", \"Inter\", system-ui, sans-serif",
+      "primary": "Plus Jakarta Sans",
+      "fallback": "Inter, system-ui, sans-serif",
+      "googleFont": "Plus+Jakarta+Sans:wght@400;500;600;700;800",
+      "usage": "UI, body, nav, cards, table headers"
+    },
+    "mono": {
+      "value": "\"JetBrains Mono\", \"Geist Mono\", ui-monospace, monospace",
+      "primary": "JetBrains Mono",
+      "fallback": "ui-monospace, monospace",
+      "googleFont": "JetBrains+Mono:wght@400;500;600;700",
+      "usage": "W-L, PCT, scores tabular, stats cells"
+    }
+  },
+  "fontWeights": {
+    "regular": 400,
+    "medium": 500,
+    "semibold": 600,
+    "bold": 700,
+    "extrabold": 800
+  },
+  "scale": {
+    "display-xl": {
+      "fontSize": "64px",
+      "lineHeight": "0.95",
+      "fontWeight": 400,
+      "fontFamily": "display",
+      "letterSpacing": "0.02em",
+      "textTransform": "uppercase",
+      "usage": "Home hero only"
+    },
+    "display-lg": {
+      "fontSize": "48px",
+      "lineHeight": "0.95",
+      "fontWeight": 400,
+      "fontFamily": "display",
+      "letterSpacing": "0.02em",
+      "textTransform": "uppercase",
+      "usage": "Hub page H1"
+    },
+    "display-md": {
+      "fontSize": "32px",
+      "lineHeight": "1",
+      "fontWeight": 400,
+      "fontFamily": "display",
+      "letterSpacing": "0.02em",
+      "usage": "Live/final scores, match team names optional"
+    },
+    "display-sm": {
+      "fontSize": "24px",
+      "lineHeight": "1",
+      "fontWeight": 400,
+      "fontFamily": "display",
+      "usage": "Countdown digits, card scores"
+    },
+    "title-lg": {
+      "fontSize": "24px",
+      "lineHeight": "1.2",
+      "fontWeight": 700,
+      "fontFamily": "sans",
+      "usage": "Section titles"
+    },
+    "title-md": {
+      "fontSize": "20px",
+      "lineHeight": "1.25",
+      "fontWeight": 700,
+      "fontFamily": "sans",
+      "usage": "Card titles, team names in lists"
+    },
+    "title-sm": {
+      "fontSize": "18px",
+      "lineHeight": "1.3",
+      "fontWeight": 600,
+      "fontFamily": "sans",
+      "usage": "Subsections"
+    },
+    "body-lg": {
+      "fontSize": "16px",
+      "lineHeight": "1.5",
+      "fontWeight": 400,
+      "fontFamily": "sans",
+      "usage": "Lead paragraphs"
+    },
+    "body": {
+      "fontSize": "15px",
+      "lineHeight": "1.5",
+      "fontWeight": 400,
+      "fontFamily": "sans",
+      "usage": "Default body"
+    },
+    "body-sm": {
+      "fontSize": "13px",
+      "lineHeight": "1.45",
+      "fontWeight": 400,
+      "fontFamily": "sans",
+      "usage": "Secondary descriptions"
+    },
+    "label": {
+      "fontSize": "11px",
+      "lineHeight": "1.3",
+      "fontWeight": 700,
+      "fontFamily": "sans",
+      "letterSpacing": "0.08em",
+      "textTransform": "uppercase",
+      "usage": "Eyebrows, chip labels, table headers"
+    },
+    "meta": {
+      "fontSize": "12px",
+      "lineHeight": "1.4",
+      "fontWeight": 500,
+      "fontFamily": "sans",
+      "usage": "Arena, ET time, captions"
+    },
+    "stat": {
+      "fontSize": "14px",
+      "lineHeight": "1.2",
+      "fontWeight": 600,
+      "fontFamily": "mono",
+      "fontVariantNumeric": "tabular-nums",
+      "usage": "Table cells W L PCT"
+    },
+    "stat-lg": {
+      "fontSize": "20px",
+      "lineHeight": "1",
+      "fontWeight": 700,
+      "fontFamily": "mono",
+      "fontVariantNumeric": "tabular-nums",
+      "usage": "Featured PPG, big numbers in cards"
+    }
+  },
+  "rules": [
+    "Only ONE display family in production",
+    "Never use display for long paragraphs",
+    "All numeric stats use tabular-nums",
+    "Hub H1 always display-lg",
+    "Nav and buttons always sans semibold/bold"
+  ]
+}

@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { LeaderLine, StatType } from "@/types/basketball";
-import { getPlayerHeadshotUrl, getPlayerNbaId } from "@/lib/basketball/nbaIds";
+import { PlayerHeadshot } from "./PlayerHeadshot";
 
 interface MiniLeadersProps {
   leaders: Record<string, LeaderLine[]>;
@@ -61,9 +61,6 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
       {/* Leader Lines */}
       <div className="space-y-2">
         {currentLines.map((line) => {
-          const nbaId = getPlayerNbaId(line.player.fullName);
-          const headshotUrl = line.player.headshotUrl || (nbaId ? getPlayerHeadshotUrl(nbaId, "260x190") : null);
-
           return (
             <div
               key={line.player.id}
@@ -76,26 +73,12 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
                   #{line.rank}
                 </span>
 
-                <div 
-                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 relative text-xs font-mono font-bold text-[var(--hub-text)]"
-                  style={{
-                    borderColor: line.team?.primaryColor ? `${line.team.primaryColor}50` : undefined,
-                  }}
-                >
-                  <span className="absolute inset-0 flex items-center justify-center select-none text-[var(--hub-text-muted)]">
-                    {line.player.firstName[0]}
-                  </span>
-                  {headshotUrl && (
-                    <img
-                      src={headshotUrl}
-                      alt={line.player.fullName}
-                      className="w-full h-full object-cover object-top relative z-10"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = "none";
-                      }}
-                    />
-                  )}
-                </div>
+                <PlayerHeadshot
+                  name={line.player.fullName}
+                  headshotUrl={line.player.headshotUrl}
+                  tricode={line.team.abbreviation}
+                  size={32}
+                />
 
                 <div className="truncate">
                   <span className="text-sm font-bold text-[var(--hub-text)] truncate block">

@@ -7,6 +7,7 @@ import { Menu, X, User, LogOut, Trophy, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { AuthModal } from "./AuthModal";
 import { ThemeToggle } from "@/components/theme";
+import { TimezonePicker } from "@/components/time/TimezonePicker";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface Profile {
@@ -153,9 +154,9 @@ export function PickemHeader() {
               </nav>
             </div>
 
-            {/* Right: Theme Toggle & User Actions */}
-            <div className="hidden md:flex items-center gap-3">
-              {/* Theme Toggle */}
+            {/* Right: Timezone + Theme Toggle & User Actions */}
+            <div className="hidden md:flex items-center gap-2.5">
+              <TimezonePicker compact />
               <ThemeToggle size="sm" />
 
               {user ? (
@@ -220,7 +221,8 @@ export function PickemHeader() {
             </div>
 
             {/* Mobile Menu Actions */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex md:hidden items-center gap-1.5">
+              <TimezonePicker compact />
               <ThemeToggle size="sm" />
 
               <button

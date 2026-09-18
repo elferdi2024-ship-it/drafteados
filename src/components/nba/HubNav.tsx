@@ -1,12 +1,14 @@
 // filepath: src/components/nba/HubNav.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Flame, Trophy, Calendar, ListOrdered, Users, ArrowUpRight } from "lucide-react";
 import { ThemeToggle } from "@/components/theme";
+import { TimezonePicker } from "@/components/time/TimezonePicker";
+import { Button } from "@/components/ui/Button";
 
 interface NavItem {
   href: string;
@@ -27,13 +29,13 @@ export function HubNav() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--hub-bg)]/95 backdrop-blur-md border-b border-[var(--hub-border)] transition-colors duration-300">
+    <header className="sticky top-0 z-40 bg-[var(--color-canvas)]/90 backdrop-blur-md border-b border-[var(--color-border-subtle)] transition-colors duration-150">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18 gap-4">
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-2 sm:gap-4">
           {/* Logo Drafteados -> Link a Home Marketing ('/') */}
           <Link
             href="/"
-            className="flex items-center gap-3 shrink-0 group transition-transform active:scale-95"
+            className="flex items-center gap-2.5 sm:gap-3 shrink-0 group transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-[var(--color-border-accent)] rounded-lg p-1"
             aria-label="Volver a la Home principal"
           >
             <Image
@@ -45,19 +47,19 @@ export function HubNav() {
             />
             <div className="flex flex-col">
               <span
-                className="font-black text-xl sm:text-2xl text-[var(--hub-text)] tracking-tight leading-none group-hover:text-[var(--hub-accent)] transition-colors"
-                style={{ fontFamily: "var(--hub-font-display)" }}
+                className="font-black text-xl sm:text-2xl text-[var(--color-text-primary)] tracking-tight leading-none group-hover:text-[var(--color-brand-primary)] transition-colors"
+                style={{ fontFamily: "var(--font-display)" }}
               >
                 NBA HUB
               </span>
-              <span className="text-[10px] font-mono font-bold tracking-widest text-[var(--hub-accent)] uppercase leading-none mt-0.5">
-                LOS BUQUES
+              <span className="text-[10px] font-mono font-bold tracking-widest text-[var(--color-brand-primary)] uppercase leading-none mt-0.5">
+                TU CASA NBA
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1.5" aria-label="Navegación NBA Hub">
             {NAV_ITEMS.map((item) => {
               const isActive = item.exact
                 ? pathname === item.href
@@ -68,10 +70,10 @@ export function HubNav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-sans font-semibold tracking-wider uppercase transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-sans font-semibold tracking-wider uppercase transition-all duration-150 ${
                     isActive
-                      ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                      : "text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] hover:bg-[var(--hub-surface-2)]"
+                      ? "bg-[var(--color-brand-primary)] text-white shadow-sm"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-2)]"
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -81,22 +83,29 @@ export function HubNav() {
             })}
           </nav>
 
-          {/* Actions: Theme Toggle + CTA to Pick'em */}
-          <div className="flex items-center gap-2.5">
+          {/* Actions: Timezone Picker + Theme Toggle + CTA to Pick'em */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Selector de Horarios Hispano */}
+            <TimezonePicker compact />
+
+            {/* Theme Toggle */}
             <ThemeToggle size="sm" />
 
-            <Link
+            {/* CTA Pick'em */}
+            <Button
               href="/pickem"
-              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-[var(--hub-accent-soft)] hover:bg-[var(--hub-accent)] text-[var(--hub-accent)] hover:text-white border border-[var(--hub-accent)]/30 transition-all font-sans font-semibold text-xs uppercase tracking-wider group shrink-0"
+              variant="primary"
+              size="sm"
+              iconRight={<ArrowUpRight className="w-3.5 h-3.5" />}
+              className="hidden sm:inline-flex text-xs uppercase tracking-wider font-semibold"
             >
-              <span>PICK&apos;EM</span>
-              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
+              PICK&apos;EM
+            </Button>
           </div>
         </div>
 
         {/* Mobile Horizontal Sub-Nav */}
-        <div className="flex md:hidden items-center gap-1.5 overflow-x-auto py-2.5 border-t border-[var(--hub-border)] no-scrollbar -mx-4 px-4">
+        <div className="flex lg:hidden items-center gap-1.5 overflow-x-auto py-2.5 border-t border-[var(--color-border-subtle)] no-scrollbar -mx-4 px-4">
           {NAV_ITEMS.map((item) => {
             const isActive = item.exact
               ? pathname === item.href
@@ -107,10 +116,10 @@ export function HubNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-sans font-semibold tracking-wider uppercase shrink-0 transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-sans font-semibold tracking-wider uppercase shrink-0 transition-all duration-150 ${
                   isActive
-                    ? "bg-[var(--hub-accent)] text-white shadow-sm"
-                    : "bg-[var(--hub-surface-2)] text-[var(--hub-text-secondary)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
+                    ? "bg-[var(--color-brand-primary)] text-white shadow-sm"
+                    : "bg-[var(--color-surface-2)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] border border-[var(--color-border-subtle)]"
                 }`}
               >
                 <Icon className="w-3 h-3" />
@@ -118,6 +127,14 @@ export function HubNav() {
               </Link>
             );
           })}
+          {/* Mobile direct button for Pick'em */}
+          <Link
+            href="/pickem"
+            className="sm:hidden flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-sans font-bold tracking-wider uppercase shrink-0 bg-[var(--color-brand-primary)] text-white shadow-sm"
+          >
+            <span>PICK&apos;EM</span>
+            <ArrowUpRight className="w-3 h-3" />
+          </Link>
         </div>
       </div>
     </header>

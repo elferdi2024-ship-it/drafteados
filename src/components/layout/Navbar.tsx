@@ -8,8 +8,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Trophy, ChevronRight } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import { NAV_LINKS } from "@/data/drafteados";
-import { MagneticButton } from "@/components/ui/MagneticButton";
 import { ThemeToggle } from "@/components/theme";
+import { TimezonePicker } from "@/components/time/TimezonePicker";
+import { Button } from "@/components/ui/Button";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,17 +27,17 @@ export function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
             ? "bg-white/90 dark:bg-[#0A0A0A]/85 backdrop-blur-xl border-b border-black/10 dark:border-white/10 py-3 shadow-xl"
             : "bg-gradient-to-b from-black/80 via-black/40 to-transparent py-5"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           {/* Brand Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3 group focus:outline-none"
+            className="flex items-center gap-3 group focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--color-border-accent)] rounded-xl"
             aria-label="Drafteados - Inicio"
           >
             <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:rotate-6">
@@ -113,48 +114,43 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Right Actions: Theme Toggle + Pick'em CTA + YouTube CTA */}
-          <div className="hidden md:flex items-center gap-2.5">
+          {/* Right Actions: Timezone + Theme Toggle + Pick'em (Primary) + YouTube (Secondary) */}
+          <div className="hidden md:flex items-center gap-2">
+            <TimezonePicker compact />
             <ThemeToggle size="sm" />
 
-            {/* Botón Pick'em */}
-            <Link
+            {/* Nav Pick'em = primary */}
+            <Button
               href="/pickem"
-              className={`group flex items-center gap-2 rounded-full border transition-all duration-300 px-3.5 py-1.5 text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap ${
-                isScrolled
-                  ? "border-[#FF5A1F]/40 hover:border-[#FF5A1F] bg-[#FF5A1F]/10 hover:bg-[#FF5A1F]/20 text-zinc-900 dark:text-zinc-100 shadow-sm"
-                  : "border-[#FF5A1F]/50 hover:border-[#FF5A1F] bg-black/40 hover:bg-[#FF5A1F]/20 text-white shadow-sm"
-              }`}
+              variant="primary"
+              size="sm"
+              iconLeft={<Trophy className="w-3.5 h-3.5 text-white" />}
+              className="rounded-full text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap"
             >
-              <Trophy className="w-3.5 h-3.5 text-[#FF5A1F] transition-transform duration-300 group-hover:scale-110" />
-              <span>Jugar Pick'em</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5A1F] shadow-[0_0_6px_#FF5A1F]" />
-            </Link>
+              <span>Jugar Pick&apos;em</span>
+            </Button>
 
-            {/* Botón YouTube Oficial */}
-            <a
+            {/* YouTube = secondary */}
+            <Button
               href="https://www.youtube.com/@DrafteadosNBA"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-300 border cursor-pointer ${
-                isScrolled
-                  ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-black/10 dark:border-white/10 hover:bg-[#FF5A1F] dark:hover:bg-[#FF5A1F] dark:hover:text-white shadow-sm"
-                  : "bg-white/15 hover:bg-[#FF5A1F] text-white border-white/20 hover:border-[#FF5A1F] shadow-sm"
-              }`}
+              variant="secondary"
+              size="sm"
+              iconLeft={<YoutubeIcon className="w-4 h-4 text-[#FF5A1F]" />}
+              className="rounded-full text-xs font-mono font-bold tracking-wider uppercase whitespace-nowrap"
             >
-              <YoutubeIcon className="w-4 h-4 text-[#FF5A1F] group-hover:text-white transition-colors" />
               <span className="hidden lg:inline">YouTube</span>
-            </a>
+            </Button>
           </div>
 
-          {/* Mobile Actions: Theme Toggle + Mobile Menu Trigger */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile Actions: Timezone + Theme Toggle + Mobile Menu Trigger */}
+          <div className="flex md:hidden items-center gap-1.5">
+            <TimezonePicker compact />
             <ThemeToggle size="sm" />
 
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-2 rounded-lg transition-colors focus:outline-none ${
+              className={`p-2 rounded-lg transition-colors focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--color-border-accent)] ${
                 isScrolled
                   ? "text-zinc-800 dark:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/10"
                   : "text-zinc-300 hover:text-white hover:bg-white/10"
@@ -177,7 +173,7 @@ export function Navbar() {
             transition={{ duration: 0.25 }}
             className="fixed inset-0 top-[60px] z-40 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl px-6 py-8 flex flex-col justify-between md:hidden border-t border-black/10 dark:border-white/10"
           >
-            <div className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-200px)] pr-1">
+            <div className="flex flex-col gap-1 overflow-y-auto max-h-[calc(100vh-220px)] pr-1">
               {NAV_LINKS.map((link, idx) => {
                 const isInternal = link.href.startsWith("/") && !link.href.startsWith("/#");
                 const rowClasses = "text-2xl sm:text-3xl font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200 hover:text-[#FF5A1F] transition-colors py-3 border-b border-black/5 dark:border-white/5 flex items-center justify-between";
@@ -231,27 +227,29 @@ export function Navbar() {
                 );
               })}
 
-              <div className="pt-2">
-                <div className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-900 dark:text-zinc-100 font-medium text-sm">
-                  <span className="flex items-center gap-2.5">
-                    <span>Modo visual</span>
-                  </span>
+              <div className="pt-3 flex flex-col gap-2">
+                <div className="w-full flex items-center justify-between p-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-900 dark:text-zinc-100 font-medium text-sm">
+                  <span>Zona horaria</span>
+                  <TimezonePicker compact={false} />
+                </div>
+                <div className="w-full flex items-center justify-between p-3 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-900 dark:text-zinc-100 font-medium text-sm">
+                  <span>Modo visual</span>
                   <ThemeToggle size="sm" />
                 </div>
               </div>
             </div>
 
-            <div className="pt-6 flex flex-col gap-3">
-              <a
+            <div className="pt-4 flex flex-col gap-3">
+              <Button
                 href="https://www.youtube.com/@DrafteadosNBA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-full bg-[#FF5A1F] text-white font-semibold text-center shadow-lg"
+                variant="primary"
+                size="lg"
+                iconLeft={<YoutubeIcon className="w-5 h-5 text-white" />}
+                className="w-full rounded-full shadow-lg"
               >
-                <YoutubeIcon className="w-5 h-5" />
-                <span>Suscríbete en YouTube</span>
-              </a>
-              <p className="text-center text-xs text-zinc-500 dark:text-zinc-400 pt-2">
+                Suscríbete en YouTube
+              </Button>
+              <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
                 &copy; {new Date().getFullYear()} Drafteados &bull; Tu Casa NBA
               </p>
             </div>

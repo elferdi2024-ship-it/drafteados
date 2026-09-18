@@ -20,6 +20,7 @@ import {
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { LiveBadge } from "@/components/nba/LiveBadge";
 import { TeamLogo } from "@/components/nba/TeamLogo";
+import { GameTime } from "@/components/time/GameTime";
 import { getTeamBySlug, getTeamByTricode } from "@/lib/nba/teamAssets";
 import type { Standing, Game, Player } from "@/types/basketball";
 
@@ -378,16 +379,16 @@ export default async function GameDetailPage({
             />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[var(--hub-surface-2)] border border-[var(--hub-border)] text-[var(--hub-text-muted)]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-[var(--hub-surface-2)] border border-[var(--color-border-strong)] text-[var(--color-text-primary)]">
                   VISITANTE
                 </span>
                 {awayStanding && (
                   <span
-                    className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border"
+                    className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md border"
                     style={{
                       color: awayPrimary,
-                      borderColor: `${awayPrimary}40`,
-                      backgroundColor: `${awayPrimary}10`,
+                      borderColor: `${awayPrimary}60`,
+                      backgroundColor: `${awayPrimary}15`,
                     }}
                   >
                     #{awayStanding.conferenceRank} {game.awayTeam.conference.toUpperCase()}
@@ -417,7 +418,7 @@ export default async function GameDetailPage({
             </div>
           </div>
 
-          {/* Center: Marcador o VS + Doble Huso Horario */}
+          {/* Center: Marcador o VS + Hora Local en zona del usuario + ET */}
           <div className="shrink-0 flex flex-col items-center justify-center px-4 py-2 text-center">
             {isLive || isFinal ? (
               <div className="flex items-center justify-center gap-4 sm:gap-6">
@@ -450,16 +451,17 @@ export default async function GameDetailPage({
               </div>
             )}
 
-            {/* Doble Horario (ES Peninsular / ET US) */}
-            <div className="mt-3 inline-flex flex-col items-center gap-1 px-4 py-2 rounded-2xl bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shadow-xs">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-mono font-bold text-[var(--hub-text)]">
-                <Clock className="w-3.5 h-3.5 text-[var(--hub-accent)]" />
-                <span>{timeEs}</span>
+            {/* Hora local del partido en zona del usuario (size lg para Match Hero) + ET */}
+            {game.date && (
+              <div className="mt-3 inline-flex flex-col items-center gap-1 px-5 py-2.5 rounded-2xl bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shadow-xs">
+                <GameTime
+                  iso={game.date}
+                  size={isLive || isFinal ? "sm" : "lg"}
+                  align="center"
+                  showEt={true}
+                />
               </div>
-              <span className="text-[10px] font-mono text-[var(--hub-text-dim)] uppercase">
-                {timeEt}
-              </span>
-            </div>
+            )}
           </div>
 
           {/* Home Team */}
@@ -468,17 +470,17 @@ export default async function GameDetailPage({
               <div className="flex items-center gap-2 mb-1 justify-start md:justify-end">
                 {homeStanding && (
                   <span
-                    className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border"
+                    className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md border"
                     style={{
                       color: homePrimary,
-                      borderColor: `${homePrimary}40`,
-                      backgroundColor: `${homePrimary}10`,
+                      borderColor: `${homePrimary}60`,
+                      backgroundColor: `${homePrimary}15`,
                     }}
                   >
                     #{homeStanding.conferenceRank} {game.homeTeam.conference.toUpperCase()}
                   </span>
                 )}
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[var(--hub-surface-2)] border border-[var(--hub-border)] text-[var(--hub-text-muted)]">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-[var(--hub-surface-2)] border border-[var(--color-border-strong)] text-[var(--color-text-primary)]">
                   LOCAL
                 </span>
               </div>
