@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Flame, Sparkles, User, Plus, ChevronRight, Users } from 'lucide-react';
+import { Flame, User, Plus, ChevronRight, Users } from 'lucide-react';
 import { getPlayerHeadshotUrl, getTeamLogoUrl, getTeamNbaId } from '@/lib/basketball/nbaIds';
 import { getCommunityPercentage } from '@/lib/pickem/community';
 
@@ -338,15 +338,13 @@ export function PredictionCard({
                   {/* Underdog multiplier indicator & Community consensus */}
                   <div className="flex flex-wrap items-center gap-2 pt-0.5">
                     {isUnderdog && (
-                      <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 tracking-wider">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>SORPRESA &times;1.5 ACTIVADA</span>
-                      </div>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-black uppercase tracking-wider bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                        SORPRESA &times;1.5 ACTIVADA
+                      </span>
                     )}
                     {consensus !== null && (
-                      <div className="inline-flex items-center gap-1.5 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-black/5 dark:bg-white/5 px-2.5 py-0.5 rounded-md border border-black/5 dark:border-white/10">
-                        <Users className="w-3 h-3 text-[#FF5A1F]" />
-                        <span>El <strong className="text-zinc-800 dark:text-zinc-200 font-bold">{consensus}%</strong> de los Buques también eligió este pick</span>
+                      <div className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-md border border-black/5 dark:border-white/10">
+                        El <strong className="text-zinc-800 dark:text-zinc-200 font-bold">{consensus}%</strong> de los Buques también eligió este pick
                       </div>
                     )}
                   </div>

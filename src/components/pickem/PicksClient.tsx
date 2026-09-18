@@ -10,7 +10,6 @@ import {
   AlertCircle, 
   Loader2, 
   User, 
-  Sparkles,
   Flame,
   Trophy
 } from 'lucide-react';

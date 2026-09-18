@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { X, Copy, Check, Download, Share2, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { X, Copy, Check, Download, Share2, Loader2, Image as ImageIcon } from 'lucide-react';
 
 export interface SharePickItem {
   typeName: string;
@@ -310,7 +310,7 @@ export function ShareCardModal({
         <div className="flex-1 min-h-0 overflow-y-auto my-1 rounded-2xl border border-white/10 bg-black flex items-center justify-center p-2 relative shadow-inner">
           {isGenerating || !dataUrl ? (
             <div className="py-20 text-center space-y-2 text-zinc-400">
-              <Sparkles className="w-8 h-8 text-[#FF5A1F] mx-auto animate-spin" />
+              <Loader2 className="w-8 h-8 text-[#FF5A1F] mx-auto animate-spin" />
               <p className="font-mono text-xs uppercase tracking-wider">Generando tarjeta en alta resolución...</p>
             </div>
           ) : (

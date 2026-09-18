@@ -1,7 +1,7 @@
 // filepath: src/components/pickem/ProgressHUD.tsx
 "use client";
 
-import { Lock, Flame, Sparkles } from 'lucide-react';
+import { Lock, Flame, CheckCircle2 } from 'lucide-react';
 
 interface ProgressHUDProps {
   seasonName: string;
@@ -43,8 +43,8 @@ export function ProgressHUD({
                 <span className="text-emerald-500 font-black">SELLADO OFICIAL</span>
               </>
             ) : allCompleted ? (
-              <span className="inline-flex items-center gap-1.5 text-emerald-500 font-black bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30 animate-pulse">
-                <Sparkles className="w-3 h-3" />
+              <span className="inline-flex items-center gap-1.5 text-emerald-500 font-black bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                <CheckCircle2 className="w-3.5 h-3.5" />
                 ¡13/13 LISTO PARA SELLAR TU BOLETA!
               </span>
             ) : (

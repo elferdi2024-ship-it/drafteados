@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
-import { ArrowRight, Trophy, Sparkles } from 'lucide-react';
+import { ArrowRight, Trophy } from 'lucide-react';
 
 export function PickemHero() {
   const containerVariants: Variants = {

@@ -1,7 +1,7 @@
 // filepath: src/app/pickem/page.tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Target, Lock, Eye, Trophy, CheckCircle2, ArrowRight, Flame, Sparkles, Shield } from 'lucide-react';
+import { Target, Lock, Eye, Trophy, CheckCircle2, ArrowRight, Flame, Shield } from 'lucide-react';
 import { CountdownLockBanner } from '@/components/pickem/CountdownLockBanner';
 import { PredictionCard, type PredictionCardProps } from '@/components/pickem/PredictionCard';
 import { PickemHero } from '@/components/pickem/PickemHero';
