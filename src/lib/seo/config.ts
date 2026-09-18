@@ -4,7 +4,7 @@
  */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://drafteados.com";
+  "https://drafteados.elferdi2024.workers.dev";
 
 export const SITE_NAME = "Drafteados";
 export const SITE_TAGLINE = "Tu Casa NBA en español";

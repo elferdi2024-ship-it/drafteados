@@ -1,8 +1,10 @@
 // filepath: src/app/nba/layout.tsx
 import type { Metadata } from "next";
 import { HubNav } from "@/components/nba/HubNav";
+import { SITE_URL } from "@/lib/seo/config";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "NBA Hub · Marcadores en Vivo, Clasificación y Estadísticas | Drafteados",
     template: "%s | Drafteados NBA",
@@ -20,17 +22,21 @@ export const metadata: Metadata = {
     "Los Buques",
     "calendario NBA 2026",
   ],
+  alternates: {
+    canonical: `${SITE_URL}/nba`,
+  },
   openGraph: {
     title: "NBA Hub de los Buques · Resultados, Marcadores y Clasificación en Vivo",
     description:
       "Marcadores en directo, clasificación Este y Oeste, calendario oficial y estadísticas de la NBA.",
-    url: "https://drafteados.com/nba",
+    url: `${SITE_URL}/nba`,
     siteName: "Drafteados",
     locale: "es_ES",
     type: "website",
     images: [
       {
-        url: "/images/og-nba.png",
+        url: `${SITE_URL}/images/og-nba.png`,
+        secureUrl: `${SITE_URL}/images/og-nba.png`,
         width: 1200,
         height: 630,
         alt: "NBA Hub · Drafteados",
@@ -45,7 +51,7 @@ export const metadata: Metadata = {
       "Marcadores oficiales, clasificación Este/Oeste y el análisis diario de la NBA.",
     site: "@drafteados",
     creator: "@drafteados",
-    images: ["/images/og-nba.png"],
+    images: [`${SITE_URL}/images/og-nba.png`],
   },
 };
 

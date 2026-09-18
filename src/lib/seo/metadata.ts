@@ -33,6 +33,12 @@ export function buildMetadata({
   const cleanDescription =
     description.length > 160 ? `${description.slice(0, 157)}…` : description;
 
+  const resolvedImage = image.startsWith("http")
+    ? image
+    : `${SITE_URL}${image.startsWith("/") ? image : `/${image}`}`;
+
+  const imageType = resolvedImage.endsWith(".png") ? "image/png" : "image/jpeg";
+
   return {
     title,
     description: cleanDescription,
@@ -51,10 +57,12 @@ export function buildMetadata({
       type,
       images: [
         {
-          url: image,
+          url: resolvedImage,
+          secureUrl: resolvedImage,
           width: 1200,
           height: 630,
           alt: title,
+          type: imageType,
         },
       ],
     },
@@ -62,7 +70,7 @@ export function buildMetadata({
       card: "summary_large_image",
       title,
       description: cleanDescription,
-      images: [image],
+      images: [resolvedImage],
       creator: TWITTER_HANDLE,
       site: TWITTER_HANDLE,
     },

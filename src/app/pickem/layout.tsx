@@ -2,6 +2,7 @@
 import type { Metadata } from 'next';
 import { PickemHeader } from '@/components/pickem/PickemHeader';
 import { MobileAppNavigation } from '@/components/pickem/MobileAppNavigation';
+import { SITE_URL } from '@/lib/seo/config';
 
 export const metadata: Metadata = {
   title: "Drafteados Pick'em · Pronóstico Oficial NBA 2026/27 | Los Buques",
@@ -16,26 +17,28 @@ export const metadata: Metadata = {
     'juego NBA gratis',
     'fantasy NBA espana',
   ],
-  authors: [{ name: 'Drafteados' }],
+  authors: [{ name: 'Drafteados', url: SITE_URL }],
   creator: 'Drafteados',
   publisher: 'Drafteados',
-  metadataBase: new URL('https://drafteados.com'),
+  metadataBase: new URL(SITE_URL),
   alternates: {
-    canonical: '/pickem',
+    canonical: `${SITE_URL}/pickem`,
   },
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: 'https://drafteados.com/pickem',
+    url: `${SITE_URL}/pickem`,
     siteName: 'Drafteados',
     title: "Drafteados Pick'em · Pronóstico Oficial NBA 2026/27",
     description: 'Hacé tus 13 predicciones para la temporada NBA. Multiplicador Sorpresa x1.5, cromos de colección y ranking en vivo contra la comunidad.',
     images: [
       {
-        url: '/images/og-pickem.jpg',
+        url: `${SITE_URL}/images/og-pickem.png`,
+        secureUrl: `${SITE_URL}/images/og-pickem.png`,
         width: 1200,
         height: 630,
         alt: "Drafteados Pick'em NBA - Pronóstico Oficial de los Buques",
+        type: 'image/png',
       },
     ],
   },
@@ -44,7 +47,7 @@ export const metadata: Metadata = {
     title: "Drafteados Pick'em · Pronóstico Oficial NBA 2026/27",
     description: '¿A quién te jugás, Buque? Hacé tus 13 predicciones y competí por la gloria en el ranking oficial.',
     creator: '@Drafteados',
-    images: ['/images/og-pickem.jpg'],
+    images: [`${SITE_URL}/images/og-pickem.png`],
   },
   robots: {
     index: true,

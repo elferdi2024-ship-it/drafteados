@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     "Clasificación NBA",
     "Pick'em NBA",
   ],
-  authors: [{ name: "Drafteados", url: "https://drafteados.com" }],
+  authors: [{ name: "Drafteados", url: SITE_URL }],
   creator: "Drafteados",
   publisher: "Drafteados",
   formatDetection: {
@@ -64,21 +64,26 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: [
+      { url: "/images/logo.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/images/logo.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
-    title: "Drafteados · Tu Casa NBA | La Comunidad de los Buques",
+    title: "Drafteados — Tu Casa NBA en español",
     description:
-      "La comunidad que vive el baloncesto como nadie. Marcadores en vivo, clasificación Este/Oeste, podcast 3+1, pronósticos oficiales y experiencias.",
-    url: "https://drafteados.com",
+      "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
+    url: SITE_URL,
     siteName: "Drafteados",
     images: [
       {
-        url: "/images/og-main.png",
+        url: `${SITE_URL}/images/og-main.png`,
+        secureUrl: `${SITE_URL}/images/og-main.png`,
         width: 1200,
         height: 630,
-        alt: "Drafteados · Tu Casa NBA",
+        alt: "Drafteados — Tu Casa NBA",
         type: "image/png",
       },
     ],
@@ -87,12 +92,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drafteados · Tu Casa NBA",
+    title: "Drafteados — Tu Casa NBA en español",
     description:
-      "La comunidad que vive el baloncesto como nadie. Marcadores en vivo, podcast 3+1 y análisis diario.",
+      "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
     site: "@drafteados",
     creator: "@drafteados",
-    images: ["/images/og-main.png"],
+    images: [`${SITE_URL}/images/og-main.png`],
   },
   robots: {
     index: true,
@@ -119,6 +124,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link rel="image_src" href={`${SITE_URL}/images/og-main.png`} />
         <script
           dangerouslySetInnerHTML={{
             __html: themeInitScript + "\n" + timezoneInitScript,
