@@ -6,7 +6,48 @@ import Link from "next/link";
 import { Users, Calendar, TrendingUp, DollarSign, Search, Trophy, CheckCircle2, XCircle } from "lucide-react";
 import type { Team, Standing, Player, Game } from "@/types/basketball";
 import { TeamLogo } from "./TeamLogo";
-import { ScoreboardCard } from "./ScoreboardCard";
+import { GameCard } from "./GameCard";
+import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+
+function mapGameToCardProps(game: Game) {
+  const awayNbaId = getTeamNbaId(game.awayTeam.abbreviation, game.awayTeam.name);
+  const homeNbaId = getTeamNbaId(game.homeTeam.abbreviation, game.homeTeam.name);
+
+  let statusLabel = "Programado";
+  if (game.status === "live") {
+    statusLabel = `${game.period ? `${game.period}Q` : "EN VIVO"} ${game.clock || ""}`.trim();
+  } else if (game.status === "final") {
+    statusLabel = "Final";
+  } else if (game.time) {
+    statusLabel = `Hoy ${game.time}`;
+  } else if (game.date) {
+    const d = new Date(game.date);
+    if (!isNaN(d.getTime())) {
+      statusLabel = d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+    }
+  }
+
+  return {
+    status: (game.status === "live" ? "live" : game.status === "final" ? "final" : "scheduled") as "live" | "final" | "scheduled",
+    statusLabel,
+    broadcast: game.broadcast || game.arena,
+    href: `/nba/partido/${game.id}`,
+    away: {
+      tricode: game.awayTeam.abbreviation,
+      name: game.awayTeam.name,
+      record: game.awayRecord,
+      logoUrl: awayNbaId ? getTeamLogoUrl(awayNbaId) : undefined,
+      score: game.awayScore,
+    },
+    home: {
+      tricode: game.homeTeam.abbreviation,
+      name: game.homeTeam.name,
+      record: game.homeRecord,
+      logoUrl: homeNbaId ? getTeamLogoUrl(homeNbaId) : undefined,
+      score: game.homeScore,
+    },
+  };
+}
 
 interface TeamTabsViewProps {
   team: Team;
@@ -361,7 +402,7 @@ export function TeamTabsView({
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {upcoming.map((game) => (
-                    <ScoreboardCard key={game.id} game={game} />
+                    <GameCard key={game.id} {...mapGameToCardProps(game)} />
                   ))}
                 </div>
               )}

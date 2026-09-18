@@ -165,7 +165,9 @@ export default function PickemLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="bg-background text-foreground transition-colors duration-300 min-h-screen font-sans selection:bg-[#FF5A1F] selection:text-white pb-20 md:pb-0">
+    <div
+      className="bg-[var(--color-canvas)] text-[var(--color-text-primary)] transition-colors duration-300 min-h-screen font-sans selection:bg-[var(--color-brand-primary)] selection:text-white pb-20 md:pb-0"
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

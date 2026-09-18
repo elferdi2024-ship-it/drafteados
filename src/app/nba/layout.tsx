@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NBA Hub de los Buques · Resultados, Marcadores y Clasificación en Vivo",
     description:
-      "Seguí la jornada NBA con el análisis y la mirada de Drafteados. Marcadores en tiempo real, tabla de posiciones y plantillas actualizadas.",
+      "Marcadores en directo, clasificación Este y Oeste, calendario oficial y estadísticas de la NBA.",
     url: "https://drafteados.com/nba",
     siteName: "Drafteados",
     locale: "es_ES",

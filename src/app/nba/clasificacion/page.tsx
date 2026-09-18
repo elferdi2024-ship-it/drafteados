@@ -2,50 +2,51 @@
 import Link from "next/link";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { PageHeader, Callout } from "@/components/ui";
+import { StandingsRow, StandingsTableHead, type StandingsTeam } from "@/components/nba";
 import {
   Info,
   Trophy,
   Medal,
-  ArrowUpRight,
   ChevronRight,
 } from "lucide-react";
 
 import type { Metadata } from "next";
+import { buildMetadata, SITE_URL } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Clasificación NBA 2026/27 · Conferencia Este y Oeste",
+export const metadata: Metadata = buildMetadata({
+  title: "Clasificación NBA | Este y Oeste",
   description:
-    "Tabla de posiciones oficial de la NBA 2026/27. Campeón vigente New York Knicks, subcampeón San Antonio Spurs, rachas y zona de playoffs.",
-  openGraph: {
-    title: "Clasificación NBA 2026/27 · Conferencia Este y Oeste | Drafteados",
-    description:
-      "Tabla de posiciones oficial de la NBA con la mirada de los Buques. Balances, rachas, campeón NY Knicks y zona de playoffs.",
-    url: "https://drafteados.com/nba/clasificacion",
-    siteName: "Drafteados",
-    locale: "es_ES",
-    type: "website",
-    images: [
-      {
-        url: "/images/og-nba.png",
-        width: 1200,
-        height: 630,
-        alt: "Clasificación NBA · Drafteados",
-        type: "image/png",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Clasificación NBA 2026/27 · Este y Oeste | Drafteados",
-    description:
-      "Tabla de posiciones oficial de la NBA. Campeón New York Knicks y subcampeón San Antonio Spurs.",
-    site: "@drafteados",
-    creator: "@drafteados",
-    images: ["/images/og-nba.png"],
-  },
-};
+    "Tabla de posiciones oficial de la NBA 2026/27. Conferencia Este y Oeste, balances, rachas y zona de playoffs en Drafteados.",
+  path: "/nba/clasificacion",
+  image: `${SITE_URL}/images/og-nba.png`,
+});
+
+function tierFor(rank: number): "playoffs" | "play-in" | "lottery" {
+  if (rank <= 6) return "playoffs";
+  if (rank <= 10) return "play-in";
+  return "lottery";
+}
+
+function mapStandingToTeam(item: any): StandingsTeam {
+  const nbaId = getTeamNbaId(item.team.abbreviation, item.team.name);
+  return {
+    rank: item.conferenceRank,
+    tricode: item.team.abbreviation,
+    name: item.team.name,
+    logoUrl: nbaId ? getTeamLogoUrl(nbaId) : undefined,
+    wins: item.wins,
+    losses: item.losses,
+    pct: `.${Math.round(item.winPct * 1000)}`,
+    gb: item.gamesBack === 0 ? "-" : String(item.gamesBack),
+    streak: item.streak,
+    l10: item.roadRecord || item.homeRecord,
+  };
+}
 
 export default async function StandingsPage() {
   const standings = await basketball.getStandings();
@@ -56,36 +57,30 @@ export default async function StandingsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header */}
-      <header className="border-b border-[var(--hub-border)] pb-6">
-        <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
-          <span>NBA HUB · LOS BUQUES</span>
-          <span>•</span>
-          <span>TEMPORADA 2026/27</span>
-        </div>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <h1
-              className="text-4xl sm:text-6xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none"
-              style={{ fontFamily: "var(--hub-font-display)" }}
-            >
-              CLASIFICACIÓN
-            </h1>
-            <p className="text-sm sm:text-base text-[var(--hub-text-secondary)] mt-1.5 font-normal">
-              Tabla actual · Este y Oeste.
-            </p>
-          </div>
-          <span className="text-xs font-sans font-semibold text-[var(--hub-text-muted)] bg-[var(--hub-surface-2)] px-3 py-1.5 rounded-lg border border-[var(--hub-border)] shrink-0">
-            Pretemporada 2026/27
-          </span>
-        </div>
-      </header>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Inicio", path: "/" },
+          { name: "NBA Hub", path: "/nba" },
+          { name: "Clasificación", path: "/nba/clasificacion" },
+        ])}
+      />
+      {/* PageHeader (DRAF-011 + COPY_DECK.md) */}
+      <PageHeader
+        eyebrow="NBA HUB · LOS BUQUES · TEMPORADA 2026/27"
+        title="Clasificación"
+        description="Tabla actual · Este y Oeste."
+      />
+
+      {/* Callout Pretemporada */}
+      <Callout variant="warning" title="Pretemporada">
+        Pretemporada · Los resultados no cuentan para la clasificación oficial.
+      </Callout>
 
       {/* Cuadro de Honor Oficial: Campeón Vigente New York Knicks y Subcampeón San Antonio Spurs */}
       <section className="space-y-3">
         <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-wider text-[var(--hub-text-secondary)] uppercase">
           <Trophy className="w-3.5 h-3.5 text-amber-500" />
-          <span>CUADRO DE HONOR · FINALISTAS NBA 2026</span>
+          <span>CUADRO DE HONOR · FINALISTAS 2026 · NARRATIVA BUQUES</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -108,7 +103,7 @@ export default async function StandingsPage() {
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-sans font-semibold bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 mb-1">
                     <Trophy className="w-3 h-3 text-amber-500" />
-                    VIGENTE CAMPEÓN NBA
+                    CAMPEÓN NBA · NARRATIVA BUQUES
                   </div>
                   <h3
                     className="text-xl sm:text-2xl font-black text-[var(--hub-text)] tracking-tight uppercase"
@@ -159,7 +154,7 @@ export default async function StandingsPage() {
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-sans font-semibold bg-slate-500/15 text-slate-600 dark:text-slate-300 border border-slate-500/20 mb-1">
                     <Medal className="w-3 h-3 text-slate-400" />
-                    SUBCAMPEÓN NBA · CAMPEÓN OESTE
+                    SUBCAMPEÓN · NARRATIVA BUQUES
                   </div>
                   <h3
                     className="text-xl sm:text-2xl font-black text-[var(--hub-text)] tracking-tight uppercase"
@@ -220,105 +215,15 @@ export default async function StandingsPage() {
 
           <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="text-[11px] font-mono text-[var(--hub-text-dim)] border-b border-[var(--hub-border)] uppercase">
-                  <th className="py-2.5 pl-2 w-8 text-center">#</th>
-                  <th className="py-2.5 px-2">EQUIPO</th>
-                  {/* Vista móvil simplificada para evitar solapamiento */}
-                  <th className="py-2.5 px-2 text-right sm:hidden">V-D</th>
-                  <th className="py-2.5 px-2 text-right sm:hidden">%</th>
-                  {/* Vista desktop completa */}
-                  <th className="py-2.5 px-3 text-right hidden sm:table-cell">W</th>
-                  <th className="py-2.5 px-3 text-right hidden sm:table-cell">L</th>
-                  <th className="py-2.5 px-3 text-right hidden sm:table-cell">PCT</th>
-                  <th className="py-2.5 px-2 sm:px-3 text-right pr-2">RACHA</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--hub-border)] text-xs font-mono">
-                {standings.east.map((item) => {
-                  const nbaId = getTeamNbaId(item.team.abbreviation);
-                  const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
-                  const isTop6 = item.conferenceRank <= 6;
-                  const isPlayIn = item.conferenceRank > 6 && item.conferenceRank <= 10;
-                  const teamSlug = item.team.slug || item.team.abbreviation.toLowerCase();
-
-                  return (
-                    <tr
-                      key={item.team.id}
-                      className="hover:bg-[var(--hub-surface-2)] transition-colors group"
-                    >
-                      <td className="py-2.5 pl-2 text-center font-bold text-[var(--hub-text-dim)]">
-                        {item.conferenceRank}
-                      </td>
-                      <td className="py-2.5 px-2">
-                        <Link
-                          href={`/nba/equipo/${teamSlug}`}
-                          className="flex items-center gap-2 group-hover:text-[var(--hub-accent)] transition-colors"
-                        >
-                          <div className="w-6 h-6 rounded flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
-                            {logoUrl ? (
-                              <img
-                                src={logoUrl}
-                                alt={item.team.name}
-                                className="w-full h-full object-contain"
-                                loading="lazy"
-                              />
-                            ) : (
-                              <span className="text-[10px]">{item.team.abbreviation}</span>
-                            )}
-                          </div>
-                          <span className="font-sans font-bold text-xs sm:text-sm text-[var(--hub-text)] truncate max-w-[120px] sm:max-w-[200px]">
-                            {item.team.name}
-                          </span>
-                          {isTop6 && (
-                            <span
-                              className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"
-                              title="Playoffs Directos (Top 6)"
-                            />
-                          )}
-                          {isPlayIn && (
-                            <span
-                              className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"
-                              title="Play-In (7-10)"
-                            />
-                          )}
-                        </Link>
-                      </td>
-
-                      {/* Móvil: V-D compactado */}
-                      <td className="py-2.5 px-2 text-right font-bold text-[var(--hub-text)] tabular-nums sm:hidden whitespace-nowrap">
-                        {item.wins}-{item.losses}
-                      </td>
-                      <td className="py-2.5 px-2 text-right text-[var(--hub-text-dim)] tabular-nums sm:hidden whitespace-nowrap">
-                        .{Math.round(item.winPct * 1000)}
-                      </td>
-
-                      {/* Desktop: Columnas individuales */}
-                      <td className="py-2.5 px-3 text-right font-bold text-[var(--hub-text)] tabular-nums hidden sm:table-cell">
-                        {item.wins}
-                      </td>
-                      <td className="py-2.5 px-3 text-right text-[var(--hub-text-muted)] tabular-nums hidden sm:table-cell">
-                        {item.losses}
-                      </td>
-                      <td className="py-2.5 px-3 text-right text-[var(--hub-text-dim)] tabular-nums hidden sm:table-cell">
-                        .{Math.round(item.winPct * 1000)}
-                      </td>
-
-                      {/* Racha */}
-                      <td className="py-2.5 px-2 sm:px-3 text-right pr-2 whitespace-nowrap">
-                        <span
-                          className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                            item.streak?.startsWith("W")
-                              ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
-                              : "bg-red-500/15 text-red-600 dark:text-red-400"
-                          }`}
-                        >
-                          {item.streak || "-"}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
+              <StandingsTableHead />
+              <tbody>
+                {standings.east.map((item) => (
+                  <StandingsRow
+                    key={item.team.id}
+                    team={mapStandingToTeam(item)}
+                    tier={tierFor(item.conferenceRank)}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -327,10 +232,10 @@ export default async function StandingsPage() {
           <div className="pt-3 border-t border-[var(--hub-border)] flex items-center justify-between text-[11px] font-mono text-[var(--hub-text-muted)]">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" /> Playoffs directos (1-6)
+                <span className="w-2 h-2 rounded-full bg-[var(--color-state-win)]" /> Playoffs directos (1-6)
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-amber-500" /> Play-In (7-10)
+                <span className="w-2 h-2 rounded-full bg-[var(--color-brand-primary)]" /> Play-In (7-10)
               </span>
             </div>
           </div>
@@ -352,105 +257,15 @@ export default async function StandingsPage() {
 
           <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="text-[11px] font-mono text-[var(--hub-text-dim)] border-b border-[var(--hub-border)] uppercase">
-                  <th className="py-2.5 pl-2 w-8 text-center">#</th>
-                  <th className="py-2.5 px-2">EQUIPO</th>
-                  {/* Vista móvil simplificada */}
-                  <th className="py-2.5 px-2 text-right sm:hidden">V-D</th>
-                  <th className="py-2.5 px-2 text-right sm:hidden">%</th>
-                  {/* Vista desktop completa */}
-                  <th className="py-2.5 px-3 text-right hidden sm:table-cell">W</th>
-                  <th className="py-2.5 px-3 text-right hidden sm:table-cell">L</th>
-                  <th className="py-2.5 px-3 text-right hidden sm:table-cell">PCT</th>
-                  <th className="py-2.5 px-2 sm:px-3 text-right pr-2">RACHA</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--hub-border)] text-xs font-mono">
-                {standings.west.map((item) => {
-                  const nbaId = getTeamNbaId(item.team.abbreviation);
-                  const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
-                  const isTop6 = item.conferenceRank <= 6;
-                  const isPlayIn = item.conferenceRank > 6 && item.conferenceRank <= 10;
-                  const teamSlug = item.team.slug || item.team.abbreviation.toLowerCase();
-
-                  return (
-                    <tr
-                      key={item.team.id}
-                      className="hover:bg-[var(--hub-surface-2)] transition-colors group"
-                    >
-                      <td className="py-2.5 pl-2 text-center font-bold text-[var(--hub-text-dim)]">
-                        {item.conferenceRank}
-                      </td>
-                      <td className="py-2.5 px-2">
-                        <Link
-                          href={`/nba/equipo/${teamSlug}`}
-                          className="flex items-center gap-2 group-hover:text-[var(--hub-accent)] transition-colors"
-                        >
-                          <div className="w-6 h-6 rounded flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
-                            {logoUrl ? (
-                              <img
-                                src={logoUrl}
-                                alt={item.team.name}
-                                className="w-full h-full object-contain"
-                                loading="lazy"
-                              />
-                            ) : (
-                              <span className="text-[10px]">{item.team.abbreviation}</span>
-                            )}
-                          </div>
-                          <span className="font-sans font-bold text-xs sm:text-sm text-[var(--hub-text)] truncate max-w-[120px] sm:max-w-[200px]">
-                            {item.team.name}
-                          </span>
-                          {isTop6 && (
-                            <span
-                              className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"
-                              title="Playoffs Directos (Top 6)"
-                            />
-                          )}
-                          {isPlayIn && (
-                            <span
-                              className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"
-                              title="Play-In (7-10)"
-                            />
-                          )}
-                        </Link>
-                      </td>
-
-                      {/* Móvil: V-D compactado */}
-                      <td className="py-2.5 px-2 text-right font-bold text-[var(--hub-text)] tabular-nums sm:hidden whitespace-nowrap">
-                        {item.wins}-{item.losses}
-                      </td>
-                      <td className="py-2.5 px-2 text-right text-[var(--hub-text-dim)] tabular-nums sm:hidden whitespace-nowrap">
-                        .{Math.round(item.winPct * 1000)}
-                      </td>
-
-                      {/* Desktop: Columnas individuales */}
-                      <td className="py-2.5 px-3 text-right font-bold text-[var(--hub-text)] tabular-nums hidden sm:table-cell">
-                        {item.wins}
-                      </td>
-                      <td className="py-2.5 px-3 text-right text-[var(--hub-text-muted)] tabular-nums hidden sm:table-cell">
-                        {item.losses}
-                      </td>
-                      <td className="py-2.5 px-3 text-right text-[var(--hub-text-dim)] tabular-nums hidden sm:table-cell">
-                        .{Math.round(item.winPct * 1000)}
-                      </td>
-
-                      {/* Racha */}
-                      <td className="py-2.5 px-2 sm:px-3 text-right pr-2 whitespace-nowrap">
-                        <span
-                          className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                            item.streak?.startsWith("W")
-                              ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
-                              : "bg-red-500/15 text-red-600 dark:text-red-400"
-                          }`}
-                        >
-                          {item.streak || "-"}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
+              <StandingsTableHead />
+              <tbody>
+                {standings.west.map((item) => (
+                  <StandingsRow
+                    key={item.team.id}
+                    team={mapStandingToTeam(item)}
+                    tier={tierFor(item.conferenceRank)}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -459,10 +274,10 @@ export default async function StandingsPage() {
           <div className="pt-3 border-t border-[var(--hub-border)] flex items-center justify-between text-[11px] font-mono text-[var(--hub-text-muted)]">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" /> Playoffs directos (1-6)
+                <span className="w-2 h-2 rounded-full bg-[var(--color-state-win)]" /> Playoffs directos (1-6)
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-amber-500" /> Play-In (7-10)
+                <span className="w-2 h-2 rounded-full bg-[var(--color-brand-primary)]" /> Play-In (7-10)
               </span>
             </div>
           </div>

@@ -3,6 +3,10 @@ import { Bebas_Neue, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ThemeProvider, themeInitScript } from "@/components/theme";
+import { SITE_URL } from "@/lib/seo/config";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -30,7 +34,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://drafteados.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Drafteados | Tu Casa NBA",
     template: "%s | Drafteados",
@@ -110,21 +114,24 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bebasNeue.variable} ${plusJakartaSans.variable} ${spaceGrotesk.variable} dark`}
+      className={`${bebasNeue.variable} ${plusJakartaSans.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var s=localStorage.getItem("theme");var d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="light"){document.documentElement.classList.remove("dark");}else if(s==="dark"){document.documentElement.classList.add("dark");}else if(!d){document.documentElement.classList.remove("dark");}else{document.documentElement.classList.add("dark");}}catch(e){}})();`,
+            __html: themeInitScript,
           }}
         />
       </head>
       <body className="bg-background text-foreground min-h-screen selection:bg-[#FF5A1F] selection:text-white font-sans antialiased">
-        <SmoothScrollProvider>
-          <CustomCursor />
-          {children}
-        </SmoothScrollProvider>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <ThemeProvider>
+          <SmoothScrollProvider>
+            <CustomCursor />
+            {children}
+          </SmoothScrollProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -6,11 +6,39 @@ import { basketball } from "@/lib/data/basketball/composite-provider";
 import { LiveBadge } from "@/components/nba/LiveBadge";
 import { TeamLogo } from "@/components/nba/TeamLogo";
 
+import type { Metadata } from "next";
+import { buildMetadata, SITE_URL } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, sportsEventJsonLd } from "@/lib/seo/jsonld";
+
 export const revalidate = 60;
 
 export async function generateStaticParams() {
   const games = await basketball.getGames({});
   return games.map((g) => ({ id: g.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const game = await basketball.getGame(id);
+  if (!game) {
+    return buildMetadata({
+      title: "Partido no encontrado",
+      description: "El partido solicitado no está disponible en Drafteados.",
+      noIndex: true,
+    });
+  }
+
+  return buildMetadata({
+    title: `${game.awayTeam.name} vs ${game.homeTeam.name} | NBA`,
+    description: `Marcador, estadísticas y seguimiento de ${game.awayTeam.name} (${game.awayTeam.abbreviation}) vs ${game.homeTeam.name} (${game.homeTeam.abbreviation}) en Drafteados.`,
+    path: `/nba/partido/${id}`,
+    image: `${SITE_URL}/images/og-nba.png`,
+  });
 }
 
 export default async function GameDetailPage({
@@ -32,14 +60,41 @@ export default async function GameDetailPage({
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Inicio", path: "/" },
+            { name: "NBA Hub", path: "/nba" },
+            { name: `${game.awayTeam.abbreviation} vs ${game.homeTeam.abbreviation}`, path: `/nba/partido/${id}` },
+          ]),
+          sportsEventJsonLd({
+            name: `${game.awayTeam.name} vs ${game.homeTeam.name}`,
+            startDate: game.date ? `${game.date}T00:00:00Z` : new Date().toISOString(),
+            url: `${SITE_URL}/nba/partido/${id}`,
+            homeTeam: game.homeTeam.name,
+            awayTeam: game.awayTeam.name,
+            locationName: game.arena || undefined,
+            status: isLive ? "EventInProgress" : isFinal ? "EventCompleted" : "EventScheduled",
+          }),
+        ]}
+      />
       {/* Back button */}
-      <Link
-        href="/nba"
-        className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[var(--hub-accent)] hover:text-[var(--hub-accent-hover)] uppercase tracking-wider transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span>VOLVER AL HUB</span>
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href="/nba"
+          className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[var(--hub-accent)] hover:text-[var(--hub-accent-hover)] uppercase tracking-wider transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>VOLVER AL HUB</span>
+        </Link>
+        <span className="font-mono text-xs text-[var(--hub-text-dim)] uppercase">
+          TEMPORADA 2026/27
+        </span>
+      </div>
+
+      <h1 className="sr-only">
+        {game.awayTeam.name} vs {game.homeTeam.name} — Marcador y Estadísticas NBA
+      </h1>
 
       {/* Big Match Card */}
       <div className="rounded-3xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-6 sm:p-10 shadow-2xl relative overflow-hidden">

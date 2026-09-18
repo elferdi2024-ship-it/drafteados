@@ -126,7 +126,7 @@ export function UniverseSection() {
             UNIVERSO DRAFTEADOS
           </h2>
           <p className="mt-2 sm:mt-3 text-sm sm:text-base text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed max-w-2xl mx-auto">
-            Podcast original con Daimiel y Calderón, viajes a la NBA, tienda oficial, centro de estadísticas y juego oficial.
+            Podcast, viajes, tienda, datos y la porra oficial.
           </p>
         </div>
 

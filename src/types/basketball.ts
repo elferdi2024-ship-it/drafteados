@@ -47,14 +47,18 @@ export type GameStatus = "scheduled" | "live" | "final" | "postponed";
 export interface Game {
   id: string;
   date: string; // ISO
+  time?: string;
   status: GameStatus;
   homeTeam: Team;
   awayTeam: Team;
   homeScore?: number;
   awayScore?: number;
+  homeRecord?: string;
+  awayRecord?: string;
   period?: number;
   clock?: string;
   arena?: string;
+  broadcast?: string;
   isPreseason?: boolean;
 }
 

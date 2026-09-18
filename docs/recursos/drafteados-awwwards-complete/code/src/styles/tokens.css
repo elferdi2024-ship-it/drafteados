@@ -1,0 +1,145 @@
+/**
+ * DRAFTEADOS — Design Tokens
+ * Source of truth aligned with FIGMA_TOKENS_AND_COMPONENTS_SPEC.md + tokens.figma.json
+ * Modes: data-theme="light" | data-theme="dark" (default: dark on product shells)
+ */
+
+:root {
+  /* ─── Primitives: Orange ─── */
+  --orange-50: #fff7ed;
+  --orange-100: #ffedd5;
+  --orange-200: #fed7aa;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #f97316;
+  --orange-600: #ea580c;
+  --orange-700: #c2410c;
+  --orange-900: #7c2d12;
+
+  /* ─── Primitives: Neutral ─── */
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-750: #303030;
+  --neutral-800: #262626;
+  --neutral-850: #1c1c1e;
+  --neutral-900: #171717;
+  --neutral-950: #0d0d0e;
+  --neutral-1000: #0a0a0a;
+
+  /* ─── Primitives: State ─── */
+  --live-green: #16a34a;
+  --live-green-glow: rgba(22, 163, 74, 0.25);
+  --loss-red: #dc2626;
+  --loss-red-soft: rgba(220, 38, 38, 0.12);
+  --east-blue: #2563eb;
+  --east-blue-dark: #3b82f6;
+  --west-purple: #9333ea;
+  --west-purple-dark: #a855f7;
+
+  /* ─── Spacing (4px base) ─── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* ─── Radius ─── */
+  --radius-none: 0;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ─── Motion ─── */
+  --duration-fast: 100ms;
+  --duration-normal: 150ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+
+  /* ─── Typography families (wire to next/font in layout) ─── */
+  --font-display: var(--font-bebas, "Bebas Neue"), system-ui, sans-serif;
+  --font-sans: var(--font-jakarta, "Plus Jakarta Sans"), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains, "JetBrains Mono"), "Geist Mono", ui-monospace, monospace;
+
+  /* ─── Semantic default = DARK (product shells: Hub dark, Pick'em) ─── */
+  --color-canvas: var(--neutral-1000);
+  --color-surface-1: var(--neutral-900);
+  --color-surface-2: var(--neutral-800);
+  --color-surface-3: var(--neutral-750);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: var(--neutral-700);
+  --color-border-accent: var(--orange-500);
+  --color-text-primary: var(--neutral-50);
+  --color-text-secondary: var(--neutral-300);
+  --color-text-muted: var(--neutral-400);
+  --color-text-dim: var(--neutral-500);
+  --color-brand-primary: var(--orange-500);
+  --color-brand-hover: var(--orange-600);
+  --color-brand-soft: rgba(249, 115, 22, 0.15);
+  --color-state-live: var(--live-green);
+  --color-state-live-soft: rgba(22, 163, 74, 0.2);
+  --color-state-win: var(--live-green);
+  --color-state-loss: var(--loss-red);
+  --color-conf-east: var(--east-blue-dark);
+  --color-conf-west: var(--west-purple-dark);
+
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-glow-orange: 0 0 24px rgba(249, 115, 22, 0.22), 0 0 48px rgba(249, 115, 22, 0.1);
+  --shadow-glow-live: 0 0 16px rgba(22, 163, 74, 0.35);
+}
+
+/* ─── Light mode ─── */
+[data-theme="light"] {
+  --color-canvas: var(--neutral-50);
+  --color-surface-1: var(--neutral-0);
+  --color-surface-2: var(--neutral-100);
+  --color-surface-3: var(--neutral-200);
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-border-strong: var(--neutral-300);
+  --color-border-accent: var(--orange-500);
+  --color-text-primary: var(--neutral-1000);
+  --color-text-secondary: var(--neutral-700);
+  --color-text-muted: var(--neutral-500);
+  --color-text-dim: var(--neutral-400);
+  --color-brand-primary: var(--orange-500);
+  --color-brand-hover: var(--orange-600);
+  --color-brand-soft: var(--orange-50);
+  --color-state-live: var(--live-green);
+  --color-state-live-soft: rgba(22, 163, 74, 0.12);
+  --color-state-win: var(--live-green);
+  --color-state-loss: var(--loss-red);
+  --color-conf-east: var(--east-blue);
+  --color-conf-west: var(--west-purple);
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-glow-orange: 0 0 24px rgba(249, 115, 22, 0.18);
+  --shadow-glow-live: 0 0 16px rgba(22, 163, 74, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+  }
+}

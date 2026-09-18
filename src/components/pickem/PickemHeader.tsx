@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Menu, X, User, LogOut, Trophy, Sun, Moon, ArrowLeft } from "lucide-react";
+import { Menu, X, User, LogOut, Trophy, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { AuthModal } from "./AuthModal";
+import { ThemeToggle } from "@/components/theme";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 interface Profile {
@@ -21,15 +22,10 @@ export function PickemHeader() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [mounted, setMounted] = useState(false);
 
   const supabase = createClient();
 
   useEffect(() => {
-    setMounted(true);
-    const isDark = document.documentElement.classList.contains("dark");
-    setTheme(isDark ? "dark" : "light");
 
     async function loadUser() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -69,18 +65,6 @@ export function PickemHeader() {
       subscription.unsubscribe();
     };
   }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    if (nextTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -172,19 +156,7 @@ export function PickemHeader() {
             {/* Right: Theme Toggle & User Actions */}
             <div className="hidden md:flex items-center gap-3">
               {/* Theme Toggle */}
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="p-2.5 rounded-full border border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 hover:border-[#FF5A1F]/50 hover:text-[#FF5A1F] transition-all focus:outline-none cursor-pointer"
-                aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-                title={theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"}
-              >
-                {mounted && theme === "dark" ? (
-                  <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
-                ) : (
-                  <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300 transition-transform hover:-rotate-12" />
-                )}
-              </button>
+              <ThemeToggle size="sm" />
 
               {user ? (
                 <div className="relative">
@@ -249,18 +221,7 @@ export function PickemHeader() {
 
             {/* Mobile Menu Actions */}
             <div className="flex md:hidden items-center gap-2">
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="p-2 rounded-lg border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 focus:outline-none"
-                aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
-              >
-                {mounted && theme === "dark" ? (
-                  <Sun className="w-4 h-4 text-amber-400" />
-                ) : (
-                  <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
-                )}
-              </button>
+              <ThemeToggle size="sm" />
 
               <button
                 onClick={() => setIsOpen(!isOpen)}

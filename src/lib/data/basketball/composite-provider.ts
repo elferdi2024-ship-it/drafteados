@@ -73,15 +73,23 @@ export class CompositeProvider implements BasketballDataProvider {
     // Teams TTL: 86400 segundos (24 horas)
     return hubCache.getOrSet(key, 86400, async () => {
       try {
-        const teams = await this.espn.getTeams();
-        if (teams && teams.length >= 30) return teams;
-        // Merge ESPN teams con MOCK_TEAMS para garantizar que las 30 franquicias estén presentes
+        const espnTeams = await this.espn.getTeams();
         const map = new Map<string, Team>();
         for (const t of (await this.mock.getTeams())) {
-          map.set(t.slug.toLowerCase(), t);
+          map.set(t.abbreviation.toUpperCase(), t);
         }
-        for (const t of (teams || [])) {
-          map.set(t.slug.toLowerCase(), t);
+        for (const t of (espnTeams || [])) {
+          const abbr = t.abbreviation?.toUpperCase();
+          if (abbr && map.has(abbr)) {
+            const base = map.get(abbr)!;
+            map.set(abbr, {
+              ...base,
+              ...t,
+              slug: base.slug,
+              conference: base.conference,
+              division: base.division,
+            });
+          }
         }
         return Array.from(map.values());
       } catch {

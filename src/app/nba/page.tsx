@@ -3,46 +3,67 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Trophy, Flame, AlertCircle, Calendar, Users, BarChart3, ChevronRight } from "lucide-react";
 import { basketball } from "@/lib/data/basketball/composite-provider";
-import { ScoreboardCard } from "@/components/nba/ScoreboardCard";
+import { PageHeader, EmptyState } from "@/components/ui";
+import { GameCard } from "@/components/nba";
+import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 import { SectionHeader } from "@/components/nba/SectionHeader";
 import { MiniStandings } from "@/components/nba/MiniStandings";
 import { MiniLeaders } from "@/components/nba/MiniLeaders";
 import { CountdownClock } from "@/components/nba/CountdownClock";
 
+import { buildMetadata, SITE_URL } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
+
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "NBA Hub · Marcadores, Clasificación y Estadísticas",
+export const metadata: Metadata = buildMetadata({
+  title: "Hoy en la NBA | Marcadores y clasificación",
   description:
-    "El cuartel general de la NBA para los Buques. Marcadores en directo, clasificación Este/Oeste, calendario 2026/27, plantillas de las 30 franquicias y Pick'em oficial.",
-  openGraph: {
-    title: "NBA Hub de los Buques · Resultados, Marcadores y Clasificación en Vivo",
-    description:
-      "Seguí la jornada NBA con la mirada de Drafteados. Marcadores oficiales en tiempo real, tabla de posiciones y plantillas actualizadas.",
-    url: "https://drafteados.com/nba",
-    siteName: "Drafteados",
-    locale: "es_ES",
-    type: "website",
-    images: [
-      {
-        url: "/images/og-nba.png",
-        width: 1200,
-        height: 630,
-        alt: "NBA Hub · Drafteados",
-        type: "image/png",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "NBA Hub · Los Buques | Drafteados",
-    description:
-      "Marcadores oficiales, clasificación Este/Oeste y el análisis diario de la NBA.",
-    site: "@drafteados",
-    creator: "@drafteados",
-    images: ["/images/og-nba.png"],
-  },
-};
+    "El cuartel general de la NBA para los Buques. Marcadores en directo, clasificación Este/Oeste, calendario 2026/27 y plantillas oficiales.",
+  path: "/nba",
+  image: `${SITE_URL}/images/og-nba.png`,
+});
+
+function mapGameToCardProps(game: any) {
+  const awayNbaId = getTeamNbaId(game.awayTeam.abbreviation, game.awayTeam.name);
+  const homeNbaId = getTeamNbaId(game.homeTeam.abbreviation, game.homeTeam.name);
+
+  let statusLabel = "Programado";
+  if (game.status === "live") {
+    statusLabel = `${game.period ? `${game.period}Q` : "EN VIVO"} ${game.clock || ""}`.trim();
+  } else if (game.status === "final") {
+    statusLabel = "Final";
+  } else if (game.time) {
+    statusLabel = `Hoy ${game.time}`;
+  } else if (game.date) {
+    const d = new Date(game.date);
+    if (!isNaN(d.getTime())) {
+      statusLabel = d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+    }
+  }
+
+  return {
+    status: (game.status === "live" ? "live" : game.status === "final" ? "final" : "scheduled") as "live" | "final" | "scheduled",
+    statusLabel,
+    broadcast: game.broadcast || game.arena,
+    href: `/nba/partido/${game.id}`,
+    away: {
+      tricode: game.awayTeam.abbreviation,
+      name: game.awayTeam.name,
+      record: game.awayRecord,
+      logoUrl: awayNbaId ? getTeamLogoUrl(awayNbaId) : undefined,
+      score: game.awayScore,
+    },
+    home: {
+      tricode: game.homeTeam.abbreviation,
+      name: game.homeTeam.name,
+      record: game.homeRecord,
+      logoUrl: homeNbaId ? getTeamLogoUrl(homeNbaId) : undefined,
+      score: game.homeScore,
+    },
+  };
+}
 
 export default async function NbaHubPage() {
   const [games, standings, ptsLeaders, astLeaders, rebLeaders, fg3mLeaders] = await Promise.all([
@@ -73,25 +94,20 @@ export default async function NbaHubPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Hero Header */}
-      <header className="border-b border-[var(--hub-border)] pb-6">
-        <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
-          <span>NBA HUB · LOS BUQUES</span>
-          <span>•</span>
-          <span className="capitalize">{todayStr}</span>
-        </div>
-        <h1
-          className="text-4xl sm:text-6xl lg:text-7xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none"
-          style={{ fontFamily: "var(--hub-font-display)", letterSpacing: "-0.03em" }}
-        >
-          HOY EN LA NBA
-        </h1>
-        <p className="text-sm sm:text-base text-[var(--hub-text-secondary)] mt-2 max-w-xl font-normal">
-          Marcadores, clasificación y lo que importa hoy.
-        </p>
-      </header>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Inicio", path: "/" },
+          { name: "NBA Hub", path: "/nba" },
+        ])}
+      />
+      {/* PageHeader (DRAF-011 + COPY_DECK.md) */}
+      <PageHeader
+        eyebrow={`NBA HUB · LOS BUQUES · ${todayStr.toUpperCase()}`}
+        title="Hoy en la NBA"
+        description="Marcadores, clasificación y lo que importa hoy."
+      />
 
-      {/* Reloj Cuenta Regresiva Salto Inicial 2026/27 */}
+      {/* Reloj Cuenta Regresiva Salto Inicial 2026/27 (Countdown solo en Hoy) */}
       <CountdownClock />
 
       {/* Quick Stat Strip / Claves de Temporada (Compacto & Escaneable) */}
@@ -109,8 +125,8 @@ export default async function NbaHubPage() {
           className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group shadow-sm"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
-              CAMPEÓN VIGENTE
+            <span className="text-[10px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
+              CAMPEÓN · NARRATIVA BUQUES
             </span>
             <Trophy className="w-3.5 h-3.5 text-amber-500" />
           </div>
@@ -122,8 +138,8 @@ export default async function NbaHubPage() {
           href="/nba/equipo/spurs"
           className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group shadow-sm"
         >
-          <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
-            SUBCAMPEÓN 2026
+          <span className="text-[10px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
+            SUBCAMPEÓN · NARRATIVA BUQUES
           </span>
           <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
             SAN ANTONIO SPURS
@@ -139,7 +155,7 @@ export default async function NbaHubPage() {
         </div>
       </div>
 
-      {/* 1. Partidos / Calendario de la Jornada */}
+      {/* 1. Partidos / Calendario de la Jornada con GameCard */}
       <section className="space-y-4">
         <SectionHeader
           eyebrow="CALENDARIO OFICIAL · SEMANA INAUGURAL"
@@ -150,25 +166,28 @@ export default async function NbaHubPage() {
         />
 
         {games.length === 0 ? (
-          <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-8 text-center space-y-2">
-            <AlertCircle className="w-7 h-7 text-[var(--hub-accent)] mx-auto" />
-            <p className="font-bold text-base text-[var(--hub-text)]">
-              Sin partidos en juego en este momento.
-            </p>
-            <p className="text-xs sm:text-sm text-[var(--hub-text-muted)] max-w-md mx-auto">
-              Consultá la cartelera de la semana inaugural o prepará tus predicciones en el Pick&apos;em.
-            </p>
-          </div>
+          <EmptyState
+            title="Sin partidos en juego en este momento."
+            description="Consultá la cartelera de la semana inaugural o prepará tus predicciones en el Pick'em."
+            action={
+              <Link
+                href="/nba/calendario"
+                className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-brand-primary)] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)]"
+              >
+                Ver calendario
+              </Link>
+            }
+          />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {liveGames.map((game) => (
-              <ScoreboardCard key={game.id} game={game} />
+              <GameCard key={game.id} {...mapGameToCardProps(game)} />
             ))}
             {upcomingGames.map((game) => (
-              <ScoreboardCard key={game.id} game={game} />
+              <GameCard key={game.id} {...mapGameToCardProps(game)} />
             ))}
             {finalGames.map((game) => (
-              <ScoreboardCard key={game.id} game={game} />
+              <GameCard key={game.id} {...mapGameToCardProps(game)} />
             ))}
           </div>
         )}

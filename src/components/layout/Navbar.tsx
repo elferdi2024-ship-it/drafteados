@@ -5,40 +5,23 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon, Trophy, ChevronRight } from "lucide-react";
+import { Menu, X, Trophy, ChevronRight } from "lucide-react";
 import { YoutubeIcon } from "@/components/ui/Icons";
 import { NAV_LINKS } from "@/data/drafteados";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { ThemeToggle } from "@/components/theme";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const isDark = document.documentElement.classList.contains("dark");
-    setTheme(isDark ? "dark" : "light");
-
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    if (nextTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   return (
     <>
@@ -132,23 +115,7 @@ export function Navbar() {
 
           {/* Right Actions: Theme Toggle + Pick'em CTA + YouTube CTA */}
           <div className="hidden md:flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className={`p-2 rounded-full border transition-all duration-300 focus:outline-none flex items-center justify-center cursor-pointer ${
-                isScrolled
-                  ? "border-black/10 dark:border-white/15 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 hover:border-[#FF5A1F]/50 hover:text-[#FF5A1F]"
-                  : "border-white/15 bg-white/10 text-white hover:border-[#FF5A1F] hover:text-[#FF5A1F]"
-              }`}
-              aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-              title={theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"}
-            >
-              {mounted && theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
-              ) : (
-                <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300 transition-transform hover:-rotate-12" />
-              )}
-            </button>
+            <ThemeToggle size="sm" />
 
             {/* Botón Pick'em */}
             <Link
@@ -182,22 +149,7 @@ export function Navbar() {
 
           {/* Mobile Actions: Theme Toggle + Mobile Menu Trigger */}
           <div className="flex md:hidden items-center gap-2">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg border transition-all focus:outline-none ${
-                isScrolled
-                  ? "border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-800 dark:text-zinc-200"
-                  : "border-white/10 bg-white/10 text-white"
-              }`}
-              aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
-            >
-              {mounted && theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
-              )}
-            </button>
+            <ThemeToggle size="sm" />
 
             <button
               type="button"
@@ -280,23 +232,12 @@ export function Navbar() {
               })}
 
               <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={toggleTheme}
-                  className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-900 dark:text-zinc-100 font-medium text-sm transition-colors cursor-pointer"
-                >
+                <div className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-zinc-900 dark:text-zinc-100 font-medium text-sm">
                   <span className="flex items-center gap-2.5">
-                    {theme === "dark" ? (
-                      <Sun className="w-4 h-4 text-amber-400" />
-                    ) : (
-                      <Moon className="w-4 h-4 text-zinc-700" />
-                    )}
-                    <span>Modo {theme === "dark" ? "Oscuro" : "Claro"}</span>
+                    <span>Modo visual</span>
                   </span>
-                  <span className="text-xs uppercase tracking-wider text-[#FF5A1F] font-bold">
-                    Cambiar a {theme === "dark" ? "Claro" : "Oscuro"}
-                  </span>
-                </button>
+                  <ThemeToggle size="sm" />
+                </div>
               </div>
             </div>
 

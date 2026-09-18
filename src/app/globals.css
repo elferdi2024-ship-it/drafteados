@@ -1,451 +1,149 @@
+/**
+ * DRAFTEADOS — Global styles
+ * Tailwind CSS v4 + design tokens
+ * Drop into: src/app/globals.css (or import from styles/)
+ */
+
 @import "tailwindcss";
+@import "../styles/tokens.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* Manual theme toggle variant: activates on .dark class or [data-theme=dark] */
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
-:root {
-  --background: #FAFAFA;
-  --foreground: #111113;
-  --color-brand: #FF5A1F;
-  --color-brand-glow: rgba(255, 90, 31, 0.25);
-  --color-surface: #FFFFFF;
-  --color-surface-hover: #F4F4F5;
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-muted: #71717A;
-  /* Pick'em Tokens - Light Mode */
-  --pickem-bg: #F4F4F6;
-  --pickem-surface: #FFFFFF;
-  --pickem-surface-2: #E8E8EC;
-  --pickem-card: #FFFFFF;
-  --pickem-border: rgba(0, 0, 0, 0.08);
-  --pickem-text: #111113;
-  --pickem-muted: #6E6E73;
-  --pickem-accent: #FF5A1F;
-  --pickem-accent-hover: #E04810;
-  --pickem-gold: #FF5A1F;
+@theme {
+  /* Surfaces & Canvas */
+  --color-background: var(--color-canvas);
+  --color-foreground: var(--color-text-primary);
+  --color-canvas: var(--color-canvas);
+  --color-surface-1: var(--color-surface-1);
+  --color-surface-2: var(--color-surface-2);
+  --color-surface-3: var(--color-surface-3);
 
-  /* ============================================================
-     DRAFTEADOS NBA HUB — DESIGN TOKENS (LIGHT MODE DEFAULT)
-     ============================================================ */
-  --hub-bg: #FAFAFA;
-  --hub-surface: #FFFFFF;
-  --hub-surface-2: #F5F5F5;
-  --hub-surface-3: #E5E5E5;
+  /* Brand */
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-hover: var(--color-brand-hover);
+  --color-brand-soft: var(--color-brand-soft);
 
-  --hub-border: #E5E5E5;
-  --hub-border-hover: #D4D4D4;
+  /* Borders */
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-strong: var(--color-border-strong);
+  --color-border-brand: var(--color-border-accent);
 
-  --hub-text: #0A0A0A;
-  --hub-text-secondary: #404040;
-  --hub-text-muted: #737373;
-  --hub-text-dim: #A3A3A3;
+  /* Text */
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-dim: var(--color-text-dim);
 
-  --hub-accent: #F97316;
-  --hub-accent-hover: #EA580C;
-  --hub-accent-soft: #FFF7ED;
+  /* State */
+  --color-state-live: var(--color-state-live);
+  --color-state-win: var(--color-state-win);
+  --color-state-loss: var(--color-state-loss);
+  --color-conf-east: var(--color-conf-east);
+  --color-conf-west: var(--color-conf-west);
 
-  --hub-live: #16A34A;
-  --hub-live-soft: rgba(22, 163, 74, 0.12);
-  --hub-final: #737373;
-  --hub-scheduled: #737373;
-  --hub-win: #16A34A;
-  --hub-loss: #DC2626;
-  --hub-success: #16A34A;
-  --hub-danger: #DC2626;
+  /* Fonts */
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 
-  --hub-east: #2563EB;
-  --hub-west: #9333EA;
+  /* Radius */
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 
-  --hub-font-display: var(--font-title), "Bebas Neue", system-ui, sans-serif;
-  --hub-font-sans: var(--font-sans), "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
-
-  --hub-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-  --hub-glow-accent: 0 0 24px rgba(249, 115, 22, 0.18);
+  /* Shadows */
+  --shadow-card-rest: var(--shadow-card);
+  --shadow-glow-orange: var(--shadow-glow-orange);
+  --shadow-glow-live: var(--shadow-glow-live);
 }
 
-html.dark {
-  --background: #0A0A0A;
-  --foreground: #FAFAFA;
-  --color-brand: #F97316;
-  --color-brand-glow: rgba(249, 115, 22, 0.35);
-  --color-surface: #171717;
-  --color-surface-hover: #262626;
-  --color-border: #262626;
-  --color-muted: #A3A3A3;
-
-  /* Pick'em Tokens - Dark Mode */
-  --pickem-bg: #0A0A0A;
-  --pickem-surface: #171717;
-  --pickem-surface-2: #262626;
-  --pickem-card: #171717;
-  --pickem-border: #262626;
-  --pickem-text: #FAFAFA;
-  --pickem-muted: #A3A3A3;
-  --pickem-accent: #F97316;
-  --pickem-accent-hover: #EA580C;
-  --pickem-gold: #F97316;
-
-  /* NBA Hub Tokens - Dark Mode */
-  --hub-bg: #0A0A0A;
-  --hub-surface: #171717;
-  --hub-surface-2: #262626;
-  --hub-surface-3: #303030;
-
-  --hub-border: #262626;
-  --hub-border-hover: #404040;
-
-  --hub-text: #FAFAFA;
-  --hub-text-secondary: #D4D4D4;
-  --hub-text-muted: #A3A3A3;
-  --hub-text-dim: #737373;
-
-  --hub-accent: #F97316;
-  --hub-accent-hover: #EA580C;
-  --hub-accent-soft: rgba(249, 115, 22, 0.15);
-
-  --hub-live: #16A34A;
-  --hub-live-soft: rgba(22, 163, 74, 0.15);
-  --hub-final: #737373;
-  --hub-scheduled: #A3A3A3;
-  --hub-win: #16A34A;
-  --hub-loss: #DC2626;
-  --hub-success: #16A34A;
-  --hub-danger: #DC2626;
-
-  --hub-east: #3B82F6;
-  --hub-west: #A855F7;
-
-  --hub-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-  --hub-glow-accent: 0 0 24px rgba(249, 115, 22, 0.3);
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-brand: var(--color-brand);
-  --color-brand-glow: var(--color-brand-glow);
-  --color-surface: var(--color-surface);
-  --color-surface-hover: var(--color-surface-hover);
-  --color-border: var(--color-border);
-  --color-muted: var(--color-muted);
-  --font-title: var(--font-title), sans-serif;
-  --font-sans: var(--font-sans), sans-serif;
-  --font-mono: var(--font-mono), monospace;
-
-  /* Pick'em Design Tokens */
-  --color-pickem-bg: var(--pickem-bg);
-  --color-pickem-surface: var(--pickem-surface);
-  --color-pickem-surface-2: var(--pickem-surface-2);
-  --color-pickem-card: var(--pickem-card);
-  --color-pickem-border: var(--pickem-border);
-  --color-pickem-text: var(--pickem-text);
-  --color-pickem-muted: var(--pickem-muted);
-  --color-pickem-accent: var(--pickem-accent);
-  --color-pickem-accent-hover: var(--pickem-accent-hover);
-  --color-pickem-gold: var(--pickem-gold);
-
-  /* Category Colors */
-  --color-cat-stats: #3B82F6;
-  --color-cat-awards: #F59E0B;
-  --color-cat-teams: #10B981;
-  --color-cat-finals: #FF5A1F;
-
-  /* Status Colors */
-  --color-status-correct: #22C55E;
-  --color-status-incorrect: #EF4444;
-  --color-status-locked: #6B7280;
-
-  /* NBA Hub Theme Colors */
-  --color-hub-bg: var(--hub-bg);
-  --color-hub-surface: var(--hub-surface);
-  --color-hub-surface-2: var(--hub-surface-2);
-  --color-hub-surface-3: var(--hub-surface-3);
-  --color-hub-border: var(--hub-border);
-  --color-hub-border-hover: var(--hub-border-hover);
-  --color-hub-text: var(--hub-text);
-  --color-hub-text-muted: var(--hub-text-muted);
-  --color-hub-text-dim: var(--hub-text-dim);
-  --color-hub-accent: var(--hub-accent);
-  --color-hub-accent-hover: var(--hub-accent-hover);
-  --color-hub-live: var(--hub-live);
-  --color-hub-final: var(--hub-final);
-  --color-hub-east: var(--hub-east);
-  --color-hub-west: var(--hub-west);
-}
-
-/* Base resets & typography */
+/* ─── Base ─── */
 html {
-  background-color: var(--background);
-  color: var(--foreground);
-  scroll-behavior: auto;
-}
-
-html.dark {
-  color-scheme: dark;
-}
-
-html:not(.dark) {
-  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  overflow-x: clip;
-  touch-action: pan-y;
-  position: relative;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  min-height: 100dvh;
+}
+
+/* Tabular nums for all stats */
+.tabular,
+[data-stat] {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+/* Display titles */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Focus ring (a11y) */
+:focus-visible {
+  outline: 2px solid var(--color-border-accent);
+  outline-offset: 2px;
 }
 
 /* Selection */
 ::selection {
-  background-color: #FF5A1F;
-  color: #FFFFFF;
+  background-color: var(--color-brand-soft);
+  color: var(--color-text-primary);
 }
 
-/* Lenis Recommended CSS */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0A0A0A;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #27272A;
-  border-radius: 9999px;
-  border: 2px solid #0A0A0A;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #FF5A1F;
-}
-
-/* Utilities */
-.glass-panel {
-  background: rgba(18, 18, 18, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-hover {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel-hover:hover {
-  border-color: rgba(255, 90, 31, 0.35);
-  box-shadow: 0 10px 30px -10px rgba(255, 90, 31, 0.15);
-}
-
-.text-gradient-orange {
-  background: linear-gradient(135deg, #FFFFFF 20%, #FF5A1F 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-white {
-  background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Glow effects */
-.orange-glow-sm {
-  box-shadow: 0 0 20px -5px rgba(255, 90, 31, 0.4);
-}
-
-.orange-glow-lg {
-  box-shadow: 0 0 50px -10px rgba(255, 90, 31, 0.5);
-}
-
-
-/* Sports Editorial & Trading Card Utilities */
-/* Sports Editorial & Trading Card Utilities */
-.bg-court-grid {
-  background-image: 
-    radial-gradient(circle at 50% 30%, rgba(255, 90, 31, 0.12) 0%, transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 48px 48px, 48px 48px;
-}
-
-.bg-parquet-floor {
-  background-color: #080808;
-  background-image: 
-    radial-gradient(ellipse at 50% 0%, rgba(255, 90, 31, 0.18) 0%, rgba(10, 10, 10, 0.95) 75%),
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 2px, transparent 0, transparent 40px),
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 2px, transparent 0, transparent 40px);
-}
-
-/* Authentic Sports Trading Card (Panini / Topps Chrome feel) */
-.trading-card {
-  position: relative;
-  background: linear-gradient(175deg, #181818 0%, #101010 45%, #0a0a0a 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 
-    0 10px 30px -10px rgba(0, 0, 0, 0.9),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.8);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
-}
-
-.trading-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  border-color: rgba(255, 90, 31, 0.7);
-  box-shadow: 
-    0 20px 45px -12px rgba(0, 0, 0, 0.95),
-    0 0 35px -5px rgba(255, 90, 31, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.trading-card-selected {
-  background: linear-gradient(175deg, #201a16 0%, #15110f 45%, #0c0a09 100%);
-  border: 1.5px solid rgba(255, 90, 31, 0.75);
-  box-shadow: 
-    0 15px 35px -10px rgba(0, 0, 0, 0.9),
-    0 0 28px -4px rgba(255, 90, 31, 0.35),
-    inset 0 1px 0 rgba(255, 120, 70, 0.3);
-}
-
-/* Holographic Rainbow Foil Sheen */
-.card-foil {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-foil::after {
-  content: "";
-  position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
-  background: linear-gradient(
-    115deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.04) 40%,
-    rgba(255, 90, 31, 0.2) 48%,
-    rgba(59, 130, 246, 0.2) 52%,
-    rgba(245, 158, 11, 0.2) 56%,
-    rgba(255, 255, 255, 0.08) 60%,
-    transparent 80%
-  );
-  transform: rotate(28deg) translateY(-120%);
-  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  mix-blend-mode: color-dodge;
-  opacity: 0.8;
-}
-
-.card-foil:hover::after {
-  transform: rotate(28deg) translateY(120%);
-}
-
-/* Heavy Sports Stamp (SELLADO / BLOQUEADO) */
-@keyframes stamp-seal-heavy {
-  0% {
-    opacity: 0;
-    transform: scale(2.8) rotate(-22deg);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(0.94) rotate(-10deg);
-  }
-  80% {
-    transform: scale(1.04) rotate(-7deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(-8deg);
-  }
-}
-
-.animate-stamp {
-  animation: stamp-seal-heavy 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-.stamp-badge {
-  border: 4px double #DC2626;
-  color: #EF4444;
-  background-color: rgba(185, 28, 28, 0.22);
-  text-shadow: 0 0 16px rgba(239, 68, 68, 0.85), 0 2px 4px rgba(0, 0, 0, 0.95);
-  box-shadow: 
-    0 0 40px rgba(220, 38, 38, 0.6), 
-    inset 0 0 24px rgba(185, 28, 28, 0.4),
-    0 10px 25px rgba(0, 0, 0, 0.8);
-  letter-spacing: 0.22em;
-}
-
-/* Metallic Gold Underdog Plaque */
-.badge-underdog {
-  background: linear-gradient(135deg, #3A2A0D 0%, #1F1707 50%, #4D3810 100%);
-  border: 1px solid #F59E0B;
-  color: #FDE68A;
-  box-shadow: 
-    0 0 15px -2px rgba(245, 158, 11, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-}
-
-.sports-card {
-  background: linear-gradient(180deg, #161616 0%, #0e0e0e 100%);
-  border: 1px solid #262626;
-  position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sports-card:hover {
-  border-color: rgba(255, 90, 31, 0.5);
-  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(255, 90, 31, 0.2);
-  transform: translateY(-2px);
-}
-
-.sports-card-selected {
-  background: linear-gradient(180deg, #1c1815 0%, #11100f 100%);
-  border: 1px solid rgba(255, 90, 31, 0.6);
-  box-shadow: 0 0 20px -4px rgba(255, 90, 31, 0.25);
-}
-
-.hud-pill {
-  background: rgba(18, 18, 18, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Accessibility: respect prefers-reduced-motion */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
-  ::before,
-  ::after {
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  }
+}
+
+/* Live radar ping */
+@keyframes live-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.live-radar-dot {
+  position: relative;
+  display: inline-flex;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-state-live);
+}
+
+.live-radar-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--color-state-live);
+  animation: live-ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-radar-dot::after {
+    animation: none;
   }
 }

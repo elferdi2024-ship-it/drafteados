@@ -1,9 +1,19 @@
 // filepath: src/app/pickem/page.tsx
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Target, Lock, Eye, Trophy, CheckCircle2, ArrowRight, Flame, Sparkles, Shield } from 'lucide-react';
 import { CountdownLockBanner } from '@/components/pickem/CountdownLockBanner';
 import { PredictionCard, type PredictionCardProps } from '@/components/pickem/PredictionCard';
 import { PickemHero } from '@/components/pickem/PickemHero';
+import { buildMetadata, SITE_URL } from '@/lib/seo';
+
+export const metadata: Metadata = buildMetadata({
+  title: "Pick'em NBA | Pronósticos de los Buques",
+  description:
+    "Hacé tus 13 predicciones para la temporada NBA 2026/27. Multiplicador x1.5 para elecciones audaces, rankings en vivo y la gloria oficial de los Buques.",
+  path: "/pickem",
+  image: `${SITE_URL}/images/og-pickem.jpg`,
+});
 
 export default function PickemLandingPage() {
   const predictions: PredictionCardProps[] = [

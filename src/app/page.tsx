@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroCanvasScrub } from "@/components/hero/HeroCanvasScrub";
 import { SocialMarqueeStrip } from "@/components/sections/SocialMarqueeStrip";
@@ -6,6 +7,14 @@ import { UniverseSection } from "@/components/sections/UniverseSection";
 import { CommunityBuque } from "@/components/sections/CommunityBuque";
 import { BrandPartners } from "@/components/sections/BrandPartners";
 import { Footer } from "@/components/layout/Footer";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildMetadata({
+  title: "Drafteados — Tu Casa NBA en español",
+  description:
+    "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
+  path: "/",
+});
 
 export default function Home() {
   return (

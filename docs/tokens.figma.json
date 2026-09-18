@@ -1,0 +1,90 @@
+{
+  "$schema": "https://tokens.studio/schema.json",
+  "name": "Drafteados Design Tokens",
+  "version": "1.0.0",
+  "global": {
+    "color": {
+      "orange": {
+        "50": { "value": "#FFF7ED", "type": "color" },
+        "100": { "value": "#FFEDD5", "type": "color" },
+        "200": { "value": "#FED7AA", "type": "color" },
+        "300": { "value": "#FDBA74", "type": "color" },
+        "400": { "value": "#FB923C", "type": "color" },
+        "500": { "value": "#F97316", "type": "color" },
+        "600": { "value": "#EA580C", "type": "color" },
+        "700": { "value": "#C2410C", "type": "color" }
+      },
+      "neutral": {
+        "0": { "value": "#FFFFFF", "type": "color" },
+        "50": { "value": "#FAFAFA", "type": "color" },
+        "100": { "value": "#F5F5F5", "type": "color" },
+        "200": { "value": "#E5E5E5", "type": "color" },
+        "300": { "value": "#D4D4D4", "type": "color" },
+        "400": { "value": "#A3A3A3", "type": "color" },
+        "500": { "value": "#737373", "type": "color" },
+        "700": { "value": "#404040", "type": "color" },
+        "800": { "value": "#262626", "type": "color" },
+        "900": { "value": "#171717", "type": "color" },
+        "1000": { "value": "#0A0A0A", "type": "color" }
+      },
+      "state": {
+        "live": { "value": "#16A34A", "type": "color" },
+        "loss": { "value": "#DC2626", "type": "color" },
+        "east": { "value": "#3B82F6", "type": "color" },
+        "west": { "value": "#A855F7", "type": "color" }
+      }
+    },
+    "spacing": {
+      "1": { "value": "4px", "type": "spacing" },
+      "2": { "value": "8px", "type": "spacing" },
+      "3": { "value": "12px", "type": "spacing" },
+      "4": { "value": "16px", "type": "spacing" },
+      "5": { "value": "20px", "type": "spacing" },
+      "6": { "value": "24px", "type": "spacing" },
+      "8": { "value": "32px", "type": "spacing" },
+      "10": { "value": "40px", "type": "spacing" },
+      "12": { "value": "48px", "type": "spacing" },
+      "16": { "value": "64px", "type": "spacing" }
+    },
+    "borderRadius": {
+      "xs": { "value": "4px", "type": "borderRadius" },
+      "sm": { "value": "8px", "type": "borderRadius" },
+      "md": { "value": "12px", "type": "borderRadius" },
+      "lg": { "value": "16px", "type": "borderRadius" },
+      "xl": { "value": "24px", "type": "borderRadius" },
+      "full": { "value": "9999px", "type": "borderRadius" }
+    }
+  },
+  "light": {
+    "bg": {
+      "canvas": { "value": "{color.neutral.50}", "type": "color" },
+      "surface1": { "value": "{color.neutral.0}", "type": "color" },
+      "surface2": { "value": "{color.neutral.100}", "type": "color" }
+    },
+    "border": {
+      "subtle": { "value": "rgba(0, 0, 0, 0.08)", "type": "color" },
+      "strong": { "value": "{color.neutral.300}", "type": "color" }
+    },
+    "text": {
+      "primary": { "value": "{color.neutral.1000}", "type": "color" },
+      "secondary": { "value": "{color.neutral.700}", "type": "color" },
+      "muted": { "value": "{color.neutral.500}", "type": "color" }
+    }
+  },
+  "dark": {
+    "bg": {
+      "canvas": { "value": "{color.neutral.1000}", "type": "color" },
+      "surface1": { "value": "{color.neutral.900}", "type": "color" },
+      "surface2": { "value": "{color.neutral.800}", "type": "color" }
+    },
+    "border": {
+      "subtle": { "value": "rgba(255, 255, 255, 0.08)", "type": "color" },
+      "strong": { "value": "{color.neutral.700}", "type": "color" }
+    },
+    "text": {
+      "primary": { "value": "{color.neutral.50}", "type": "color" },
+      "secondary": { "value": "{color.neutral.300}", "type": "color" },
+      "muted": { "value": "{color.neutral.400}", "type": "color" }
+    }
+  }
+}

@@ -3,8 +3,50 @@
 
 import { useState, useMemo } from "react";
 import type { Game, Team } from "@/types/basketball";
-import { ScoreboardCard } from "./ScoreboardCard";
-import { Search, Filter, Calendar as CalendarIcon, AlertCircle } from "lucide-react";
+import { GameCard } from "./GameCard";
+import { EmptyState } from "@/components/ui";
+import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { Search, Filter, Calendar as CalendarIcon } from "lucide-react";
+
+function mapGameToCardProps(game: Game) {
+  const awayNbaId = getTeamNbaId(game.awayTeam.abbreviation, game.awayTeam.name);
+  const homeNbaId = getTeamNbaId(game.homeTeam.abbreviation, game.homeTeam.name);
+
+  let statusLabel = "Programado";
+  if (game.status === "live") {
+    statusLabel = `${game.period ? `${game.period}Q` : "EN VIVO"} ${game.clock || ""}`.trim();
+  } else if (game.status === "final") {
+    statusLabel = "Final";
+  } else if (game.time) {
+    statusLabel = `Hoy ${game.time}`;
+  } else if (game.date) {
+    const d = new Date(game.date);
+    if (!isNaN(d.getTime())) {
+      statusLabel = d.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+    }
+  }
+
+  return {
+    status: (game.status === "live" ? "live" : game.status === "final" ? "final" : "scheduled") as "live" | "final" | "scheduled",
+    statusLabel,
+    broadcast: game.broadcast || game.arena,
+    href: `/nba/partido/${game.id}`,
+    away: {
+      tricode: game.awayTeam.abbreviation,
+      name: game.awayTeam.name,
+      record: game.awayRecord,
+      logoUrl: awayNbaId ? getTeamLogoUrl(awayNbaId) : undefined,
+      score: game.awayScore,
+    },
+    home: {
+      tricode: game.homeTeam.abbreviation,
+      name: game.homeTeam.name,
+      record: game.homeRecord,
+      logoUrl: homeNbaId ? getTeamLogoUrl(homeNbaId) : undefined,
+      score: game.homeScore,
+    },
+  };
+}
 
 interface CalendarClientProps {
   initialGames: Game[];
@@ -93,7 +135,7 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar por equipo, ciudad o pabellón..."
+              placeholder="Buscar equipo, ciudad o pabellón…"
               className="w-full bg-[var(--hub-surface-2)] border border-[var(--hub-border)] focus:border-[var(--hub-accent)] rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-[var(--hub-text)] placeholder-[var(--hub-text-dim)] outline-none transition-colors"
             />
           </div>
@@ -147,7 +189,7 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
 
       {/* Resumen de resultados */}
       <div className="flex items-center justify-between text-xs font-mono text-[var(--hub-text-dim)] px-1">
-        <span>MOSTRANDO {filteredGames.length} PARTIDOS PROGRAMADOS</span>
+        <span>MOSTRANDO {filteredGames.length} PARTIDOS</span>
         {(search || filterType !== "ALL" || selectedTeam !== "ALL") && (
           <button
             onClick={() => {
@@ -164,15 +206,24 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
 
       {/* Grid de Partidos Agrupados por Fecha Exacta */}
       {filteredGames.length === 0 ? (
-        <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-12 text-center space-y-2">
-          <AlertCircle className="w-8 h-8 text-[var(--hub-accent)] mx-auto" />
-          <p className="font-bold text-lg text-[var(--hub-text)]">
-            No encontramos partidos con esos filtros.
-          </p>
-          <p className="text-sm text-[var(--hub-text-muted)]">
-            Probá seleccionando otra franquicia o reseteando los filtros de conferencia.
-          </p>
-        </div>
+        <EmptyState
+          title={search ? "Ningún partido coincide con la búsqueda." : "No hay partidos para esta fecha."}
+          description="Probá seleccionando otra franquicia o reseteando los filtros de conferencia."
+          action={
+            (search || filterType !== "ALL" || selectedTeam !== "ALL") ? (
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setFilterType("ALL");
+                  setSelectedTeam("ALL");
+                }}
+                className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-brand-primary)] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[var(--color-brand-hover)] cursor-pointer"
+              >
+                Limpiar filtros
+              </button>
+            ) : undefined
+          }
+        />
       ) : (
         <div className="space-y-10">
           {Object.entries(groupedGames).map(([dateLabel, gamesInGroup]) => (
@@ -188,7 +239,7 @@ export function CalendarClient({ initialGames, teams }: CalendarClientProps) {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {gamesInGroup.map((game) => (
-                  <ScoreboardCard key={game.id} game={game} />
+                  <GameCard key={game.id} {...mapGameToCardProps(game)} />
                 ))}
               </div>
             </div>

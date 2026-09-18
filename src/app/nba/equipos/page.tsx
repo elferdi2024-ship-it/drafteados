@@ -1,44 +1,22 @@
-// filepath: src/app/nba/equipos/page.tsx
 import Link from "next/link";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { TeamLogo } from "@/components/nba/TeamLogo";
+import { PageHeader } from "@/components/ui";
 
 import type { Metadata } from "next";
+import { buildMetadata, SITE_URL } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonld";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "30 Equipos de la NBA · Franquicias Oficiales",
+export const metadata: Metadata = buildMetadata({
+  title: "Equipos NBA | Las 30 franquicias",
   description:
-    "Las 30 franquicias de la NBA. Plantillas actualizadas con salarios, resultados recientes, calendarios y estadísticas de Conferencia Este y Oeste.",
-  openGraph: {
-    title: "30 Equipos de la NBA · Franquicias Oficiales | Drafteados",
-    description:
-      "Explorá las 30 franquicias de la NBA: plantillas completas, contratos de jugadores, últimos partidos y calendario.",
-    url: "https://drafteados.com/nba/equipos",
-    siteName: "Drafteados",
-    locale: "es_ES",
-    type: "website",
-    images: [
-      {
-        url: "/images/og-nba.png",
-        width: 1200,
-        height: 630,
-        alt: "30 Franquicias NBA · Drafteados",
-        type: "image/png",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "30 Equipos de la NBA · Franquicias Oficiales | Drafteados",
-    description:
-      "Plantillas completas, contratos de jugadores, últimos partidos y calendario de las 30 franquicias.",
-    site: "@drafteados",
-    creator: "@drafteados",
-    images: ["/images/og-nba.png"],
-  },
-};
+    "Las 30 franquicias de la NBA. Plantillas completas con salarios, resultados recientes, calendarios y estadísticas de Conferencia Este y Oeste en Drafteados.",
+  path: "/nba/equipos",
+  image: `${SITE_URL}/images/og-nba.png`,
+});
 
 export default async function TeamsPage() {
   const teams = await basketball.getTeams();
@@ -47,23 +25,19 @@ export default async function TeamsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-      {/* Header */}
-      <header className="border-b border-[var(--hub-border)] pb-6">
-        <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-widest text-[var(--hub-accent)] uppercase mb-2">
-          <span>NBA HUB · LOS BUQUES</span>
-          <span>•</span>
-          <span>FRANQUICIAS OFICIALES</span>
-        </div>
-        <h1
-          className="text-4xl sm:text-6xl font-black text-[var(--hub-text)] uppercase tracking-tight leading-none"
-          style={{ fontFamily: "var(--hub-font-display)" }}
-        >
-          EQUIPOS
-        </h1>
-        <p className="text-sm sm:text-base text-[var(--hub-text-secondary)] mt-1.5 font-normal">
-          Las 30 franquicias · Roster, stats y calendario.
-        </p>
-      </header>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Inicio", path: "/" },
+          { name: "NBA Hub", path: "/nba" },
+          { name: "Equipos", path: "/nba/equipos" },
+        ])}
+      />
+      {/* PageHeader (DRAF-011 + COPY_DECK.md) */}
+      <PageHeader
+        eyebrow="NBA HUB · LOS BUQUES · FRANQUICIAS"
+        title="Equipos"
+        description="Las 30 franquicias · Roster, stats y calendario."
+      />
 
       {/* Este */}
       <section className="space-y-4">

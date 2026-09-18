@@ -11,6 +11,10 @@ import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 
 import { MOCK_TEAMS } from "@/lib/data/basketball/mock-data";
 
+import { buildMetadata, SITE_URL } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbJsonLd, sportsTeamJsonLd } from "@/lib/seo/jsonld";
+
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
@@ -46,42 +50,19 @@ export async function generateMetadata({
   }
 
   if (!team) {
-    return {
-      title: "Equipo no encontrado | Drafteados NBA",
-    };
+    return buildMetadata({
+      title: "Equipo no encontrado",
+      description: "La franquicia NBA especificada no existe en Drafteados.",
+      noIndex: true,
+    });
   }
 
-  const nbaId = getTeamNbaId(team.abbreviation, team.name);
-
-  return {
-    title: `${team.name} · Plantilla, Calendario y Resultados 2026/27`,
+  return buildMetadata({
+    title: `${team.name} | Roster, stats y calendario`,
     description: `Ficha oficial de ${team.name} (${team.abbreviation}) en Drafteados. Plantilla completa con salarios, próximos partidos, resultados y posición en la Conferencia ${team.conference === "East" ? "Este" : "Oeste"}.`,
-    openGraph: {
-      title: `${team.name} · Ficha Oficial y Plantilla NBA 2026/27 | Drafteados`,
-      description: `Plantilla completa con estadísticas y salarios, calendario y balance oficial de ${team.name} en la NBA.`,
-      url: `https://drafteados.com/nba/equipo/${team.slug}`,
-      siteName: "Drafteados",
-      locale: "es_ES",
-      type: "website",
-      images: [
-        {
-          url: "/images/og-nba.png",
-          width: 1200,
-          height: 630,
-          alt: `${team.name} - Drafteados NBA`,
-          type: "image/png",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${team.name} · Plantilla y Estadísticas | Drafteados NBA`,
-      description: `Roster completo, calendario de partidos y balance de ${team.name}.`,
-      site: "@drafteados",
-      creator: "@drafteados",
-      images: ["/images/og-nba.png"],
-    },
-  };
+    path: `/nba/equipo/${team.slug}`,
+    image: `${SITE_URL}/images/og-nba.png`,
+  });
 }
 
 export default async function TeamDetailPage({
@@ -121,9 +102,25 @@ export default async function TeamDetailPage({
   );
 
   const { recent, upcoming } = teamSchedule;
+  const nbaId = getTeamNbaId(team.abbreviation, team.name);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Inicio", path: "/" },
+            { name: "NBA Hub", path: "/nba" },
+            { name: "Equipos", path: "/nba/equipos" },
+            { name: team.name, path: `/nba/equipo/${team.slug}` },
+          ]),
+          sportsTeamJsonLd({
+            name: team.name,
+            url: `${SITE_URL}/nba/equipo/${team.slug}`,
+            logo: getTeamLogoUrl(nbaId) || undefined,
+          }),
+        ]}
+      />
       {/* Back to teams link */}
       <Link
         href="/nba/equipos"

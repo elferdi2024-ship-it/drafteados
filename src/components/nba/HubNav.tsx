@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Flame, Trophy, Calendar, ListOrdered, Users, ArrowUpRight, Sun, Moon } from "lucide-react";
+import { Flame, Trophy, Calendar, ListOrdered, Users, ArrowUpRight } from "lucide-react";
+import { ThemeToggle } from "@/components/theme";
 
 interface NavItem {
   href: string;
@@ -24,26 +25,6 @@ const NAV_ITEMS: NavItem[] = [
 
 export function HubNav() {
   const pathname = usePathname();
-  const [theme, setTheme] = useState<"dark" | "light">("light");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const isDark = document.documentElement.classList.contains("dark");
-    setTheme(isDark ? "dark" : "light");
-  }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    if (nextTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--hub-bg)]/95 backdrop-blur-md border-b border-[var(--hub-border)] transition-colors duration-300">
@@ -102,19 +83,7 @@ export function HubNav() {
 
           {/* Actions: Theme Toggle + CTA to Pick'em */}
           <div className="flex items-center gap-2.5">
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="p-2 rounded-xl border border-[var(--hub-border)] bg-[var(--hub-surface)] text-[var(--hub-text)] hover:border-[var(--hub-accent)] transition-all cursor-pointer flex items-center justify-center"
-              aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-              title={theme === "dark" ? "Activar modo claro" : "Activar modo oscuro"}
-            >
-              {mounted && theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
-              )}
-            </button>
+            <ThemeToggle size="sm" />
 
             <Link
               href="/pickem"
