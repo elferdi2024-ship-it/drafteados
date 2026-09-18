@@ -10,9 +10,9 @@ import { Footer } from "@/components/layout/Footer";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Drafteados — Tu Casa NBA en español",
+  title: "Drafteados · Tu Casa NBA",
   description:
-    "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
+    "El cuartel general para los Buques de la NBA. Marcadores en directo, clasificación, calendario, plantillas oficiales, podcast 3+1 y Pick'em.",
   path: "/",
 });
 

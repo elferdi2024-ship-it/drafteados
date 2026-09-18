@@ -72,9 +72,9 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Drafteados — Tu Casa NBA en español",
+    title: "Drafteados · Tu Casa NBA",
     description:
-      "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
+      "El cuartel general para los Buques de la NBA. Marcadores en directo, clasificación, calendario, plantillas oficiales, podcast 3+1 y Pick'em.",
     url: SITE_URL,
     siteName: "Drafteados",
     images: [
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
         secureUrl: `${SITE_URL}/images/og-main.png`,
         width: 1200,
         height: 630,
-        alt: "Drafteados — Tu Casa NBA",
+        alt: "Drafteados · Tu Casa NBA",
         type: "image/png",
       },
     ],
@@ -92,9 +92,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drafteados — Tu Casa NBA en español",
+    title: "Drafteados · Tu Casa NBA",
     description:
-      "El cuartel general para los Buques de la NBA desde 2017. Marcadores en directo, clasificación, calendario, plantillas oficiales, 3+1 Podcast y Pick'em.",
+      "El cuartel general para los Buques de la NBA. Marcadores en directo, clasificación, calendario, plantillas oficiales, podcast 3+1 y Pick'em.",
     site: "@drafteados",
     creator: "@drafteados",
     images: [`${SITE_URL}/images/og-main.png`],
