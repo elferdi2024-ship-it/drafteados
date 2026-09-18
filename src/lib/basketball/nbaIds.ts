@@ -411,12 +411,14 @@ export function getPlayerHeadshotUrl(nbaId: number | null | undefined, _size: '1
   return `https://cdn.nba.com/headshots/nba/latest/1040x760/${nbaId}.png`;
 }
 
+import { getNbaLogoUrl } from "@/lib/nba/teamAssets";
+
 /**
- * Resolves official NBA team logo SVG (served via direct official NBA CDN)
+ * Resolves official NBA team logo (served via high-availability ESPN 500x500 CDN)
  */
 export function getTeamLogoUrl(nbaTeamId: number | null | undefined): string {
   if (!nbaTeamId) return "";
-  return `https://cdn.nba.com/logos/nba/${nbaTeamId}/primary/L/logo.svg`;
+  return getNbaLogoUrl(nbaTeamId);
 }
 
 /**

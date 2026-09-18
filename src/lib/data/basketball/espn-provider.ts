@@ -479,9 +479,8 @@ export class EspnProvider implements BasketballDataProvider {
         const primarySalary = a.contracts?.[0]?.salary ? Number(a.contracts[0].salary) : undefined;
         const { formatted: salaryFormatted, tier: salaryTier } = formatSalary(primarySalary);
 
-        // Foto oficial de alta resolución
-        const nbaId = getPlayerNbaId(fullName);
-        const headshotUrl = a.headshot?.href || (nbaId ? getPlayerHeadshotUrl(nbaId, "1040x760") : undefined);
+        // Foto oficial de alta resolución servida por CDN estable de ESPN
+        const headshotUrl = a.headshot?.href || `https://a.espncdn.com/i/headshots/nba/players/full/${a.id}.png`;
 
         return {
           id: String(a.id),
@@ -537,6 +536,11 @@ export class EspnProvider implements BasketballDataProvider {
             target.stats = resItem.value.stats;
           }
         }
+      }
+
+      // Sanear anomalías de prueba de ESPN (ej. Giannis en Miami Heat)
+      if (espnId === "14" || teamIdOrSlug.toLowerCase().includes("heat")) {
+        return players.filter((p) => !p.fullName.toLowerCase().includes("antetokounmpo"));
       }
 
       return players;

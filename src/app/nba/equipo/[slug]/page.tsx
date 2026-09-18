@@ -141,15 +141,34 @@ export default async function TeamDetailPage({
           background: `linear-gradient(135deg, ${primaryColor}18 0%, var(--hub-surface) 55%)`,
         }}
       >
-        <div className="flex items-center gap-6">
+        {/* Top Brand Accent */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1.5"
+          style={{
+            background: `linear-gradient(90deg, ${primaryColor}, ${brand?.secondary || primaryColor})`,
+          }}
+        />
+
+        {/* Franchise Watermark Backdrop */}
+        <div className="absolute -right-8 -bottom-10 opacity-[0.06] dark:opacity-[0.12] pointer-events-none select-none">
+          <TeamLogo
+            tricode={team.abbreviation}
+            slug={team.slug}
+            teamId={brand?.teamId}
+            name={team.name}
+            size={240}
+          />
+        </div>
+
+        <div className="flex items-center gap-6 relative z-10">
           <TeamLogo
             tricode={team.abbreviation}
             slug={team.slug}
             teamId={brand?.teamId}
             name={team.name}
             primaryColor={primaryColor}
-            size={88}
-            className="drop-shadow-md"
+            size={96}
+            className="drop-shadow-lg"
           />
 
           <div>

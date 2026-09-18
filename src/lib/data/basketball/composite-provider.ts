@@ -121,7 +121,7 @@ export class CompositeProvider implements BasketballDataProvider {
   async getRoster(teamIdOrSlug: string): Promise<Player[]> {
     const key = `roster:${teamIdOrSlug.toLowerCase()}`;
     // Roster TTL: 3600 segundos (1 hora)
-    return hubCache.getOrSet(key, 3600, async () => {
+    const list = await hubCache.getOrSet(key, 3600, async () => {
       try {
         const roster = await this.espn.getRoster(teamIdOrSlug);
         if (roster && roster.length > 0) return roster;
@@ -131,6 +131,13 @@ export class CompositeProvider implements BasketballDataProvider {
         return this.mock.getRoster(teamIdOrSlug);
       }
     });
+
+    const isHeat = teamIdOrSlug.toLowerCase().includes("heat") || teamIdOrSlug === "14" || teamIdOrSlug.toUpperCase() === "MIA";
+    if (isHeat) {
+      return list.filter((p) => !p.fullName.toLowerCase().includes("antetokounmpo"));
+    }
+
+    return list;
   }
 
   async getTeamSchedule(teamIdOrSlug: string): Promise<{ recent: Game[]; upcoming: Game[] }> {

@@ -62,7 +62,7 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
       <div className="space-y-2">
         {currentLines.map((line) => {
           const nbaId = getPlayerNbaId(line.player.fullName);
-          const headshotUrl = nbaId ? getPlayerHeadshotUrl(nbaId, "260x190") : null;
+          const headshotUrl = line.player.headshotUrl || (nbaId ? getPlayerHeadshotUrl(nbaId, "260x190") : null);
 
           return (
             <div

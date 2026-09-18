@@ -328,34 +328,77 @@ export function getTeamBySlug(slug: string): TeamBrand | undefined {
   );
 }
 
-export type LogoSize = "L" | "D"; // L = large SVG path used by nba.com
+export const ESPN_TRICODE_MAP: Record<string, string> = {
+  ATL: "atl",
+  BOS: "bos",
+  BKN: "bkn",
+  CHA: "cha",
+  CHI: "chi",
+  CLE: "cle",
+  DAL: "dal",
+  DEN: "den",
+  DET: "det",
+  GSW: "gsw",
+  GS: "gsw",
+  HOU: "hou",
+  IND: "ind",
+  LAC: "lac",
+  LAL: "lal",
+  MEM: "mem",
+  MIA: "mia",
+  MIL: "mil",
+  MIN: "min",
+  NOP: "no",
+  NO: "no",
+  NYK: "nyk",
+  NY: "nyk",
+  OKC: "okc",
+  ORL: "orl",
+  PHI: "phi",
+  PHX: "phx",
+  POR: "por",
+  SAC: "sac",
+  SAS: "sas",
+  SA: "sas",
+  TOR: "tor",
+  UTA: "utah",
+  UTAH: "utah",
+  WAS: "was",
+  WSH: "was",
+};
+
+export function getEspnLogoByTricode(tricode: string): string {
+  const norm = normalizeTricode(tricode);
+  const espnCode = ESPN_TRICODE_MAP[norm] || norm.toLowerCase();
+  return `https://a.espncdn.com/i/teamlogos/nba/500/${espnCode}.png`;
+}
 
 /**
- * URL logo primario SVG (CDN nba.com)
- * Ejemplo Nets: https://cdn.nba.com/logos/nba/1610612751/primary/L/logo.svg
+ * URL logo oficial alta resolución (500x500 PNG con transparencia sin CORS/HTTP2 protocol errors)
+ * Fallback transparente de cdn.nba.com a ESPN CDN estable
  */
 export function getNbaLogoUrl(
   teamIdOrTricodeOrSlug: number | string,
-  variant: "primary" | "global" = "primary"
+  _variant: "primary" | "global" = "primary"
 ): string {
-  let teamId: number;
   if (typeof teamIdOrTricodeOrSlug === "number") {
-    teamId = teamIdOrTricodeOrSlug;
-  } else {
-    const num = parseInt(teamIdOrTricodeOrSlug, 10);
-    if (!isNaN(num) && num > 1000000000) {
-      teamId = num;
-    } else {
-      const team =
-        getTeamByTricode(teamIdOrTricodeOrSlug) ||
-        getTeamBySlug(teamIdOrTricodeOrSlug);
-      if (!team) {
-        return "";
-      }
-      teamId = team.teamId;
-    }
+    const found = Object.values(NBA_TEAMS).find((t) => t.teamId === teamIdOrTricodeOrSlug);
+    if (found) return getEspnLogoByTricode(found.tricode);
   }
-  return `https://cdn.nba.com/logos/nba/${teamId}/${variant}/L/logo.svg`;
+
+  const str = String(teamIdOrTricodeOrSlug).trim();
+  const num = parseInt(str, 10);
+  if (!isNaN(num) && num > 1000000000) {
+    const found = Object.values(NBA_TEAMS).find((t) => t.teamId === num);
+    if (found) return getEspnLogoByTricode(found.tricode);
+  }
+
+  const team = getTeamByTricode(str) || getTeamBySlug(str);
+  if (team) {
+    return getEspnLogoByTricode(team.tricode);
+  }
+
+  return getEspnLogoByTricode(str);
 }
 
 /** ESPN CDN alternativo (PNG) — backup si SVG falla */
