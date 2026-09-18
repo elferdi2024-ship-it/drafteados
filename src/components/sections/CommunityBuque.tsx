@@ -370,10 +370,21 @@ export function CommunityBuque() {
           </div>
 
           {/* Minimalist Manifesto Card */}
-          <div className="rounded-3xl p-6 sm:p-8 bg-white dark:bg-[#151518] border border-black/8 dark:border-white/15 text-center flex flex-col items-center space-y-4 shadow-sm">
-            <Quote className="w-6 h-6 text-[#FF5A1F] opacity-80" />
-            <blockquote className="text-sm sm:text-lg text-zinc-800 dark:text-zinc-200 italic max-w-2xl leading-relaxed">
-              &ldquo;Acercamos la cultura NBA a los aficionados hispanohablantes que quieren entenderla, compartirla y vivirla con pasión y rigor.&rdquo;
+          <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#151518] border border-black/8 dark:border-white/15 text-center flex flex-col items-center space-y-4 shadow-sm">
+            <Quote className="w-7 h-7 text-[#FF5A1F] opacity-90" />
+            <div className="space-y-1">
+              <span className="text-xs font-mono font-bold tracking-[0.25em] text-[#FF5A1F] uppercase block">
+                BIENVENIDOS A
+              </span>
+              <h3
+                className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-zinc-900 dark:text-white"
+                style={{ fontFamily: "var(--font-title)" }}
+              >
+                TU CASA NBA
+              </h3>
+            </div>
+            <blockquote className="text-sm sm:text-base md:text-lg text-zinc-800 dark:text-zinc-200 max-w-2xl leading-relaxed font-normal">
+              &ldquo;Drafteados es un canal de YouTube especializado en NBA desde 2017, con una comunidad sólida en España y Latinoamérica. Más de 880.000 personas siguen a diario, a través de nuestros contenidos y experiencias, la mejor liga de baloncesto del mundo.&rdquo;
             </blockquote>
             <div className="pt-2">
               <MagneticButton

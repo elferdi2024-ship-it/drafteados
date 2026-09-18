@@ -5,6 +5,8 @@ import { cn } from "@/lib/cn";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardFooter } from "@/components/ui/Card";
+import { TeamLogo } from "@/components/nba/TeamLogo";
+import { getTeamByTricode } from "@/lib/nba/teamAssets";
 
 export type GameStatus = "scheduled" | "live" | "final";
 
@@ -30,40 +32,6 @@ export interface GameCardProps {
   className?: string;
 }
 
-function TeamLogo({
-  url,
-  tricode,
-  size = 36,
-}: {
-  url?: string;
-  tricode: string;
-  size?: number;
-}) {
-  const [failed, setFailed] = React.useState(false);
-  if (!url || failed) {
-    return (
-      <span
-        className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-surface-2)] text-[10px] font-bold text-[var(--color-text-muted)]"
-        style={{ width: size, height: size }}
-        aria-hidden
-      >
-        {tricode.slice(0, 3)}
-      </span>
-    );
-  }
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={url}
-      alt=""
-      width={size}
-      height={size}
-      className="object-contain"
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
 function TeamBlock({
   team,
   align,
@@ -82,7 +50,12 @@ function TeamBlock({
         align === "right" && "flex-row-reverse text-right"
       )}
     >
-      <TeamLogo url={team.logoUrl} tricode={team.tricode} />
+      <TeamLogo
+        tricode={team.tricode}
+        name={team.name}
+        alt={team.name || team.tricode}
+        size={36}
+      />
       <div className="min-w-0">
         <p
           className={cn(
@@ -200,13 +173,22 @@ export function GameCard({
     </>
   );
 
+  const homeBrand = getTeamByTricode(home.tricode);
+  const cardStyle: React.CSSProperties = homeBrand?.primary
+    ? { borderLeft: `3px solid ${homeBrand.primary}` }
+    : {};
+
   if (href) {
     return (
       <Card
         as="a"
         href={href}
         interactive
-        className={cn("block overflow-hidden", className)}
+        style={cardStyle}
+        className={cn(
+          "block overflow-hidden transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md",
+          className
+        )}
       >
         {inner}
       </Card>
@@ -214,7 +196,15 @@ export function GameCard({
   }
 
   return (
-    <Card className={cn("overflow-hidden", className)} interactive={!!onBoxscore}>
+    <Card
+      style={cardStyle}
+      className={cn(
+        "overflow-hidden transition-all duration-150",
+        onBoxscore && "hover:-translate-y-0.5 hover:shadow-md",
+        className
+      )}
+      interactive={!!onBoxscore}
+    >
       {inner}
     </Card>
   );

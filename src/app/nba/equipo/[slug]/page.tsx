@@ -8,6 +8,7 @@ import { TeamTabsView } from "@/components/nba/TeamTabsView";
 
 import type { Metadata } from "next";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { getTeamBySlug, getTeamByTricode } from "@/lib/nba/teamAssets";
 
 import { MOCK_TEAMS } from "@/lib/data/basketball/mock-data";
 
@@ -102,7 +103,9 @@ export default async function TeamDetailPage({
   );
 
   const { recent, upcoming } = teamSchedule;
-  const nbaId = getTeamNbaId(team.abbreviation, team.name);
+  const brand = getTeamBySlug(team.slug) || getTeamByTricode(team.abbreviation);
+  const primaryColor = brand?.primary || team.primaryColor || "#FF5A1F";
+  const nbaId = brand?.teamId || getTeamNbaId(team.abbreviation, team.name);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -132,24 +135,34 @@ export default async function TeamDetailPage({
 
       {/* Team Header Banner */}
       <div
-        className="rounded-3xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-6 sm:p-10 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
+        className="rounded-3xl border border-[var(--hub-border)] p-6 sm:p-10 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
         style={{
-          borderLeftColor: team.primaryColor || undefined,
-          borderLeftWidth: "6px",
+          borderLeft: `6px solid ${primaryColor}`,
+          background: `linear-gradient(135deg, ${primaryColor}18 0%, var(--hub-surface) 55%)`,
         }}
       >
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-6">
           <TeamLogo
-            abbreviation={team.abbreviation}
+            tricode={team.abbreviation}
+            slug={team.slug}
+            teamId={brand?.teamId}
             name={team.name}
-            primaryColor={team.primaryColor}
-            size="xl"
+            primaryColor={primaryColor}
+            size={88}
+            className="drop-shadow-md"
           />
 
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[var(--hub-accent)]">
-                CONFERENCIA {team.conference.toUpperCase()} · DIVISIÓN {team.division.toUpperCase()}
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="text-xs font-sans font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-md border"
+                style={{
+                  color: primaryColor,
+                  borderColor: `${primaryColor}40`,
+                  backgroundColor: `${primaryColor}10`,
+                }}
+              >
+                CONF. {team.conference.toUpperCase()} · DIV. {team.division.toUpperCase()}
               </span>
             </div>
             <h1
@@ -158,8 +171,8 @@ export default async function TeamDetailPage({
             >
               {team.name}
             </h1>
-            <p className="text-xs sm:text-sm text-[var(--hub-text-secondary)] mt-1.5">
-              {team.city} · Sigla: {team.abbreviation} · {roster.length} Jugadores en Plantilla
+            <p className="text-xs sm:text-sm text-[var(--hub-text-secondary)] mt-2">
+              {team.city} · Tricode: <strong className="font-mono text-[var(--hub-text)]">{team.abbreviation}</strong> · {roster.length} Jugadores en Plantilla
             </p>
           </div>
         </div>

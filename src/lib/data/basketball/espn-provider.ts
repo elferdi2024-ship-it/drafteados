@@ -203,30 +203,44 @@ export class EspnProvider implements BasketballDataProvider {
   private standingsUrl = "https://site.api.espn.com/apis/v2/sports/basketball/nba/standings";
 
   private mapTeam(espnTeam: EspnCompetitor["team"]): Team {
-    const rawAbbr = espnTeam.abbreviation || "NBA";
+    const rawAbbr = (espnTeam.abbreviation || "NBA").toUpperCase().trim();
     const espnId = String(espnTeam.id || "");
-    const cleanName = (espnTeam.displayName || espnTeam.name || "").toLowerCase();
+    const cleanName = (espnTeam.displayName || espnTeam.name || "").toLowerCase().trim();
 
-    // Buscar coincidencia canónica en MOCK_TEAMS
-    const matched = MOCK_TEAMS.find((t) => {
-      const tEspnId = ESPN_TEAM_ID_MAP[t.slug];
-      return (
-        tEspnId === espnId ||
-        t.id === espnId ||
-        t.abbreviation.toUpperCase() === rawAbbr.toUpperCase() ||
-        (rawAbbr === "NY" && t.abbreviation === "NYK") ||
-        (rawAbbr === "SA" && t.abbreviation === "SAS") ||
-        (rawAbbr === "GS" && t.abbreviation === "GSW") ||
-        (rawAbbr === "NO" && t.abbreviation === "NOP") ||
-        (rawAbbr === "WSH" && t.abbreviation === "WAS") ||
-        (rawAbbr === "UTAH" && t.abbreviation === "UTA") ||
-        t.name.toLowerCase() === cleanName ||
-        cleanName.includes(t.name.toLowerCase()) ||
-        t.name.toLowerCase().includes(cleanName)
-      );
-    });
+    // Normalizador de abreviaturas ESPN a NBA canónica
+    const normAbbr = (raw: string): string => {
+      const u = raw.toUpperCase().trim();
+      if (u === "NY") return "NYK";
+      if (u === "SA") return "SAS";
+      if (u === "GS") return "GSW";
+      if (u === "NO") return "NOP";
+      if (u === "WSH") return "WAS";
+      if (u === "UTAH") return "UTA";
+      return u;
+    };
+    const normalizedRawAbbr = normAbbr(rawAbbr);
 
-    const canonicalAbbr = matched ? matched.abbreviation : rawAbbr;
+    // Búsqueda canónica con prioridad estricta para evitar colisiones
+    // 1. Coincidencia por ID de ESPN
+    let matched = MOCK_TEAMS.find((t) => t.id === espnId || ESPN_TEAM_ID_MAP[t.slug] === espnId);
+
+    // 2. Coincidencia por abreviatura normalizada
+    if (!matched && normalizedRawAbbr) {
+      matched = MOCK_TEAMS.find((t) => normAbbr(t.abbreviation) === normalizedRawAbbr);
+    }
+
+    // 3. Coincidencia por nombre completo exacto
+    if (!matched && cleanName) {
+      matched = MOCK_TEAMS.find((t) => t.name.toLowerCase() === cleanName);
+    }
+
+    // 4. Coincidencia por slug o nombre corto exacto
+    if (!matched && espnTeam.name) {
+      const candidate = espnTeam.name.toLowerCase().trim();
+      matched = MOCK_TEAMS.find((t) => t.slug.toLowerCase() === candidate || t.name.toLowerCase().endsWith(candidate));
+    }
+
+    const canonicalAbbr = matched ? matched.abbreviation : (normalizedRawAbbr || rawAbbr);
     const conference = matched ? matched.conference : "East";
     const division = matched ? matched.division : "NBA";
     const slug = matched ? matched.slug : (espnTeam.name?.toLowerCase().replace(/\s+/g, "-") || canonicalAbbr.toLowerCase());
@@ -411,31 +425,39 @@ export class EspnProvider implements BasketballDataProvider {
 
   async getTeam(slugOrId: string): Promise<Team | null> {
     const clean = slugOrId.toLowerCase().trim();
+    const upper = slugOrId.toUpperCase().trim();
     const teams = await this.getTeams();
-    const found = teams.find(
-      (t) =>
-        t.id === clean ||
-        t.slug.toLowerCase() === clean ||
-        t.abbreviation.toLowerCase() === clean ||
-        t.name.toLowerCase() === clean ||
-        t.name.toLowerCase().includes(clean)
-    );
+
+    // 1. Coincidencia exacta por slug
+    let found = teams.find((t) => t.slug.toLowerCase() === clean);
     if (found) return found;
 
-    // Fallback por ID de ESPN mapeado
-    const espnId = getEspnTeamId(clean);
-    const byId = teams.find((t) => t.id === espnId);
-    if (byId) return byId;
+    // 2. Coincidencia exacta por abreviatura
+    found = teams.find((t) => t.abbreviation.toUpperCase() === upper);
+    if (found) return found;
 
-    // Fallback a MOCK_TEAMS
+    // 3. Coincidencia por ID de ESPN directo
+    found = teams.find((t) => t.id === clean);
+    if (found) return found;
+
+    // 4. Coincidencia exacta por nombre completo
+    found = teams.find((t) => t.name.toLowerCase() === clean);
+    if (found) return found;
+
+    // 5. Fallback por ID mapeado de ESPN
+    const espnId = getEspnTeamId(clean);
+    if (espnId) {
+      const byId = teams.find((t) => t.id === espnId);
+      if (byId) return byId;
+    }
+
+    // 6. Fallback a MOCK_TEAMS (con la misma jerarquía estricta)
     return (
-      MOCK_TEAMS.find(
-        (t) =>
-          t.id === clean ||
-          t.slug.toLowerCase() === clean ||
-          t.abbreviation.toLowerCase() === clean ||
-          t.name.toLowerCase() === clean
-      ) || null
+      MOCK_TEAMS.find((t) => t.slug.toLowerCase() === clean) ||
+      MOCK_TEAMS.find((t) => t.abbreviation.toUpperCase() === upper) ||
+      MOCK_TEAMS.find((t) => t.id === clean) ||
+      MOCK_TEAMS.find((t) => t.name.toLowerCase() === clean) ||
+      null
     );
   }
 

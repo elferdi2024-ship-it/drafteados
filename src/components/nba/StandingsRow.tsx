@@ -27,27 +27,7 @@ export interface StandingsRowProps {
   className?: string;
 }
 
-function TeamLogo({ url, tricode }: { url?: string; tricode: string }) {
-  const [failed, setFailed] = React.useState(false);
-  if (!url || failed) {
-    return (
-      <span className="inline-flex size-6 items-center justify-center rounded bg-[var(--color-surface-2)] text-[9px] font-bold text-[var(--color-text-muted)]">
-        {tricode.slice(0, 3)}
-      </span>
-    );
-  }
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={url}
-      alt=""
-      width={24}
-      height={24}
-      className="size-6 object-contain"
-      onError={() => setFailed(true)}
-    />
-  );
-}
+import { TeamLogo } from "./TeamLogo";
 
 const tierBar: Record<RankTier, string> = {
   playoffs: "border-l-2 border-l-[var(--color-state-win)]",
@@ -87,7 +67,7 @@ export function StandingsRow({
       </td>
       <td className="px-2">
         <div className="flex items-center gap-2 min-w-0">
-          <TeamLogo url={team.logoUrl} tricode={team.tricode} />
+          <TeamLogo tricode={team.tricode} name={team.name} size={24} />
           <span className="truncate text-sm font-semibold text-[var(--color-text-primary)]">
             <span className="md:hidden">{team.tricode}</span>
             <span className="hidden md:inline">{team.name}</span>

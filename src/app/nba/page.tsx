@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Trophy, Flame, AlertCircle, Calendar, Users, BarChart3, ChevronRight } from "lucide-react";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { PageHeader, EmptyState } from "@/components/ui";
-import { GameCard } from "@/components/nba";
+import { GameCard, TeamLogo } from "@/components/nba";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 import { SectionHeader } from "@/components/nba/SectionHeader";
 import { MiniStandings } from "@/components/nba/MiniStandings";
@@ -110,13 +110,19 @@ export default async function NbaHubPage() {
       {/* Reloj Cuenta Regresiva Salto Inicial 2026/27 (Countdown solo en Hoy) */}
       <CountdownClock />
 
-      {/* Quick Stat Strip / Claves de Temporada (Compacto & Escaneable) */}
+      {/* Quick Stat Strip / Claves de Temporada (Con Logos Oficiales) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between shadow-sm">
-          <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
-            OPENING NIGHT
-          </span>
-          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] mt-1 font-mono">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
+              OPENING NIGHT
+            </span>
+            <div className="flex items-center -space-x-2">
+              <TeamLogo tricode="BOS" size={24} />
+              <TeamLogo tricode="NYK" size={24} />
+            </div>
+          </div>
+          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] mt-2 font-mono">
             20 OCTUBRE 2026
           </span>
         </div>
@@ -128,9 +134,12 @@ export default async function NbaHubPage() {
             <span className="text-[10px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
               CAMPEÓN · NARRATIVA BUQUES
             </span>
-            <Trophy className="w-3.5 h-3.5 text-amber-500" />
+            <div className="flex items-center gap-1.5">
+              <TeamLogo tricode="NYK" size={22} />
+              <Trophy className="w-3.5 h-3.5 text-amber-500" />
+            </div>
           </div>
-          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
+          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-2">
             NY KNICKS (4-1)
           </span>
         </Link>
@@ -138,18 +147,28 @@ export default async function NbaHubPage() {
           href="/nba/equipo/spurs"
           className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between hover:border-[var(--hub-accent)] transition-colors group shadow-sm"
         >
-          <span className="text-[10px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
-            SUBCAMPEÓN · NARRATIVA BUQUES
-          </span>
-          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-1">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
+              SUBCAMPEÓN · NARRATIVA BUQUES
+            </span>
+            <TeamLogo tricode="SAS" size={22} />
+          </div>
+          <span className="text-base sm:text-lg font-black text-[var(--hub-text)] group-hover:text-[var(--hub-accent)] transition-colors mt-2">
             SAN ANTONIO SPURS
           </span>
         </Link>
         <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-4 flex flex-col justify-between shadow-sm">
-          <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
-            COBERTURA TOTAL
-          </span>
-          <span className="text-base sm:text-lg font-black text-[var(--hub-accent)] mt-1 font-mono">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-sans uppercase tracking-wider text-[var(--hub-text-muted)] font-bold">
+              COBERTURA TOTAL
+            </span>
+            <div className="flex items-center -space-x-1.5 opacity-85">
+              <TeamLogo tricode="LAL" size={20} />
+              <TeamLogo tricode="GSW" size={20} />
+              <TeamLogo tricode="DAL" size={20} />
+            </div>
+          </div>
+          <span className="text-base sm:text-lg font-black text-[var(--hub-accent)] mt-2 font-mono">
             82 PARTIDOS + PLAYOFFS
           </span>
         </div>
@@ -179,16 +198,31 @@ export default async function NbaHubPage() {
             }
           />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {liveGames.map((game) => (
-              <GameCard key={game.id} {...mapGameToCardProps(game)} />
-            ))}
-            {upcomingGames.map((game) => (
-              <GameCard key={game.id} {...mapGameToCardProps(game)} />
-            ))}
-            {finalGames.map((game) => (
-              <GameCard key={game.id} {...mapGameToCardProps(game)} />
-            ))}
+          <div className="space-y-4">
+            {liveGames.length > 0 && (
+              <div className="space-y-3 p-4 rounded-2xl border border-[var(--hub-live)]/30 bg-[var(--hub-live-soft)]/20">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--hub-live)] motion-safe:animate-ping" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--hub-live)]">
+                    EN VIVO AHORA ({liveGames.length})
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {liveGames.map((game) => (
+                    <GameCard key={game.id} {...mapGameToCardProps(game)} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {upcomingGames.map((game) => (
+                <GameCard key={game.id} {...mapGameToCardProps(game)} />
+              ))}
+              {finalGames.map((game) => (
+                <GameCard key={game.id} {...mapGameToCardProps(game)} />
+              ))}
+            </div>
           </div>
         )}
       </section>

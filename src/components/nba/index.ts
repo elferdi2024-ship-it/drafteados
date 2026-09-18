@@ -6,3 +6,4 @@ export {
   type StandingsTeam,
   type RankTier,
 } from "./StandingsRow";
+export { TeamLogo, type TeamLogoProps } from "./TeamLogo";

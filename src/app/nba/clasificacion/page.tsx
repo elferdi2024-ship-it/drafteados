@@ -3,7 +3,7 @@ import Link from "next/link";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
 import { PageHeader, Callout } from "@/components/ui";
-import { StandingsRow, StandingsTableHead, type StandingsTeam } from "@/components/nba";
+import { StandingsRow, StandingsTableHead, TeamLogo, type StandingsTeam } from "@/components/nba";
 import {
   Info,
   Trophy,
@@ -88,18 +88,7 @@ export default async function StandingsPage() {
           <div className="relative overflow-hidden rounded-2xl border border-amber-500/40 bg-gradient-to-br from-amber-500/10 via-[var(--hub-surface)] to-[#006BB6]/10 p-5 sm:p-6 shadow-sm transition-all hover:border-amber-500/60">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl p-1.5 bg-[var(--hub-surface-2)] border border-amber-500/30 flex items-center justify-center shrink-0 shadow-inner">
-                  {knicksLogo ? (
-                    <img
-                      src={knicksLogo}
-                      alt="New York Knicks"
-                      className="w-full h-full object-contain filter drop-shadow-sm"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className="font-mono font-bold text-base text-[#006BB6]">NYK</span>
-                  )}
-                </div>
+                <TeamLogo tricode="NYK" name="New York Knicks" size={56} className="shrink-0" />
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-sans font-semibold bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30 mb-1">
                     <Trophy className="w-3 h-3 text-amber-500" />
@@ -139,18 +128,7 @@ export default async function StandingsPage() {
           <div className="relative overflow-hidden rounded-2xl border border-[var(--hub-border)] bg-gradient-to-br from-[var(--hub-surface-2)] via-[var(--hub-surface)] to-slate-500/10 p-5 sm:p-6 shadow-sm transition-all hover:border-[var(--hub-border-hover)]">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl p-1.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] flex items-center justify-center shrink-0 shadow-inner">
-                  {spursLogo ? (
-                    <img
-                      src={spursLogo}
-                      alt="San Antonio Spurs"
-                      className="w-full h-full object-contain filter drop-shadow-sm"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className="font-mono font-bold text-base">SAS</span>
-                  )}
-                </div>
+                <TeamLogo tricode="SAS" name="San Antonio Spurs" size={56} className="shrink-0" />
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-sans font-semibold bg-slate-500/15 text-slate-600 dark:text-slate-300 border border-slate-500/20 mb-1">
                     <Medal className="w-3 h-3 text-slate-400" />

@@ -223,6 +223,74 @@ export function PicksClient({
     setActiveType(null);
   };
 
+  const eastChampType = useMemo(
+    () => predictionTypes.find((pt) => pt.slug === 'east_champion' || pt.slug === 'east-champion'),
+    [predictionTypes]
+  );
+  const westChampType = useMemo(
+    () => predictionTypes.find((pt) => pt.slug === 'west_champion' || pt.slug === 'west-champion'),
+    [predictionTypes]
+  );
+  const nbaChampType = useMemo(
+    () => predictionTypes.find((pt) => pt.slug === 'nba_champion' || pt.slug === 'nba-champion'),
+    [predictionTypes]
+  );
+
+  // Equipos seleccionados como campeones de conferencia
+  const eastChampionTeam = useMemo(() => {
+    if (!eastChampType) return null;
+    const teamId = picks[eastChampType.id]?.teamId;
+    return teamId ? teamMap.get(teamId) || null : null;
+  }, [eastChampType, picks, teamMap]);
+
+  const westChampionTeam = useMemo(() => {
+    if (!westChampType) return null;
+    const teamId = picks[westChampType.id]?.teamId;
+    return teamId ? teamMap.get(teamId) || null : null;
+  }, [westChampType, picks, teamMap]);
+
+  // Lista dinámica para el selector:
+  // Si la categoría es 'nba_champion', las ÚNICAS opciones son estrictamente los 2 finalistas
+  const availableTeamsForActive = useMemo(() => {
+    if (!activeType) return teams;
+    const isNbaChamp = activeType.slug === 'nba_champion' || activeType.slug === 'nba-champion';
+    if (isNbaChamp) {
+      const finalists: TeamOption[] = [];
+      if (eastChampionTeam) finalists.push(eastChampionTeam);
+      if (westChampionTeam) finalists.push(westChampionTeam);
+      return finalists;
+    }
+    return teams;
+  }, [activeType, teams, eastChampionTeam, westChampionTeam]);
+
+  // Salvaguarda de consistencia: si el Campeón NBA guardado ya no coincide con los finalistas
+  useEffect(() => {
+    if (!nbaChampType) return;
+    const currentNbaTeamId = picks[nbaChampType.id]?.teamId;
+    if (!currentNbaTeamId) return;
+
+    const validIds: string[] = [];
+    if (eastChampionTeam) validIds.push(eastChampionTeam.id);
+    if (westChampionTeam) validIds.push(westChampionTeam.id);
+
+    if (validIds.length > 0 && !validIds.includes(currentNbaTeamId)) {
+      setPicks((prev) => {
+        const next = { ...prev };
+        delete next[nbaChampType.id];
+        saveGuestPicks(season.id, next);
+        return next;
+      });
+
+      if (isLoggedIn) {
+        savePickAction({
+          seasonId: season.id,
+          predictionTypeId: nbaChampType.id,
+          teamId: null,
+        });
+      }
+    }
+  }, [eastChampionTeam, westChampionTeam, nbaChampType, picks, season.id, isLoggedIn]);
+
   const handleSelectTeam = (team: TeamOption) => {
     if (!activeType || isLocked) return;
 
@@ -230,6 +298,35 @@ export function PicksClient({
       ...picks,
       [activeType.id]: { teamId: team.id },
     };
+
+    // Si el usuario cambia el campeón del Este o del Oeste, resetear el Campeón NBA
+    // si correspondía al equipo sustituido
+    const isEast = activeType.slug === 'east_champion' || activeType.slug === 'east-champion';
+    const isWest = activeType.slug === 'west_champion' || activeType.slug === 'west-champion';
+
+    if ((isEast || isWest) && nbaChampType) {
+      const currentNbaPick = picks[nbaChampType.id];
+      const previousTeamId = picks[activeType.id]?.teamId;
+
+      if (
+        currentNbaPick?.teamId &&
+        currentNbaPick.teamId === previousTeamId &&
+        previousTeamId !== team.id
+      ) {
+        delete newPicks[nbaChampType.id];
+        if (isLoggedIn) {
+          startTransition(async () => {
+            await savePickAction({
+              seasonId: season.id,
+              predictionTypeId: nbaChampType.id,
+              teamId: null,
+            });
+          });
+        }
+        showToast(`Guardado: ${team.name}. Se reseteó el Campeón NBA al cambiar el finalista.`);
+      }
+    }
+
     setPicks(newPicks);
     saveGuestPicks(season.id, newPicks);
 
@@ -381,6 +478,13 @@ export function PicksClient({
             }
 
             const cardPoints = calculatePotentialPoints(type.points, isUnderdog);
+            const isNbaChamp = type.slug === 'nba_champion' || type.slug === 'nba-champion';
+            const finalsDefined = Boolean(eastChampionTeam && westChampionTeam);
+            const dynamicDescription = isNbaChamp
+              ? finalsDefined
+                ? `Finalistas definidos: ${eastChampionTeam!.abbreviation} vs ${westChampionTeam!.abbreviation}. ¿Quién es el campeón?`
+                : 'Requiere definir Campeón del Este y Campeón del Oeste primero.'
+              : type.description || undefined;
 
             return (
               <PredictionCard
@@ -392,7 +496,7 @@ export function PicksClient({
                   category: meta.label,
                   points: cardPoints,
                   seriesNumber: `#${String(type.sortOrder).padStart(2, '0')}`,
-                  description: type.description || undefined,
+                  description: dynamicDescription,
                 }}
                 selectedPlayer={selectedPlayer ? {
                   id: selectedPlayer.id,
@@ -413,7 +517,19 @@ export function PicksClient({
                 } : null}
                 isLocked={isLocked}
                 isUnderdog={isUnderdog}
-                onSelect={() => !isLocked && setActiveType(type)}
+                onSelect={() => {
+                  if (isLocked) return;
+                  if (isNbaChamp && !finalsDefined) {
+                    if (!eastChampionTeam && !westChampionTeam) {
+                      showToast('Elegí primero al Campeón del Este y al Campeón del Oeste.');
+                    } else if (!eastChampionTeam) {
+                      showToast('Elegí primero al Campeón del Este.');
+                    } else {
+                      showToast('Elegí primero al Campeón del Oeste.');
+                    }
+                  }
+                  setActiveType(type);
+                }}
               />
             );
           })}
@@ -469,7 +585,7 @@ export function PicksClient({
         />
       )}
 
-      {/* MODAL SELECTOR EQUIPO CON HEATMAP */}
+      {/* MODAL SELECTOR EQUIPO CON HEATMAP (En Finales estrictamente los 2 finalistas) */}
       {activeType && activeType.selectionType === 'team' && (
         <TeamSelector
           isOpen={true}
@@ -479,7 +595,7 @@ export function PicksClient({
           title={activeType.name}
           categorySlug={activeType.slug}
           conferenceConstraint={getConferenceConstraint(activeType.slug)}
-          teams={teams}
+          teams={availableTeamsForActive}
         />
       )}
 

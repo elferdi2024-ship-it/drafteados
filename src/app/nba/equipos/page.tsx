@@ -60,10 +60,11 @@ export default async function TeamsPage() {
             >
               <div className="flex items-center gap-3.5 min-w-0">
                 <TeamLogo
-                  abbreviation={team.abbreviation}
+                  tricode={team.abbreviation}
+                  slug={team.slug}
                   name={team.name}
                   primaryColor={team.primaryColor}
-                  size="lg"
+                  size={52}
                 />
 
                 <div className="truncate">
@@ -105,10 +106,11 @@ export default async function TeamsPage() {
             >
               <div className="flex items-center gap-3.5 min-w-0">
                 <TeamLogo
-                  abbreviation={team.abbreviation}
+                  tricode={team.abbreviation}
+                  slug={team.slug}
                   name={team.name}
                   primaryColor={team.primaryColor}
-                  size="lg"
+                  size={52}
                 />
 
                 <div className="truncate">

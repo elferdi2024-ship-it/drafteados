@@ -23,10 +23,11 @@ function TeamScoreRow({
     <div className="flex items-center justify-between gap-3 py-1">
       <div className="flex items-center gap-3 min-w-0">
         <TeamLogo
-          abbreviation={team.abbreviation}
+          tricode={team.abbreviation}
+          slug={team.slug}
           name={team.name}
           primaryColor={team.primaryColor}
-          size="md"
+          size={36}
         />
 
         <div className="truncate">

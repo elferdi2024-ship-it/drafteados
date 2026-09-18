@@ -14,7 +14,7 @@ export function LiveBadge({ status, period, clock, className = "" }: LiveBadgePr
       <span
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase bg-[var(--hub-live-soft)] text-[var(--hub-live)] border border-[var(--hub-live)]/30 shadow-sm ${className}`}
       >
-        <span className="w-2 h-2 rounded-full bg-[var(--hub-live)] animate-ping" />
+        <span className="w-2 h-2 rounded-full bg-[var(--hub-live)] motion-safe:animate-ping" />
         <span>EN VIVO</span>
         {period && clock && (
           <span className="text-[var(--hub-text)]/90 font-mono font-medium tracking-tight">

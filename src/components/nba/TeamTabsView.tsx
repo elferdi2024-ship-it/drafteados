@@ -8,6 +8,7 @@ import type { Team, Standing, Player, Game } from "@/types/basketball";
 import { TeamLogo } from "./TeamLogo";
 import { GameCard } from "./GameCard";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { getTeamBySlug, getTeamByTricode } from "@/lib/nba/teamAssets";
 
 function mapGameToCardProps(game: Game) {
   const awayNbaId = getTeamNbaId(game.awayTeam.abbreviation, game.awayTeam.name);
@@ -97,6 +98,10 @@ export function TeamTabsView({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [gamesSubTab, setGamesSubTab] = useState<"UPCOMING" | "RECENT">("UPCOMING");
 
+  const brand = getTeamBySlug(team.slug) || getTeamByTricode(team.abbreviation);
+  const brandPrimary = brand?.primary || team.primaryColor || "#FF5A1F";
+  const brandOnPrimary = brand?.onPrimary || "#FFFFFF";
+
   // Filtered Roster
   const filteredRoster = useMemo(() => {
     return roster.filter((p) => {
@@ -130,18 +135,32 @@ export function TeamTabsView({
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab("ROSTER")}
+            style={
+              activeTab === "ROSTER"
+                ? {
+                    backgroundColor: brandPrimary,
+                    color: brandOnPrimary,
+                    borderColor: brandPrimary,
+                  }
+                : undefined
+            }
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs sm:text-sm font-bold uppercase transition-all shrink-0 cursor-pointer ${
               activeTab === "ROSTER"
-                ? "bg-[var(--hub-accent)] text-white shadow-md shadow-[var(--hub-accent)]/20"
+                ? "shadow-md"
                 : "bg-[var(--hub-surface)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
             }`}
           >
             <Users className="w-4 h-4" />
             <span>PLANTILLA</span>
             <span
+              style={
+                activeTab === "ROSTER"
+                  ? { backgroundColor: `${brandOnPrimary}25`, color: brandOnPrimary }
+                  : undefined
+              }
               className={`px-1.5 py-0.5 rounded text-[10px] ${
                 activeTab === "ROSTER"
-                  ? "bg-white/20 text-white"
+                  ? ""
                   : "bg-[var(--hub-surface-2)] text-[var(--hub-text-dim)]"
               }`}
             >
@@ -151,18 +170,32 @@ export function TeamTabsView({
 
           <button
             onClick={() => setActiveTab("GAMES")}
+            style={
+              activeTab === "GAMES"
+                ? {
+                    backgroundColor: brandPrimary,
+                    color: brandOnPrimary,
+                    borderColor: brandPrimary,
+                  }
+                : undefined
+            }
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs sm:text-sm font-bold uppercase transition-all shrink-0 cursor-pointer ${
               activeTab === "GAMES"
-                ? "bg-[var(--hub-accent)] text-white shadow-md shadow-[var(--hub-accent)]/20"
+                ? "shadow-md"
                 : "bg-[var(--hub-surface)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
             }`}
           >
             <Calendar className="w-4 h-4" />
             <span>PARTIDOS</span>
             <span
+              style={
+                activeTab === "GAMES"
+                  ? { backgroundColor: `${brandOnPrimary}25`, color: brandOnPrimary }
+                  : undefined
+              }
               className={`px-1.5 py-0.5 rounded text-[10px] ${
                 activeTab === "GAMES"
-                  ? "bg-white/20 text-white"
+                  ? ""
                   : "bg-[var(--hub-surface-2)] text-[var(--hub-text-dim)]"
               }`}
             >
@@ -172,9 +205,18 @@ export function TeamTabsView({
 
           <button
             onClick={() => setActiveTab("STATS")}
+            style={
+              activeTab === "STATS"
+                ? {
+                    backgroundColor: brandPrimary,
+                    color: brandOnPrimary,
+                    borderColor: brandPrimary,
+                  }
+                : undefined
+            }
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs sm:text-sm font-bold uppercase transition-all shrink-0 cursor-pointer ${
               activeTab === "STATS"
-                ? "bg-[var(--hub-accent)] text-white shadow-md shadow-[var(--hub-accent)]/20"
+                ? "shadow-md"
                 : "bg-[var(--hub-surface)] text-[var(--hub-text-muted)] hover:text-[var(--hub-text)] border border-[var(--hub-border)]"
             }`}
           >

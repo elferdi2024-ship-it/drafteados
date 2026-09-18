@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Standing } from "@/types/basketball";
-import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
+import { TeamLogo } from "./TeamLogo";
 
 interface MiniStandingsProps {
   standings: {
@@ -64,8 +64,6 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
       {/* Table Rows */}
       <div className="space-y-1.5">
         {list.map((item) => {
-          const nbaId = getTeamNbaId(item.team.abbreviation);
-          const logoUrl = nbaId ? getTeamLogoUrl(nbaId) : null;
           const isStreakWin = item.streak?.startsWith("W");
           const teamSlug = item.team.slug || item.team.abbreviation.toLowerCase();
 
@@ -80,20 +78,11 @@ export function MiniStandings({ standings, limit = 5 }: MiniStandingsProps) {
                   {item.conferenceRank}
                 </span>
 
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center p-0.5 bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0">
-                  {logoUrl ? (
-                    <img
-                      src={logoUrl}
-                      alt={item.team.name}
-                      className="w-full h-full object-contain filter drop-shadow-sm"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className="text-[10px] font-mono font-bold text-[var(--hub-text)]">
-                      {item.team.abbreviation}
-                    </span>
-                  )}
-                </div>
+                <TeamLogo
+                  tricode={item.team.abbreviation}
+                  name={item.team.name}
+                  size={28}
+                />
 
                 <div className="truncate">
                   <span className="text-sm font-bold text-[var(--hub-text)] truncate block group-hover:text-[var(--hub-accent)] transition-colors">

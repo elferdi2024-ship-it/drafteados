@@ -415,8 +415,8 @@ export function getPlayerHeadshotUrl(nbaId: number | null | undefined, _size: '1
  * Resolves official NBA team logo SVG (served via direct official NBA CDN)
  */
 export function getTeamLogoUrl(nbaTeamId: number | null | undefined): string {
-  if (!nbaTeamId) return '/fallback-team.svg';
-  return `https://cdn.nba.com/logos/nba/${nbaTeamId}/global/L/logo.svg`;
+  if (!nbaTeamId) return "";
+  return `https://cdn.nba.com/logos/nba/${nbaTeamId}/primary/L/logo.svg`;
 }
 
 /**

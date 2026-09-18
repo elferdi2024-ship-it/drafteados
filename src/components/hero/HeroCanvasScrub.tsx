@@ -517,8 +517,8 @@ export function HeroCanvasScrub() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-4 sm:mt-6 text-base sm:text-xl md:text-2xl text-zinc-100 max-w-2xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
-            Análisis táctico diario, directos y la mayor comunidad de baloncesto en español.
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-xl text-zinc-100 max-w-3xl font-normal leading-relaxed drop-shadow-[0_6px_20px_rgba(0,0,0,0.95)]">
+            Drafteados es un canal de YouTube especializado en NBA desde 2017, con una comunidad sólida en España y Latinoamérica. Más de 880.000 personas siguen a diario, a través de nuestros contenidos y experiencias, la mejor liga de baloncesto del mundo.
           </p>
 
           {/* Action CTAs */}
