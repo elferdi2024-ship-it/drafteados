@@ -77,24 +77,23 @@ export function MiniLeaders({ leaders, limit = 5 }: MiniLeadersProps) {
                 </span>
 
                 <div 
-                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 relative"
+                  className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shrink-0 relative text-xs font-mono font-bold text-[var(--hub-text)]"
                   style={{
                     borderColor: line.team?.primaryColor ? `${line.team.primaryColor}50` : undefined,
                   }}
                 >
-                  {headshotUrl ? (
+                  <span className="absolute inset-0 flex items-center justify-center select-none text-[var(--hub-text-muted)]">
+                    {line.player.firstName[0]}
+                  </span>
+                  {headshotUrl && (
                     <img
                       src={headshotUrl}
                       alt={line.player.fullName}
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-cover object-top relative z-10"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = "none";
                       }}
                     />
-                  ) : (
-                    <span className="text-xs font-mono font-bold text-[var(--hub-text)]">
-                      {line.player.firstName[0]}
-                    </span>
                   )}
                 </div>
 

@@ -403,11 +403,43 @@ export const NBA_PLAYER_IDS: Record<string, number> = {
   'Josh Giddey': 1630581,
 };
 
+export const NBA_ID_TO_ESPN_HEADSHOT: Record<number, string> = {
+  1629029: '3945274', // Luka Doncic
+  1628983: '4278073', // Shai Gilgeous-Alexander
+  203999: '3112335',  // Nikola Jokic
+  1628369: '4065648', // Jayson Tatum
+  203507: '3032977',  // Giannis Antetokounmpo
+  1630162: '4594268', // Anthony Edwards
+  1641705: '5104157', // Victor Wembanyama
+  201939: '3975',     // Stephen Curry
+  1630169: '4396993', // Tyrese Haliburton
+  1627734: '3155942', // Domantas Sabonis
+  1628389: '4066261', // Bam Adebayo
+  1628973: '3934672', // Jalen Brunson
+  2544: '1966',       // LeBron James
+  201142: '3202',     // Kevin Durant
+  201935: '3992',     // James Harden
+  203076: '6450',     // Anthony Davis
+  1628378: '4066262', // Donovan Mitchell
+  1629027: '4277905', // Trae Young
+  1627783: '3908809', // Pascal Siakam
+  1629630: '4395628', // Ja Morant
+  1630163: '4432809', // LaMelo Ball
+  1628368: '4065647', // De'Aaron Fox
+  1630595: '4433134', // Cade Cunningham
+  1630559: '4432821', // Austin Reaves
+};
+
 /**
- * Resolves the official NBA headshot URL in Ultra HD 1040x760 studio quality
+ * Resolves player headshot URL.
+ * Uses high-availability ESPN CDN to bypass third-party browser drops from cdn.nba.com.
  */
 export function getPlayerHeadshotUrl(nbaId: number | null | undefined, _size: '1040x760' | '260x190' = '1040x760'): string {
   if (!nbaId) return '/fallback-player.png';
+  const espnId = NBA_ID_TO_ESPN_HEADSHOT[nbaId];
+  if (espnId) {
+    return `https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/${espnId}.png&w=350&h=254`;
+  }
   return `https://cdn.nba.com/headshots/nba/latest/1040x760/${nbaId}.png`;
 }
 
