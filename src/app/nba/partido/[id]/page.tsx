@@ -320,18 +320,18 @@ export default async function GameDetailPage({
         </div>
 
         {/* Scoreboard / Faceoff Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
-          {/* Away Team (Col 1..5) */}
-          <div className="lg:col-span-5 flex items-center gap-5 sm:gap-6 justify-start">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 lg:gap-8">
+          {/* Away Team */}
+          <div className="flex-1 w-full md:w-auto flex items-center gap-4 sm:gap-5 justify-start min-w-0">
             <TeamLogo
               tricode={game.awayTeam.abbreviation}
               slug={game.awayTeam.slug}
               name={game.awayTeam.name}
               primaryColor={awayPrimary}
-              size={80}
+              size={84}
               className="drop-shadow-md shrink-0"
             />
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[var(--hub-surface-2)] border border-[var(--hub-border)] text-[var(--hub-text-muted)]">
                   VISITANTE
@@ -354,15 +354,13 @@ export default async function GameDetailPage({
                 className="group block"
               >
                 <h2
-                  className={`text-2xl sm:text-4xl font-black uppercase tracking-tight leading-none group-hover:text-[var(--hub-accent)] transition-colors ${
-                    awayWon ? "text-[var(--hub-text)]" : "text-[var(--hub-text)]"
-                  }`}
+                  className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight leading-none group-hover:text-[var(--hub-accent)] transition-colors text-[var(--hub-text)]"
                   style={{ fontFamily: "var(--hub-font-display)" }}
                 >
                   {game.awayTeam.name}
                 </h2>
               </Link>
-              <div className="flex items-center gap-3 mt-2 text-xs font-mono text-[var(--hub-text-secondary)]">
+              <div className="flex items-center gap-2.5 mt-2 text-xs font-mono text-[var(--hub-text-secondary)]">
                 <span>Sigla: <strong>{game.awayTeam.abbreviation}</strong></span>
                 {awayStanding && (
                   <>
@@ -374,12 +372,12 @@ export default async function GameDetailPage({
             </div>
           </div>
 
-          {/* Center: Marcador o VS + Doble Huso Horario (Col 6..7) */}
-          <div className="lg:col-span-2 flex flex-col items-center justify-center py-2 text-center">
+          {/* Center: Marcador o VS + Doble Huso Horario */}
+          <div className="shrink-0 flex flex-col items-center justify-center px-4 py-2 text-center">
             {isLive || isFinal ? (
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-4 sm:gap-6">
                 <span
-                  className={`text-5xl sm:text-6xl font-black tabular-nums ${
+                  className={`text-5xl sm:text-6xl lg:text-7xl font-black tabular-nums ${
                     awayWon ? "text-[var(--hub-accent)]" : "text-[var(--hub-text)]"
                   }`}
                   style={{ fontFamily: "var(--hub-font-display)" }}
@@ -388,7 +386,7 @@ export default async function GameDetailPage({
                 </span>
                 <span className="text-2xl font-mono text-[var(--hub-text-dim)]">-</span>
                 <span
-                  className={`text-5xl sm:text-6xl font-black tabular-nums ${
+                  className={`text-5xl sm:text-6xl lg:text-7xl font-black tabular-nums ${
                     homeWon ? "text-[var(--hub-accent)]" : "text-[var(--hub-text)]"
                   }`}
                   style={{ fontFamily: "var(--hub-font-display)" }}
@@ -397,9 +395,9 @@ export default async function GameDetailPage({
                 </span>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="flex flex-col items-center">
                 <div
-                  className="text-3xl sm:text-4xl font-black text-[var(--hub-accent)] tracking-wider"
+                  className="text-4xl sm:text-5xl font-black text-[var(--hub-accent)] tracking-wider"
                   style={{ fontFamily: "var(--hub-font-display)" }}
                 >
                   VS
@@ -408,8 +406,8 @@ export default async function GameDetailPage({
             )}
 
             {/* Doble Horario (ES Peninsular / ET US) */}
-            <div className="mt-3 inline-flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl bg-[var(--hub-surface-2)] border border-[var(--hub-border)]">
-              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[var(--hub-text)]">
+            <div className="mt-3 inline-flex flex-col items-center gap-1 px-4 py-2 rounded-2xl bg-[var(--hub-surface-2)] border border-[var(--hub-border)] shadow-xs">
+              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-mono font-bold text-[var(--hub-text)]">
                 <Clock className="w-3.5 h-3.5 text-[var(--hub-accent)]" />
                 <span>{timeEs}</span>
               </div>
@@ -419,18 +417,10 @@ export default async function GameDetailPage({
             </div>
           </div>
 
-          {/* Home Team (Col 8..12) */}
-          <div className="lg:col-span-5 flex items-center gap-5 sm:gap-6 justify-start lg:justify-end lg:flex-row-reverse text-left lg:text-right">
-            <TeamLogo
-              tricode={game.homeTeam.abbreviation}
-              slug={game.homeTeam.slug}
-              name={game.homeTeam.name}
-              primaryColor={homePrimary}
-              size={80}
-              className="drop-shadow-md shrink-0"
-            />
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 mb-1 justify-start lg:justify-end">
+          {/* Home Team */}
+          <div className="flex-1 w-full md:w-auto flex items-center gap-4 sm:gap-5 justify-start md:justify-end text-left md:text-right min-w-0">
+            <div className="min-w-0 flex-1 order-2 md:order-1">
+              <div className="flex items-center gap-2 mb-1 justify-start md:justify-end">
                 {homeStanding && (
                   <span
                     className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border"
@@ -452,15 +442,13 @@ export default async function GameDetailPage({
                 className="group block"
               >
                 <h2
-                  className={`text-2xl sm:text-4xl font-black uppercase tracking-tight leading-none group-hover:text-[var(--hub-accent)] transition-colors ${
-                    homeWon ? "text-[var(--hub-text)]" : "text-[var(--hub-text)]"
-                  }`}
+                  className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight leading-none group-hover:text-[var(--hub-accent)] transition-colors text-[var(--hub-text)]"
                   style={{ fontFamily: "var(--hub-font-display)" }}
                 >
                   {game.homeTeam.name}
                 </h2>
               </Link>
-              <div className="flex items-center gap-3 mt-2 text-xs font-mono text-[var(--hub-text-secondary)] justify-start lg:justify-end">
+              <div className="flex items-center gap-2.5 mt-2 text-xs font-mono text-[var(--hub-text-secondary)] justify-start md:justify-end">
                 {homeStanding && (
                   <>
                     <span>Récord: <strong className="text-[var(--hub-text)]">{homeStanding.wins}-{homeStanding.losses}</strong></span>
@@ -470,6 +458,14 @@ export default async function GameDetailPage({
                 <span>Sigla: <strong>{game.homeTeam.abbreviation}</strong></span>
               </div>
             </div>
+            <TeamLogo
+              tricode={game.homeTeam.abbreviation}
+              slug={game.homeTeam.slug}
+              name={game.homeTeam.name}
+              primaryColor={homePrimary}
+              size={84}
+              className="drop-shadow-md shrink-0 order-1 md:order-2"
+            />
           </div>
         </div>
       </div>
@@ -876,7 +872,7 @@ export default async function GameDetailPage({
                       <div className="flex items-center gap-2">
                         <TeamLogo tricode={opp.abbreviation} size={20} />
                         <span className="font-mono text-[var(--hub-text)]">
-                          {isHome ? "vs" : "@"} {opp.abbreviation}
+                          {isHome ? "vs" : "@"} {opp.name || opp.abbreviation}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 font-mono">
@@ -966,7 +962,7 @@ export default async function GameDetailPage({
                       <div className="flex items-center gap-2">
                         <TeamLogo tricode={opp.abbreviation} size={20} />
                         <span className="font-mono text-[var(--hub-text)]">
-                          {isHome ? "vs" : "@"} {opp.abbreviation}
+                          {isHome ? "vs" : "@"} {opp.name || opp.abbreviation}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 font-mono">

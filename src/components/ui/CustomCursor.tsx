@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function CustomCursor() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
@@ -75,7 +77,7 @@ export function CustomCursor() {
     };
   }, [cursorX, cursorY, isVisible]);
 
-  if (!isPointerDevice) return null;
+  if (!isPointerDevice || pathname !== "/") return null;
 
   return (
     <>

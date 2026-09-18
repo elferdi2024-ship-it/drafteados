@@ -561,9 +561,15 @@ export class EspnProvider implements BasketballDataProvider {
 
       let recent: Game[] = [];
       if (recentRes.ok) {
-        const data = await recentRes.json();
-        const events: EspnEvent[] = data.events || [];
-        recent = events.map((ev) => this.mapEventToGame(ev)).slice(-5);
+        try {
+          const text = await recentRes.text();
+          const clean = text.replace(/[\u0000-\u001F\u007F-\u009F]/g, (c) => (c === "\t" || c === "\n" || c === "\r" ? " " : ""));
+          const data = JSON.parse(clean);
+          const events: EspnEvent[] = data.events || [];
+          recent = events.map((ev) => this.mapEventToGame(ev)).slice(-5);
+        } catch {
+          // Fallback to mock on parse error
+        }
       }
 
       // 2. Próximos partidos: temporada 2026/27 programada
@@ -577,9 +583,15 @@ export class EspnProvider implements BasketballDataProvider {
 
       let upcoming: Game[] = [];
       if (upcomingRes.ok) {
-        const data = await upcomingRes.json();
-        const events: EspnEvent[] = data.events || [];
-        upcoming = events.map((ev) => this.mapEventToGame(ev)).slice(0, 5);
+        try {
+          const text = await upcomingRes.text();
+          const clean = text.replace(/[\u0000-\u001F\u007F-\u009F]/g, (c) => (c === "\t" || c === "\n" || c === "\r" ? " " : ""));
+          const data = JSON.parse(clean);
+          const events: EspnEvent[] = data.events || [];
+          upcoming = events.map((ev) => this.mapEventToGame(ev)).slice(0, 5);
+        } catch {
+          // Fallback to mock on parse error
+        }
       }
 
       return { recent, upcoming };
