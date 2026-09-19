@@ -5,6 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import { basketball } from "@/lib/data/basketball/composite-provider";
 import { TeamLogo } from "@/components/nba/TeamLogo";
 import { TeamTabsView } from "@/components/nba/TeamTabsView";
+import { TeamBuquesRecap } from "@/components/nba/TeamBuquesRecap";
+import { getBuquesRecap } from "@/lib/buques-recap";
 
 import type { Metadata } from "next";
 import { getTeamLogoUrl, getTeamNbaId } from "@/lib/basketball/nbaIds";
@@ -88,10 +90,11 @@ export default async function TeamDetailPage({
     notFound();
   }
 
-  const [teamSchedule, standings, roster] = await Promise.all([
+  const [teamSchedule, standings, roster, buquesRecap] = await Promise.all([
     basketball.getTeamSchedule(team.slug),
     basketball.getStandings(),
     basketball.getRoster(team.slug),
+    getBuquesRecap(team.slug),
   ]);
 
   const allStandings = [...standings.east, ...standings.west];
@@ -255,6 +258,9 @@ export default async function TeamDetailPage({
           </div>
         )}
       </div>
+
+      {/* Narrativa Buques: Análisis editorial Drafteados */}
+      {buquesRecap && <TeamBuquesRecap recap={buquesRecap} />}
 
       {/* Navegación por pestañas interactiva (Plantilla, Partidos, Stats & Picks) */}
       <TeamTabsView

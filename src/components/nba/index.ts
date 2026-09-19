@@ -9,3 +9,4 @@ export {
 } from "./StandingsRow";
 export { TeamLogo, type TeamLogoProps } from "./TeamLogo";
 export { PlayerHeadshot, type PlayerHeadshotProps } from "./PlayerHeadshot";
+export { TeamBuquesRecap } from "./TeamBuquesRecap";

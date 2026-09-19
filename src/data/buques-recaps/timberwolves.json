@@ -1,0 +1,150 @@
+{
+  "team_name": "Minnesota Timberwolves",
+  "tricode": "MIN",
+  "slug": "timberwolves",
+  "season": "2026-2027",
+  "video_type": "guia",
+  "youtube_url": "https://youtu.be/BsHC_aZuOnA?si=TcK8T-SX1AvwSmv6",
+  "youtube_id": "BsHC_aZuOnA",
+  "title": "¿EDWARDS Y LAMELO = ANILLO? ¿LOCOS O GENIOS? | Guía Wolves 26-27",
+  "one_liner": "Tim Connelly dinamitó el proyecto tras dos finales de conferencia para juntar a Edwards y LaMelo: un volantazo con talento infinito, pero cargado de dudas y caos.",
+  "analysis": "Botonazo y a empezar de cero. Después de tocar techo con dos finales de conferencia consecutivas, Tim Connelly ha decidido romper con todo lo que funcionaba. Fuera piezas clave como Randle, Reed y Conley para apostarlo todo al junte de Anthony Edwards y LaMelo Ball. Valiente o loco, pero a este GM nadie le puede decir que no tiene agallas.\n\nEn el papel, el talento defensivo asusta y Chris Finch tiene un juguete divertidísimo entre manos. Sin embargo, la brecha defensiva por detrás de Gobert y la falta de solidez interior generan dudas enormes. Tienen potencial para pelear arriba, pero si las cosas se tuercen o se cruzan con Thunder o Spurs, el batacazo puede llegar directo en primera ronda o play-in.",
+  "personality_lines": [
+    {
+      "text": "Lo que no se le podrá decir nunca a Tim Connelly es que no tiene huevos.",
+      "speaker": "ambos"
+    },
+    {
+      "text": "A mí se me hace muy complicado pensar que sumando tanta duda, tanto caos y tanto potencial no sólido vayamos a llegar a buen puerto.",
+      "speaker": "sergio"
+    },
+    {
+      "text": "Si este equipo se cruza con Spurs o Thunder en playoffs, perderá 4-0.",
+      "speaker": "sergio"
+    },
+    {
+      "text": "LaMelo es uno de los mejores pasadores de toda la NBA.",
+      "speaker": "jose"
+    },
+    {
+      "text": "El techo de este equipo igual es la suela de Víctor Wembanyama.",
+      "speaker": "sergio"
+    },
+    {
+      "text": "A mí ahora mismo me dices LaMelo Ball y Jaden McDaniels en un entrenamiento... ¿se van a pegar o no?",
+      "speaker": "sergio"
+    }
+  ],
+  "why_it_matters": [
+    "Es la apuesta más arriesgada de la NBA: juntar a Anthony Edwards y LaMelo Ball para crear un ataque explosivo o una bomba de tiempo en el vestuario.",
+    "Muestra el 'botonazo' de Tim Connelly rompiendo un bloque de dos finales de conferencia para reconstruir el estilo del equipo desde cero.",
+    "Analiza la enorme exigencia de un proyecto que pasa de rozar las Finales a arriesgarse a caer en primera ronda o play-in si la defensa flojea."
+  ],
+  "additions": [
+    {
+      "player": "LaMelo Ball",
+      "type": "trade",
+      "note": "Llega procedente de Charlotte Hornets para ser la pareja de Edwards",
+      "name_uncertain": false
+    },
+    {
+      "player": "Jonathan Kuminga",
+      "type": "trade",
+      "note": "Procedente de Atlanta Hawks",
+      "name_uncertain": false
+    },
+    {
+      "player": "Cody Williams",
+      "type": "trade",
+      "note": "Procedente de Utah Jazz",
+      "name_uncertain": false
+    },
+    {
+      "player": "Trail Liles",
+      "type": "FA",
+      "note": "Procedente del Real Madrid",
+      "name_uncertain": false
+    },
+    {
+      "player": "Isaiah Evans",
+      "type": "draft",
+      "note": "Pick 33 del draft",
+      "name_uncertain": false
+    }
+  ],
+  "departures": [
+    {
+      "player": "Julius Randle",
+      "type": "trade",
+      "note": "Se va a Brooklyn Nets",
+      "name_uncertain": false
+    },
+    {
+      "player": "Naz Reed",
+      "type": "FA",
+      "note": "Favorito de la afición, se va a Charlotte Hornets",
+      "name_uncertain": false
+    },
+    {
+      "player": "Mike Conley",
+      "type": "trade",
+      "note": "Se va a Boston Celtics",
+      "name_uncertain": false
+    },
+    {
+      "player": "Kyle Anderson",
+      "type": "FA",
+      "note": "Se va a Toronto Raptors",
+      "name_uncertain": false
+    }
+  ],
+  "featured_players": [
+    {
+      "name": "Anthony Edwards",
+      "role": "estrella",
+      "line": "Tiene ese ADN de élite competitiva bestial y se beneficia del juego de LaMelo para evitar dobles marcajes"
+    },
+    {
+      "name": "LaMelo Ball",
+      "role": "estrella",
+      "line": "Uno de los mejores pasadores de la NBA con un rango de tiro enorme, aunque genera dudas defensivas"
+    },
+    {
+      "name": "Rudy Gobert",
+      "role": "estrella",
+      "line": "Pilar defensivo que apaga fuegos, pero la plantilla flojea mucho si él falta"
+    },
+    {
+      "name": "Jonathan Kuminga",
+      "role": "duda",
+      "line": "Aporta atleticismo y amenaza de aliup, pero falta ver su compromiso defensivo"
+    },
+    {
+      "name": "Joan Beringer",
+      "role": "proyecto",
+      "line": "Poderoso interior francés, Pick 17 del draft con mucha confianza depositada en él"
+    }
+  ],
+  "pickem_angles": [
+    "Chris Finch es gran candidato a Entrenador del Año si hace funcionar esta mezcla.",
+    "Edwards liberará presión anotadora con LaMelo al lado, buscando rozar o superar los 30 puntos por noche."
+  ],
+  "quotes": [
+    {
+      "text": "Lo que no se le podrá decir nunca a Tim Connelly es que no tiene huevos.",
+      "speaker": "ambos"
+    },
+    {
+      "text": "Si este equipo se cruza con Spurs o Thunder en playoffs, perderá 4-0.",
+      "speaker": "sergio"
+    },
+    {
+      "text": "A mí ahora mismo me dices LaMelo Ball y Jaden McDaniels en un entrenamiento... ¿se van a pegar o no?",
+      "speaker": "sergio"
+    }
+  ],
+  "cta_youtube": "Ver el análisis completo de Drafteados en YouTube",
+  "eyebrow": "GUÍA BUQUES · 26/27",
+  "confidence": "alta",
+  "gaps": "No se especifica con detalle la rotación exacta de minutos para los jóvenes del banquillo ni los términos contractuales detallados de los recién llegados."
+}
