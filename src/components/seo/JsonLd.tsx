@@ -9,6 +9,7 @@ export function JsonLd({
   return (
     <script
       type="application/ld+json"
+      suppressHydrationWarning
       dangerouslySetInnerHTML={jsonLdScript(data)}
     />
   );

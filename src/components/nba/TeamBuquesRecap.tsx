@@ -6,13 +6,9 @@ import { YoutubeIcon } from "@/components/ui/Icons";
 import { BuquesVideoEmbed } from "./BuquesVideoEmbed";
 import {
   Quote,
-  Sparkles,
   UserPlus,
   UserMinus,
   CheckCircle2,
-  Flame,
-  HelpCircle,
-  Star,
 } from "lucide-react";
 
 interface TeamBuquesRecapProps {
@@ -70,8 +66,8 @@ export function TeamBuquesRecap({ recap }: TeamBuquesRecapProps) {
       {/* Header: Eyebrow + Title + One Liner */}
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[var(--color-brand-primary)]/15 border border-[var(--color-brand-primary)]/30 text-[var(--color-brand-primary)]">
-            <Flame className="w-3.5 h-3.5 fill-current" />
+          <span className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-[var(--color-brand-primary)]/15 border border-[var(--color-brand-primary)]/30 text-[var(--color-brand-primary)]">
+            <span className="w-2 h-2 rounded-full bg-[var(--color-brand-primary)]" />
             {recap.eyebrow || "GUÍA BUQUES · 26/27"}
           </span>
 
@@ -112,7 +108,7 @@ export function TeamBuquesRecap({ recap }: TeamBuquesRecapProps) {
           {/* Editorial Analysis */}
           <div className="space-y-4 text-[var(--hub-text-secondary)] text-sm sm:text-base leading-relaxed">
             <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-[var(--color-brand-primary)]">
-              <Sparkles className="w-4 h-4" />
+              <span className="w-2.5 h-0.5 bg-[var(--color-brand-primary)]" />
               <span>EL ANÁLISIS DE DRAFTEADOS</span>
             </div>
             {paragraphs.map((p, idx) => (
@@ -205,7 +201,7 @@ export function TeamBuquesRecap({ recap }: TeamBuquesRecapProps) {
           {recap.featured_players && recap.featured_players.length > 0 && (
             <div className="p-5 rounded-2xl bg-[var(--hub-surface-2)] border border-[var(--hub-border)] space-y-3">
               <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-[var(--hub-text)]">
-                <Star className="w-4 h-4 text-amber-500" />
+                <span className="w-2.5 h-0.5 bg-[var(--color-brand-primary)]" />
                 <span>JUGADORES BAJO LA LUPA</span>
               </div>
               <div className="space-y-2.5">

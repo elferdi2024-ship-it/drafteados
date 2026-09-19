@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Bebas_Neue, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -125,7 +126,9 @@ export default function RootLayout({
     >
       <head>
         <link rel="image_src" href={`${SITE_URL}/images/og-main.png`} />
-        <script
+        <Script
+          id="theme-tz-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: themeInitScript + "\n" + timezoneInitScript,
           }}
