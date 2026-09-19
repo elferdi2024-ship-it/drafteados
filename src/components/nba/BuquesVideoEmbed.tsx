@@ -8,9 +8,10 @@ import { Play } from "lucide-react";
 interface BuquesVideoEmbedProps {
   youtubeId: string;
   title: string;
+  priority?: boolean;
 }
 
-export function BuquesVideoEmbed({ youtubeId, title }: BuquesVideoEmbedProps) {
+export function BuquesVideoEmbed({ youtubeId, title, priority = false }: BuquesVideoEmbedProps) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   if (isPlaying) {
@@ -45,7 +46,7 @@ export function BuquesVideoEmbed({ youtubeId, title }: BuquesVideoEmbedProps) {
         src={`https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`}
         alt={title}
         fill
-        priority
+        priority={priority}
         sizes="(max-width: 1024px) 100vw, 50vw"
         className="object-cover transition-transform duration-500 group-hover:scale-105"
       />

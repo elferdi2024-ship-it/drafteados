@@ -260,7 +260,13 @@ export default async function TeamDetailPage({
       </div>
 
       {/* Narrativa Buques: Análisis editorial Drafteados */}
-      {buquesRecap && <TeamBuquesRecap recap={buquesRecap} />}
+      {buquesRecap && (
+        <TeamBuquesRecap
+          recap={buquesRecap}
+          primaryColor={primaryColor}
+          teamSlug={team.slug}
+        />
+      )}
 
       {/* Navegación por pestañas interactiva (Plantilla, Partidos, Stats & Picks) */}
       <TeamTabsView
