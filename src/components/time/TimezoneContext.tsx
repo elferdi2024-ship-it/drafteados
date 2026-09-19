@@ -36,12 +36,8 @@ export const timezoneInitScript = `
 `;
 
 export function TimezoneProvider({ children }: { children: React.ReactNode }) {
-  const [regionId, setRegionState] = React.useState<RegionId>(() => {
-    if (typeof window !== "undefined") {
-      return resolveRegionId();
-    }
-    return "ES";
-  });
+  // Always initialize to "ES" so SSR and client initial hydration match 100%
+  const [regionId, setRegionState] = React.useState<RegionId>("ES");
 
   // Sync on mount and listen to cross-tab & custom events
   React.useEffect(() => {

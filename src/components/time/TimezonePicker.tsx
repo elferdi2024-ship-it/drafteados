@@ -60,6 +60,7 @@ export function TimezonePicker({
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label={`Zona horaria: ${activeRegion.label}`}
+        suppressHydrationWarning
         className={cn(
           "inline-flex h-11 min-h-[44px] items-center gap-2 rounded-full border border-[var(--color-border-subtle)]",
           "bg-[var(--color-surface-1)] px-3 text-sm font-semibold text-[var(--color-text-primary)] cursor-pointer select-none",
@@ -84,9 +85,9 @@ export function TimezonePicker({
         />
 
         {!compact ? (
-          <span className="text-xs sm:text-sm font-medium">{activeRegion.label}</span>
+          <span className="text-xs sm:text-sm font-medium" suppressHydrationWarning>{activeRegion.label}</span>
         ) : (
-          <span className="text-xs font-bold tracking-wide font-mono uppercase">
+          <span className="text-xs font-bold tracking-wide font-mono uppercase" suppressHydrationWarning>
             {activeRegion.shortLabel}
           </span>
         )}
