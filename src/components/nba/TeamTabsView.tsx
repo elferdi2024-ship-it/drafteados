@@ -1,7 +1,7 @@
 // filepath: src/components/nba/TeamTabsView.tsx
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Users, Calendar, TrendingUp, DollarSign, Search, Trophy, CheckCircle2, XCircle } from "lucide-react";
 import type { Team, Standing, Player, Game } from "@/types/basketball";
@@ -94,6 +94,26 @@ export function TeamTabsView({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [gamesSubTab, setGamesSubTab] = useState<"UPCOMING" | "RECENT">("UPCOMING");
 
+  useEffect(() => {
+    const onTabChange = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail === "ROSTER" || detail === "GAMES" || detail === "STATS") {
+        setActiveTab(detail);
+      }
+    };
+    window.addEventListener("drafteados:team-tab", onTabChange);
+    return () => window.removeEventListener("drafteados:team-tab", onTabChange);
+  }, []);
+
+  const handleTabClick = (tab: "ROSTER" | "GAMES" | "STATS") => {
+    setActiveTab(tab);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("drafteados:team-tab-active", { detail: tab })
+      );
+    }
+  };
+
   const brand = getTeamBySlug(team.slug) || getTeamByTricode(team.abbreviation);
   const brandPrimary = brand?.primary || team.primaryColor || "#FF5A1F";
   const brandOnPrimary = brand?.onPrimary || "#FFFFFF";
@@ -125,12 +145,13 @@ export function TeamTabsView({
   }, [roster]);
 
   return (
-    <div className="space-y-6">
-      {/* Sticky Tab Menu Header */}
-      <div className="sticky top-16 z-20 -mx-4 px-4 sm:mx-0 sm:px-0 bg-[var(--hub-bg)]/95 backdrop-blur-md py-2 border-b border-[var(--hub-border)]">
+    <div id="team-tabs" className="space-y-6 scroll-mt-28">
+      {/* Tab Menu Header */}
+      <div className="-mx-4 px-4 sm:mx-0 sm:px-0 bg-[var(--hub-surface-2)]/60 rounded-2xl p-1.5 border border-[var(--hub-border)]">
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
           <button
-            onClick={() => setActiveTab("ROSTER")}
+            type="button"
+            onClick={() => handleTabClick("ROSTER")}
             style={
               activeTab === "ROSTER"
                 ? {
@@ -165,7 +186,8 @@ export function TeamTabsView({
           </button>
 
           <button
-            onClick={() => setActiveTab("GAMES")}
+            type="button"
+            onClick={() => handleTabClick("GAMES")}
             style={
               activeTab === "GAMES"
                 ? {
@@ -200,7 +222,8 @@ export function TeamTabsView({
           </button>
 
           <button
-            onClick={() => setActiveTab("STATS")}
+            type="button"
+            onClick={() => handleTabClick("STATS")}
             style={
               activeTab === "STATS"
                 ? {
@@ -224,7 +247,7 @@ export function TeamTabsView({
 
       {/* TAB 1: PLANTILLA */}
       {activeTab === "ROSTER" && (
-        <div className="space-y-5">
+        <div id="plantilla" className="space-y-5 scroll-mt-28">
           {/* Sub-toolbar de Plantilla: Filtros y Búsqueda */}
           <div className="rounded-2xl border border-[var(--hub-border)] bg-[var(--hub-surface)] p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
             {/* Position filter pills */}
@@ -400,7 +423,7 @@ export function TeamTabsView({
 
       {/* TAB 2: PARTIDOS & RESULTADOS */}
       {activeTab === "GAMES" && (
-        <div className="space-y-6">
+        <div id="partidos" className="space-y-6 scroll-mt-28">
           {/* Sub-selector de Partidos */}
           <div className="flex items-center gap-2 p-1.5 bg-[var(--hub-surface-2)] rounded-xl border border-[var(--hub-border)] w-fit">
             <button
@@ -535,7 +558,7 @@ export function TeamTabsView({
 
       {/* TAB 3: ESTADÍSTICAS & PICKS */}
       {activeTab === "STATS" && (
-        <div className="space-y-6">
+        <div id="stats" className="space-y-6 scroll-mt-28">
           {/* Card de Rendimiento Global */}
           {teamStanding && (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

@@ -6,6 +6,8 @@ import { basketball } from "@/lib/data/basketball/composite-provider";
 import { TeamLogo } from "@/components/nba/TeamLogo";
 import { TeamTabsView } from "@/components/nba/TeamTabsView";
 import { TeamBuquesRecap } from "@/components/nba/TeamBuquesRecap";
+import { TeamSectionNav } from "@/components/nba/TeamSectionNav";
+import { BackToTop } from "@/components/nba/BackToTop";
 import { getBuquesRecap } from "@/lib/buques-recap";
 
 import type { Metadata } from "next";
@@ -259,13 +261,21 @@ export default async function TeamDetailPage({
         )}
       </div>
 
+      {/* Sub-nav sticky para acceso rápido a secciones */}
+      <TeamSectionNav
+        hasNarrativa={!!buquesRecap}
+        primaryColor={primaryColor}
+      />
+
       {/* Narrativa Buques: Análisis editorial Drafteados */}
       {buquesRecap && (
-        <TeamBuquesRecap
-          recap={buquesRecap}
-          primaryColor={primaryColor}
-          teamSlug={team.slug}
-        />
+        <div id="narrativa" className="scroll-mt-28">
+          <TeamBuquesRecap
+            recap={buquesRecap}
+            primaryColor={primaryColor}
+            teamSlug={team.slug}
+          />
+        </div>
       )}
 
       {/* Navegación por pestañas interactiva (Plantilla, Partidos, Stats & Picks) */}
@@ -276,6 +286,9 @@ export default async function TeamDetailPage({
         upcoming={upcoming}
         roster={roster}
       />
+
+      {/* Botón flotante para volver arriba en scroll largo */}
+      <BackToTop />
     </div>
   );
 }
